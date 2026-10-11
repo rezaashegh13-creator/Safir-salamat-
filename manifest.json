@@ -2,8 +2,8 @@
   "name": "سفیر سلامت حامی",
   "short_name": "سفیر سلامت",
   "description": "برنامه هوشمند اصلاح مزاج تحت نظارت مریم حمیدیان",
-  "start_url": "/Safir-salamat/",
-  "scope": "/Safir-salamat/",
+  "start_url": "/Safir-salamat-/",
+  "scope": "/Safir-salamat-/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#0d1f12",
@@ -12,13 +12,13 @@
   "dir": "rtl",
   "icons": [
     {
-      "src": "/Safir-salamat/icon-192.png",
+      "src": "/Safir-salamat-/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/Safir-salamat/icon-512.png",
+      "src": "/Safir-salamat-/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
