@@ -1,11 +1,10 @@
 // نسخه کش — هر بار تغییر دادی، این عدد رو عوض کن
 var CACHE_NAME = 'safir-salamat-v1';
 var urlsToCache = [
-    '/Safir-salamat/',
-    '/Safir-salamat/index.html',
-    '/Safir-salamat/manifest.json'
+    '/Safir-salamat-/',
+    '/Safir-salamat-/index.html',
+    '/Safir-salamat-/manifest.json'
 ];
-
 // نصب
 self.addEventListener('install', function(event) {
     console.log('✅ Service Worker نصب شد');
