@@ -3041,6 +3041,86 @@ function showInstallGuide() {
 if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
     console.log('✅ اپ در حالت نصب‌شده اجرا می‌شه');
         }
+    // ============================================================
+// 📲 PWA INSTALL
+// ============================================================
+var deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', function(e) {
+    console.log('📲 PWA قابل نصب شد');
+    e.preventDefault();
+    deferredPrompt = e;
+    var installBtn = document.getElementById('pwaInstallBtn');
+    if (installBtn) installBtn.style.display = 'flex';
+});
+
+function installPWA() {
+    if (!deferredPrompt) {
+        showInstallGuide();
+        return;
+    }
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function(choiceResult) {
+        if (choiceResult.outcome === 'accepted') {
+            console.log('✅ کاربر نصب رو قبول کرد');
+            showToast('✅ اپ نصب شد!');
+            var btn = document.getElementById('pwaInstallBtn');
+            if (btn) btn.style.display = 'none';
+        } else {
+            console.log('❌ کاربر نصب رو رد کرد');
+        }
+        deferredPrompt = null;
+    });
+}
+
+function showInstallGuide() {
+    var ua = navigator.userAgent.toLowerCase();
+    var isIOS = /iphone|ipad|ipod/.test(ua);
+    var isSafari = /safari/.test(ua) && !/chrome/.test(ua);
+    var isFirefox = /firefox/.test(ua);
+    var isSamsung = /samsungbrowser/.test(ua);
+    
+    var msg = '';
+    if (isIOS || isSafari) {
+        msg = '📱 نصب روی iPhone / Safari:\n\n' +
+              '۱. دکمه Share (مربع با فلش بالا) رو بزن\n' +
+              '۲. از منو، Add to Home Screen رو انتخاب کن\n' +
+              '۳. اسم رو تایید کن و Add رو بزن';
+    } else if (isFirefox) {
+        msg = '📱 نصب روی Firefox:\n\n' +
+              '۱. منوی ۳ نقطه (بالا راست) رو بزن\n' +
+              '۲. گزینه Install رو انتخاب کن';
+    } else if (isSamsung) {
+        msg = '📱 نصب روی Samsung Browser:\n\n' +
+              '۱. منوی ۳ خط (پایین) رو بزن\n' +
+              '۲. Add page to → Home screen رو بزن';
+    } else {
+        msg = '📱 نصب اپلیکیشن:\n\n' +
+              '۱. منوی ۳ نقطه (بالا راست) رو بزن\n' +
+              '۲. Add to Home screen یا Install App رو انتخاب کن';
+    }
+    alert(msg);
+}
+
+// ثبت Service Worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/Safir-salamat/sw.js')
+        .then(function(reg) { 
+            console.log('✅ Service Worker ثبت شد:', reg.scope); 
+        })
+        .catch(function(err) { 
+            console.log('❌ خطای Service Worker:', err); 
+        });
+    });
+}
+
+// بررسی حالت اجرای نصب‌شده
+if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+    console.log('✅ اپ در حالت نصب‌شده اجرا می‌شه');
+    var btn = document.getElementById('pwaInstallBtn');
+    if (btn) btn.style.display = 'none';
+}
 </script>
 </body>
 </html>
