@@ -89,6 +89,8 @@
         .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #2ecc71; color: white; padding: 12px 25px; border-radius: 25px; font-weight: bold; z-index: 99999; display: none; max-width: 90%; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
         .toast.error { background: #e74c3c; } .toast.warning { background: #f39c12; color: #0d1f12; }
         
+        .receive-prompt { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary)); border-radius: 20px; border: 2px dashed var(--accent); margin: 20px 0; text-align: center; }
+        .receive-prompt .receive-btn { padding: 16px 40px; background: linear-gradient(135deg, #27ae60, #2ecc71); color: white; border: none; border-radius: 50px; font-size: 1.1em; font-weight: bold; cursor: pointer; margin: 15px 0; box-shadow: 0 5px 20px rgba(46, 204, 113, 0.4); font-family: var(--font-family); }
         .profile-pic { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--accent); object-fit: cover; background: #333; margin-bottom: 10px; }
         
         .chat-box { background: var(--bg-primary); border-radius: 10px; padding: 10px; height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; border: 1px solid var(--border-color); margin-bottom: 10px; }
@@ -248,6 +250,7 @@
         
         <div class="section-box" style="border: 2px solid var(--btn-success);">
             <h3>🔔 آلارم</h3>
+            <div id="alarmSettingsContainer"></div>
             <div class="settings-row" style="margin-top:10px; background:rgba(0,0,0,0.2); padding:10px; border-radius:8px;">
                 <label>🎵 زنگ:</label>
                 <input type="file" id="alarmSoundFile" accept="audio/*" onchange="uploadAlarmSound(this)" style="font-size:0.8em;">
@@ -459,7 +462,7 @@ function registerUser() {
     }).catch(function(e){ showToast('خطا: ' + e.message, 'error'); });
 }
 
-// 2. پروفایل
+// 2. پروفایل و ذخیره عکس
 function initProfile() {
     var saved = localStorage.getItem('userProfile');
     if (saved) { 
@@ -496,9 +499,17 @@ function submitProfile() {
     var name = document.getElementById('regName').value.trim(); 
     if(!name) { showToast('نام الزامی است', 'error'); return; }
     var photoInput = document.getElementById('regPhoto');
+    
     var process = function(base64) {
         var p = { name: name, age: document.getElementById('regAge').value, phone: document.getElementById('regPhone').value, social: document.getElementById('regSocial').value, problems: document.getElementById('regProblems').value, photo: base64 || (userProfile?userProfile.photo:''), approved: userProfile?userProfile.approved:false };
-        getRemoteRecord().then(function(d) { var rec = getRecord(d); rec.profiles[userId] = p; return putRecord(rec).then(function(r){ if(r.ok) { localStorage.setItem('userProfile', JSON.stringify(p)); userProfile = p; showProfileData(); showToast('✅ ذخیره شد'); } }); });
+        showToast('⏳ در حال ذخیره...', 'warning');
+        getRemoteRecord().then(function(d) { 
+            var rec = getRecord(d); 
+            rec.profiles[userId] = p; 
+            return putRecord(rec).then(function(r){ 
+                if(r.ok) { localStorage.setItem('userProfile', JSON.stringify(p)); userProfile = p; showProfileData(); showToast('✅ ذخیره شد'); } 
+            }); 
+        });
     };
     if(photoInput.files && photoInput.files[0]) { 
         var rd = new FileReader(); 
@@ -584,15 +595,16 @@ function renderTable() {
 // 4. چت
 function loadChat() {
     getRemoteRecord().then(function(d) {
-        var chats = getRecord(d).chats[userId] || []; var box = document.getElementById('chatBox'); var html = '';
-        chats.forEach(function(m) { 
+        var chats = getRecord(d).chats[userId] || []; 
+        var box = document.getElementById('chatBox'); var html = '';
+        chats.reverse().forEach(function(m) { 
             var isU = m.sender === 'user'; var txt = m.text || ''; 
             if(m.image) txt += '<br><img src="'+m.image+'" style="max-width:100%; border-radius:8px; margin-top:5px;">'; 
             if(m.audio) txt += '<br><audio controls src="'+m.audio+'" style="max-width:100%; margin-top:5px;"></audio>';
             html += '<div class="chat-msg '+(isU?'user':'admin')+'">'+txt+'</div>'; 
         });
         box.innerHTML = html || '<p style="text-align:center; color:var(--text-muted); font-size:0.8em;">چتی وجود ندارد.</p>'; 
-        box.scrollTop = box.scrollHeight;
+        box.scrollTop = 0; // چون جدید به قدیمه، میره بالا
     });
 }
 function sendChatMessage() {
@@ -610,19 +622,20 @@ function loadAdminChat() {
     if(!c) return; adminChatTarget = c; 
     getRemoteRecord().then(function(d){ 
         var chats = getRecord(d).chats[c] || [], box = document.getElementById('adminChatBox'), html=''; 
-        chats.forEach(function(m){ 
+        chats.reverse().forEach(function(m){ 
             var isUser = m.sender === 'user';
             var txt = m.text || ''; 
             if(m.image) txt += '<br><img src="'+m.image+'" style="max-width:100%">'; 
             if(m.audio) txt += '<br><audio controls src="'+m.audio+'" style="max-width:100%"></audio>';
             html += '<div class="chat-msg '+(isUser?'admin':'user')+'">'+txt+'</div>'; 
         }); 
-        box.innerHTML = html; box.scrollTop = box.scrollHeight; 
+        box.innerHTML = html; box.scrollTop = 0; 
     }); 
 }
 function sendAdminChatMessage() { 
     var tx = document.getElementById('adminChatInput').value.trim(); 
-    if(!tx||!adminChatTarget) return; 
+    if(!tx) return showToast('متن پیام خالی است', 'error');
+    if(!adminChatTarget) return showToast('ابتدا کاربر را انتخاب کنید', 'error'); 
     document.getElementById('adminChatInput').value=''; 
     getRemoteRecord().then(function(d){ 
         var r=getRecord(d); if(!r.chats[adminChatTarget]) r.chats[adminChatTarget]=[]; 
@@ -630,7 +643,9 @@ function sendAdminChatMessage() {
     }).then(function(){ loadAdminChat(); }); 
 }
 function sendAdminChatImage(input) {
-    if(!input.files[0] || !adminChatTarget) return; var rd = new FileReader();
+    if(!input.files[0]) return; 
+    if(!adminChatTarget) return showToast('ابتدا کاربر را انتخاب کنید', 'error'); 
+    var rd = new FileReader();
     rd.onload = function(e){ var img = new Image(); img.onload = function(){ var c = document.createElement('canvas'); c.width=600; c.height=img.height*(600/img.width); c.getContext('2d').drawImage(img,0,0,c.width,c.height); var b64 = c.toDataURL('image/jpeg',0.6); getRemoteRecord().then(function(d){ var r = getRecord(d); if(!r.chats[adminChatTarget]) r.chats[adminChatTarget] = []; r.chats[adminChatTarget].push({sender:'admin', image:b64, time:Date.now()}); return putRecord(r); }).then(function(){ loadAdminChat(); input.value=''; }); }; img.src = e.target.result; }; rd.readAsDataURL(input.files[0]);
 }
 
@@ -828,6 +843,7 @@ function checkRegimeReceive() {
 function loadMyMessages() { 
     getRemoteRecord().then(function(d){ 
         var msgs = getRecord(d).messages.filter(function(m){ return m.target === 'all' || m.target === userId; }); 
+        msgs.reverse();
         var box = document.getElementById('messagesList'), html=''; 
         msgs.forEach(function(m){ 
             html += '<div style="background:var(--bg-secondary); padding:10px; margin-bottom:10px; border-radius:10px; border-right:4px solid var(--accent)"><div style="font-weight:bold; color:var(--accent); margin-bottom:5px;">'+m.title+'</div><div>'+m.content+'</div></div>'; 
@@ -845,7 +861,7 @@ function init() {
         initProfile(); loadRemoteBanner(); 
         autoSyncData(); 
         window.addEventListener('online', autoSyncData);
-        setInterval(autoSyncData, 30000); // هر ۳۰ ثانیه آپدیت
+        setInterval(autoSyncData, 30000); 
     }
 }
 window.onload = init;
