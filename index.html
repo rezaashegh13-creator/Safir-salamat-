@@ -20,6 +20,11 @@
             --btn-danger: #c0392b; --btn-purple: #6b8e23; --border-color: rgba(244, 208, 63, 0.2);
             --input-bg: #142b1a; --font-family: 'Vazirmatn', Tahoma, sans-serif; --font-size: 14px;
         }
+        /* تم‌ها */
+        body.theme-honey { --bg-primary: #1a1200; --bg-secondary: #3d2800; --bg-tertiary: #5a3d00; --accent: #f4d03f; --accent2: #ffb700; --input-bg: #3d2800; }
+        body.theme-mint { --bg-primary: #0a2e2e; --bg-secondary: #0f4444; --bg-tertiary: #1a5c5c; --accent: #7fffd4; --accent2: #40e0d0; --input-bg: #0f4444; }
+        body.theme-dark { --bg-primary: #0a0a0a; --bg-secondary: #1a1a1a; --bg-tertiary: #2a2a2a; --accent: #ffd700; --accent2: #ff8c00; --input-bg: #1a1a1a; }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: var(--font-family); background: var(--bg-primary);
@@ -67,8 +72,6 @@
         table { width: 100%; border-collapse: collapse; background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary)); border-radius: 12px; font-size: 0.85em; }
         th { padding: 10px 6px; background: linear-gradient(180deg, #2b5738, #21452c); color: var(--accent); text-align: center; border-bottom: 2px solid rgba(244, 208, 63, 0.3); }
         td { padding: 8px 6px; text-align: center; border-bottom: 1px solid rgba(244, 208, 63, 0.1); word-break: break-word; }
-        .today-row { border: 3px solid var(--accent) !important; background: rgba(244, 208, 63, 0.1) !important; font-weight: bold; }
-        .past-row { opacity: 0.4; }
         
         .vitrine-box { background: linear-gradient(135deg, #21452c, #1a3322); border: 2px solid var(--accent); border-radius: 16px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         .vitrine-title { color: var(--accent); text-align: center; font-weight: bold; margin-bottom: 10px; font-size: 1.1em; }
@@ -90,7 +93,6 @@
         .toast.error { background: #e74c3c; } .toast.warning { background: #f39c12; color: #0d1f12; }
         
         .receive-prompt { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary)); border-radius: 20px; border: 2px dashed var(--accent); margin: 20px 0; text-align: center; }
-        .receive-prompt .receive-btn { padding: 16px 40px; background: linear-gradient(135deg, #27ae60, #2ecc71); color: white; border: none; border-radius: 50px; font-size: 1.1em; font-weight: bold; cursor: pointer; margin: 15px 0; box-shadow: 0 5px 20px rgba(46, 204, 113, 0.4); font-family: var(--font-family); }
         .profile-pic { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--accent); object-fit: cover; background: #333; margin-bottom: 10px; }
         
         .chat-box { background: var(--bg-primary); border-radius: 10px; padding: 10px; height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; border: 1px solid var(--border-color); margin-bottom: 10px; }
@@ -155,7 +157,7 @@
             <div class="menu-card-title">👤 پروفایل کاربری</div>
             <div class="menu-card-desc" id="menuProfileStatus">مشاهده وضعیت</div>
         </div>
-        <div class="menu-card" onclick="showPage('pageDaily')"><div class="menu-card-icon">🍵</div><div class="menu-card-title">🍵 برنامه روزانه</div></div>
+        <div class="menu-card" onclick="showPage('pageDaily')"><div class="menu-card-icon">🍵</div><div class="menu-card-title">🍵 جدول برنامه‌ها</div></div>
         <div class="menu-card" onclick="showPage('pageRegime')"><div class="menu-card-icon">🥗</div><div class="menu-card-title">🥗 نسخه رژیم درمانی</div></div>
         <div class="menu-card" onclick="showPage('pageMessages')"><div class="menu-card-icon">📬</div><div class="menu-card-title">📬 پیام‌ها</div></div>
         <div class="menu-card" onclick="showPage('pageContact')"><div class="menu-card-icon">📞</div><div class="menu-card-title">📞 ارتباط با ما</div></div>
@@ -190,7 +192,7 @@
 
     <!-- Daily Page -->
     <div class="page" id="pageDaily">
-        <div class="main-header"><h1>🍵 برنامه روزانه</h1></div>
+        <div class="main-header"><h1>🍵 جدول برنامه‌ها</h1></div>
         <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
         <div id="dailyReceivePrompt"></div>
         <div id="dailyContent" style="display:none;">
@@ -278,6 +280,11 @@
                 <span onclick="setTheme('mint')" style="width:35px;height:35px;border-radius:50%;background:#0a2e2e;border:2px solid #f4d03f;cursor:pointer;"></span>
                 <span onclick="setTheme('dark')" style="width:35px;height:35px;border-radius:50%;background:#111;border:2px solid #f4d03f;cursor:pointer;"></span>
             </div>
+        </div>
+
+        <div class="section-box">
+            <h3>📅 تاریخ شروع</h3>
+            <input type="date" id="startDatePicker" onchange="saveStartDate()" style="width:100%;padding:10px;background:var(--input-bg);color:var(--accent);border:2px solid var(--accent);border-radius:8px;font-family:var(--font-family);">
         </div>
 
         <button class="btn btn-red" onclick="document.getElementById('adminLoginModal').classList.add('active')" style="margin-top:15px;">🔐 ورود به پنل مدیریت</button>
@@ -443,7 +450,7 @@ function showToast(msg, type) {
     t.style.display = 'block'; setTimeout(function() { t.style.display = 'none'; }, 3000);
 }
 
-// 1. ثبت نام خودکار و نوتیفیکیشن
+// 1. ثبت نام خودکار
 function registerUser() {
     var name = document.getElementById('regModalName').value.trim();
     if (!name) { showToast('نام الزامی است', 'error'); return; }
@@ -462,12 +469,10 @@ function registerUser() {
     }).catch(function(e){ showToast('خطا: ' + e.message, 'error'); });
 }
 
-// 2. پروفایل و ذخیره عکس
+// 2. پروفایل
 function initProfile() {
     var saved = localStorage.getItem('userProfile');
-    if (saved) { 
-        userProfile = JSON.parse(saved); isUserApproved = userProfile.approved === true; showProfileData(); 
-    }
+    if (saved) { userProfile = JSON.parse(saved); isUserApproved = userProfile.approved === true; showProfileData(); }
     getRemoteRecord().then(function(d) {
         var p = getRecord(d).profiles[userId];
         if(p) { userProfile = p; isUserApproved = p.approved === true; localStorage.setItem('userProfile', JSON.stringify(p)); showProfileData(); }
@@ -507,7 +512,7 @@ function submitProfile() {
             var rec = getRecord(d); 
             rec.profiles[userId] = p; 
             return putRecord(rec).then(function(r){ 
-                if(r.ok) { localStorage.setItem('userProfile', JSON.stringify(p)); userProfile = p; showProfileData(); showToast('✅ ذخیره شد'); } 
+                if(r.ok) { localStorage.setItem('userProfile', JSON.stringify(p)); userProfile = p; showProfileData(); showToast('✅ ذخیره شد', 'success'); } 
             }); 
         });
     };
@@ -604,7 +609,7 @@ function loadChat() {
             html += '<div class="chat-msg '+(isU?'user':'admin')+'">'+txt+'</div>'; 
         });
         box.innerHTML = html || '<p style="text-align:center; color:var(--text-muted); font-size:0.8em;">چتی وجود ندارد.</p>'; 
-        box.scrollTop = 0; // چون جدید به قدیمه، میره بالا
+        box.scrollTop = 0; 
     });
 }
 function sendChatMessage() {
@@ -649,7 +654,6 @@ function sendAdminChatImage(input) {
     rd.onload = function(e){ var img = new Image(); img.onload = function(){ var c = document.createElement('canvas'); c.width=600; c.height=img.height*(600/img.width); c.getContext('2d').drawImage(img,0,0,c.width,c.height); var b64 = c.toDataURL('image/jpeg',0.6); getRemoteRecord().then(function(d){ var r = getRecord(d); if(!r.chats[adminChatTarget]) r.chats[adminChatTarget] = []; r.chats[adminChatTarget].push({sender:'admin', image:b64, time:Date.now()}); return putRecord(r); }).then(function(){ loadAdminChat(); input.value=''; }); }; img.src = e.target.result; }; rd.readAsDataURL(input.files[0]);
 }
 
-// ضبط ویس در پنل ادمین
 function toggleAdminRecording() {
     if(!adminChatTarget) { showToast('ابتدا کاربر را انتخاب کنید', 'error'); return; }
     var btn = document.getElementById('adminMicBtn');
