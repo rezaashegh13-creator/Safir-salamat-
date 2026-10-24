@@ -34,7 +34,7 @@
         
         .section-box { background: var(--bg-secondary); padding: 15px; border-radius: 14px; margin: 12px 0; border: 1px solid var(--border-color); }
         .settings-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-        .settings-row input, select, textarea { background: var(--input-bg); color: white; border: 1px solid #3d5a45; padding: 10px; border-radius: 8px; flex: 1; font-family: var(--font-family); width: 100%; }
+        select, textarea, input[type="text"], input[type="password"] { background: var(--input-bg); color: white; border: 1px solid #3d5a45; padding: 10px; border-radius: 8px; flex: 1; font-family: var(--font-family); width: 100%; }
         
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); z-index: 9999; justify-content: center; align-items: center; }
         .modal-overlay.active { display: flex; }
@@ -42,17 +42,21 @@
         
         /* چت */
         .chat-box { background: var(--bg-primary); border-radius: 10px; padding: 10px; height: 300px; overflow-y: auto; border: 1px solid var(--border-color); margin-bottom: 10px; display: flex; flex-direction: column; gap: 12px; }
-        .chat-msg { max-width: 85%; padding: 10px; border-radius: 12px; font-size: 0.85em; word-wrap: break-word; position: relative; display: flex; flex-direction: column; }
+        .chat-msg { max-width: 85%; padding: 10px; border-radius: 12px; font-size: 0.85em; word-wrap: break-word; display: flex; flex-direction: column; }
         .chat-msg.user { background: var(--btn-primary); align-self: flex-start; border-bottom-right-radius: 0; }
         .chat-msg.admin { background: var(--bg-tertiary); border: 1px solid var(--accent); align-self: flex-end; border-bottom-left-radius: 0; }
         .chat-img { max-width: 100%; border-radius: 8px; margin-top: 5px; display: block; }
         .chat-audio { max-width: 100%; margin-top: 5px; display: block; outline: none; }
         
         .chat-input-row { display: flex; gap: 5px; align-items: center; }
-        .chat-input-row input[type="text"] { flex: 1; background: var(--input-bg); border: 1px solid var(--accent); color: white; padding: 10px; border-radius: 20px; }
+        .chat-input-row input[type="text"] { flex: 1; border-radius: 20px; }
         .chat-input-row button, .chat-input-row label { width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--btn-primary); color: white; font-size: 1.2em; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; margin: 0; }
         
         .ticks { font-size: 0.7em; color: rgba(255,255,255,0.7); text-align: left; margin-top: 5px; }
+        
+        /* لودر */
+        .loader { display: none; text-align: center; padding: 20px; color: var(--accent); }
+        .loader.active { display: block; }
 
         .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #2ecc71; color: white; padding: 12px 25px; border-radius: 25px; font-weight: bold; z-index: 99999; display: none; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
         .toast.error { background: var(--btn-danger); }
@@ -116,6 +120,7 @@
         <div id="messagesList" style="margin-top:12px;"></div>
     </div>
 
+    <!-- چت کاربر -->
     <div class="page" id="pageContact">
         <div class="main-header"><h1>📞 چت با پشتیبانی</h1></div>
         <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
@@ -148,22 +153,24 @@
         <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
         
         <div class="section-box">
-            <h3>👥 کاربران ثبت نامی</h3>
-            <div id="adminProfilesList">در حال دریافت لیست...</div>
+            <h3>👥 کاربران</h3>
+            <select id="adminUserSelect" onchange="onAdminSelectUser()" style="margin-bottom:10px;">
+                <option value="">-- انتخاب کاربر --</option>
+            </select>
+            <div id="adminProfilesList" style="font-size:0.85em;"></div>
         </div>
         
         <div class="section-box">
             <h3>📋 ارسال جدول</h3>
-            <select id="targetUserCodeTable" style="margin-bottom:10px;"></select>
             <textarea id="adminTableText" placeholder="محتوای جدول..." style="height:100px; margin-bottom:10px;"></textarea>
             <button class="btn btn-green" onclick="sendTableToUser()">📤 ارسال جدول</button>
         </div>
 
         <div class="section-box">
-            <h3>💬 چت با کاربر</h3>
-            <select id="adminChatTarget" onchange="loadAdminChatData()" style="margin-bottom:10px;"></select>
-            <div class="chat-box" id="adminChatBox">
-                <p style="text-align:center; color:var(--text-muted);">یک کاربر را انتخاب کنید...</p>
+            <h3>💬 چت با کاربر انتخاب شده</h3>
+            <div class="loader" id="adminChatLoader">در حال دریافت چت...</div>
+            <div class="chat-box" id="adminChatBox" style="height:250px;">
+                <p style="text-align:center; color:var(--text-muted);">ابتدا یک کاربر را از لیست بالا انتخاب کنید</p>
             </div>
             <div class="chat-input-row">
                 <label for="adminChatImageInput" style="background:var(--bg-tertiary); border:1px solid var(--accent);">📷</label>
@@ -171,6 +178,7 @@
                 <input type="text" id="adminChatInput" placeholder="پاسخ...">
                 <button onclick="sendAdminChatMessage()">➤</button>
             </div>
+            <button class="btn btn-gray" style="margin-top:10px; font-size:0.8em;" onclick="reloadAdminChat()">🔄 بروزرسانی چت</button>
         </div>
     </div>
 </div>
@@ -185,8 +193,7 @@ var ADMIN_PASSWORD = "maryam6625";
 var userId = localStorage.getItem('userId');
 var userName = localStorage.getItem('userName');
 var mediaRecorder = null; var audioChunks = [];
-var syncTimer = null;
-var adminChatsCache = []; // ذخیره چت‌های ادمین برای آپدیت فوری
+var currentAdminChatCode = "";
 
 function showToast(msg, type) {
     var t = document.getElementById('toast'); t.textContent = msg;
@@ -224,11 +231,12 @@ function buildMessageHTML(msg) {
     if(msg.text) content += msg.text;
     if(msg.image) content += '<img src="'+msg.image+'" class="chat-img">';
     if(msg.audio) content += '<audio controls src="'+msg.audio+'" class="chat-audio"></audio>';
-    if(msg.sender === 'user' && !document.getElementById('pageAdmin').classList.contains('active')) content += '<div class="ticks">✓✓</div>'; // تیک فقط برای کاربر
+    if(msg.sender === 'user' && !document.getElementById('pageAdmin').classList.contains('active')) content += '<div class="ticks">✓✓</div>'; 
     return '<div class="chat-msg '+(msg.sender==='user'?'user':'admin')+'">'+content+'</div>';
 }
 
-function syncWithServer() {
+// همگام‌سازی کلی (فقط برای پروفایل و چت کاربر)
+function syncUserData() {
     if (!userId) return;
     fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } })
     .then(res => res.json())
@@ -243,67 +251,28 @@ function syncWithServer() {
             fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
         }
         
-        // --- پنل کاربر ---
         var p = r.profiles[userId];
-        document.getElementById('profileNameShow').textContent = p.name;
-        document.getElementById('welcomeUserText').textContent = 'سلام ' + p.name;
-        document.getElementById('displayCode').textContent = userId;
-        document.getElementById('profileStatusShow').innerHTML = p.approved ? '<span style="color:#2ecc71;">✅ تایید شده</span>' : '<span style="color:#f39c12;">⏳ در انتظار</span>';
+        if(document.getElementById('profileNameShow')) {
+            document.getElementById('profileNameShow').textContent = p.name;
+            document.getElementById('welcomeUserText').textContent = 'سلام ' + p.name;
+            document.getElementById('displayCode').textContent = userId;
+            document.getElementById('profileStatusShow').innerHTML = p.approved ? '<span style="color:#2ecc71;">✅ تایید شده</span>' : '<span style="color:#f39c12;">⏳ در انتظار</span>';
+        }
         
-        if (r.tables[userId]) document.getElementById('dailyContent').innerHTML = '<div style="line-height:2; white-space:pre-wrap; padding:15px; background:var(--bg-secondary); border-radius:10px;">' + r.tables[userId] + '</div>';
+        if (r.tables[userId] && document.getElementById('dailyContent')) {
+            document.getElementById('dailyContent').innerHTML = '<div style="line-height:2; white-space:pre-wrap; padding:15px; background:var(--bg-secondary); border-radius:10px;">' + r.tables[userId] + '</div>';
+        }
         
+        // آپدیت چت کاربر (فقط اگر در صفحه چت باشد)
         if (document.getElementById('pageContact').classList.contains('active')) {
             var myChats = r.chats[userId] || []; var html = '';
             myChats.forEach(c => html += buildMessageHTML(c));
             var box = document.getElementById('chatBox');
             var isAtBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 60;
-            if(box.innerHTML !== html) { box.innerHTML = html; if(isAtBottom) box.scrollTop = box.scrollHeight; }
-        }
-
-        // --- پنل ادمین ---
-        if (document.getElementById('pageAdmin').classList.contains('active')) {
-            var listHtml = ''; var opts = '<option value="">انتخاب کنید...</option>';
-            Object.keys(r.profiles).forEach(k => {
-                var pr = r.profiles[k];
-                listHtml += '<div style="background:var(--bg-primary); padding:8px; margin-bottom:5px; border-radius:5px;"><b>'+pr.name+'</b> ('+k+')</div>';
-                opts += '<option value="'+k+'">'+pr.name+' ('+k+')</option>';
-            });
-            
-            // فقط اگر تعداد افراد تغییر کرده آپدیت کنه که صفحه پرش نکنه
-            if(document.getElementById('adminProfilesList').innerHTML !== listHtml) document.getElementById('adminProfilesList').innerHTML = listHtml;
-            
-            var select = document.getElementById('targetUserCodeTable');
-            if(select.innerHTML !== opts) select.innerHTML = opts;
-            var chatSel = document.getElementById('adminChatTarget');
-            if(chatSel.innerHTML !== opts) chatSel.innerHTML = opts;
-            
-            // آپدیت لحظه‌ای چت ادمین
-            var target = chatSel.value;
-            if(target) {
-                var adminChats = r.chats[target] || [];
-                if(JSON.stringify(adminChatsCache) !== JSON.stringify(adminChats)) {
-                    adminChatsCache = adminChats;
-                    renderAdminChat(adminChats);
-                }
-            }
+            box.innerHTML = html;
+            if(isAtBottom) box.scrollTop = box.scrollHeight;
         }
     }).catch(e => console.log('Sync error:', e.message));
-}
-
-function renderAdminChat(chats) {
-    var aHtml = '';
-    chats.forEach(c => aHtml += buildMessageHTML(c));
-    var aBox = document.getElementById('adminChatBox');
-    var isAtBottom = aBox.scrollHeight - aBox.scrollTop - aBox.clientHeight < 60;
-    aBox.innerHTML = aHtml || '<p style="text-align:center; color:var(--text-muted);">پیامی نیست.</p>';
-    if(isAtBottom) aBox.scrollTop = aBox.scrollHeight;
-}
-
-function loadAdminChatData() {
-    var target = document.getElementById('adminChatTarget').value;
-    if(!target) return;
-    adminChatsCache = []; // پاک کردن کش برای لود مجدد
-    syncWithServer();
 }
 
 // ---------------------------------------------------------
@@ -313,13 +282,15 @@ function sendChatMessage() {
     var text = document.getElementById('chatInput').value.trim(); if (!text) return; document.getElementById('chatInput').value = '';
     document.getElementById('chatBox').innerHTML += buildMessageHTML({sender:'user', text:text});
     document.getElementById('chatBox').scrollTop = document.getElementById('chatBox').scrollHeight;
+    
     fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } })
     .then(res => res.json()).then(data => {
         var r = data.record || {}; if (!r.chats) r.chats = {}; if (!r.chats[userId]) r.chats[userId] = [];
         r.chats[userId].push({ sender: 'user', text: text, time: Date.now() });
         return fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
-    }).then(() => syncWithServer());
+    }).then(() => syncUserData());
 }
+
 function sendChatImage(input) {
     if(!input.files[0]) return; showToast('⏳ ارسال...', 'warning');
     compressImage(input.files[0], function(b64) {
@@ -330,9 +301,10 @@ function sendChatImage(input) {
             var r = data.record || {}; if (!r.chats) r.chats = {}; if (!r.chats[userId]) r.chats[userId] = [];
             r.chats[userId].push({ sender: 'user', image: b64, time: Date.now() });
             return fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
-        }).then(() => { syncWithServer(); input.value=''; });
+        }).then(() => { syncUserData(); input.value=''; });
     });
 }
+
 function toggleRecording() {
     var btn = document.getElementById('micBtn');
     if (mediaRecorder && mediaRecorder.state === 'recording') { mediaRecorder.stop(); btn.style.background = 'var(--accent)'; btn.textContent = '🎤'; }
@@ -351,7 +323,7 @@ function toggleRecording() {
                         var r = data.record || {}; if (!r.chats) r.chats = {}; if (!r.chats[userId]) r.chats[userId] = [];
                         r.chats[userId].push({ sender: 'user', audio: b64, time: Date.now() });
                         return fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
-                    }).then(() => syncWithServer());
+                    }).then(() => syncUserData());
                 };
                 stream.getTracks().forEach(t => t.stop());
             };
@@ -361,62 +333,124 @@ function toggleRecording() {
 }
 
 // ---------------------------------------------------------
-// ارسال‌های ادمین
+// پنل ادمین (سیستم اختصاصی)
 // ---------------------------------------------------------
 function checkAdminPassword() {
     if (document.getElementById('adminPasswordInput').value === ADMIN_PASSWORD) {
         document.getElementById('adminLoginModal').classList.remove('active');
         showPage('pageAdmin');
+        loadAdminUserList();
     } else { showToast('❌ رمز اشتباه', 'error'); }
 }
 
-function sendAdminChatMessage() {
-    var code = document.getElementById('adminChatTarget').value;
-    var tx = document.getElementById('adminChatInput').value.trim(); if(!tx || !code) return;
-    document.getElementById('adminChatInput').value = '';
+function loadAdminUserList() {
     fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } })
     .then(res => res.json()).then(data => {
-        var r = data.record || {}; if (!r.chats) r.chats = {}; if (!r.chats[code]) r.chats[code] = [];
-        r.chats[code].push({ sender: 'admin', text: tx, time: Date.now() });
-        return fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
-    }).then(() => syncWithServer());
+        var r = data.record || {}; if (!r.profiles) r.profiles = {};
+        var listHtml = ''; var opts = '<option value="">-- انتخاب کاربر --</option>';
+        Object.keys(r.profiles).forEach(k => {
+            var pr = r.profiles[k];
+            listHtml += '<div style="background:var(--bg-primary); padding:5px; margin:2px 0; border-radius:5px;">👤 '+pr.name+' (کد: '+k+')</div>';
+            opts += '<option value="'+k+'">'+pr.name+' ('+k+')</option>';
+        });
+        document.getElementById('adminProfilesList').innerHTML = listHtml || 'کاربری نیست';
+        var sel = document.getElementById('adminUserSelect');
+        if(sel.innerHTML !== opts) sel.innerHTML = opts;
+    });
 }
+
+function onAdminSelectUser() {
+    currentAdminChatCode = document.getElementById('adminUserSelect').value;
+    if(!currentAdminChatCode) {
+        document.getElementById('adminChatBox').innerHTML = '<p style="text-align:center; color:var(--text-muted);">کاربر انتخاب نشده</p>';
+        return;
+    }
+    loadAdminChatData();
+}
+
+function loadAdminChatData() {
+    if(!currentAdminChatCode) return;
+    document.getElementById('adminChatLoader').classList.add('active');
+    document.getElementById('adminChatBox').style.display = 'none';
+    
+    fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } })
+    .then(res => res.json()).then(data => {
+        var chats = (data.record.chats && data.record.chats[currentAdminChatCode]) ? data.record.chats[currentAdminChatCode] : [];
+        var aHtml = '';
+        chats.forEach(c => aHtml += buildMessageHTML(c));
+        
+        var aBox = document.getElementById('adminChatBox');
+        aBox.innerHTML = aHtml || '<p style="text-align:center; color:var(--text-muted);">چتی وجود ندارد</p>';
+        aBox.scrollTop = aBox.scrollHeight;
+        
+        document.getElementById('adminChatLoader').classList.remove('active');
+        document.getElementById('adminChatBox').style.display = 'flex';
+    });
+}
+
+function reloadAdminChat() {
+    loadAdminChatData();
+    showToast('🔄 بروزرسانی شد');
+}
+
+function sendAdminChatMessage() {
+    var tx = document.getElementById('adminChatInput').value.trim(); 
+    if(!tx || !currentAdminChatCode) return showToast('ابتدا کاربر را انتخاب کنید', 'error');
+    document.getElementById('adminChatInput').value = '';
+    
+    fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } })
+    .then(res => res.json()).then(data => {
+        var r = data.record || {}; if (!r.chats) r.chats = {}; if (!r.chats[currentAdminChatCode]) r.chats[currentAdminChatCode] = [];
+        r.chats[currentAdminChatCode].push({ sender: 'admin', text: tx, time: Date.now() });
+        return fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
+    }).then(() => loadAdminChatData());
+}
+
 function sendAdminChatImage(input) {
-    var code = document.getElementById('adminChatTarget').value; if(!input.files[0] || !code) return;
+    if(!input.files[0] || !currentAdminChatCode) return;
     compressImage(input.files[0], function(b64) {
         fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } })
         .then(res => res.json()).then(data => {
-            var r = data.record || {}; if (!r.chats) r.chats = {}; if (!r.chats[code]) r.chats[code] = [];
-            r.chats[code].push({ sender: 'admin', image: b64, time: Date.now() });
+            var r = data.record || {}; if (!r.chats) r.chats = {}; if (!r.chats[currentAdminChatCode]) r.chats[currentAdminChatCode] = [];
+            r.chats[currentAdminChatCode].push({ sender: 'admin', image: b64, time: Date.now() });
             return fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
-        }).then(() => { syncWithServer(); input.value=''; });
+        }).then(() => { loadAdminChatData(); input.value=''; });
     });
 }
 
 function sendTableToUser() {
-    var code = document.getElementById('targetUserCodeTable').value;
+    var code = currentAdminChatCode;
     var text = document.getElementById('adminTableText').value.trim();
-    if (!code || !text) return showToast('اطلاعات کامل نیست', 'error');
+    if (!code) return showToast('ابتدا کاربر را از لیست بالا انتخاب کنید', 'error');
+    if (!text) return showToast('متن جدول را وارد کنید', 'error');
+    
     fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } })
     .then(res => res.json()).then(data => {
         var r = data.record || {}; if (!r.tables) r.tables = {}; r.tables[code] = text;
         return fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
-    }).then(() => showToast('✅ جدول ارسال شد'));
+    }).then(() => showToast('✅ جدول برای ' + code + ' ارسال شد'));
 }
 
+// ---------------------------------------------------------
+// ناوبری
+// ---------------------------------------------------------
 function showPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(id).classList.add('active'); window.scrollTo(0,0);
-    syncWithServer();
+    if (id !== 'pageAdmin') syncUserData(); // فقط در پنل کاربر سینک خودکار اجرا شود
+    if (id === 'pageAdmin') loadAdminUserList(); // لیست ادمین لود شود
 }
+
+// سینک دوره‌ای فقط برای کاربر عادی (برای دریافت پیام‌های جدید از ادمین)
+setInterval(() => {
+    if(!document.getElementById('pageAdmin').classList.contains('active')) {
+        syncUserData();
+    }
+}, 3000);
 
 window.onload = function() {
     if (!userId) document.getElementById('registerModal').classList.add('active');
-    else { 
-        syncWithServer(); 
-        if(syncTimer) clearInterval(syncTimer);
-        syncTimer = setInterval(syncWithServer, 3000); // آپدیت هر ۳ ثانیه
-    }
+    else syncUserData();
 };
 </script>
 </body>
