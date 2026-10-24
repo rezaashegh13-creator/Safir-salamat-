@@ -62,7 +62,7 @@
     <div class="modal-content">
         <h2 style="color:var(--accent); margin-bottom:10px;">🌿 خوش آمدید</h2>
         <input type="text" id="regModalName" placeholder="نام و نام خانوادگی" style="width:100%;padding:15px;margin-bottom:15px;background:var(--input-bg);color:var(--accent);border:2px solid var(--accent);border-radius:10px;text-align:center; font-family:var(--font-family);">
-        <button class="btn btn-green" onclick="registerUser()">🚀 ورود</button>
+        <button class="btn btn-green" onclick="registerUser()">🚀 ورود به اپلیکیشن</button>
     </div>
 </div>
 
@@ -129,7 +129,7 @@
         
         <div class="section-box">
             <h3>👥 لیست کاربران</h3>
-            <button class="btn btn-blue" onclick="loadAdminUserList()">🔄 دریافت لیست</button>
+            <button class="btn btn-blue" onclick="loadAdminUserList()">🔄 دریافت لیست کاربران</button>
             <select id="adminUserSelect" onchange="onAdminSelectUser()" style="margin-top:10px;">
                 <option value="">-- انتخاب کنید --</option>
             </select>
@@ -172,44 +172,37 @@ function showToast(msg, type) {
     t.style.display = 'block'; setTimeout(function() { t.style.display = 'none'; }, 3000);
 }
 
-// 1. ثبت نام کاربر جدید
+// 1. ثبت نام (ایمن و بدون رفرش زودهنگام)
 function registerUser() {
     var name = document.getElementById('regModalName').value.trim();
     if (!name) { alert('لطفا نام خود را وارد کنید'); return; }
-    localStorage.setItem('userId', Math.floor(1000 + Math.random() * 9000).toString());
-    localStorage.setItem('userName', name);
-    location.reload();
-}
-
-// 2. سیستم سینک
-function initUserData() {
-    if(!userId) return;
     
-    // ثبت نام در دیتابیس
-    fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } })
+    showToast('⏳ در حال ثبت...', 'warning');
+    var newId = Math.floor(1000 + Math.random() * 9000).toString();
+    
+    fetch(JSONBIN_URL + "/latest?t=" + Date.now(), { headers: { "X-Master-Key": JSONBIN_API_KEY } })
     .then(res => res.json())
     .then(data => {
         var r = data.record || {};
         if (!r.profiles) r.profiles = {};
+        r.profiles[newId] = { name: name, approved: false, createdAt: Date.now() };
         
-        if (!r.profiles[userId]) {
-            r.profiles[userId] = { name: userName, approved: false, createdAt: Date.now() };
-            fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
-        }
-        
-        if(document.getElementById('profileNameShow')) {
-            document.getElementById('profileNameShow').textContent = r.profiles[userId].name;
-            document.getElementById('welcomeUserText').textContent = 'سلام ' + r.profiles[userId].name;
-            document.getElementById('displayCode').textContent = userId;
-        }
-        
-        if (r.tables && r.tables[userId] && document.getElementById('dailyContent')) {
-            document.getElementById('dailyContent').innerHTML = '<div style="line-height:2; white-space:pre-wrap; padding:15px; background:var(--bg-secondary); border-radius:10px;">' + r.tables[userId] + '</div>';
-        }
-    }).catch(e => console.log('Init error:', e.message));
+        return fetch(JSONBIN_URL, {
+            method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY },
+            body: JSON.stringify(r)
+        });
+    })
+    .then(res => {
+        if(res.ok) {
+            localStorage.setItem('userId', newId);
+            localStorage.setItem('userName', name);
+            showToast('✅ ثبت نام با موفقیت انجام شد');
+            setTimeout(function() { location.reload(); }, 1000);
+        } else { showToast('❌ خطا در ثبت نام', 'error'); }
+    }).catch(() => showToast('❌ خطای شبکه', 'error'));
 }
 
-// 3. فشرده‌سازی عکس
+// 2. فشرده‌سازی عکس
 function compressImage(file, callback) {
     var reader = new FileReader(); reader.readAsDataURL(file);
     reader.onload = function(event) {
@@ -227,7 +220,6 @@ function compressImage(file, callback) {
     }
 }
 
-// ساخت HTML چت
 function buildMessageHTML(msg) {
     var content = '';
     if(msg.text) content += msg.text;
@@ -236,7 +228,6 @@ function buildMessageHTML(msg) {
     return '<div class="chat-msg '+(msg.sender==='user'?'user':'admin')+'">'+content+'</div>';
 }
 
-// پاکسازی دیتابیس برای جلوگیری از پر شدن
 function cleanUpDatabase(r) {
     if(!r.chats) return r;
     Object.keys(r.chats).forEach(code => {
@@ -245,10 +236,28 @@ function cleanUpDatabase(r) {
     return r;
 }
 
+// 3. دریافت دیتای کاربر
+function initUserData() {
+    if(!userId) return;
+    fetch(JSONBIN_URL + "/latest?t=" + Date.now(), { headers: { "X-Master-Key": JSONBIN_API_KEY } })
+    .then(res => res.json())
+    .then(data => {
+        var r = data.record || {};
+        if (r.profiles && r.profiles[userId] && document.getElementById('profileNameShow')) {
+            document.getElementById('profileNameShow').textContent = r.profiles[userId].name;
+            document.getElementById('welcomeUserText').textContent = 'سلام ' + r.profiles[userId].name;
+            document.getElementById('displayCode').textContent = userId;
+        }
+        if (r.tables && r.tables[userId] && document.getElementById('dailyContent')) {
+            document.getElementById('dailyContent').innerHTML = '<div style="line-height:2; white-space:pre-wrap; padding:15px; background:var(--bg-secondary); border-radius:10px;">' + r.tables[userId] + '</div>';
+        }
+    }).catch(e => console.log('Init error:', e.message));
+}
+
 // 4. چت کاربر
 function loadUserChat() {
     if(!userId) return;
-    fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } })
+    fetch(JSONBIN_URL + "/latest?t=" + Date.now(), { headers: { "X-Master-Key": JSONBIN_API_KEY } })
     .then(res => res.json()).then(data => {
         var chats = (data.record.chats && data.record.chats[userId]) ? data.record.chats[userId] : [];
         var html = ''; chats.forEach(c => html += buildMessageHTML(c));
@@ -262,7 +271,7 @@ function sendChatMessage() {
     var text = document.getElementById('chatInput').value.trim(); if (!text) return; document.getElementById('chatInput').value = '';
     document.getElementById('chatBox').innerHTML += buildMessageHTML({sender:'user', text:text});
     document.getElementById('chatBox').scrollTop = document.getElementById('chatBox').scrollHeight;
-    fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } })
+    fetch(JSONBIN_URL + "/latest?t=" + Date.now(), { headers: { "X-Master-Key": JSONBIN_API_KEY } })
     .then(res => res.json()).then(data => {
         var r = data.record || {}; if (!r.chats) r.chats = {}; if (!r.chats[userId]) r.chats[userId] = [];
         r.chats[userId].push({ sender: 'user', text: text, time: Date.now() });
@@ -276,7 +285,7 @@ function sendChatImage(input) {
     compressImage(input.files[0], function(b64) {
         document.getElementById('chatBox').innerHTML += buildMessageHTML({sender:'user', image:b64});
         document.getElementById('chatBox').scrollTop = document.getElementById('chatBox').scrollHeight;
-        fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } })
+        fetch(JSONBIN_URL + "/latest?t=" + Date.now(), { headers: { "X-Master-Key": JSONBIN_API_KEY } })
         .then(res => res.json()).then(data => {
             var r = data.record || {}; if (!r.chats) r.chats = {}; if (!r.chats[userId]) r.chats[userId] = [];
             r.chats[userId].push({ sender: 'user', image: b64, time: Date.now() });
@@ -299,7 +308,7 @@ function toggleRecording() {
                     var b64 = reader.result;
                     document.getElementById('chatBox').innerHTML += buildMessageHTML({sender:'user', audio:b64});
                     document.getElementById('chatBox').scrollTop = document.getElementById('chatBox').scrollHeight;
-                    fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } })
+                    fetch(JSONBIN_URL + "/latest?t=" + Date.now(), { headers: { "X-Master-Key": JSONBIN_API_KEY } })
                     .then(res => res.json()).then(data => {
                         var r = data.record || {}; if (!r.chats) r.chats = {}; if (!r.chats[userId]) r.chats[userId] = [];
                         r.chats[userId].push({ sender: 'user', audio: b64, time: Date.now() });
@@ -314,28 +323,35 @@ function toggleRecording() {
     }
 }
 
-// 5. پنل ادمین
+// 5. پنل ادمین (با سیستم دور زدن کش)
 function checkAdminPassword() {
     if (document.getElementById('adminPasswordInput').value === ADMIN_PASSWORD) {
         document.getElementById('adminLoginModal').classList.remove('active');
         showPage('pageAdmin');
+        loadAdminUserList();
     } else { showToast('❌ رمز اشتباه', 'error'); }
 }
 
 function loadAdminUserList() {
-    document.getElementById('adminUserSelect').innerHTML = '<option>در حال لود...</option>';
-    fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } })
+    document.getElementById('adminUserSelect').innerHTML = '<option>در حال دریافت...</option>';
+    
+    // ?t=Date.now() برای جلوگیری از کش شدن
+    fetch(JSONBIN_URL + "/latest?t=" + Date.now(), { headers: { "X-Master-Key": JSONBIN_API_KEY } })
     .then(res => res.json()).then(data => {
         var r = data.record || {}; if (!r.profiles) r.profiles = {};
         var opts = '<option value="">-- انتخاب کنید --</option>';
+        var count = 0;
+        
         Object.keys(r.profiles).forEach(k => {
             opts += '<option value="'+k+'">'+r.profiles[k].name+' (کد: '+k+')</option>';
+            count++;
         });
+        
         document.getElementById('adminUserSelect').innerHTML = opts;
-        showToast('✅ لیست لود شد');
+        showToast('✅ ' + count + ' کاربر پیدا شد');
     }).catch(err => {
-        document.getElementById('adminUserSelect').innerHTML = '<option>❌ خطای لود</option>';
-        showToast('خطای شبکه', 'error');
+        document.getElementById('adminUserSelect').innerHTML = '<option>❌ خطای شبکه</option>';
+        showToast('خطا در لود لیست', 'error');
     });
 }
 
@@ -347,7 +363,7 @@ function onAdminSelectUser() {
 
 function loadAdminChatData() {
     if(!currentAdminChatCode) return showToast('کاربر را انتخاب کنید', 'error');
-    fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } })
+    fetch(JSONBIN_URL + "/latest?t=" + Date.now(), { headers: { "X-Master-Key": JSONBIN_API_KEY } })
     .then(res => res.json()).then(data => {
         var chats = (data.record.chats && data.record.chats[currentAdminChatCode]) ? data.record.chats[currentAdminChatCode] : [];
         var html = ''; chats.forEach(c => html += buildMessageHTML(c));
@@ -361,7 +377,7 @@ function sendAdminChatMessage() {
     if(!currentAdminChatCode) return showToast('ابتدا کاربر را انتخاب کنید', 'error');
     var tx = document.getElementById('adminChatInput').value.trim(); if(!tx) return;
     document.getElementById('adminChatInput').value = '';
-    fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } })
+    fetch(JSONBIN_URL + "/latest?t=" + Date.now(), { headers: { "X-Master-Key": JSONBIN_API_KEY } })
     .then(res => res.json()).then(data => {
         var r = data.record || {}; if (!r.chats) r.chats = {}; if (!r.chats[currentAdminChatCode]) r.chats[currentAdminChatCode] = [];
         r.chats[currentAdminChatCode].push({ sender: 'admin', text: tx, time: Date.now() });
@@ -373,7 +389,7 @@ function sendAdminChatMessage() {
 function sendAdminChatImage(input) {
     if(!input.files[0] || !currentAdminChatCode) return;
     compressImage(input.files[0], function(b64) {
-        fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } })
+        fetch(JSONBIN_URL + "/latest?t=" + Date.now(), { headers: { "X-Master-Key": JSONBIN_API_KEY } })
         .then(res => res.json()).then(data => {
             var r = data.record || {}; if (!r.chats) r.chats = {}; if (!r.chats[currentAdminChatCode]) r.chats[currentAdminChatCode] = [];
             r.chats[currentAdminChatCode].push({ sender: 'admin', image: b64, time: Date.now() });
@@ -387,7 +403,7 @@ function sendTableToUser() {
     if(!currentAdminChatCode) return showToast('ابتدا کاربر را انتخاب کنید', 'error');
     var text = document.getElementById('adminTableText').value.trim();
     if (!text) return showToast('متن جدول الزامی است', 'error');
-    fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } })
+    fetch(JSONBIN_URL + "/latest?t=" + Date.now(), { headers: { "X-Master-Key": JSONBIN_API_KEY } })
     .then(res => res.json()).then(data => {
         var r = data.record || {}; if (!r.tables) r.tables = {}; r.tables[currentAdminChatCode] = text;
         return fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
