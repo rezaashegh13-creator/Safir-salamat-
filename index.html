@@ -156,7 +156,6 @@
 </div>
 
 <script>
-// دیتابیس اصلی شما که از قبل داشته‌اید (به همراه کلید اصلی)
 var JSONBIN_API_KEY = "$2a$10$HZGvoCokb.bOp8eDysy62ediIrcqQU/Zpksor16E58jBiqrEK/zYK";
 var JSONBIN_BIN_ID = "6ab8a6f3ac6210605af9d9c8";
 var JSONBIN_URL = "https://api.jsonbin.io/v3/b/" + JSONBIN_BIN_ID;
@@ -173,22 +172,51 @@ function showToast(msg, type) {
     t.style.display = 'block'; setTimeout(function() { t.style.display = 'none'; }, 3000);
 }
 
+// 1. ثبت نام کاربر جدید
 function registerUser() {
     var name = document.getElementById('regModalName').value.trim();
-    if (!name) return;
+    if (!name) { alert('لطفا نام خود را وارد کنید'); return; }
     localStorage.setItem('userId', Math.floor(1000 + Math.random() * 9000).toString());
     localStorage.setItem('userName', name);
     location.reload();
 }
 
-// فشرده‌سازی بسیار قوی برای جلوگیری از پر شدن دیتابیس
+// 2. سیستم سینک
+function initUserData() {
+    if(!userId) return;
+    
+    // ثبت نام در دیتابیس
+    fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } })
+    .then(res => res.json())
+    .then(data => {
+        var r = data.record || {};
+        if (!r.profiles) r.profiles = {};
+        
+        if (!r.profiles[userId]) {
+            r.profiles[userId] = { name: userName, approved: false, createdAt: Date.now() };
+            fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
+        }
+        
+        if(document.getElementById('profileNameShow')) {
+            document.getElementById('profileNameShow').textContent = r.profiles[userId].name;
+            document.getElementById('welcomeUserText').textContent = 'سلام ' + r.profiles[userId].name;
+            document.getElementById('displayCode').textContent = userId;
+        }
+        
+        if (r.tables && r.tables[userId] && document.getElementById('dailyContent')) {
+            document.getElementById('dailyContent').innerHTML = '<div style="line-height:2; white-space:pre-wrap; padding:15px; background:var(--bg-secondary); border-radius:10px;">' + r.tables[userId] + '</div>';
+        }
+    }).catch(e => console.log('Init error:', e.message));
+}
+
+// 3. فشرده‌سازی عکس
 function compressImage(file, callback) {
     var reader = new FileReader(); reader.readAsDataURL(file);
     reader.onload = function(event) {
         var img = new Image(); img.src = event.target.result;
         img.onload = function() {
             var canvas = document.createElement('canvas');
-            var MAX_WIDTH = 200; // سایز بسیار کوچک
+            var MAX_WIDTH = 200; 
             var width = img.width; var height = img.height;
             if (width > height && width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
             else if (height > MAX_WIDTH) { width *= MAX_WIDTH / height; height = MAX_WIDTH; }
@@ -199,6 +227,7 @@ function compressImage(file, callback) {
     }
 }
 
+// ساخت HTML چت
 function buildMessageHTML(msg) {
     var content = '';
     if(msg.text) content += msg.text;
@@ -207,41 +236,16 @@ function buildMessageHTML(msg) {
     return '<div class="chat-msg '+(msg.sender==='user'?'user':'admin')+'">'+content+'</div>';
 }
 
-// تابع جادویی برای پاک‌سازی دیتابیس و جلوگیری از پر شدن
+// پاکسازی دیتابیس برای جلوگیری از پر شدن
 function cleanUpDatabase(r) {
     if(!r.chats) return r;
     Object.keys(r.chats).forEach(code => {
-        if(r.chats[code].length > 30) {
-            r.chats[code] = r.chats[code].slice(-30); // فقط ۳۰ پیام آخر هر کاربر را نگه دار
-        }
+        if(r.chats[code].length > 30) { r.chats[code] = r.chats[code].slice(-30); }
     });
     return r;
 }
 
-function initUserData() {
-    if(!userId) return;
-    fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } })
-    .then(res => {
-        if(!res.ok) throw new Error("HTTP " + res.status);
-        return res.json();
-    }).then(data => {
-        var r = data.record || {};
-        if (!r.profiles) r.profiles = {};
-        if (!r.profiles[userId]) {
-            r.profiles[userId] = { name: userName, approved: false, createdAt: Date.now() };
-            return fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
-        }
-        if(document.getElementById('profileNameShow')) {
-            document.getElementById('profileNameShow').textContent = r.profiles[userId].name;
-            document.getElementById('welcomeUserText').textContent = 'سلام ' + r.profiles[userId].name;
-            document.getElementById('displayCode').textContent = userId;
-        }
-        if (r.tables && r.tables[userId] && document.getElementById('dailyContent')) {
-            document.getElementById('dailyContent').innerHTML = '<div style="line-height:2; white-space:pre-wrap; padding:15px; background:var(--bg-secondary); border-radius:10px;">' + r.tables[userId] + '</div>';
-        }
-    }).catch(e => console.log('Init error:', e.message));
-}
-
+// 4. چت کاربر
 function loadUserChat() {
     if(!userId) return;
     fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } })
@@ -262,7 +266,7 @@ function sendChatMessage() {
     .then(res => res.json()).then(data => {
         var r = data.record || {}; if (!r.chats) r.chats = {}; if (!r.chats[userId]) r.chats[userId] = [];
         r.chats[userId].push({ sender: 'user', text: text, time: Date.now() });
-        r = cleanUpDatabase(r); // پاکسازی
+        r = cleanUpDatabase(r);
         return fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
     }).then(() => loadUserChat());
 }
@@ -276,7 +280,7 @@ function sendChatImage(input) {
         .then(res => res.json()).then(data => {
             var r = data.record || {}; if (!r.chats) r.chats = {}; if (!r.chats[userId]) r.chats[userId] = [];
             r.chats[userId].push({ sender: 'user', image: b64, time: Date.now() });
-            r = cleanUpDatabase(r); // پاکسازی
+            r = cleanUpDatabase(r);
             return fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
         }).then(() => { loadUserChat(); input.value=''; });
     });
@@ -299,7 +303,7 @@ function toggleRecording() {
                     .then(res => res.json()).then(data => {
                         var r = data.record || {}; if (!r.chats) r.chats = {}; if (!r.chats[userId]) r.chats[userId] = [];
                         r.chats[userId].push({ sender: 'user', audio: b64, time: Date.now() });
-                        r = cleanUpDatabase(r); // پاکسازی
+                        r = cleanUpDatabase(r);
                         return fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
                     }).then(() => loadUserChat());
                 };
@@ -310,6 +314,7 @@ function toggleRecording() {
     }
 }
 
+// 5. پنل ادمین
 function checkAdminPassword() {
     if (document.getElementById('adminPasswordInput').value === ADMIN_PASSWORD) {
         document.getElementById('adminLoginModal').classList.remove('active');
@@ -327,10 +332,10 @@ function loadAdminUserList() {
             opts += '<option value="'+k+'">'+r.profiles[k].name+' (کد: '+k+')</option>';
         });
         document.getElementById('adminUserSelect').innerHTML = opts;
-        showToast('✅ لیست با موفقیت لود شد');
+        showToast('✅ لیست لود شد');
     }).catch(err => {
-        document.getElementById('adminUserSelect').innerHTML = '<option>❌ خطای لود (اینترنت را چک کنید)</option>';
-        showToast('خطای شبکه در لود لیست', 'error');
+        document.getElementById('adminUserSelect').innerHTML = '<option>❌ خطای لود</option>';
+        showToast('خطای شبکه', 'error');
     });
 }
 
@@ -386,7 +391,7 @@ function sendTableToUser() {
     .then(res => res.json()).then(data => {
         var r = data.record || {}; if (!r.tables) r.tables = {}; r.tables[currentAdminChatCode] = text;
         return fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
-    }).then(() => showToast('✅ جدول با موفقیت ارسال شد'));
+    }).then(() => showToast('✅ جدول ارسال شد'));
 }
 
 function showPage(id) {
