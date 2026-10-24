@@ -6,108 +6,85 @@
     <meta name="theme-color" content="#0d1f12">
     <title>سفیر سلامت حامی</title>
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
-    <link rel="manifest" href="/Safir-salamat-/manifest.json">
     
     <style>
         :root {
             --bg-primary: #0d1f12; --bg-secondary: #1a3322; --bg-tertiary: #21452c;
             --text-primary: #ffffff; --text-secondary: #e8f0e3; --text-muted: #a8bfa8;
-            --accent: #f4d03f; --accent2: #e8b923; --btn-primary: #27ae60; --btn-success: #2ecc71;
+            --accent: #f4d03f; --btn-primary: #27ae60; --btn-success: #2ecc71;
             --btn-danger: #c0392b; --border-color: rgba(244, 208, 63, 0.2);
-            --input-bg: #142b1a; --font-family: 'Vazirmatn', Tahoma, sans-serif; --font-size: 14px;
+            --input-bg: #142b1a; --font-family: 'Vazirmatn', Tahoma, sans-serif;
         }
-        body.theme-honey { --bg-primary: #1a1200; --bg-secondary: #3d2800; --bg-tertiary: #5a3d00; --input-bg: #3d2800; }
-        body.theme-mint { --bg-primary: #0a2e2e; --bg-secondary: #0f4444; --bg-tertiary: #1a5c5c; --input-bg: #0f4444; }
-        body.theme-dark { --bg-primary: #0a0a0a; --bg-secondary: #1a1a1a; --bg-tertiary: #2a2a2a; --input-bg: #1a1a1a; }
-
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: var(--font-family); background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; padding-bottom: 20px; font-size: var(--font-size); background-attachment: fixed; }
+        body { font-family: var(--font-family); background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; padding-bottom: 20px; }
         .container { max-width: 750px; margin: 0 auto; padding: 10px; }
         
-        #topBanner { display: none; width: 100%; background: var(--bg-secondary); border-bottom: 3px solid var(--accent); }
-        #topBanner.active { display: block; }
-        #topBanner img { width: 100%; max-height: 220px; object-fit: cover; display: block; }
-        
-        .main-header { text-align: center; margin-bottom: 15px; padding: 20px 15px; background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary)); border-radius: 20px; border: 1px solid var(--border-color); }
-        .main-header h1 { color: var(--accent); font-size: 1.6em; margin-bottom: 5px; }
-        .main-header h2 { color: var(--text-secondary); font-size: 1em; margin-bottom: 12px; }
-        .supervisor-box { background: rgba(244, 208, 63, 0.08); border: 1px solid var(--border-color); border-radius: 12px; padding: 10px; font-size: 0.75em; }
-        .supervisor-box strong { color: var(--accent); display: block; margin-top: 3px; }
+        /* Main UI Styles */
+        .main-header { text-align: center; padding: 20px; background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary)); border-radius: 20px; border: 1px solid var(--border-color); margin-bottom: 15px; }
+        .main-header h1 { color: var(--accent); font-size: 1.6em; }
+        .main-header h2 { color: var(--text-secondary); font-size: 1em; margin-top: 5px; }
         
         .page { display: none; } .page.active { display: block; }
-        .menu-card { background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary)); border-radius: 16px; padding: 18px; margin-bottom: 12px; cursor: pointer; border: 1px solid var(--border-color); border-right: 5px solid var(--accent); position: relative; }
-        .menu-card-title { font-size: 1.15em; font-weight: bold; color: var(--accent); margin-bottom: 5px; }
-        .menu-card-desc { font-size: 0.8em; color: var(--text-secondary); }
-        .growth-btn { display: flex; justify-content: center; margin: 20px auto; padding: 10px; background: linear-gradient(90deg, #e8b923, #f4d03f); color: #0d1f12; text-decoration: none; border-radius: 25px; font-size: 0.8em; font-weight: bold; width: fit-content; }
-        .back-btn { padding: 8px 16px; background: var(--bg-tertiary); color: var(--text-primary); border: none; border-radius: 10px; cursor: pointer; margin-bottom: 12px; }
+        .menu-card { background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary)); border-radius: 16px; padding: 18px; margin-bottom: 12px; cursor: pointer; border-right: 5px solid var(--accent); }
+        .menu-card-title { font-size: 1.1em; font-weight: bold; color: var(--accent); }
         
-        .btn { padding: 11px; border: none; border-radius: 10px; font-size: 0.85em; cursor: pointer; font-weight: bold; width: 100%; margin: 5px 0; color: white; font-family: var(--font-family); }
+        .btn { padding: 12px; border: none; border-radius: 10px; font-size: 0.9em; cursor: pointer; font-weight: bold; width: 100%; margin: 5px 0; color: white; font-family: var(--font-family); }
         .btn-green { background: var(--btn-success); } .btn-blue { background: var(--btn-primary); }
-        .btn-red { background: var(--btn-danger); } .btn-orange { background: var(--accent2); color: #0d1f12; } .btn-gray { background: #4a5a4e; }
-        .btn-row { display: flex; gap: 8px; } .btn-row .btn { flex: 1; }
+        .btn-red { background: var(--btn-danger); } .btn-gray { background: #4a5a4e; }
+        .back-btn { padding: 8px 16px; background: var(--bg-tertiary); color: white; border: none; border-radius: 10px; cursor: pointer; margin-bottom: 12px; }
         
-        .section-box { background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary)); padding: 14px; border-radius: 14px; margin: 12px 0; border: 1px solid var(--border-color); }
-        .section-box h3 { color: var(--accent); text-align: center; margin-bottom: 12px; font-size: 0.95em; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px; }
-        .settings-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-        .settings-row label { font-size: 0.82em; color: var(--text-secondary); min-width: 50px; }
-        .settings-row input, .settings-row select, .settings-row textarea { background: var(--input-bg); color: var(--text-primary); border: 1px solid #3d5a45; padding: 9px; border-radius: 8px; flex: 1; font-family: var(--font-family); width: 100%; }
+        .section-box { background: var(--bg-secondary); padding: 15px; border-radius: 14px; margin: 12px 0; border: 1px solid var(--border-color); }
+        .settings-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+        .settings-row label { font-size: 0.85em; color: var(--text-secondary); min-width: 50px; }
+        .settings-row input, select, textarea { background: var(--input-bg); color: white; border: 1px solid #3d5a45; padding: 10px; border-radius: 8px; flex: 1; font-family: var(--font-family); width: 100%; }
         
-        .table-wrapper { overflow-x: auto; margin-top: 10px; }
-        table { width: 100%; border-collapse: collapse; background: var(--bg-secondary); border-radius: 12px; font-size: 0.85em; }
+        /* Modal Styles (No close button needed if fast) */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); z-index: 9999; justify-content: center; align-items: center; }
+        .modal-overlay.active { display: flex; }
+        .modal-content { background: var(--bg-secondary); border: 2px solid var(--accent); border-radius: 20px; padding: 25px; width: 90%; max-width: 400px; text-align: center; }
+        
+        /* Tables & Lists */
+        table { width: 100%; border-collapse: collapse; font-size: 0.85em; background: var(--bg-secondary); }
         th { padding: 10px; background: var(--bg-tertiary); color: var(--accent); }
         td { padding: 8px; text-align: center; border-bottom: 1px solid var(--border-color); }
         
-        .vitrine-box { background: linear-gradient(135deg, #21452c, #1a3322); border: 2px solid var(--accent); border-radius: 16px; padding: 15px; margin-bottom: 15px; }
-        .vitrine-title { color: var(--accent); text-align: center; font-weight: bold; margin-bottom: 10px; }
-        .vitrine-item { background: rgba(0,0,0,0.3); border-radius: 8px; padding: 10px; display: flex; justify-content: space-between; margin-bottom: 5px; border-right: 4px solid var(--btn-success); }
-
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); z-index: 9999; justify-content: center; align-items: center; }
-        .modal-overlay.active { display: flex; }
-        .modal-content { background: var(--bg-secondary); border: 2px solid var(--accent); border-radius: 20px; padding: 25px; width: 90%; max-width: 400px; text-align: center; position: relative; }
-        .close-modal { position: absolute; top: 10px; left: 10px; font-size: 20px; color: var(--text-muted); cursor: pointer; background: transparent; border: none; }
-        
-        .admin-panel { background: #2a1a1a; border: 2px solid var(--accent2); border-radius: 15px; padding: 15px; margin: 10px 0; }
-        .admin-tabs { display: flex; gap: 5px; margin-bottom: 15px; flex-wrap: wrap; }
-        .admin-tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; border-radius: 8px; font-size: 0.75em; font-weight: bold; background: var(--input-bg); color: var(--text-muted); }
-        .admin-tab.active { background: var(--btn-danger); color: white; }
-        
-        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #2ecc71; color: white; padding: 12px 25px; border-radius: 25px; font-weight: bold; z-index: 99999; display: none; max-width: 90%; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-        .toast.error { background: var(--btn-danger); }
-        
-        .profile-pic { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--accent); object-fit: cover; margin-bottom: 10px; }
-        
-        .chat-box { background: var(--bg-primary); border-radius: 10px; padding: 10px; height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; border: 1px solid var(--border-color); margin-bottom: 10px; }
-        .chat-msg { max-width: 80%; padding: 8px; border-radius: 12px; font-size: 0.85em; word-wrap: break-word; }
+        /* Chat */
+        .chat-box { background: var(--bg-primary); border-radius: 10px; padding: 10px; height: 250px; overflow-y: auto; border: 1px solid var(--border-color); margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; }
+        .chat-msg { max-width: 80%; padding: 8px; border-radius: 12px; font-size: 0.85em; }
         .chat-msg.user { background: var(--btn-primary); align-self: flex-start; }
         .chat-msg.admin { background: var(--bg-tertiary); border: 1px solid var(--accent); align-self: flex-end; }
-        .chat-input-row { display: flex; gap: 5px; align-items: center; }
-        .chat-input-row input[type="text"] { flex: 1; background: var(--input-bg); border: 1px solid var(--accent); color: white; padding: 8px; border-radius: 20px; }
-        .chat-input-row button, .chat-input-row label { width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--btn-primary); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2em; }
+        .chat-input-row { display: flex; gap: 5px; }
+        .chat-input-row input { flex: 1; background: var(--input-bg); border: 1px solid var(--accent); color: white; padding: 10px; border-radius: 20px; }
+        .chat-input-row button { width: 45px; border-radius: 50%; border: none; background: var(--btn-primary); color: white; font-size: 1.2em; }
+        
+        /* Toast */
+        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #2ecc71; color: white; padding: 12px 25px; border-radius: 25px; font-weight: bold; z-index: 99999; display: none; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .toast.error { background: var(--btn-danger); }
     </style>
 </head>
 <body>
 
 <div class="toast" id="toast"></div>
-<div id="topBanner"><img id="topBannerImg" style="display:none;" onload="document.getElementById('topBanner').classList.add('active')" onerror="document.getElementById('topBanner').classList.remove('active')" alt=""></div>
 
-<!-- ثبت نام (با دکمه بستن) -->
+<!-- ثبت نام جدید (بسیار ساده و بدون گیر کردن) -->
 <div class="modal-overlay" id="registerModal">
     <div class="modal-content">
-        <button class="close-modal" onclick="document.getElementById('registerModal').classList.remove('active')">✕</button>
-        <h2 style="color:var(--accent); margin-top:10px;">🌿 خوش آمدید</h2>
-        <p style="font-size:0.9em; margin-bottom:15px; color:var(--text-muted);">لطفاً برای شروع، نام خود را وارد کنید.</p>
-        <input type="text" id="regModalName" placeholder="نام و نام خانوادگی" style="width:100%;padding:12px;margin-bottom:15px;background:var(--input-bg);color:var(--accent);border:2px solid var(--accent);border-radius:10px;text-align:center;">
-        <button class="btn btn-green" onclick="registerUser()">✅ ثبت نام</button>
+        <h2 style="color:var(--accent); margin-bottom:10px;">🌿 خوش آمدید</h2>
+        <p style="font-size:0.9em; margin-bottom:20px; color:var(--text-muted);">برای ورود، فقط نام خود را وارد کنید.</p>
+        <input type="text" id="regModalName" placeholder="مثلا: علی رضایی" style="width:100%;padding:15px;margin-bottom:15px;background:var(--input-bg);color:var(--accent);border:2px solid var(--accent);border-radius:10px;text-align:center; font-family:var(--font-family); font-size:1.1em;">
+        <button class="btn btn-green" onclick="registerUser()" style="font-size:1.1em; padding:15px;">🚀 ورود به اپلیکیشن</button>
     </div>
 </div>
 
 <!-- ورود ادمین -->
 <div class="modal-overlay" id="adminLoginModal">
     <div class="modal-content">
-        <button class="close-modal" onclick="document.getElementById('adminLoginModal').classList.remove('active')">✕</button>
-        <h2 style="color:var(--accent); margin-top:10px;">🔐 مدیریت</h2>
+        <h2 style="color:var(--accent);">🔐 مدیریت</h2>
         <input type="password" id="adminPasswordInput" placeholder="رمز" style="width:100%;padding:12px;margin:15px 0;background:var(--input-bg);color:var(--accent);border:2px solid var(--accent);border-radius:10px;text-align:center;">
-        <div class="btn-row"><button class="btn btn-gray" onclick="document.getElementById('adminLoginModal').classList.remove('active')">انصراف</button><button class="btn btn-green" onclick="checkAdminPassword()">ورود</button></div>
+        <div style="display:flex; gap:10px;">
+            <button class="btn btn-gray" onclick="document.getElementById('adminLoginModal').classList.remove('active')">انصراف</button>
+            <button class="btn btn-green" onclick="checkAdminPassword()">ورود</button>
+        </div>
     </div>
 </div>
 
@@ -116,63 +93,34 @@
         <div class="main-header">
             <h1>🌿 سفیر سلامت حامی</h1>
             <h2 id="welcomeUserText">خوش آمدید</h2>
-            <div class="supervisor-box">تحت نظارت <strong>✨ مریم حمیدیان ✨</strong></div>
         </div>
         
-        <div class="vitrine-box" id="vitrineBox" style="display:none;">
-            <div class="vitrine-title">✨ وعده‌های امروز شما ✨</div>
-            <div id="vitrineItems"></div>
-        </div>
-
         <div class="menu-card" onclick="showPage('pageProfile')" style="border-right-color:#3498db;">
             <div class="menu-card-title">👤 پروفایل کاربری</div>
-            <div class="menu-card-desc" id="menuProfileStatus">مشاهده وضعیت</div>
         </div>
         <div class="menu-card" onclick="showPage('pageDaily')"><div class="menu-card-title">🍵 برنامه روزانه سلامت</div></div>
-        <div class="menu-card" onclick="showPage('pageRegime')"><div class="menu-card-title">🥗 نسخه ویژه رژیم درمانی</div></div>
         <div class="menu-card" onclick="showPage('pageMessages')"><div class="menu-card-title">📬 پیام‌های من</div></div>
-        <div class="menu-card" onclick="showPage('pageContact')"><div class="menu-card-title">📞 تماس و پشتیبانی</div></div>
+        <div class="menu-card" onclick="showPage('pageContact')"><div class="menu-card-title">📞 تماس و پشتیبانی (چت)</div></div>
         <div class="menu-card" onclick="showPage('pageSettings')"><div class="menu-card-title">⚙️ تنظیمات</div></div>
         
-        <a href="https://eitaa.com/joinchat/878706709C93902231a1" target="_blank" class="growth-btn">✨🌟 برای رشد کلیک کن 🌟✨</a>
         <button class="btn btn-green" onclick="installPWA()" style="border-radius:25px; margin-top:15px;">📲 نصب اپلیکیشن</button>
     </div>
 
     <div class="page" id="pageProfile">
         <div class="main-header"><h1>👤 پروفایل من</h1></div>
         <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
-        <div class="section-box">
-            <div id="profileDisplay" style="display:none; text-align:center;">
-                <img id="profilePicShow" class="profile-pic" src="">
-                <div id="profileNameShow" style="font-weight:bold; color:var(--accent); font-size:1.2em;"></div>
-                <div id="profileStatusShow" style="margin:10px 0;"></div>
-                <button class="btn btn-gray" onclick="showEditProfile()">✏️ ویرایش اطلاعات</button>
-            </div>
-            
-            <div id="profileForm" style="display:none;">
-                <div class="settings-row"><label>نام:</label><input type="text" id="regName"></div>
-                <div class="settings-row"><label>سن:</label><input type="number" id="regAge"></div>
-                <div class="settings-row"><label>عکس:</label><input type="file" id="regPhoto" accept="image/*"></div>
-                <button class="btn btn-green" onclick="submitProfile()" style="margin-top:10px;">💾 ذخیره</button>
-            </div>
+        <div class="section-box" style="text-align:center;">
+            <div id="profileNameShow" style="font-weight:bold; color:var(--accent); font-size:1.5em; margin-bottom:10px;"></div>
+            <div style="font-size:0.9em; color:var(--text-muted);">کد اختصاصی شما: <span id="displayCode" style="color:white; font-family:monospace; font-size:1.2em;"></span></div>
+            <div id="profileStatusShow" style="margin-top:15px; font-size:0.9em;"></div>
         </div>
     </div>
 
     <div class="page" id="pageDaily">
         <div class="main-header"><h1>🍵 برنامه روزانه</h1></div>
         <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
-        <div id="dailyReceivePrompt"></div>
-        <div id="dailyContent" style="display:none;">
-            <div class="table-wrapper"><table id="dietTable"><thead id="tableHead"></thead><tbody id="scheduleBody"></tbody></table></div>
-        </div>
-    </div>
-
-    <div class="page" id="pageRegime">
-        <div class="main-header"><h1>🥗 رژیم درمانی</h1></div>
-        <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
-        <div id="regimeReceivePrompt"></div>
-        <div id="regimeContent" style="display:none;">
-            <div class="section-box"><div id="regimeDisplay" style="line-height:2; white-space:pre-wrap;"></div></div>
+        <div id="dailyContent">
+            <p style="text-align:center; color:var(--text-muted); margin-top:20px;">در حال دریافت اطلاعات از مدیر...</p>
         </div>
     </div>
 
@@ -183,24 +131,11 @@
     </div>
 
     <div class="page" id="pageContact">
-        <div class="main-header"><h1>📞 ارتباط با ما</h1></div>
+        <div class="main-header"><h1>📞 چت با پشتیبانی</h1></div>
         <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
-        
-        <div class="menu-card" onclick="window.open('https://rubika.ir/Mhamidian313','_blank')" style="border-right-color:#2ecc71; margin-bottom:8px;">
-            <div class="menu-card-title">🩺 ویزیت از راه دور</div>
-        </div>
-        <div class="menu-card" onclick="window.open('https://eitaa.com/Nabzezendegi133','_blank')" style="border-right-color:#e8b923; margin-bottom:8px;">
-            <div class="menu-card-title">📢 کانال ایتا</div>
-        </div>
-        <div class="menu-card" onclick="window.open('https://rubika.ir/joing/GEABAACJ0KMFSXWCVGPUPQJRBLKATZUF','_blank')" style="border-right-color:#8e44ad; margin-bottom:15px;">
-            <div class="menu-card-title">💬 گروه روبیکا</div>
-        </div>
-
         <div class="section-box" style="padding:10px;">
             <div class="chat-box" id="chatBox"></div>
             <div class="chat-input-row">
-                <label for="chatImageInput" style="background:var(--bg-tertiary); border:1px solid var(--accent);">📷</label>
-                <input type="file" id="chatImageInput" accept="image/*" style="display:none;" onchange="sendChatImage(this)">
                 <input type="text" id="chatInput" placeholder="پیام...">
                 <button onclick="sendChatMessage()">➤</button>
             </div>
@@ -210,77 +145,29 @@
     <div class="page" id="pageSettings">
         <div class="main-header"><h1>⚙️ تنظیمات</h1></div>
         <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
-        
         <div class="section-box">
             <h3>📅 تاریخ شروع (شمسی)</h3>
-            <input type="date" id="startDatePicker" onchange="saveStartDate()" style="width:100%;padding:10px;background:var(--input-bg);color:var(--accent);border:2px solid var(--accent);border-radius:8px;">
-            <div id="jalaliShow" style="font-size:0.8em; margin-top:8px; text-align:center; color:var(--text-muted);"></div>
+            <input type="date" id="startDatePicker" onchange="saveStartDate()">
+            <div id="jalaliShow" style="font-size:0.85em; margin-top:10px; color:var(--accent); text-align:center;"></div>
         </div>
-
-        <div class="section-box" style="border: 2px solid var(--btn-success);">
-            <h3>🔔 آلارم</h3>
-            <div class="settings-row" style="margin-top:10px; background:rgba(0,0,0,0.2); padding:10px; border-radius:8px;">
-                <label>🎵 زنگ:</label>
-                <input type="file" id="alarmSoundFile" accept="audio/*" onchange="uploadAlarmSound(this)">
-            </div>
-            <button class="btn btn-green" onclick="saveAlarmSettings()" style="margin-top:8px;">💾 ذخیره</button>
-        </div>
-
-        <div class="section-box">
-            <h3>🎨 تم</h3>
-            <div class="settings-row" style="justify-content:center; gap:10px;">
-                <span onclick="setTheme('nature')" style="width:35px;height:35px;border-radius:50%;background:#0d1f12;border:2px solid #f4d03f;cursor:pointer;"></span>
-                <span onclick="setTheme('honey')" style="width:35px;height:35px;border-radius:50%;background:#3d2800;border:2px solid #f4d03f;cursor:pointer;"></span>
-                <span onclick="setTheme('mint')" style="width:35px;height:35px;border-radius:50%;background:#0a2e2e;border:2px solid #f4d03f;cursor:pointer;"></span>
-                <span onclick="setTheme('dark')" style="width:35px;height:35px;border-radius:50%;background:#111;border:2px solid #f4d03f;cursor:pointer;"></span>
-            </div>
-        </div>
-
         <button class="btn btn-red" onclick="document.getElementById('adminLoginModal').classList.add('active')" style="margin-top:15px;">🔐 ورود به پنل مدیریت</button>
     </div>
 
+    <!-- Admin Panel -->
     <div class="page" id="pageAdmin">
-        <div class="main-header"><h1>🔐 پنل مدیریت</h1></div>
+        <div class="main-header"><h1>🔐 مدیریت</h1></div>
         <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
-        <div class="admin-tabs">
-            <div class="admin-tab active" onclick="switchAdminTab('profiles', this)">👥 کاربران</div>
-            <div class="admin-tab" onclick="switchAdminTab('table', this)">📋 جدول</div>
-            <div class="admin-tab" onclick="switchAdminTab('chat', this)">💬 چت</div>
-        </div>
-
-        <div class="admin-panel" id="adminTabProfiles">
+        
+        <div class="section-box">
+            <h3>👥 کاربران</h3>
             <div id="adminProfilesList"></div>
         </div>
-
-        <div class="admin-panel" id="adminTabTable" style="display:none;">
-            <div class="settings-row"><label>کاربر:</label><select id="targetUserCodeTable" style="width:100%; padding:8px;"></select></div>
-            <div style="background:var(--input-bg); padding:10px; border-radius:8px; margin:10px 0;">
-                <div id="tableEditorContainer"></div>
-                <button class="btn btn-green" onclick="addTableColumnEditor()" style="font-size:0.8em; margin-top:5px;">➕ افزودن ستون</button>
-            </div>
-            <div style="background:var(--input-bg); padding:10px; border-radius:8px; margin:10px 0;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                    <button class="btn btn-gray" style="width:auto;" onclick="changeEditorDay(-1)">◀</button>
-                    <span id="editorDayLabel" style="color:var(--accent);">روز 1</span>
-                    <button class="btn btn-gray" style="width:auto;" onclick="changeEditorDay(1)">▶</button>
-                </div>
-                <div id="dayEditorContainer"></div>
-            </div>
-            <div class="btn-row">
-                <button class="btn btn-green" onclick="sendTableToUser()">📤 ارسال</button>
-                <button class="btn btn-red" onclick="deleteUserTable()">🗑️ حذف</button>
-            </div>
-        </div>
-
-        <div class="admin-panel" id="adminTabChat" style="display:none;">
-            <div class="settings-row"><label>کاربر:</label><select id="chatTargetCode" onchange="loadAdminChat()" style="width:100%; padding:8px;"></select></div>
-            <div class="chat-box" id="adminChatBox"></div>
-            <div class="chat-input-row">
-                <label for="adminChatImageInput" style="background:var(--bg-tertiary); border:1px solid var(--accent);">📷</label>
-                <input type="file" id="adminChatImageInput" accept="image/*" style="display:none;" onchange="sendAdminChatImage(this)">
-                <input type="text" id="adminChatInput" placeholder="پاسخ...">
-                <button onclick="sendAdminChatMessage()">➤</button>
-            </div>
+        
+        <div class="section-box">
+            <h3>📋 ارسال جدول</h3>
+            <select id="targetUserCodeTable" style="margin-bottom:10px;"></select>
+            <textarea id="adminTableText" placeholder="محتوای جدول را وارد کنید..." style="height:100px; margin-bottom:10px;"></textarea>
+            <button class="btn btn-green" onclick="sendTableToUser()">📤 ارسال جدول</button>
         </div>
     </div>
 </div>
@@ -292,295 +179,198 @@ var JSONBIN_BIN_ID = "6ab8a6f3ac6210605af9d9c8";
 var JSONBIN_URL = "https://api.jsonbin.io/v3/b/" + JSONBIN_BIN_ID;
 var ADMIN_PASSWORD = "maryam6625";
 
-var userId = ""; var userProfile = null; var isUserApproved = false;
-var tableColumns = ['oil','breakfast','evening','dinner'];
-var tableColumnNames = { oil:'ناشتا', breakfast:'صبح', evening:'عصر', dinner:'شب' };
-var totalDays = 40; var fortyDayData = []; var editorCurrentDay = 0;
-var deferredPrompt = null;
+var userId = localStorage.getItem('userId');
+var userName = localStorage.getItem('userName');
 
-function getRecord(d) {
-    var r = d.record || d || {}; if (r.record) r = r.record;
-    if (!r.users) r.users = {}; if (!r.tables) r.tables = {}; if (!r.messages) r.messages = [];
-    if (!r.profiles) r.profiles = {}; if (!r.chats) r.chats = {}; if (!r.system) r.system = { nextUserId: 1 };
-    return r;
-}
-function getRemoteRecord() {
-    return fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } }).then(function(res) {
-        if (!res.ok) throw new Error('خطای شبکه'); return res.json();
-    });
-}
-function putRecord(r) {
-    return fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
-}
+// نمایش پیام
 function showToast(msg, type) {
     var t = document.getElementById('toast'); t.textContent = msg;
     t.className = 'toast' + (type === 'error' ? ' error' : '');
     t.style.display = 'block'; setTimeout(function() { t.style.display = 'none'; }, 3000);
 }
 
-// فشرده ساز قوی عکس (۱۵۰ پیکسل)
-function compressImage(file, callback) {
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function(event) {
-        var img = new Image();
-        img.src = event.target.result;
-        img.onload = function() {
-            var canvas = document.createElement('canvas');
-            var MAX_WIDTH = 150; 
-            var width = img.width; var height = img.height;
-            if (width > height && width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
-            else if (height > MAX_WIDTH) { width *= MAX_WIDTH / height; height = MAX_WIDTH; }
-            canvas.width = width; canvas.height = height;
-            var ctx = canvas.getContext("2d");
-            ctx.drawImage(img, 0, 0, width, height);
-            callback(canvas.toDataURL("image/jpeg", 0.4));
+// ==========================================
+// 1. سیستم ثبت نام بدون گیر کردن (آفلاین)
+// ==========================================
+function registerUser() {
+    var name = document.getElementById('regModalName').value.trim();
+    if (!name) { alert('لطفا نام خود را وارد کنید'); return; }
+    
+    // 1. ساخت کد یکتا به صورت لوکال (بدون نیاز به اینترنت)
+    var newId = Math.floor(1000 + Math.random() * 9000).toString(); // کد 4 رقمی
+    
+    // 2. ذخیره در حافظه گوشی
+    localStorage.setItem('userId', newId);
+    localStorage.setItem('userName', name);
+    
+    // 3. بستن پاپ آپ و رفرش
+    document.getElementById('registerModal').classList.remove('active');
+    showToast('✅ خوش آمدید ' + name);
+    
+    setTimeout(function() { location.reload(); }, 1000);
+}
+
+// ==========================================
+// 2. سینک خودکار با سرور (در پس زمینه)
+// ==========================================
+function syncWithServer() {
+    if (!userId) return;
+    
+    fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } })
+    .then(res => res.json())
+    .then(data => {
+        var r = data.record || {};
+        if (!r.profiles) r.profiles = {};
+        if (!r.tables) r.tables = {};
+        if (!r.messages) r.messages = [];
+        if (!r.chats) r.chats = {};
+        
+        // ثبت نام کاربر در سرور (اگر قبلا ثبت نشده باشد)
+        if (!r.profiles[userId]) {
+            r.profiles[userId] = { name: userName, approved: false, createdAt: Date.now() };
+            return fetch(JSONBIN_URL, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY },
+                body: JSON.stringify(r)
+            }).then(() => data); // برگرداندن دیتا برای ادامه
         }
+        return data;
+    })
+    .then(data => {
+        var r = data.record || {};
+        
+        // آپدیت پروفایل
+        var p = r.profiles[userId];
+        document.getElementById('profileNameShow').textContent = p.name;
+        document.getElementById('displayCode').textContent = userId;
+        document.getElementById('profileStatusShow').innerHTML = p.approved ? '<span style="color:#2ecc71;">✅ تایید شده توسط مدیر</span>' : '<span style="color:#f39c12;">⏳ در انتظار تایید</span>';
+        
+        // آپدیت جدول
+        if (r.tables[userId]) {
+            document.getElementById('dailyContent').innerHTML = '<div style="line-height:2; white-space:pre-wrap; padding:15px; background:var(--bg-secondary); border-radius:10px;">' + r.tables[userId] + '</div>';
+        } else {
+            document.getElementById('dailyContent').innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:20px;">هنوز برنامه‌ای برای شما ارسال نشده است.</p>';
+        }
+        
+        // آپدیت پیام‌ها
+        var msgHtml = '';
+        r.messages.forEach(m => {
+            if (m.target === 'all' || m.target === userId) {
+                msgHtml += '<div style="background:var(--bg-secondary); padding:10px; margin-bottom:10px; border-radius:10px; border-right:4px solid var(--accent);">' + m.content + '</div>';
+            }
+        });
+        document.getElementById('messagesList').innerHTML = msgHtml || '<p style="text-align:center; color:var(--text-muted);">هیچ پیامی ندارید.</p>';
+        
+        // آپدیت چت
+        var chatHtml = '';
+        var myChats = r.chats[userId] || [];
+        myChats.reverse().forEach(c => {
+            chatHtml += '<div class="chat-msg '+(c.sender==='user'?'user':'admin')+'">'+c.text+'</div>';
+        });
+        var chatBox = document.getElementById('chatBox');
+        if(chatBox) { chatBox.innerHTML = chatHtml; chatBox.scrollTop = 0; }
+        
+        // پر کردن لیست ادمین
+        var sel = document.getElementById('targetUserCodeTable');
+        if(sel && document.getElementById('pageAdmin').classList.contains('active')) {
+            var opts = '';
+            Object.keys(r.profiles).forEach(k => {
+                opts += '<option value="'+k+'">'+r.profiles[k].name+' ('+k+')</option>';
+            });
+            sel.innerHTML = opts;
+        }
+    })
+    .catch(e => console.log('Sync Error:', e.message));
+}
+
+// ==========================================
+// 3. ارسال پیام چت
+// ==========================================
+function sendChatMessage() {
+    var input = document.getElementById('chatInput');
+    var text = input.value.trim();
+    if (!text) return;
+    
+    input.value = '';
+    fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } })
+    .then(res => res.json())
+    .then(data => {
+        var r = data.record || {};
+        if (!r.chats) r.chats = {};
+        if (!r.chats[userId]) r.chats[userId] = [];
+        r.chats[userId].push({ sender: 'user', text: text, time: Date.now() });
+        return fetch(JSONBIN_URL, {
+            method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY },
+            body: JSON.stringify(r)
+        });
+    }).then(() => syncWithServer());
+}
+
+// ==========================================
+// 4. پنل ادمین
+// ==========================================
+function checkAdminPassword() {
+    if (document.getElementById('adminPasswordInput').value === ADMIN_PASSWORD) {
+        document.getElementById('adminLoginModal').classList.remove('active');
+        showPage('pageAdmin');
+        syncWithServer();
+    } else {
+        showToast('❌ رمز اشتباه است', 'error');
     }
 }
 
-// تاریخ شمسی
+function sendTableToUser() {
+    var code = document.getElementById('targetUserCodeTable').value;
+    var text = document.getElementById('adminTableText').value.trim();
+    if (!code || !text) return showToast('اطلاعات کامل نیست', 'error');
+    
+    fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } })
+    .then(res => res.json())
+    .then(data => {
+        var r = data.record || {};
+        if (!r.tables) r.tables = {};
+        r.tables[code] = text;
+        return fetch(JSONBIN_URL, {
+            method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY },
+            body: JSON.stringify(r)
+        });
+    }).then(() => showToast('✅ جدول با موفقیت ارسال شد'));
+}
+
+// ==========================================
+// 5. ناوبری و راه اندازی
+// ==========================================
+function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0,0);
+    if (id === 'pageDaily' || id === 'pageMessages' || id === 'pageProfile') syncWithServer();
+}
+
 function gregorianToJalali(gDate) {
     var g = new Date(gDate), gy = g.getFullYear(), gm = g.getMonth()+1, gd = g.getDate();
     var gdm = [0,31,59,90,120,151,181,212,243,273,304,334], gy2 = gm>2?gy+1:gy;
     var days = 355666+365*gy+Math.floor((gy2+3)/4)-Math.floor((gy2+99)/100)+Math.floor((gy2+399)/400)+gd+gdm[gm-1];
-    var jy = -1595+33*Math.floor(days/12053); days%=12053;
-    jy+=4*Math.floor(days/1461); days%=1461;
+    var jy = -1595+33*Math.floor(days/12053); days%=12053; jy+=4*Math.floor(days/1461); days%=1461;
     if(days>365){jy+=Math.floor((days-1)/365);days=(days-1)%365;}
     var jm = days<186?1+Math.floor(days/31):7+Math.floor((days-186)/30);
     var jd = days<186?1+days%31:1+(days-186)%30;
     return jy+'/'+String(jm).padStart(2,'0')+'/'+String(jd).padStart(2,'0');
 }
+
 function saveStartDate() {
     var d = document.getElementById('startDatePicker').value;
     document.getElementById('jalaliShow').textContent = 'شمسی: ' + gregorianToJalali(d);
     localStorage.setItem('startDate', d);
 }
 
-// 1. ثبت نام (با هندل کردن خطای شبکه)
-function registerUser() {
-    var name = document.getElementById('regModalName').value.trim();
-    if (!name) return showToast('نام الزامی است', 'error');
-    showToast('⏳ در حال ثبت...', 'warning');
-    
-    // اگر آفلاین بود، یه کد موقت می‌سازیم که گیر نکنه
-    if(!navigator.onLine) {
-        var tempId = "T" + Math.floor(Math.random()*10000);
-        localStorage.setItem('userId', tempId);
-        localStorage.setItem('tempName', name);
-        showToast('✅ ثبت نام آفلاین انجام شد', 'success');
-        setTimeout(function(){ location.reload(); }, 1000);
-        return;
-    }
-
-    getRemoteRecord().then(function(data) {
-        var r = getRecord(data); var newId = String(r.system.nextUserId || 1);
-        r.system.nextUserId = parseInt(newId) + 1;
-        r.profiles[newId] = { name: name, approved: false, createdAt: Date.now() };
-        return putRecord(r).then(function(res) {
-            if(res.ok) { localStorage.setItem('userId', newId); showToast('✅ ثبت شد'); setTimeout(function(){ location.reload(); }, 1000); }
-        });
-    }).catch(function(){ 
-        // اگر سرور خطا داد هم ثبت آفلاین میکنیم
-        var tempId = "T" + Math.floor(Math.random()*10000);
-        localStorage.setItem('userId', tempId);
-        localStorage.setItem('tempName', name);
-        showToast('✅ ثبت نام آفلاین', 'success');
-        setTimeout(function(){ location.reload(); }, 1000);
-    });
-}
-
-// 2. پروفایل
-function initProfile() {
-    if(userId.startsWith("T")) {
-        // کاربر آفلاین
-        document.getElementById('profileDisplay').style.display = 'block';
-        document.getElementById('profileNameShow').textContent = localStorage.getItem('tempName') || 'کاربر';
-        document.getElementById('welcomeUserText').textContent = 'سلام ' + (localStorage.getItem('tempName') || 'کاربر');
-        document.getElementById('profileStatusShow').innerHTML = '<span style="color:#e74c3c;">⚠️ در انتظار اتصال به اینترنت</span>';
-        document.getElementById('profileForm').style.display = 'none';
-        return;
-    }
-    
-    getRemoteRecord().then(function(d) {
-        var p = getRecord(d).profiles[userId];
-        if(p) { 
-            userProfile = p; isUserApproved = p.approved;
-            document.getElementById('profileDisplay').style.display = 'block';
-            document.getElementById('profileForm').style.display = 'none';
-            document.getElementById('profileNameShow').textContent = p.name;
-            document.getElementById('welcomeUserText').textContent = 'سلام ' + p.name;
-            document.getElementById('profileStatusShow').innerHTML = p.approved ? '<span style="color:#2ecc71;">✅ تایید شده</span>' : '<span style="color:#e74c3c;">⏳ در انتظار</span>';
-            if(p.photo) document.getElementById('profilePicShow').src = p.photo;
-        } else {
-            document.getElementById('profileForm').style.display = 'block';
-            document.getElementById('profileDisplay').style.display = 'none';
-        }
-    }).catch(function(){ showToast('خطا در دریافت پروفایل', 'error'); });
-}
-function showEditProfile() {
-    document.getElementById('profileDisplay').style.display = 'none';
-    document.getElementById('profileForm').style.display = 'block';
-    if(userProfile) document.getElementById('regName').value = userProfile.name || '';
-}
-function submitProfile() {
-    var name = document.getElementById('regName').value.trim();
-    if(!name) return showToast('نام الزامی است', 'error');
-    var photoInput = document.getElementById('regPhoto');
-    showToast('⏳ در حال ذخیره...', 'warning');
-    
-    var save = function(b64) {
-        getRemoteRecord().then(function(d) {
-            var r = getRecord(d);
-            r.profiles[userId] = { name: name, photo: b64 || (userProfile ? userProfile.photo : ''), approved: userProfile ? userProfile.approved : false };
-            return putRecord(r);
-        }).then(function(res) {
-            if(res.ok) { showToast('✅ ذخیره شد'); initProfile(); }
-            else showToast('❌ خطا در ذخیره', 'error');
-        });
-    };
-
-    if(photoInput.files && photoInput.files[0]) {
-        compressImage(photoInput.files[0], save);
-    } else {
-        save(null);
-    }
-}
-
-// 3. دریافت دیتا
-function autoSyncData() {
-    if(userId.startsWith("T")) return;
-    getRemoteRecord().then(function(d) {
-        var r = getRecord(d);
-        if(r.tables[userId]) { 
-            var t = r.tables[userId]; 
-            fortyDayData = JSON.parse(JSON.stringify(t.fortyDayData)); 
-            tableColumns = t.tableColumns || tableColumns; 
-            tableColumnNames = t.tableColumnNames || tableColumnNames; 
-            renderTable(); updateVitrine();
-        }
-        if(r.users[userId]) {
-            localStorage.setItem('lastPrescription', JSON.stringify(r.users[userId]));
-            document.getElementById('regimeDisplay').textContent = r.users[userId].content;
-            document.getElementById('regimeContent').style.display = 'block';
-            document.getElementById('regimeReceivePrompt').innerHTML = '';
-        }
-    }).catch(function(){});
-}
-function updateVitrine() {
-    if(!fortyDayData || fortyDayData.length === 0) return;
-    var vItems = document.getElementById('vitrineItems'); var html = '';
-    tableColumns.forEach(function(col) {
-        html += '<div class="vitrine-item"><span>'+tableColumnNames[col]+'</span><span style="color:white; font-weight:bold;">'+(fortyDayData[0][col]||'---')+'</span></div>';
-    });
-    vItems.innerHTML = html; document.getElementById('vitrineBox').style.display = 'block';
-}
-function renderTable() {
-    var thead = document.getElementById('tableHead'), tbody = document.getElementById('scheduleBody'); if(!thead || !tbody) return;
-    var h = '<tr><th>روز</th>'; tableColumns.forEach(function(c){ h+='<th>'+tableColumnNames[c]+'</th>' }); h+='</tr>'; thead.innerHTML = h;
-    var html = ''; for(var i=0; i<totalDays; i++) { if(!fortyDayData[i]) continue; html += '<tr><td>'+(i+1)+'</td>'; tableColumns.forEach(function(c){ html += '<td>'+(fortyDayData[i][c]||'-')+'</td>'; }); html += '</tr>'; }
-    tbody.innerHTML = html; document.getElementById('dailyContent').style.display = 'block'; document.getElementById('dailyReceivePrompt').innerHTML = '';
-}
-
-// 4. چت
-function loadChat() {
-    if(userId.startsWith("T")) return;
-    getRemoteRecord().then(function(d) {
-        var chats = getRecord(d).chats[userId] || []; var box = document.getElementById('chatBox'); var html = '';
-        chats.reverse().forEach(function(m) { 
-            var txt = m.text || ''; if(m.image) txt += '<br><img src="'+m.image+'" style="max-width:100%; border-radius:8px; margin-top:5px;">';
-            html += '<div class="chat-msg '+(m.sender==='user'?'user':'admin')+'">'+txt+'</div>'; 
-        });
-        box.innerHTML = html || '<p style="text-align:center; font-size:0.8em; color:var(--text-muted);">چتی نیست.</p>'; box.scrollTop = 0;
-    }).catch(function(){});
-}
-function sendChatMessage() {
-    var input = document.getElementById('chatInput'), text = input.value.trim(); if(!text) return; input.value = '';
-    getRemoteRecord().then(function(d){ var r = getRecord(d); if(!r.chats[userId]) r.chats[userId] = []; r.chats[userId].push({sender:'user', text:text, time:Date.now()}); return putRecord(r); }).then(loadChat);
-}
-function sendChatImage(input) {
-    if(!input.files[0]) return;
-    showToast('⏳ در حال ارسال عکس...', 'warning');
-    compressImage(input.files[0], function(b64) {
-        getRemoteRecord().then(function(d){ var r = getRecord(d); if(!r.chats[userId]) r.chats[userId] = []; r.chats[userId].push({sender:'user', image:b64, time:Date.now()}); return putRecord(r); }).then(function(){ loadChat(); input.value=''; showToast('✅ ارسال شد'); });
-    });
-}
-
-// 5. پنل ادمین
-function loadAdminProfiles() {
-    getRemoteRecord().then(function(d) {
-        var r = getRecord(d), profs = r.profiles, c = document.getElementById('adminProfilesList'), html = ''; var sHtml = '';
-        Object.keys(profs).forEach(function(code) {
-            var p = profs[code];
-            html += '<div style="background:var(--bg-primary); padding:10px; margin-bottom:10px; border-radius:10px; border-right:4px solid var(--accent);"><b>'+p.name+' ('+code+')</b>';
-            html += '<div class="btn-row" style="margin-top:5px;"><button class="btn btn-green" style="padding:5px;" onclick="approveUser(\''+code+'\')">تایید</button><button class="btn btn-blue" style="padding:5px;" onclick="viewUserPanel(\''+code+'\')">مشاهده</button></div></div>';
-            sHtml += '<option value="'+code+'">'+p.name+' ('+code+')</option>';
-        });
-        c.innerHTML = html || '<p>کاربری نیست.</p>';
-        document.getElementById('targetUserCodeTable').innerHTML = sHtml;
-        document.getElementById('chatTargetCode').innerHTML = sHtml;
-    }).catch(function(){});
-}
-function approveUser(c){ getRemoteRecord().then(function(d){ var r=getRecord(d); r.profiles[c].approved=true; return putRecord(r); }).then(loadAdminProfiles); }
-function viewUserPanel(c){ localStorage.setItem('userId', c); location.reload(); }
-
-function buildTableEditor() {
-    var c = document.getElementById('tableEditorContainer'); c.innerHTML = '';
-    tableColumns.forEach(function(col, i){ c.innerHTML += '<div style="display:flex; gap:5px; margin-bottom:5px;"><input type="text" value="'+tableColumnNames[col]+'" onchange="tableColumnNames[\''+col+'\']=this.value" style="flex:1; padding:5px;"><button class="btn btn-red" style="width:auto;" onclick="removeCol('+i+')">✕</button></div>'; });
-}
-function addTableColumnEditor() { var id = 'c_'+Date.now(); tableColumns.push(id); tableColumnNames[id] = 'ستون'; fortyDayData.forEach(function(d){ d[id] = ''; }); buildTableEditor(); buildDayEditor(); }
-function removeCol(i) { var col = tableColumns[i]; tableColumns.splice(i, 1); delete tableColumnNames[col]; fortyDayData.forEach(function(d){ delete d[col]; }); buildTableEditor(); buildDayEditor(); }
-function buildDayEditor() {
-    var c = document.getElementById('dayEditorContainer'); c.innerHTML = ''; document.getElementById('editorDayLabel').textContent = 'روز ' + (editorCurrentDay + 1);
-    var d = fortyDayData[editorCurrentDay] || {};
-    tableColumns.forEach(function(col){ c.innerHTML += '<div style="margin-bottom:5px;"><label>'+tableColumnNames[col]+':</label><input type="text" value="'+(d[col]||'')+'" onchange="fortyDayData['+editorCurrentDay+']['+'\''+col+'\']=this.value" style="width:100%; padding:5px;"></div>'; });
-}
-function changeEditorDay(dir) { editorCurrentDay += dir; if(editorCurrentDay<0) editorCurrentDay=0; if(editorCurrentDay>=totalDays) editorCurrentDay=totalDays-1; buildDayEditor(); }
-function sendTableToUser() { 
-    var c = document.getElementById('targetUserCodeTable').value; if(!c) return showToast('کاربر را انتخاب کنید','error'); 
-    getRemoteRecord().then(function(d){ var r=getRecord(d); r.tables[c]={fortyDayData:fortyDayData, tableColumns:tableColumns, tableColumnNames:tableColumnNames, totalDays:totalDays}; return putRecord(r); }).then(function(res){ if(res.ok) showToast('✅ جدول ارسال شد'); }); 
-}
-function deleteUserTable() { var c = document.getElementById('targetUserCodeTable').value; if(!c) return; getRemoteRecord().then(function(d){ var r=getRecord(d); delete r.tables[c]; return putRecord(r); }).then(function(res){ if(res.ok) showToast('✅ حذف شد'); }); }
-
-function loadAdminChat() { 
-    var c = document.getElementById('chatTargetCode').value; if(!c) return; 
-    getRemoteRecord().then(function(d){ 
-        var chats = getRecord(d).chats[c] || [], box = document.getElementById('adminChatBox'), html=''; 
-        chats.reverse().forEach(function(m){ var txt = m.text || ''; if(m.image) txt += '<br><img src="'+m.image+'" style="max-width:100%; border-radius:8px;">'; html += '<div class="chat-msg '+(m.sender==='user'?'admin':'user')+'">'+txt+'</div>'; }); 
-        box.innerHTML = html; box.scrollTop = 0; 
-    }); 
-}
-function sendAdminChatMessage() { 
-    var c = document.getElementById('chatTargetCode').value, tx = document.getElementById('adminChatInput').value.trim(); if(!tx || !c) return; document.getElementById('adminChatInput').value=''; 
-    getRemoteRecord().then(function(d){ var r=getRecord(d); if(!r.chats[c]) r.chats[c]=[]; r.chats[c].push({sender:'admin', text:tx, time:Date.now()}); return putRecord(r); }).then(loadAdminChat); 
-}
-function sendAdminChatImage(input) {
-    var c = document.getElementById('chatTargetCode').value; if(!input.files[0] || !c) return;
-    compressImage(input.files[0], function(b64) {
-        getRemoteRecord().then(function(d){ var r = getRecord(d); if(!r.chats[c]) r.chats[c] = []; r.chats[c].push({sender:'admin', image:b64, time:Date.now()}); return putRecord(r); }).then(function(){ loadAdminChat(); input.value=''; });
-    });
-}
-
-// 6. سایر
-function checkAdminPassword() { if(document.getElementById('adminPasswordInput').value === ADMIN_PASSWORD) { document.getElementById('adminLoginModal').classList.remove('active'); showPage('pageAdmin'); } else showToast('❌ رمز اشتباه','error'); }
-function switchAdminTab(tab, el) {
-    document.querySelectorAll('.admin-tab').forEach(function(t){t.classList.remove('active');}); el.classList.add('active');
-    ['profiles','table','chat'].forEach(function(t){ document.getElementById('adminTab'+t.charAt(0).toUpperCase()+t.slice(1)).style.display = (t===tab)?'block':'none'; });
-    if(tab==='profiles') loadAdminProfiles(); if(tab==='table') { buildTableEditor(); buildDayEditor(); loadAdminProfiles(); } if(tab==='chat') loadAdminProfiles();
-}
-function showPage(id) {
-    document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');}); document.getElementById(id).classList.add('active'); window.scrollTo(0,0);
-    if(id==='pageProfile') initProfile(); if(id==='pageDaily') autoSyncData(); if(id==='pageContact') loadChat(); 
-}
-function setTheme(t) { document.body.className = t === 'nature' ? '' : 'theme-'+t; showToast('تم تغییر کرد'); }
-function uploadAlarmSound(input) { if(input.files[0]) showToast('✅ صدای آلارم ذخیره شد'); }
-
+var deferredPrompt = null;
 function installPWA() {
     if (deferredPrompt) {
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then(function(choiceResult) { deferredPrompt = null; });
     } else {
-        alert('برای نصب، از منوی مرورگر گزینه Add to Home Screen را انتخاب کنید.');
+        alert('برای نصب، از منوی مرورگر گزینه "Add to Home Screen" یا "نصب برنامه" را انتخاب کنید.');
     }
 }
 window.addEventListener('beforeinstallprompt', function(e) {
@@ -588,15 +378,17 @@ window.addEventListener('beforeinstallprompt', function(e) {
     deferredPrompt = e;
 });
 
-function init() {
+window.onload = function() {
     var sd = localStorage.getItem('startDate');
     if(sd) { document.getElementById('startDatePicker').value = sd; document.getElementById('jalaliShow').textContent = 'شمسی: ' + gregorianToJalali(sd); }
     
-    userId = localStorage.getItem('userId');
-    if(!userId) document.getElementById('registerModal').classList.add('active');
-    else { autoSyncData(); setInterval(autoSyncData, 60000); }
-}
-window.onload = init;
+    if (!userId) {
+        document.getElementById('registerModal').classList.add('active');
+    } else {
+        syncWithServer();
+        setInterval(syncWithServer, 30000); // هر ۳۰ ثانیه سینک میشه
+    }
+};
 </script>
 </body>
 </html>
