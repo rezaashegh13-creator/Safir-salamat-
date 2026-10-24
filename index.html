@@ -73,7 +73,6 @@
         .modal-overlay, .alarm-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); z-index: 9999; justify-content: center; align-items: center; padding: 20px; }
         .modal-overlay.active, .alarm-overlay.active { display: flex; }
         .modal-content { background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary)); border: 2px solid var(--accent); border-radius: 20px; padding: 25px; max-width: 400px; width: 100%; text-align: center; }
-        .code-display { background: var(--input-bg); padding: 15px; border-radius: 12px; font-size: 1.8em; font-weight: bold; color: var(--accent); letter-spacing: 5px; margin: 15px 0; border: 2px dashed var(--accent); font-family: monospace; direction: ltr; }
         
         .admin-panel { background: linear-gradient(135deg, #2a1a1a, #3d2020); border: 2px solid var(--accent2); border-radius: 15px; padding: 15px; margin: 10px 0; }
         .admin-warning { background: rgba(244, 208, 63, 0.1); padding: 8px; border-radius: 8px; font-size: 0.75em; color: var(--accent); text-align: center; margin-bottom: 10px; border: 1px solid rgba(244, 208, 63, 0.3); }
@@ -97,6 +96,10 @@
         .chat-input-row input[type="text"] { flex: 1; background: var(--input-bg); border: 1px solid var(--accent); color: white; padding: 8px; border-radius: 20px; font-family: var(--font-family); }
         .chat-input-row button { width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--btn-primary); color: white; cursor: pointer; font-size: 1.2em; display: flex; align-items: center; justify-content: center; }
         .chat-input-row label { width: 40px; height: 40px; border-radius: 50%; background: var(--bg-tertiary); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.2em; border: 1px solid var(--border-color); }
+        
+        .preview-table { width: 100%; border-collapse: collapse; background: var(--bg-primary); border-radius: 8px; overflow: hidden; font-size: 0.75em; margin-top: 8px; }
+        .preview-table th { padding: 6px 4px; background: #2b5738; color: var(--accent); border-bottom: 1px solid rgba(244, 208, 63, 0.3); }
+        .preview-table td { padding: 5px 4px; text-align: center; border-bottom: 1px solid rgba(244, 208, 63, 0.1); }
     </style>
 </head>
 <body>
@@ -104,24 +107,21 @@
 <div class="toast" id="toast"></div>
 <div id="topBanner"><img id="topBannerImg" style="display:none;" onload="document.getElementById('topBanner').classList.add('active')" onerror="document.getElementById('topBanner').classList.remove('active')" alt=""></div>
 
-<!-- Alarm Modal -->
+<!-- Modals -->
 <div class="alarm-overlay" id="alarmOverlay">
     <div class="alarm-message" id="alarmMessage" style="color:var(--accent); font-size:1.5em; margin-bottom:25px; text-align:center; font-weight:bold;">⏰ وقت دارو</div>
     <button class="btn btn-red" style="font-size:1.2em; padding:15px 40px; border-radius:50px;" onclick="stopAlarm()">🔇 قطع آلارم</button>
-    <button class="btn btn-orange" style="margin-top:15px; border-radius:50px;" onclick="snoozeAlarm()">💤 چرت ۱۰ دقیقه</button>
 </div>
 
-<!-- Registration Modal -->
 <div class="modal-overlay" id="registerModal">
     <div class="modal-content">
         <h2 style="color:var(--accent); margin-bottom:15px;">🌿 خوش آمدید</h2>
-        <p style="font-size:0.9em; margin-bottom:15px; color:var(--text-secondary);">لطفاً برای شروع، نام خود را وارد کنید. کد کاربری به صورت خودکار به شما اختصاص می‌یابد.</p>
+        <p style="font-size:0.9em; margin-bottom:15px; color:var(--text-secondary);">لطفاً برای شروع، نام خود را وارد کنید.</p>
         <input type="text" id="regModalName" placeholder="نام و نام خانوادگی" style="width:100%;padding:12px;margin-bottom:10px;background:var(--input-bg);color:var(--accent);border:2px solid var(--accent);border-radius:10px;text-align:center;font-family:var(--font-family);font-size:1.1em;">
         <button class="btn btn-green" onclick="registerUser()">✅ ثبت نام و ورود</button>
     </div>
 </div>
 
-<!-- Admin Login Modal -->
 <div class="modal-overlay" id="adminLoginModal">
     <div class="modal-content">
         <h2 style="color:var(--accent);">🔐 پنل مدیریت</h2>
@@ -139,19 +139,41 @@
             <div class="supervisor-box">تحت نظارت کارشناس مزاج‌شناسی <strong>✨ مریم حمیدیان ✨</strong></div>
         </div>
         
-        <div class="menu-card" onclick="showPage('pageSettings')" style="border-right-color:#3498db;">
+        <div class="menu-card" onclick="showPage('pageProfile')" style="border-right-color:#3498db;">
             <div class="menu-card-icon">👤</div>
             <div class="menu-card-title">👤 پروفایل کاربری</div>
-            <div class="menu-card-desc" id="menuProfileStatus">مشاهده و ویرایش</div>
+            <div class="menu-card-desc" id="menuProfileStatus">مشاهده وضعیت</div>
         </div>
-
         <div class="menu-card" onclick="showPage('pageDaily')"><div class="menu-card-icon">🍵</div><div class="menu-card-title">🍵 برنامه روزانه</div></div>
         <div class="menu-card" onclick="showPage('pageRegime')"><div class="menu-card-icon">🥗</div><div class="menu-card-title">🥗 نسخه رژیم درمانی</div></div>
         <div class="menu-card" onclick="showPage('pageMessages')"><div class="menu-card-icon">📬</div><div class="menu-card-title">📬 پیام‌ها</div></div>
         <div class="menu-card" onclick="showPage('pageContact')"><div class="menu-card-icon">📞</div><div class="menu-card-title">📞 ارتباط با ما (چت)</div></div>
-        <div class="menu-card" onclick="showPage('pageSettings')"><div class="menu-card-icon">⚙️</div><div class="menu-card-title">⚙️ تنظیمات</div></div>
+        <div class="menu-card" onclick="showPage('pageSettings')"><div class="menu-card-icon">⚙️</div><div class="menu-card-title">⚙️ تنظیمات (آلارم و ...)</div></div>
         
         <a href="https://eitaa.com/joinchat/878706709C93902231a1" target="_blank" class="growth-btn">✨🌟 برای رشد کلیک کن 🌟✨</a>
+    </div>
+
+    <!-- Profile Page -->
+    <div class="page" id="pageProfile">
+        <div class="main-header"><h1>👤 پروفایل من</h1></div>
+        <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
+        <div class="section-box">
+            <div id="profileDisplay" style="display:none; text-align:center;">
+                <img id="profilePicShow" class="profile-pic" src="">
+                <div id="profileNameShow" style="font-weight:bold; color:var(--accent); font-size:1.2em;"></div>
+                <div id="profileStatusShow" style="margin:10px 0;"></div>
+                <button class="btn btn-gray" onclick="showEditProfile()" style="width:auto; padding:8px 20px;">✏️ ویرایش اطلاعات</button>
+            </div>
+            <div id="profileForm" style="display:none;">
+                <div class="settings-row"><label>نام:</label><input type="text" id="regName"></div>
+                <div class="settings-row"><label>سن:</label><input type="number" id="regAge"></div>
+                <div class="settings-row"><label>تماس:</label><input type="tel" id="regPhone"></div>
+                <div class="settings-row"><label>آیدی:</label><input type="text" id="regSocial"></div>
+                <div class="settings-row"><label>مشکلات:</label><textarea id="regProblems"></textarea></div>
+                <div class="settings-row"><label>عکس:</label><input type="file" id="regPhoto" accept="image/*"></div>
+                <button class="btn btn-green" onclick="submitProfile()" style="margin-top:10px;">💾 ذخیره</button>
+            </div>
+        </div>
     </div>
 
     <!-- Daily Page -->
@@ -160,7 +182,6 @@
         <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
         <div id="dailyReceivePrompt"></div>
         <div id="dailyContent" style="display:none;">
-            <button class="btn btn-green" onclick="activateAlarms()" id="alarmMainBtn">🔔 فعال‌سازی آلارم‌ها</button>
             <div class="table-wrapper"><table id="dietTable"><thead id="tableHead"></thead><tbody id="scheduleBody"></tbody></table></div>
         </div>
     </div>
@@ -171,7 +192,7 @@
         <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
         <div id="regimeReceivePrompt"></div>
         <div id="regimeContent" style="display:none;">
-            <div class="section-box"><h3>📝 تدابیر اختصاصی</h3><div class="regime-content" id="regimeDisplay" style="background:var(--input-bg); padding:15px; border-radius:12px; line-height:2; white-space:pre-wrap;"></div></div>
+            <div class="section-box"><div class="regime-content" id="regimeDisplay" style="background:var(--input-bg); padding:15px; border-radius:12px; line-height:2; white-space:pre-wrap;"></div></div>
         </div>
     </div>
 
@@ -179,16 +200,15 @@
     <div class="page" id="pageMessages">
         <div class="main-header"><h1>📬 پیام‌ها</h1></div>
         <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
-        <button class="btn btn-blue" onclick="loadMyMessages(true)">🔄 دریافت پیام‌های جدید</button>
+        <button class="btn btn-blue" onclick="loadMyMessages()">🔄 دریافت پیام‌ها</button>
         <div id="messagesList" style="margin-top:12px;"></div>
     </div>
 
-    <!-- Contact / Chat Page -->
+    <!-- Chat Page -->
     <div class="page" id="pageContact">
-        <div class="main-header"><h1>📞 ارتباط با پشتیبانی</h1></div>
+        <div class="main-header"><h1>📞 چت با مدیر</h1></div>
         <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
         <div class="section-box" style="padding:10px;">
-            <h3 style="margin-bottom:5px;">💬 چت مستقیم با مدیر</h3>
             <div class="chat-box" id="chatBox"></div>
             <div class="chat-input-row">
                 <label for="chatImageInput">📷</label>
@@ -199,49 +219,24 @@
         </div>
     </div>
 
-    <!-- Settings Page -->
+    <!-- Settings Page (Alarms) -->
     <div class="page" id="pageSettings">
-        <div class="main-header"><h1>⚙️ تنظیمات و پروفایل</h1></div>
+        <div class="main-header"><h1>⚙️ تنظیمات</h1></div>
         <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
-        
-        <div class="section-box" id="profileSection" style="border: 2px solid #3498db;">
-            <h3>👤 پروفایل من</h3>
-            <div id="profileDisplay" style="display:none; text-align:center;">
-                <img id="profilePicShow" class="profile-pic" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
-                <div id="profileNameShow" style="font-weight:bold; color:var(--accent); font-size:1.1em;"></div>
-                <div id="profileStatusShow" style="font-size:0.8em; margin-top:5px; margin-bottom:10px;"></div>
-                <button class="btn btn-gray" onclick="showEditProfile()" style="width:auto; padding:8px 20px;">✏️ ویرایش اطلاعات</button>
-            </div>
-            
-            <div id="profileForm">
-                <div class="admin-warning" id="profileWarn">تاییدیه نهایی توسط مدیر انجام می‌شود.</div>
-                <div class="settings-row"><label>نام:</label><input type="text" id="regName"></div>
-                <div class="settings-row"><label>سن:</label><input type="number" id="regAge"></div>
-                <div class="settings-row"><label>تماس:</label><input type="tel" id="regPhone"></div>
-                <div class="settings-row"><label>آیدی:</label><input type="text" id="regSocial"></div>
-                <div class="settings-row"><label>مشکلات:</label><textarea id="regProblems"></textarea></div>
-                <div class="settings-row"><label>عکس:</label><input type="file" id="regPhoto" accept="image/*" style="border:none; padding:5px;"></div>
-                <button class="btn btn-green" onclick="submitProfile()" style="margin-top:10px;">💾 ذخیره اطلاعات</button>
-            </div>
-        </div>
-
         <div class="section-box" style="border: 2px solid var(--btn-success);">
-            <h3>🔔 تنظیم هشدار و آلارم</h3>
+            <h3>🔔 آلارم</h3>
             <div id="alarmSettingsContainer"></div>
             <div class="settings-row" style="margin-top:10px; background:rgba(0,0,0,0.2); padding:10px; border-radius:8px;">
-                <label>🎵 زنگ دلخواه:</label>
+                <label>🎵 زنگ:</label>
                 <input type="file" id="alarmSoundFile" accept="audio/*" onchange="uploadAlarmSound(this)" style="font-size:0.8em;">
             </div>
             <button class="btn btn-green" onclick="saveAlarmSettings()" style="margin-top:8px;">💾 ذخیره</button>
         </div>
-
         <div class="section-box" style="border: 2px solid var(--accent);">
-            <h3>📥 دریافت اطلاعات</h3>
-            <div class="code-display" id="myCodeDisplay" style="font-size:1.4em;">---</div>
-            <p style="font-size:0.8em; margin-bottom:10px;">کد کاربری شما (برای ارسال به مدیر)</p>
-            <button class="btn btn-green" onclick="receiveAll()">📥 بروزرسانی از سرور</button>
+            <h3>📥 بروزرسانی</h3>
+            <p style="text-align:center; margin-bottom:10px;">کد شما: <span id="myCodeDisplay" style="color:var(--accent); font-weight:bold; font-size:1.2em;"></span></p>
+            <button class="btn btn-green" onclick="receiveAll()">📥 دریافت جدید از سرور</button>
         </div>
-
         <button class="btn btn-red" onclick="document.getElementById('adminLoginModal').classList.add('active')" style="margin-top:15px;">🔐 ورود به پنل مدیریت</button>
     </div>
 
@@ -249,7 +244,6 @@
     <div class="page" id="pageAdmin">
         <div class="main-header"><h1>🔐 پنل مدیریت</h1></div>
         <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
-        
         <div class="admin-tabs">
             <div class="admin-tab active" onclick="switchAdminTab('dashboard', this)">📊 آمار</div>
             <div class="admin-tab" onclick="switchAdminTab('profiles', this)">👥 کاربران</div>
@@ -261,11 +255,10 @@
         </div>
 
         <div class="admin-panel" id="adminTabDashboard">
-            <h3>📊 داشبورد</h3>
+            <h3>📊 آمار</h3>
             <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; text-align:center;">
                 <div style="background:var(--bg-primary); padding:10px; border-radius:10px;"><div id="statUsers" style="color:var(--accent); font-size:1.5em;">0</div><div style="font-size:0.7em;">کاربران</div></div>
                 <div style="background:var(--bg-primary); padding:10px; border-radius:10px;"><div id="statPending" style="color:#e74c3c; font-size:1.5em;">0</div><div style="font-size:0.7em;">در انتظار</div></div>
-                <div style="background:var(--bg-primary); padding:10px; border-radius:10px;"><div id="statMessages" style="color:#3498db; font-size:1.5em;">0</div><div style="font-size:0.7em;">پیام‌ها</div></div>
             </div>
         </div>
 
@@ -276,17 +269,17 @@
 
         <div class="admin-panel" id="adminTabPrescription" style="display:none;">
             <h3>📤 ارسال نسخه</h3>
-            <div class="settings-row"><label>کد کاربر:</label><input type="text" id="targetUserCode" placeholder="1" style="text-align:center; direction:ltr;"></div>
-            <div class="settings-row"><label>عنوان:</label><input type="text" id="prescriptionTitle" placeholder="عنوان..."></div>
-            <textarea id="prescriptionContent" placeholder="متن نسخه..."></textarea>
+            <div class="settings-row"><label>کد کاربر:</label><input type="text" id="targetUserCode" placeholder="مثلا 1"></div>
+            <div class="settings-row"><label>عنوان:</label><input type="text" id="prescriptionTitle"></div>
+            <textarea id="prescriptionContent"></textarea>
             <div class="btn-row" style="margin-top:10px;">
                 <button class="btn btn-green" onclick="sendPrescription()">📤 ارسال</button>
-                <button class="btn btn-red" onclick="deleteUserPrescription()">🗑️ حذف</button>
+                <button class="btn btn-red" onclick="deleteUserPrescription()">🗑️ حذف نسخه کاربر</button>
             </div>
         </div>
 
         <div class="admin-panel" id="adminTabTable" style="display:none;">
-            <h3>📋 ویرایش جدول</h3>
+            <h3>📋 جدول</h3>
             <div class="settings-row"><label>کد کاربر:</label><input type="text" id="targetUserCodeTable" placeholder="مثلا 1"></div>
             
             <div style="background:var(--input-bg); padding:10px; border-radius:8px; margin:10px 0;">
@@ -296,34 +289,46 @@
             </div>
 
             <div style="background:var(--input-bg); padding:10px; border-radius:8px; margin:10px 0;">
-                <div style="color:var(--accent); font-size:0.9em; margin-bottom:10px; text-align:center;">📅 محتوای روزها</div>
+                <div style="color:var(--accent); font-size:0.9em; margin-bottom:10px; text-align:center;">📅 روزها</div>
                 <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                    <button class="btn btn-gray" style="width:auto;" onclick="changeEditorDay(-1)">◀ قبل</button>
+                    <button class="btn btn-gray" style="width:auto;" onclick="changeEditorDay(-1)">◀</button>
                     <span id="editorDayLabel" style="color:var(--accent); font-weight:bold;">روز 1</span>
-                    <button class="btn btn-gray" style="width:auto;" onclick="changeEditorDay(1)">بعد ▶</button>
+                    <button class="btn btn-gray" style="width:auto;" onclick="changeEditorDay(1)">▶</button>
                 </div>
                 <div id="dayEditorContainer"></div>
-                <button class="btn btn-blue" onclick="applyToDays()" style="margin-top:10px; font-size:0.8em;">📌 اعمال این محتوا به کل روزها</button>
+                <div class="btn-row" style="margin-top:10px;">
+                    <button class="btn btn-blue" onclick="applyToDays('all')" style="font-size:0.8em;">📌 کل روزها</button>
+                    <button class="btn btn-orange" onclick="applyToDays('odd')" style="font-size:0.8em;">🔵 فرد</button>
+                    <button class="btn btn-orange" onclick="applyToDays('even')" style="font-size:0.8em;">🔴 زوج</button>
+                </div>
+            </div>
+
+            <div style="background:var(--input-bg); padding:10px; border-radius:8px; margin:10px 0;">
+                <div style="color:var(--accent); font-size:0.9em; margin-bottom:10px; text-align:center;">👁️ پیش‌نمایش</div>
+                <button class="btn btn-blue" onclick="togglePreview()">نمایش/مخفی کردن</button>
+                <div id="previewContainer" style="display:none; max-height:200px; overflow-y:auto;">
+                    <table class="preview-table" id="previewTable"><thead id="previewTableHead"></thead><tbody id="previewTableBody"></tbody></table>
+                </div>
             </div>
 
             <div class="btn-row" style="margin-top:10px;">
-                <button class="btn btn-green" onclick="sendTableToUser()">📤 ارسال به کاربر</button>
-                <button class="btn btn-orange" onclick="sendTableToAll()">📢 ارسال به همه</button>
-                <button class="btn btn-red" onclick="deleteUserTable()">🗑️ حذف جدول کاربر</button>
+                <button class="btn btn-green" onclick="sendTableToUser()">📤 ارسال</button>
+                <button class="btn btn-orange" onclick="sendTableToAll()">📢 همه</button>
+                <button class="btn btn-red" onclick="deleteUserTable()">🗑️ حذف جدول</button>
             </div>
         </div>
 
         <div class="admin-panel" id="adminTabMessage" style="display:none;">
-            <h3>📢 ارسال پیام</h3>
+            <h3>📢 پیام</h3>
             <div class="settings-row"><label>عنوان:</label><input type="text" id="messageTitle"></div>
             <textarea id="messageContent"></textarea>
-            <div class="settings-row" style="margin-top:5px;"><label>گیرنده:</label><input type="text" id="messageTarget" placeholder="کد کاربر (خالی = همه)"></div>
-            <button class="btn btn-green" onclick="sendMessage()" style="margin-top:10px;">📢 ارسال</button>
+            <div class="settings-row"><label>گیرنده:</label><input type="text" id="messageTarget" placeholder="خالی = همه"></div>
+            <button class="btn btn-green" onclick="sendMessage()">📢 ارسال</button>
         </div>
 
         <div class="admin-panel" id="adminTabChat" style="display:none;">
-            <h3>💬 چت با کاربر</h3>
-            <div class="settings-row"><label>کد کاربر:</label><input type="text" id="chatTargetCode" onkeyup="loadAdminChat()"></div>
+            <h3>💬 چت</h3>
+            <div class="settings-row"><label>کد:</label><input type="text" id="chatTargetCode" onkeyup="loadAdminChat()"></div>
             <div class="chat-box" id="adminChatBox"></div>
             <div class="chat-input-row">
                 <input type="text" id="adminChatInput" placeholder="پاسخ...">
@@ -333,59 +338,41 @@
 
         <div class="admin-panel" id="adminTabBanner" style="display:none;">
             <h3>🖼️ بنر</h3>
-            <div class="settings-row"><input type="text" id="bannerUrlInput" placeholder="https://..."></div>
+            <input type="text" id="bannerUrlInput" placeholder="https://...">
             <div class="btn-row"><button class="btn btn-green" onclick="saveBannerUrl()">💾 ذخیره</button><button class="btn btn-red" onclick="disableBanner()">🚫 غیرفعال</button></div>
         </div>
     </div>
 </div>
 
-    <script>
+<script>
 "use strict";
-
 var JSONBIN_API_KEY = "$2a$10$HZGvoCokb.bOp8eDysy62ediIrcqQU/Zpksor16E58jBiqrEK/zYK";
 var JSONBIN_BIN_ID = "6ab8a6f3ac6210605af9d9c8";
 var JSONBIN_URL = "https://api.jsonbin.io/v3/b/" + JSONBIN_BIN_ID;
 var ADMIN_PASSWORD = "maryam6625";
 
-var userId = "";
-var userProfile = null;
-var isUserApproved = false;
-var adminChatTarget = "";
-
+var userId = ""; var userProfile = null; var isUserApproved = false; var adminChatTarget = "";
 var tableColumns = ['oil','breakfast','evening','dinner'];
 var tableColumnNames = { oil:'💧 ناشتا', breakfast:'☀️ صبح', evening:'🌅 عصر', dinner:'🌙 شب' };
 var currentTimes = { oil:"06:00", breakfast:"08:00", evening:"17:00", dinner:"21:00" };
-var totalDays = 40;
-var fortyDayData = [];
-var alarmEnabled = {};
-var alarmActive = false;
-var alarmTimers = [];
-var audioContext = null;
-var alarmSoundInterval = null;
-var audioUnlocked = false;
-var editorCurrentDay = 0;
+var totalDays = 40; var fortyDayData = [];
+var alarmEnabled = {}; var alarmActive = false; var alarmTimers = [];
+var audioContext = null; var alarmSoundInterval = null; var audioUnlocked = false;
+var editorCurrentDay = 0; var previewVisible = false;
 
-function getRecord(currentData) {
-    var record = currentData.record || currentData || {};
-    if (record.record) record = record.record;
-    if (!record.users)    record.users = {};
-    if (!record.tables)   record.tables = {};
-    if (!record.messages) record.messages = [];
-    if (!record.profiles) record.profiles = {};
-    if (!record.chats)    record.chats = {};
-    if (!record.system)   record.system = { nextUserId: 1 };
-    if (!record.banner)   record.banner = { url: '', active: false };
-    return record;
+function getRecord(d) {
+    var r = d.record || d || {}; if (r.record) r = r.record;
+    if (!r.users) r.users = {}; if (!r.tables) r.tables = {}; if (!r.messages) r.messages = [];
+    if (!r.profiles) r.profiles = {}; if (!r.chats) r.chats = {}; if (!r.system) r.system = { nextUserId: 1 };
+    if (!r.banner) r.banner = { url: '', active: false }; return r;
 }
-
 function getRemoteRecord() {
     return fetch(JSONBIN_URL + "/latest", { headers: { "X-Master-Key": JSONBIN_API_KEY } }).then(function(res) {
-        if (!res.ok) throw new Error('خطای شبکه: ' + res.status);
-        return res.json();
+        if (!res.ok) throw new Error('خطای شبکه: ' + res.status); return res.json();
     });
 }
-function putRecord(record) {
-    return fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(record) });
+function putRecord(r) {
+    return fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
 }
 function showToast(msg, type) {
     var t = document.getElementById('toast'); t.textContent = msg;
@@ -393,273 +380,175 @@ function showToast(msg, type) {
     t.style.display = 'block'; setTimeout(function() { t.style.display = 'none'; }, 3000);
 }
 
-// ثبت نام خودکار با شماره سریال
+// 1. ثبت نام
 function registerUser() {
     var name = document.getElementById('regModalName').value.trim();
-    if (!name) { showToast('لطفاً نام خود را وارد کنید', 'error'); return; }
+    if (!name) { showToast('نام الزامی است', 'error'); return; }
     showToast('⏳ در حال ثبت نام...', 'warning');
-    
     getRemoteRecord().then(function(data) {
-        var record = getRecord(data);
-        var newId = String(record.system.nextUserId || 1);
-        record.system.nextUserId = parseInt(newId) + 1;
-        
-        record.profiles[newId] = { name: name, approved: false, createdAt: Date.now() };
-        return putRecord(record).then(function(res) {
-            if(res.ok) {
-                userId = newId;
-                localStorage.setItem('userId', userId);
-                document.getElementById('registerModal').classList.remove('active');
-                location.reload(); // رفرش برای بارگذاری پروفایل
-            }
+        var r = getRecord(data); var newId = String(r.system.nextUserId || 1);
+        r.system.nextUserId = parseInt(newId) + 1;
+        r.profiles[newId] = { name: name, approved: false, createdAt: Date.now() };
+        return putRecord(r).then(function(res) {
+            if(res.ok) { userId = newId; localStorage.setItem('userId', userId); location.reload(); }
         });
     }).catch(function(e){ showToast('خطا: ' + e.message, 'error'); });
 }
 
-// ادامه کدها در بخش ۳...
-// پروفایل کاربر
+// 2. پروفایل
 function initProfile() {
     var saved = localStorage.getItem('userProfile');
     if (saved) { userProfile = JSON.parse(saved); isUserApproved = userProfile.approved === true; showProfileData(); }
     syncProfileFromServer();
 }
 function showProfileData() {
-    if (!userProfile) return;
-    document.getElementById('profileDisplay').style.display = 'block';
-    document.getElementById('profileForm').style.display = 'none';
+    if (!userProfile) { document.getElementById('profileDisplay').style.display = 'none'; document.getElementById('profileForm').style.display = 'block'; return; }
+    document.getElementById('profileDisplay').style.display = 'block'; document.getElementById('profileForm').style.display = 'none';
     document.getElementById('profileNameShow').textContent = userProfile.name || 'بدون نام';
     document.getElementById('welcomeUserText').textContent = 'سلام ' + (userProfile.name || 'کاربر') + ' عزیز';
-    
     var st = document.getElementById('profileStatusShow');
-    if (isUserApproved) {
-        st.innerHTML = '<span style="color:#2ecc71;">✅ تایید شده</span>';
-        document.getElementById('menuProfileStatus').textContent = '✅ تایید شده';
-    } else {
-        st.innerHTML = '<span style="color:#e74c3c;">⏳ در انتظار تایید</span>';
-        document.getElementById('menuProfileStatus').textContent = '⏳ در انتظار تایید';
-    }
+    if (isUserApproved) { st.innerHTML = '<span style="color:#2ecc71;">✅ تایید شده</span>'; document.getElementById('menuProfileStatus').textContent = '✅ تایید شده'; }
+    else { st.innerHTML = '<span style="color:#e74c3c;">⏳ در انتظار تایید</span>'; document.getElementById('menuProfileStatus').textContent = '⏳ در انتظار تایید'; }
     if (userProfile.photo) document.getElementById('profilePicShow').src = userProfile.photo;
 }
-function showEditProfile() {
-    document.getElementById('profileDisplay').style.display = 'none';
-    document.getElementById('profileForm').style.display = 'block';
-    if(userProfile) {
-        document.getElementById('regName').value = userProfile.name||'';
-        document.getElementById('regAge').value = userProfile.age||'';
-        document.getElementById('regPhone').value = userProfile.phone||'';
-        document.getElementById('regSocial').value = userProfile.social||'';
-        document.getElementById('regProblems').value = userProfile.problems||'';
-    }
-}
+function showEditProfile() { document.getElementById('profileDisplay').style.display = 'none'; document.getElementById('profileForm').style.display = 'block'; if(userProfile) { document.getElementById('regName').value = userProfile.name||''; document.getElementById('regAge').value = userProfile.age||''; document.getElementById('regPhone').value = userProfile.phone||''; document.getElementById('regSocial').value = userProfile.social||''; document.getElementById('regProblems').value = userProfile.problems||''; } }
 function submitProfile() {
-    var name = document.getElementById('regName').value.trim();
-    if(!name) { showToast('نام الزامی است', 'error'); return; }
+    var name = document.getElementById('regName').value.trim(); if(!name) { showToast('نام الزامی است', 'error'); return; }
     var photoInput = document.getElementById('regPhoto');
-    
     var process = function(base64) {
-        var p = { name: name, age: document.getElementById('regAge').value, phone: document.getElementById('regPhone').value, 
-                  social: document.getElementById('regSocial').value, problems: document.getElementById('regProblems').value,
-                  photo: base64 || (userProfile?userProfile.photo:''), approved: userProfile?userProfile.approved:false };
-        getRemoteRecord().then(function(d) {
-            var rec = getRecord(d); rec.profiles[userId] = p;
-            return putRecord(rec).then(function(r){
-                if(r.ok) { localStorage.setItem('userProfile', JSON.stringify(p)); userProfile = p; showProfileData(); showToast('✅ ذخیره شد'); }
-            });
-        });
+        var p = { name: name, age: document.getElementById('regAge').value, phone: document.getElementById('regPhone').value, social: document.getElementById('regSocial').value, problems: document.getElementById('regProblems').value, photo: base64 || (userProfile?userProfile.photo:''), approved: userProfile?userProfile.approved:false };
+        getRemoteRecord().then(function(d) { var rec = getRecord(d); rec.profiles[userId] = p; return putRecord(rec).then(function(r){ if(r.ok) { localStorage.setItem('userProfile', JSON.stringify(p)); userProfile = p; showProfileData(); showToast('✅ ذخیره شد'); } }); });
     };
-    if(photoInput.files[0]) {
-        var rd = new FileReader(); rd.onload = function(e){
-            var img = new Image(); img.onload = function(){
-                var c = document.createElement('canvas'); c.width=300; c.height=img.height*(300/img.width);
-                c.getContext('2d').drawImage(img,0,0,c.width,c.height); process(c.toDataURL('image/jpeg',0.6));
-            }; img.src = e.target.result;
-        }; rd.readAsDataURL(photoInput.files[0]);
-    } else process(null);
+    if(photoInput.files[0]) { var rd = new FileReader(); rd.onload = function(e){ var img = new Image(); img.onload = function(){ var c = document.createElement('canvas'); c.width=300; c.height=img.height*(300/img.width); c.getContext('2d').drawImage(img,0,0,c.width,c.height); process(c.toDataURL('image/jpeg',0.6)); }; img.src = e.target.result; }; rd.readAsDataURL(photoInput.files[0]); } else process(null);
 }
 function syncProfileFromServer() {
-    getRemoteRecord().then(function(d) {
-        var p = getRecord(d).profiles[userId];
-        if(p) { userProfile = p; isUserApproved = p.approved === true; localStorage.setItem('userProfile', JSON.stringify(p)); showProfileData(); }
-    });
+    getRemoteRecord().then(function(d) { var p = getRecord(d).profiles[userId]; if(p) { userProfile = p; isUserApproved = p.approved === true; localStorage.setItem('userProfile', JSON.stringify(p)); showProfileData(); } });
 }
 
-// دریافت جدول
+// 3. دریافت دیتا
 function receiveAll() {
     showToast('⏳ دریافت...', 'warning');
     getRemoteRecord().then(function(d) {
         var r = getRecord(d);
-        if(r.users[userId]) localStorage.setItem('lastPrescription', JSON.stringify(r.users[userId]));
-        else localStorage.removeItem('lastPrescription');
-        
-        if(r.tables[userId]) {
-            var t = r.tables[userId];
-            fortyDayData = JSON.parse(JSON.stringify(t.fortyDayData));
-            tableColumns = t.tableColumns || tableColumns;
-            tableColumnNames = t.tableColumnNames || tableColumnNames;
-            currentTimes = t.currentTimes || currentTimes;
-            totalDays = t.totalDays || 40;
-            localStorage.setItem('health40Data', JSON.stringify(fortyDayData));
-            localStorage.setItem('tableReceived', 'true');
-            renderTable();
-        } else { localStorage.removeItem('tableReceived'); }
+        if(r.users[userId]) localStorage.setItem('lastPrescription', JSON.stringify(r.users[userId])); else localStorage.removeItem('lastPrescription');
+        if(r.tables[userId]) { var t = r.tables[userId]; fortyDayData = JSON.parse(JSON.stringify(t.fortyDayData)); tableColumns = t.tableColumns || tableColumns; tableColumnNames = t.tableColumnNames || tableColumnNames; currentTimes = t.currentTimes || currentTimes; totalDays = t.totalDays || 40; localStorage.setItem('health40Data', JSON.stringify(fortyDayData)); localStorage.setItem('tableReceived', 'true'); renderTable(); } else { localStorage.removeItem('tableReceived'); }
         showToast('✅ دریافت شد'); checkDailyReceive(); checkRegimeReceive();
     });
 }
-
-// رندر جدول کاربر
 function renderTable() {
-    var thead = document.getElementById('tableHead'), tbody = document.getElementById('scheduleBody');
-    if(!thead || !tbody) return;
-    var h = '<tr><th>روز</th>'; tableColumns.forEach(function(c){ h+='<th>'+tableColumnNames[c]+'</th>' }); h+='</tr>';
-    thead.innerHTML = h;
-    var html = '';
-    for(var i=0; i<totalDays; i++) {
-        var d = fortyDayData[i] || {};
-        html += '<tr><td>'+(i+1)+'</td>';
-        tableColumns.forEach(function(c){ html += '<td>'+(d[c]||'-')+'</td>'; });
-        html += '</tr>';
-    }
-    tbody.innerHTML = html;
-    document.getElementById('dailyContent').style.display = 'block';
-    document.getElementById('dailyReceivePrompt').innerHTML = '';
+    var thead = document.getElementById('tableHead'), tbody = document.getElementById('scheduleBody'); if(!thead || !tbody) return;
+    var h = '<tr><th>روز</th>'; tableColumns.forEach(function(c){ h+='<th>'+tableColumnNames[c]+'</th>' }); h+='</tr>'; thead.innerHTML = h;
+    var html = ''; for(var i=0; i<totalDays; i++) { var d = fortyDayData[i] || {}; html += '<tr><td>'+(i+1)+'</td>'; tableColumns.forEach(function(c){ html += '<td>'+(d[c]||'-')+'</td>'; }); html += '</tr>'; }
+    tbody.innerHTML = html; document.getElementById('dailyContent').style.display = 'block'; document.getElementById('dailyReceivePrompt').innerHTML = '';
 }
 
-// پنل ادمین - بخش جدول
-function buildTableEditor() {
-    var c = document.getElementById('tableEditorContainer'); c.innerHTML = '';
-    tableColumns.forEach(function(col, i){
-        c.innerHTML += '<div style="display:flex; gap:5px; margin-bottom:5px;">'+
-            '<input type="text" value="'+tableColumnNames[col]+'" onchange="tableColumnNames[\''+col+'\']=this.value" style="flex:1; padding:5px; border-radius:5px; border:1px solid #555; background:var(--bg-primary); color:white;">'+
-            '<button class="btn btn-red" style="width:auto; padding:0 10px;" onclick="removeCol('+i+')">✕</button></div>';
+// 4. چت
+function loadChat() {
+    getRemoteRecord().then(function(d) {
+        var chats = getRecord(d).chats[userId] || []; var box = document.getElementById('chatBox'); var html = '';
+        chats.forEach(function(m) { var isU = m.sender === 'user'; var txt = m.text || ''; if(m.image) txt += '<br><img src="'+m.image+'" style="max-width:100%; border-radius:8px; margin-top:5px;">'; html += '<div class="chat-msg '+(isU?'user':'admin')+'">'+txt+'</div>'; });
+        box.innerHTML = html || '<p style="text-align:center; color:var(--text-muted); font-size:0.8em;">چتی وجود ندارد.</p>'; box.scrollTop = box.scrollHeight;
     });
 }
-function addTableColumnEditor() {
-    var newId = 'c_'+Date.now(); tableColumns.push(newId); tableColumnNames[newId] = 'ستون جدید';
-    fortyDayData.forEach(function(d){ d[newId] = ''; }); buildTableEditor(); buildDayEditor();
+function sendChatMessage() {
+    var input = document.getElementById('chatInput'), text = input.value.trim(); if(!text) return; input.value = '';
+    getRemoteRecord().then(function(d){ var r = getRecord(d); if(!r.chats[userId]) r.chats[userId] = []; r.chats[userId].push({sender:'user', text:text, time:Date.now()}); return putRecord(r); }).then(function(){ loadChat(); });
 }
-function removeCol(idx) {
-    var col = tableColumns[idx]; tableColumns.splice(idx, 1); delete tableColumnNames[col];
-    fortyDayData.forEach(function(d){ delete d[col]; }); buildTableEditor(); buildDayEditor();
+function sendChatImage(input) {
+    if(!input.files[0]) return; var rd = new FileReader();
+    rd.onload = function(e){ var img = new Image(); img.onload = function(){ var c = document.createElement('canvas'); c.width=600; c.height=img.height*(600/img.width); c.getContext('2d').drawImage(img,0,0,c.width,c.height); var b64 = c.toDataURL('image/jpeg',0.6); getRemoteRecord().then(function(d){ var r = getRecord(d); if(!r.chats[userId]) r.chats[userId] = []; r.chats[userId].push({sender:'user', image:b64, time:Date.now()}); return putRecord(r); }).then(function(){ loadChat(); input.value=''; }); }; img.src = e.target.result; }; rd.readAsDataURL(input.files[0]);
 }
+
+// 5. پنل ادمین
+function loadAdminProfiles() {
+    getRemoteRecord().then(function(d) {
+        var r = getRecord(d), profs = r.profiles, c = document.getElementById('adminProfilesList'), html = '';
+        Object.keys(profs).forEach(function(code) {
+            var p = profs[code], sc = p.approved ? '#2ecc71' : '#e74c3c', st = p.approved ? '✅' : '⏳';
+            html += '<div style="background:var(--bg-primary); padding:10px; margin-bottom:10px; border-radius:10px; border-right:4px solid '+sc+';"><b style="color:var(--accent)">'+p.name+' ('+code+')</b> <span style="float:left; color:'+sc+'">'+st+'</span>';
+            html += '<div style="font-size:0.8em; margin:5px 0;">📞 '+ (p.phone||'-') +'</div><div class="btn-row">';
+            if(!p.approved) html += '<button class="btn btn-green" style="padding:5px; font-size:0.7em;" onclick="approveUser(\''+code+'\')">تایید</button>';
+            else html += '<button class="btn btn-red" style="padding:5px; font-size:0.7em;" onclick="rejectUser(\''+code+'\')">لغو</button>';
+            html += '<button class="btn btn-blue" style="padding:5px; font-size:0.7em;" onclick="viewUserPanel(\''+code+'\')">مشاهده</button></div></div>';
+        });
+        c.innerHTML = html || '<p>کاربری نیست.</p>';
+    });
+}
+function approveUser(c){ getRemoteRecord().then(function(d){ var r=getRecord(d); r.profiles[c].approved=true; return putRecord(r); }).then(function(){ loadAdminProfiles(); }); }
+function rejectUser(c){ getRemoteRecord().then(function(d){ var r=getRecord(d); r.profiles[c].approved=false; return putRecord(r); }).then(function(){ loadAdminProfiles(); }); }
+function viewUserPanel(c){ localStorage.setItem('userId', c); location.reload(); }
+
+// جدول ادمین
+function buildTableEditor() {
+    var c = document.getElementById('tableEditorContainer'); c.innerHTML = '';
+    tableColumns.forEach(function(col, i){ c.innerHTML += '<div style="display:flex; gap:5px; margin-bottom:5px;"><input type="text" value="'+tableColumnNames[col]+'" onchange="tableColumnNames[\''+col+'\']=this.value" style="flex:1; padding:5px; border-radius:5px; border:1px solid #555; background:var(--bg-primary); color:white;"><button class="btn btn-red" style="width:auto; padding:0 10px;" onclick="removeCol('+i+')">✕</button></div>'; });
+}
+function addTableColumnEditor() { var id = 'c_'+Date.now(); tableColumns.push(id); tableColumnNames[id] = 'ستون'; fortyDayData.forEach(function(d){ d[id] = ''; }); buildTableEditor(); buildDayEditor(); }
+function removeCol(i) { var col = tableColumns[i]; tableColumns.splice(i, 1); delete tableColumnNames[col]; fortyDayData.forEach(function(d){ delete d[col]; }); buildTableEditor(); buildDayEditor(); }
 function buildDayEditor() {
     var c = document.getElementById('dayEditorContainer'); c.innerHTML = '';
     document.getElementById('editorDayLabel').textContent = 'روز ' + (editorCurrentDay + 1);
     var d = fortyDayData[editorCurrentDay] || {};
-    tableColumns.forEach(function(col){
-        c.innerHTML += '<div style="margin-bottom:5px;"><label style="font-size:0.8em; color:var(--accent);">'+tableColumnNames[col]+':</label>'+
-            '<input type="text" value="'+(d[col]||'')+'" onchange="fortyDayData['+editorCurrentDay+']['+'\''+col+'\']=this.value" style="width:100%; padding:5px; border-radius:5px; border:1px solid #555; background:var(--bg-primary); color:white;"></div>';
-    });
+    tableColumns.forEach(function(col){ c.innerHTML += '<div style="margin-bottom:5px;"><label style="font-size:0.8em; color:var(--accent);">'+tableColumnNames[col]+':</label><input type="text" value="'+(d[col]||'')+'" onchange="fortyDayData['+editorCurrentDay+']['+'\''+col+'\']=this.value" style="width:100%; padding:5px; border-radius:5px; background:var(--bg-primary); color:white; border:1px solid #555;"></div>'; });
 }
-function changeEditorDay(dir) {
-    editorCurrentDay += dir; if(editorCurrentDay<0) editorCurrentDay=0; if(editorCurrentDay>=totalDays) editorCurrentDay=totalDays-1;
-    buildDayEditor();
+function changeEditorDay(dir) { editorCurrentDay += dir; if(editorCurrentDay<0) editorCurrentDay=0; if(editorCurrentDay>=totalDays) editorCurrentDay=totalDays-1; buildDayEditor(); }
+function applyToDays(type) {
+    var d = fortyDayData[editorCurrentDay] || {}, targets = [];
+    if(type==='all') { for(var i=0; i<totalDays; i++) targets.push(i); }
+    else if(type==='odd') { for(var i=0; i<totalDays; i+=2) targets.push(i); }
+    else if(type==='even') { for(var i=1; i<totalDays; i+=2) targets.push(i); }
+    if(!confirm('اعمال شود؟')) return;
+    targets.forEach(function(idx){ fortyDayData[idx] = JSON.parse(JSON.stringify(d)); });
+    showToast('✅ اعمال شد'); updatePreview();
 }
-function applyToDays() {
-    if(!confirm('اعمال تغییرات این روز به کل ۴۰ روز؟')) return;
-    var d = fortyDayData[editorCurrentDay] || {};
-    for(var i=0; i<totalDays; i++) { fortyDayData[i] = JSON.parse(JSON.stringify(d)); }
-    showToast('✅ اعمال شد'); buildDayEditor();
+function togglePreview() {
+    previewVisible = !previewVisible; document.getElementById('previewContainer').style.display = previewVisible ? 'block' : 'none';
+    if(previewVisible) updatePreview();
 }
+function updatePreview() {
+    var thead = document.getElementById('previewTableHead'), tbody = document.getElementById('previewTableBody');
+    var h = '<tr><th>روز</th>'; tableColumns.forEach(function(c){ h+='<th>'+tableColumnNames[c]+'</th>' }); h+='</tr>'; thead.innerHTML = h;
+    var html = ''; for(var i=0; i<totalDays; i++) { var d = fortyDayData[i] || {}; html += '<tr><td>'+(i+1)+'</td>'; tableColumns.forEach(function(c){ html += '<td>'+(d[c]||'-')+'</td>'; }); html += '</tr>'; }
+    tbody.innerHTML = html;
+}
+function sendTableToUser() { var c = document.getElementById('targetUserCodeTable').value.trim(); if(!c) return showToast('کد را وارد کنید','error'); getRemoteRecord().then(function(d){ var r=getRecord(d); r.tables[c]={fortyDayData:fortyDayData, tableColumns:tableColumns, tableColumnNames:tableColumnNames, currentTimes:currentTimes, totalDays:totalDays, sentAt:Date.now()}; return putRecord(r); }).then(function(res){ if(res.ok) showToast('✅ جدول ارسال شد'); }); }
+function sendTableToAll() { getRemoteRecord().then(function(d){ var r=getRecord(d); var snap={fortyDayData:fortyDayData, tableColumns:tableColumns, tableColumnNames:tableColumnNames, currentTimes:currentTimes, totalDays:totalDays, sentAt:Date.now()}; Object.keys(r.profiles).forEach(function(uid){ r.tables[uid]=JSON.parse(JSON.stringify(snap)); }); return putRecord(r); }).then(function(res){ if(res.ok) showToast('✅ برای همه ارسال شد'); }); }
+function deleteUserTable() { var c = document.getElementById('targetUserCodeTable').value.trim(); if(!c||!confirm('حذف شود؟')) return; getRemoteRecord().then(function(d){ var r=getRecord(d); delete r.tables[c]; return putRecord(r); }).then(function(res){ if(res.ok) showToast('✅ حذف شد'); }); }
 
-// ارسال‌های ادمین
-function sendTableToUser() {
-    var code = document.getElementById('targetUserCodeTable').value.trim();
-    if(!code) { showToast('کد کاربر را وارد کنید', 'error'); return; }
-    showToast('⏳ ارسال...', 'warning');
-    getRemoteRecord().then(function(d){
-        var r = getRecord(d);
-        r.tables[code] = { fortyDayData: fortyDayData, tableColumns: tableColumns, tableColumnNames: tableColumnNames, currentTimes: currentTimes, totalDays: totalDays, sentAt: Date.now() };
-        return putRecord(r);
-    }).then(function(res){ if(res.ok) showToast('✅ جدول ارسال شد'); });
+// 6. سایر توابع ادمین
+function sendPrescription() {
+    var c = document.getElementById('targetUserCode').value.trim(), ti = document.getElementById('prescriptionTitle').value.trim(), co = document.getElementById('prescriptionContent').value.trim();
+    if(!c||!co) return showToast('کد و متن الزامی است','error');
+    getRemoteRecord().then(function(d){ var r=getRecord(d); r.users[c]={title:ti||'نسخه', content:co, sentAt:Date.now()}; return putRecord(r); }).then(function(res){ if(res.ok) showToast('✅ نسخه ارسال شد'); });
 }
-function sendTableToAll() {
-    showToast('⏳ ارسال...', 'warning');
-    getRemoteRecord().then(function(d){
-        var r = getRecord(d);
-        var snap = { fortyDayData: fortyDayData, tableColumns: tableColumns, tableColumnNames: tableColumnNames, currentTimes: currentTimes, totalDays: totalDays, sentAt: Date.now() };
-        Object.keys(r.profiles).forEach(function(uid){ r.tables[uid] = JSON.parse(JSON.stringify(snap)); });
-        return putRecord(r);
-    }).then(function(res){ if(res.ok) showToast('✅ برای همه ارسال شد'); });
-}
-function deleteUserTable() {
-    var code = document.getElementById('targetUserCodeTable').value.trim();
-    if(!code || !confirm('حذف جدول کاربر '+code+'؟')) return;
-    getRemoteRecord().then(function(d){
-        var r = getRecord(d); delete r.tables[code]; return putRecord(r);
-    }).then(function(res){ if(res.ok) showToast('✅ حذف شد'); });
-}
+function deleteUserPrescription() { var c = document.getElementById('targetUserCode').value.trim(); if(!c||!confirm('حذف شود؟')) return; getRemoteRecord().then(function(d){ var r=getRecord(d); delete r.users[c]; return putRecord(r); }).then(function(res){ if(res.ok) showToast('✅ حذف شد'); }); }
+function sendMessage() { var ti = document.getElementById('messageTitle').value.trim(), co = document.getElementById('messageContent').value.trim(), tg = document.getElementById('messageTarget').value.trim(); if(!co) return; getRemoteRecord().then(function(d){ var r=getRecord(d); r.messages.push({id:'m_'+Date.now(), title:ti||'پیام', content:co, target:tg||'all', sentAt:Date.now()}); return putRecord(r); }).then(function(res){ if(res.ok) showToast('✅ پیام ارسال شد'); }); }
+function loadAdminChat() { var c = document.getElementById('chatTargetCode').value.trim(); if(!c) return; adminChatTarget = c; getRemoteRecord().then(function(d){ var chats = getRecord(d).chats[c] || [], box = document.getElementById('adminChatBox'), html=''; chats.forEach(function(m){ html += '<div class="chat-msg '+(m.sender==='user'?'admin':'user')+'">'+(m.text||'<img src="'+m.image+'" style="max-width:100%">')+'</div>'; }); box.innerHTML = html; box.scrollTop = box.scrollHeight; }); }
+function sendAdminChatMessage() { var tx = document.getElementById('adminChatInput').value.trim(); if(!tx||!adminChatTarget) return; document.getElementById('adminChatInput').value=''; getRemoteRecord().then(function(d){ var r=getRecord(d); if(!r.chats[adminChatTarget]) r.chats[adminChatTarget]=[]; r.chats[adminChatTarget].push({sender:'admin', text:tx, time:Date.now()}); return putRecord(r); }).then(function(){ loadAdminChat(); }); }
+function saveBannerUrl() { var u = document.getElementById('bannerUrlInput').value.trim(); getRemoteRecord().then(function(d){ var r=getRecord(d); r.banner={url:u, active:true, updatedAt:Date.now()}; return putRecord(r); }).then(function(){ showToast('✅ بنر ذخیره شد'); }); }
+function disableBanner() { getRemoteRecord().then(function(d){ var r=getRecord(d); r.banner.active=false; return putRecord(r); }).then(function(){ showToast('✅ غیرفعال شد'); }); }
 
-// راه‌اندازی اولیه
-function checkAdminPassword() {
-    if (document.getElementById('adminPasswordInput').value === ADMIN_PASSWORD) {
-        document.getElementById('adminLoginModal').classList.remove('active'); showPage('pageAdmin'); showToast('✅ خوش آمدید');
-    } else showToast('❌ رمز اشتباه', 'error');
-}
+// 7. ناوبری و راه اندازی
+function checkAdminPassword() { if(document.getElementById('adminPasswordInput').value === ADMIN_PASSWORD) { document.getElementById('adminLoginModal').classList.remove('active'); showPage('pageAdmin'); showToast('✅ خوش آمدید'); } else showToast('❌ رمز اشتباه','error'); }
 function switchAdminTab(tab, el) {
     document.querySelectorAll('.admin-tab').forEach(function(t){t.classList.remove('active');}); el.classList.add('active');
     ['dashboard','profiles','prescription','table','message','chat','banner'].forEach(function(t){ document.getElementById('adminTab'+t.charAt(0).toUpperCase()+t.slice(1)).style.display = (t===tab)?'block':'none'; });
-    if(tab==='profiles') loadAdminProfiles();
-    if(tab==='table') { buildTableEditor(); buildDayEditor(); }
-    if(tab==='dashboard') loadDashboard();
+    if(tab==='profiles') loadAdminProfiles(); if(tab==='table') { buildTableEditor(); buildDayEditor(); } if(tab==='chat') loadAdminChat();
 }
 function showPage(id) {
-    document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');}); document.getElementById(id).classList.add('active');
-    window.scrollTo(0,0);
-    if(id==='pageSettings') initProfile();
-    if(id==='pageDaily') checkDailyReceive();
-    if(id==='pageMessages') loadMyMessages();
-    if(id==='pageContact') loadChat();
-    if(id==='pageRegime') checkRegimeReceive();
+    document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');}); document.getElementById(id).classList.add('active'); window.scrollTo(0,0);
+    if(id==='pageProfile') initProfile(); if(id==='pageDaily') checkDailyReceive(); if(id==='pageContact') loadChat(); if(id==='pageRegime') checkRegimeReceive();
 }
-
+function checkDailyReceive() { if(localStorage.getItem('tableReceived')==='true') renderTable(); else { document.getElementById('dailyContent').style.display='none'; document.getElementById('dailyReceivePrompt').innerHTML = '<div class="receive-prompt"><button class="receive-btn" onclick="receiveAll()">📥 دریافت</button></div>'; } }
+function checkRegimeReceive() { var p = localStorage.getItem('lastPrescription'); if(p) { document.getElementById('regimeContent').style.display='block'; document.getElementById('regimeReceivePrompt').innerHTML=''; try{ document.getElementById('regimeDisplay').innerHTML = '<b style="color:var(--accent)">'+JSON.parse(p).title+'</b><br><br>'+JSON.parse(p).content; }catch(e){} } else { document.getElementById('regimeContent').style.display='none'; document.getElementById('regimeReceivePrompt').innerHTML = '<div class="receive-prompt"><button class="receive-btn" onclick="receiveAll()">📥 دریافت</button></div>'; } }
+function loadMyMessages() { document.getElementById('messagesList').innerHTML = '<p style="text-align:center;color:var(--text-muted)">برای دریافت پیام دکمه بالا را بزنید.</p>'; }
+function loadRemoteBanner() { getRemoteRecord().then(function(d){ var b = getRecord(d).banner; if(b && b.url && b.active !== false) document.getElementById('topBannerImg').src = b.url; }); }
 function init() {
     userId = localStorage.getItem('userId');
-    if (!userId) { document.getElementById('registerModal').classList.add('active'); }
+    if(!userId) document.getElementById('registerModal').classList.add('active');
     else { document.getElementById('myCodeDisplay').textContent = userId; initProfile(); loadRemoteBanner(); }
 }
-function loadRemoteBanner() {
-    getRemoteRecord().then(function(d){
-        var b = getRecord(d).banner;
-        if(b && b.url && b.active !== false) document.getElementById('topBannerImg').src = b.url;
-    });
-}
-function checkDailyReceive() {
-    if(localStorage.getItem('tableReceived')==='true') renderTable();
-    else {
-        document.getElementById('dailyContent').style.display='none';
-        document.getElementById('dailyReceivePrompt').innerHTML = '<div class="receive-prompt"><button class="receive-btn" onclick="receiveAll()">📥 دریافت برنامه</button></div>';
-    }
-}
-function checkRegimeReceive() {
-    var p = localStorage.getItem('lastPrescription');
-    if(p) {
-        document.getElementById('regimeContent').style.display='block';
-        document.getElementById('regimeReceivePrompt').innerHTML='';
-        try { document.getElementById('regimeDisplay').innerHTML = '<b style="color:var(--accent)">'+JSON.parse(p).title+'</b><br><br>'+JSON.parse(p).content; } catch(e){}
-    } else {
-        document.getElementById('regimeContent').style.display='none';
-        document.getElementById('regimeReceivePrompt').innerHTML = '<div class="receive-prompt"><button class="receive-btn" onclick="receiveAll()">📥 دریافت رژیم</button></div>';
-    }
-}
-function loadMyMessages() { document.getElementById('messagesList').innerHTML = '<p style="text-align:center;color:var(--text-muted)">برای دریافت پیام جدید دکمه بالا را بزنید.</p>'; }
-function loadChat() { document.getElementById('chatBox').innerHTML = '<p style="text-align:center;color:var(--text-muted)">چت شما با مدیر</p>'; }
-
-// سایر توابع خالی برای جلوگیری از خطا
-function activateAlarms(){}
-function saveAlarmSettings(){}
-function uploadAlarmSound(){}
-function sendPrescription(){}
-function deleteUserPrescription(){}
-function sendMessage(){}
-function loadAdminProfiles(){}
-function sendAdminChatMessage(){}
-function loadAdminChat(){}
-function loadDashboard(){}
-function saveBannerUrl(){}
-function disableBanner(){}
-
-if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', init); } else { init(); }
+window.onload = init;
 </script>
 </body>
 </html>
-        
