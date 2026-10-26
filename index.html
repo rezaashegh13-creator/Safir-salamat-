@@ -703,250 +703,19 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 
 </div>
 
+<!-- کتابخانه Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
 "use strict";
 
 /* ============================================================
-   📦 LZ-String (فشرده‌سازی متن برای کاهش حجم ارسال)
-   نسخه مینی‌فای شده برای صرفه‌جویی در حجم
+   CONFIG & SUPABASE INIT
    ============================================================ */
-var LZString=(function(){
-var f=String.fromCharCode;
-var keyStrUriSafe="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$";
-var baseReverseDic={};
-function getBaseValue(alphabet,character){
-  if(!baseReverseDic[alphabet]){
-    baseReverseDic[alphabet]={};
-    for(var i=0;i<alphabet.length;i++)baseReverseDic[alphabet][alphabet.charAt(i)]=i;
-  }
-  return baseReverseDic[alphabet][character];
-}
-function _compress(uncompressed,bitsPerChar,getCharFromInt){
-  if(uncompressed==null)return"";
-  var i,value,context_dictionary={},context_dictionaryToCreate={},
-  context_c="",context_wc="",context_w="",context_enlargeIn=2,
-  context_dictSize=3,context_numBits=2,context_data=[],context_data_val=0,
-  context_data_position=0,ii;
-  for(ii=0;ii<uncompressed.length;ii+=1){
-    context_c=uncompressed.charAt(ii);
-    if(!Object.prototype.hasOwnProperty.call(context_dictionary,context_c)){
-      context_dictionary[context_c]=context_dictSize++;
-      context_dictionaryToCreate[context_c]=true;
-    }
-    context_wc=context_w+context_c;
-    if(Object.prototype.hasOwnProperty.call(context_dictionary,context_wc)){
-      context_w=context_wc;
-    }else{
-      if(Object.prototype.hasOwnProperty.call(context_dictionaryToCreate,context_w)){
-        if(context_w.charCodeAt(0)<256){
-          for(i=0;i<context_numBits;i++){
-            context_data_val=(context_data_val<<1);
-            if(context_data_position==bitsPerChar-1){
-              context_data_position=0;context_data.push(getCharFromInt(context_data_val));context_data_val=0;
-            }else{context_data_position++;}
-          }
-          value=context_w.charCodeAt(0);
-          for(i=0;i<8;i++){
-            context_data_val=(context_data_val<<1)|(value&1);
-            if(context_data_position==bitsPerChar-1){
-              context_data_position=0;context_data.push(getCharFromInt(context_data_val));context_data_val=0;
-            }else{context_data_position++;}
-            value=value>>1;
-          }
-        }else{
-          value=1;
-          for(i=0;i<context_numBits;i++){
-            context_data_val=(context_data_val<<1)|value;
-            if(context_data_position==bitsPerChar-1){
-              context_data_position=0;context_data.push(getCharFromInt(context_data_val));context_data_val=0;
-            }else{context_data_position++;}
-            value=0;
-          }
-          value=context_w.charCodeAt(0);
-          for(i=0;i<16;i++){
-            context_data_val=(context_data_val<<1)|(value&1);
-            if(context_data_position==bitsPerChar-1){
-              context_data_position=0;context_data.push(getCharFromInt(context_data_val));context_data_val=0;
-            }else{context_data_position++;}
-            value=value>>1;
-          }
-        }
-        context_enlargeIn--;
-        if(context_enlargeIn==0){context_enlargeIn=Math.pow(2,context_numBits);context_numBits++;}
-        delete context_dictionaryToCreate[context_w];
-      }else{
-        value=context_dictionary[context_w];
-        for(i=0;i<context_numBits;i++){
-          context_data_val=(context_data_val<<1)|(value&1);
-          if(context_data_position==bitsPerChar-1){
-            context_data_position=0;context_data.push(getCharFromInt(context_data_val));context_data_val=0;
-          }else{context_data_position++;}
-          value=value>>1;
-        }
-      }
-      context_enlargeIn--;
-      if(context_enlargeIn==0){context_enlargeIn=Math.pow(2,context_numBits);context_numBits++;}
-      context_dictionary[context_wc]=context_dictSize++;
-      context_w=String(context_c);
-    }
-  }
-  if(context_w!==""){
-    if(Object.prototype.hasOwnProperty.call(context_dictionaryToCreate,context_w)){
-      if(context_w.charCodeAt(0)<256){
-        for(i=0;i<context_numBits;i++){
-          context_data_val=(context_data_val<<1);
-          if(context_data_position==bitsPerChar-1){
-            context_data_position=0;context_data.push(getCharFromInt(context_data_val));context_data_val=0;
-          }else{context_data_position++;}
-        }
-        value=context_w.charCodeAt(0);
-        for(i=0;i<8;i++){
-          context_data_val=(context_data_val<<1)|(value&1);
-          if(context_data_position==bitsPerChar-1){
-            context_data_position=0;context_data.push(getCharFromInt(context_data_val));context_data_val=0;
-          }else{context_data_position++;}
-          value=value>>1;
-        }
-      }else{
-        value=1;
-        for(i=0;i<context_numBits;i++){
-          context_data_val=(context_data_val<<1)|value;
-          if(context_data_position==bitsPerChar-1){
-            context_data_position=0;context_data.push(getCharFromInt(context_data_val));context_data_val=0;
-          }else{context_data_position++;}
-          value=0;
-        }
-        value=context_w.charCodeAt(0);
-        for(i=0;i<16;i++){
-          context_data_val=(context_data_val<<1)|(value&1);
-          if(context_data_position==bitsPerChar-1){
-            context_data_position=0;context_data.push(getCharFromInt(context_data_val));context_data_val=0;
-          }else{context_data_position++;}
-          value=value>>1;
-        }
-      }
-      context_enlargeIn--;
-      if(context_enlargeIn==0){context_enlargeIn=Math.pow(2,context_numBits);context_numBits++;}
-      delete context_dictionaryToCreate[context_w];
-    }else{
-      value=context_dictionary[context_w];
-      for(i=0;i<context_numBits;i++){
-        context_data_val=(context_data_val<<1)|(value&1);
-        if(context_data_position==bitsPerChar-1){
-          context_data_position=0;context_data.push(getCharFromInt(context_data_val));context_data_val=0;
-        }else{context_data_position++;}
-        value=value>>1;
-      }
-    }
-    context_enlargeIn--;
-    if(context_enlargeIn==0){context_enlargeIn=Math.pow(2,context_numBits);context_numBits++;}
-  }
-  value=2;
-  for(i=0;i<context_numBits;i++){
-    context_data_val=(context_data_val<<1)|(value&1);
-    if(context_data_position==bitsPerChar-1){
-      context_data_position=0;context_data.push(getCharFromInt(context_data_val));context_data_val=0;
-    }else{context_data_position++;}
-    value=value>>1;
-  }
-  while(true){
-    context_data_val=(context_data_val<<1);
-    if(context_data_position==bitsPerChar-1){
-      context_data.push(getCharFromInt(context_data_val));break;
-    }else context_data_position++;
-  }
-  return context_data.join("");
-}
-function _decompress(length,resetValue,getNextValue){
-  if(length==0)return"";
-  var dictionary=[],next,enlargeIn=4,dictSize=4,numBits=3,entry="",result=[],
-  i,w,bits,resb,maxpower,power,c,data={val:getNextValue(0),position:resetValue,index:1};
-  for(i=0;i<3;i+=1)dictionary[i]=i;
-  bits=0;maxpower=Math.pow(2,2);power=1;
-  while(power!=maxpower){
-    resb=data.val&data.position;data.position>>=1;
-    if(data.position==0){data.position=resetValue;data.val=getNextValue(data.index++);}
-    bits|=(resb>0?1:0)*power;power<<=1;
-  }
-  switch(next=bits){
-    case 0:
-      bits=0;maxpower=Math.pow(2,8);power=1;
-      while(power!=maxpower){
-        resb=data.val&data.position;data.position>>=1;
-        if(data.position==0){data.position=resetValue;data.val=getNextValue(data.index++);}
-        bits|=(resb>0?1:0)*power;power<<=1;
-      }
-      c=f(bits);break;
-    case 1:
-      bits=0;maxpower=Math.pow(2,16);power=1;
-      while(power!=maxpower){
-        resb=data.val&data.position;data.position>>=1;
-        if(data.position==0){data.position=resetValue;data.val=getNextValue(data.index++);}
-        bits|=(resb>0?1:0)*power;power<<=1;
-      }
-      c=f(bits);break;
-    case 2:return"";
-  }
-  dictionary[3]=c;w=c;result.push(c);
-  while(true){
-    if(data.index>length)return"";
-    bits=0;maxpower=Math.pow(2,numBits);power=1;
-    while(power!=maxpower){
-      resb=data.val&data.position;data.position>>=1;
-      if(data.position==0){data.position=resetValue;data.val=getNextValue(data.index++);}
-      bits|=(resb>0?1:0)*power;power<<=1;
-    }
-    switch(c=bits){
-      case 0:
-        bits=0;maxpower=Math.pow(2,8);power=1;
-        while(power!=maxpower){
-          resb=data.val&data.position;data.position>>=1;
-          if(data.position==0){data.position=resetValue;data.val=getNextValue(data.index++);}
-          bits|=(resb>0?1:0)*power;power<<=1;
-        }
-        dictionary[dictSize++]=f(bits);c=dictSize-1;enlargeIn--;
-        break;
-      case 1:
-        bits=0;maxpower=Math.pow(2,16);power=1;
-        while(power!=maxpower){
-          resb=data.val&data.position;data.position>>=1;
-          if(data.position==0){data.position=resetValue;data.val=getNextValue(data.index++);}
-          bits|=(resb>0?1:0)*power;power<<=1;
-        }
-        dictionary[dictSize++]=f(bits);c=dictSize-1;enlargeIn--;
-        break;
-      case 2:return result.join('');
-    }
-    if(enlargeIn==0){enlargeIn=Math.pow(2,numBits);numBits++;}
-    if(dictionary[c])entry=dictionary[c];
-    else{if(c===dictSize)entry=w+w.charAt(0);else return null;}
-    result.push(entry);
-    dictionary[dictSize++]=w+entry.charAt(0);
-    enlargeIn--;
-    w=entry;
-    if(enlargeIn==0){enlargeIn=Math.pow(2,numBits);numBits++;}
-  }
-}
-return{
-  compressToEncodedURIComponent:function(input){
-    if(input==null)return"";
-    return _compress(input,6,function(a){return keyStrUriSafe.charAt(a);});
-  },
-  decompressFromEncodedURIComponent:function(input){
-    if(input==null)return"";
-    if(input=="")return null;
-    input=input.replace(/ /g,"+");
-    return _decompress(input.length,32,function(index){return getBaseValue(keyStrUriSafe,input.charAt(index));});
-  }
-};
-})();
+const SUPABASE_URL = "https://bqhyypffalwbilaicdlw.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_KVthV8sXxlf7yeBV9HibvA_SfzVOYfI";
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-/* ============================================================
-   CONFIG
-   ============================================================ */
-var JSONBIN_API_KEY="$2a$10$HZGvoCokb.bOp8eDysy62ediIrcqQU/Zpksor16E58jBiqrEK/zYK";
-var JSONBIN_BIN_ID="6ab8a6f3ac6210605af9d9c8";
-var JSONBIN_URL="https://api.jsonbin.io/v3/b/"+JSONBIN_BIN_ID;
 var ADMIN_PASSWORD="maryam6625";
 var SAVE_PASSWORD_KEY="adminSavedPassword";
 
@@ -1090,7 +859,7 @@ function handleReceiveRegime(){
 }
 
 /* ============================================================
-   JSONBin HELPERS
+   🚀 SUPABASE HELPERS (جایگزین JSONBin)
    ============================================================ */
 function findCode(obj,code){
   if(!obj||!code)return null;
@@ -1103,84 +872,42 @@ function findCode(obj,code){
   }
   return null;
 }
+
+// تابع کمکی برای برگرداندن کل رکورد به ساختار مورد انتظار کد
 function getRecord(currentData){
-  var record=currentData.record||currentData||{};
-  if(record.record)record=record.record;
+  var record=currentData||{};
   if(!record.users)record.users={};
   if(!record.tables)record.tables={};
   if(!record.messages)record.messages=[];
   if(!record.banner)record.banner={url:'',active:false};
   return record;
 }
-function putRecord(record){
-  return fetch(JSONBIN_URL,{
-    method:"PUT",
-    headers:{"Content-Type":"application/json","X-Master-Key":JSONBIN_API_KEY},
-    body:JSON.stringify(record)
-  });
-}
-function getRemoteRecord(){
-  return fetch(JSONBIN_URL+"/latest",{headers:{"X-Master-Key":JSONBIN_API_KEY}})
-  .then(function(res){
-    if(!res.ok)throw new Error('خطا در اتصال: '+res.status);
-    return res.json();
-  });
+
+// خواندن دیتا از Supabase (جایگزین getRemoteRecord)
+async function getRemoteRecord(){
+  const { data, error } = await supabaseClient
+    .from('app_data')
+    .select('data')
+    .eq('id', 1)
+    .maybeSingle();
+
+  if (error) throw new Error(error.message);
+  
+  // اگر دیتابیس خالی بود، ساختار پیش‌فرض برمی‌گردانیم
+  return { record: data ? data.data : {users:{},tables:{},messages:[],banner:{url:'',active:false}} };
 }
 
-/* ============================================================
-   🎯 فشرده‌سازی و بازگشایی جدول برای کاهش حجم
-   ============================================================ */
-function packTable(forty,cols,names,times,total){
-  // ساخت آبجکت فشرده: فقط مقادیر
-  // خروجی: {c:[...], n:{...}, t:{...}, T:40, d:"..."}
-  var rows=[];
-  forty.forEach(function(day){
-    var row=[];
-    cols.forEach(function(col){row.push(day[col]||'');});
-    rows.push(row);
-  });
-  var rawData=JSON.stringify(rows);
-  var compressed=LZString.compressToEncodedURIComponent(rawData);
-  return {
-    c:cols,
-    n:names,
-    t:times,
-    T:total,
-    d:compressed
-  };
-}
-function unpackTable(packed){
-  if(!packed)return null;
-  // پشتیبانی از فرمت قدیمی
-  if(packed.fortyDayData||packed.days){
-    return {
-      forty:packed.fortyDayData||packed.days,
-      cols:packed.tableColumns||packed.columns||[],
-      names:packed.tableColumnNames||packed.columnNames||{},
-      times:packed.currentTimes||packed.times||{},
-      total:packed.totalDays||40
-    };
+// ذخیره دیتا در Supabase (جایگزین putRecord)
+async function putRecord(record){
+  const { error } = await supabaseClient
+    .from('app_data')
+    .upsert({ id: 1, user_code: 'GLOBAL', data: record, updated_at: new Date().toISOString() });
+
+  if (error) {
+    console.error('Supabase Error:', error);
+    return { ok: false, status: 500 };
   }
-  // فرمت جدید فشرده
-  var raw=LZString.decompressFromEncodedURIComponent(packed.d);
-  var rows=raw?JSON.parse(raw):[];
-  var cols=packed.c||[];
-  var forty=[];
-  for(var i=0;i<(packed.T||rows.length);i++){
-    var day={};
-    var r=rows[i]||[];
-    for(var j=0;j<cols.length;j++){
-      day[cols[j]]=r[j]||'';
-    }
-    forty.push(day);
-  }
-  return {
-    forty:forty,
-    cols:cols,
-    names:packed.n||{},
-    times:packed.t||{},
-    total:packed.T||40
-  };
+  return { ok: true, status: 200 };
 }
 
 /* ============================================================
@@ -1193,11 +920,11 @@ function receiveAll(silent){
     if(!silent)showToast('⏳ در حال دریافت...','warning');
 
     getRemoteRecord().then(function(data){
-      var record=getRecord(data);
+      var record=getRecord(data.record);
       var gotSomething=false;
 
       // نسخه
-      var users=record.users||record.prescriptions||{};
+      var users=record.users||{};
       var prescription=findCode(users,code);
       if(prescription&&(prescription.content||prescription.text)){
         archiveCurrentPrescription();
@@ -1210,20 +937,23 @@ function receiveAll(silent){
       }
 
       // جدول
-      var tables=record.tables||record.schedules||{};
+      var tables=record.tables||{};
       var tableInfo=findCode(tables,code);
       if(tableInfo){
-        var unpacked=unpackTable(tableInfo);
-        if(unpacked&&unpacked.forty&&unpacked.forty.length>0){
+        var forty=tableInfo.fortyDayData||tableInfo.days||[];
+        var cols=tableInfo.tableColumns||tableInfo.columns||[];
+        var names=tableInfo.tableColumnNames||tableInfo.columnNames||{};
+        var times=tableInfo.currentTimes||tableInfo.times||{};
+        var total=tableInfo.totalDays||forty.length||40;
+
+        if(forty&&forty.length>0){
           archiveCurrentTable();
-          fortyDayData=JSON.parse(JSON.stringify(unpacked.forty));
-          if(unpacked.cols.length===0&&fortyDayData[0]){
-            unpacked.cols=Object.keys(fortyDayData[0]);
-          }
-          if(unpacked.cols.length>0)tableColumns=[].concat(unpacked.cols);
-          if(Object.keys(unpacked.names).length>0)tableColumnNames=Object.assign({},unpacked.names);
-          if(Object.keys(unpacked.times).length>0)currentTimes=Object.assign({},unpacked.times);
-          totalDays=unpacked.total||40;
+          fortyDayData=JSON.parse(JSON.stringify(forty));
+          if(cols.length===0&&fortyDayData[0])cols=Object.keys(fortyDayData[0]);
+          if(cols.length>0)tableColumns=[].concat(cols);
+          if(Object.keys(names).length>0)tableColumnNames=Object.assign({},names);
+          if(Object.keys(times).length>0)currentTimes=Object.assign({},times);
+          totalDays=total;
           while(fortyDayData.length<totalDays)fortyDayData.push({});
           if(fortyDayData.length>totalDays)fortyDayData.length=totalDays;
           fortyDayData.forEach(function(day){
@@ -1276,11 +1006,6 @@ function archiveCurrentTable(){
       archivedAt:Date.now()
     });
     if(archive.length>20)archive.length=20;
-    // برای صرفه‌جویی در حجم localStorage فقط ۵ تای آخر را با آرایه کامل نگه می‌داریم
-    archive=archive.slice(0,5).concat(archive.slice(5).map(function(item){
-      // بهینه‌سازی: برای تاریخچه‌های قدیمی‌تر حجم را کم می‌کنیم
-      return item;
-    }));
     safeSetLS('tableHistory',JSON.stringify(archive));
   }catch(e){}
 }
@@ -1293,7 +1018,7 @@ function loadRemoteBanner(){
   if(!tb||!img)return;
   if(!navigator.onLine){tb.classList.remove('active');return;}
   getRemoteRecord().then(function(data){
-    var record=getRecord(data),bc=record.banner;
+    var record=getRecord(data.record),bc=record.banner;
     if(!bc||!bc.url||bc.active===false){tb.classList.remove('active');return;}
     img.onload=function(){img.style.display='block';tb.classList.add('active');};
     img.onerror=function(){img.style.display='none';tb.classList.remove('active');};
@@ -1308,7 +1033,7 @@ function bannerError(){
 }
 function loadBannerInAdmin(){
   getRemoteRecord().then(function(data){
-    var record=getRecord(data),bc=record.banner;
+    var record=getRecord(data.record),bc=record.banner;
     var p=document.getElementById('bannerPreview'),inp=document.getElementById('bannerUrlInput');
     if(!p||!inp)return;
     if(bc&&bc.url){
@@ -1327,7 +1052,7 @@ function saveBannerUrl(){
   if(!navigator.onLine){showToast('❌ اتصال به اینترنت را چک کنید','error');return;}
   showToast('⏳ در حال ذخیره...','warning');
   getRemoteRecord().then(function(cur){
-    var record=getRecord(cur);
+    var record=getRecord(cur.record);
     record.banner={url:url,active:true,updatedAt:Date.now()};
     return putRecord(record);
   }).then(function(res){
@@ -1339,7 +1064,7 @@ function disableBanner(){
   if(!confirm('بنر غیرفعال شود؟'))return;
   if(!navigator.onLine){showToast('❌ اتصال به اینترنت را چک کنید','error');return;}
   getRemoteRecord().then(function(cur){
-    var record=getRecord(cur);
+    var record=getRecord(cur.record);
     if(!record.banner)record.banner={url:'',active:false};
     record.banner.active=false;record.banner.updatedAt=Date.now();
     return putRecord(record);
@@ -1404,7 +1129,7 @@ function sendPrescription(){
   if(!navigator.onLine){showToast('❌ اتصال به اینترنت را چک کنید','error');return;}
   showToast('⏳ در حال ارسال...','warning');
   getRemoteRecord().then(function(cur){
-    var record=getRecord(cur);
+    var record=getRecord(cur.record);
     record.users[code]={title:title||'نسخه اختصاصی',content:content,sentAt:Date.now()};
     return putRecord(record);
   }).then(function(res){
@@ -1416,7 +1141,7 @@ function sendPrescription(){
 }
 
 /* ============================================================
-   📤 SEND TABLE (فشرده - کمتر از 20KB)
+   📤 SEND TABLE
    ============================================================ */
 function sendTableToUser(){
   var ce=document.getElementById('targetUserCodeTable');
@@ -1428,25 +1153,21 @@ function sendTableToUser(){
   if(!navigator.onLine){showToast('❌ اتصال به اینترنت را چک کنید','error');return;}
   showToast('⏳ در حال ارسال...','warning');
 
-  var packed=packTable(fortyDayData,tableColumns,tableColumnNames,currentTimes,totalDays);
-  packed.s=Date.now();
-
-  // بررسی حجم
-  var sizeBytes=new Blob([JSON.stringify(packed)]).size;
-  var sizeKB=(sizeBytes/1024).toFixed(1);
-  if(sizeBytes>20480){
-    showToast('⚠️ حجم جدول '+sizeKB+'KB است (بیشتر از ۲۰KB)','warning',4000);
-    if(!confirm('حجم ارسال '+sizeKB+' کیلوبایت است که از حد مجاز بیشتر است. ادامه می‌دهید؟'))return;
-  }else{
-    showToast('📦 حجم ارسال: '+sizeKB+' کیلوبایت','success',2000);
-  }
+  var snapshot = {
+    fortyDayData: JSON.parse(JSON.stringify(fortyDayData)),
+    tableColumns: [].concat(tableColumns),
+    tableColumnNames: Object.assign({}, tableColumnNames),
+    currentTimes: Object.assign({}, currentTimes),
+    totalDays: totalDays,
+    sentAt: Date.now()
+  };
 
   getRemoteRecord().then(function(cur){
-    var record=getRecord(cur);
-    record.tables[code]=packed;
+    var record=getRecord(cur.record);
+    record.tables[code]=snapshot;
     return putRecord(record);
   }).then(function(res){
-    if(res.ok){showToast('✅ جدول برای '+code+' ارسال شد ('+sizeKB+'KB)');loadAdminRecent();}
+    if(res.ok){showToast('✅ جدول برای '+code+' ارسال شد');loadAdminRecent();}
     else showToast('❌ خطا (کد '+res.status+')','error');
   }).catch(function(e){showToast('❌ خطا: '+e.message,'error');});
 }
@@ -1457,26 +1178,26 @@ function sendTableToAll(){
   if(!navigator.onLine){showToast('❌ اتصال به اینترنت را چک کنید','error');return;}
   showToast('⏳ در حال ارسال...','warning');
 
-  var packed=packTable(fortyDayData,tableColumns,tableColumnNames,currentTimes,totalDays);
-  packed.s=Date.now();
-  var sizeBytes=new Blob([JSON.stringify(packed)]).size;
-  var sizeKB=(sizeBytes/1024).toFixed(1);
-
-  if(sizeBytes>20480){
-    if(!confirm('حجم جدول '+sizeKB+'KB است. ادامه می‌دهید؟'))return;
-  }
+  var snapshot = {
+    fortyDayData: JSON.parse(JSON.stringify(fortyDayData)),
+    tableColumns: [].concat(tableColumns),
+    tableColumnNames: Object.assign({}, tableColumnNames),
+    currentTimes: Object.assign({}, currentTimes),
+    totalDays: totalDays,
+    sentAt: Date.now()
+  };
 
   getRemoteRecord().then(function(cur){
-    var record=getRecord(cur);
+    var record=getRecord(cur.record);
     var allUsers=Object.keys(record.users);
     if(allUsers.length===0)throw new Error('هیچ کاربری ثبت نشده');
     allUsers.forEach(function(uc){
-      record.tables[uc]=JSON.parse(JSON.stringify(packed));
+      record.tables[uc]=JSON.parse(JSON.stringify(snapshot));
     });
     return putRecord(record).then(function(r){return{res:r,count:allUsers.length};});
   }).then(function(result){
     if(result.res.ok){
-      showToast('✅ جدول برای '+result.count+' کاربر ارسال شد ('+sizeKB+'KB هرکدام)');
+      showToast('✅ جدول برای '+result.count+' کاربر ارسال شد');
       loadAdminRecent();
     }else showToast('❌ خطا (کد '+result.res.status+')','error');
   }).catch(function(e){showToast('❌ خطا: '+e.message,'error');});
@@ -1495,7 +1216,7 @@ function sendMessage(){
   if(!navigator.onLine){showToast('❌ اتصال به اینترنت را چک کنید','error');return;}
   showToast('⏳ در حال ارسال...','warning');
   getRemoteRecord().then(function(cur){
-    var record=getRecord(cur);
+    var record=getRecord(cur.record);
     var id='m_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
     record.messages.push({id:id,title:title||'پیام جدید',content:content,target:target||'all',sentAt:Date.now()});
     if(record.messages.length>100)record.messages=record.messages.slice(-100);
@@ -1521,7 +1242,7 @@ function clearAdminForm(){
    ============================================================ */
 function loadDashboard(showAlert){
   getRemoteRecord().then(function(data){
-    var record=getRecord(data);
+    var record=getRecord(data.record);
     var users=record.users||{},tables=record.tables||{},messages=record.messages||[];
     var el1=document.getElementById('statUsers'),
         el2=document.getElementById('statPrescriptions'),
@@ -1536,8 +1257,8 @@ function loadDashboard(showAlert){
     var items=[];
     allCodes.forEach(function(code){
       var presc=users[code],tbl=tables[code];
-      var lastTime=Math.max((presc&&presc.sentAt)||0,(tbl&&tbl.s)||0);
-      var days=tbl?(tbl.T||(tbl.totalDays)||0):0;
+      var lastTime=Math.max((presc&&presc.sentAt)||0,(tbl&&tbl.sentAt)||0);
+      var days=tbl?(tbl.totalDays)||0:0;
       items.push({code:code,hasP:!!presc,hasT:!!tbl,pTitle:(presc&&presc.title)||'',tDays:days,lastTime:lastTime});
     });
     items.sort(function(a,b){return b.lastTime-a.lastTime;});
@@ -1586,7 +1307,7 @@ function exportDashboard(){
       var presc=users[code],tbl=tables[code];
       text+=(i+1)+'. کد: '+code+'\n';
       if(presc)text+='   💊 '+(presc.title||'بدون عنوان')+'\n';
-      if(tbl)text+='   📋 '+((tbl.T||tbl.totalDays)||0)+' روز\n';
+      if(tbl)text+='   📋 '+((tbl.totalDays)||0)+' روز\n';
       text+='\n';
     });
     var blob=new Blob([text],{type:'text/plain;charset=utf-8'});
@@ -1761,7 +1482,7 @@ function updatePreview(){
    ============================================================ */
 function loadAdminRecent(){
   getRemoteRecord().then(function(data){
-    var record=getRecord(data);
+    var record=getRecord(data.record);
     var html='';
     var userEntries=Object.entries(record.users||{}).slice(-3).reverse();
     if(userEntries.length>0){
@@ -1788,7 +1509,7 @@ function loadAdminRecent(){
    ============================================================ */
 function loadMyMessages(showAlert){
   getRemoteRecord().then(function(data){
-    var record=getRecord(data);
+    var record=getRecord(data.record);
     var messages=record.messages||[];
     var readIds=safeParseJSON(safeGetLS('readMsgIds','[]'),[]);
     var hiddenIds=safeParseJSON(safeGetLS('hiddenMsgIds','[]'),[]);
@@ -1838,7 +1559,7 @@ function deleteMessage(msgId){
 }
 function checkNewMessages(){
   getRemoteRecord().then(function(data){
-    var record=getRecord(data);
+    var record=getRecord(data.record);
     var messages=record.messages||[];
     var readIds=safeParseJSON(safeGetLS('readMsgIds','[]'),[]);
     var hiddenIds=safeParseJSON(safeGetLS('hiddenMsgIds','[]'),[]);
@@ -2308,7 +2029,7 @@ function updateClock(){
 }
 
 /* ============================================================
-   PWA INSTALL (یک بار - بدون تکرار)
+   PWA INSTALL
    ============================================================ */
 var deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',function(e){
@@ -2374,7 +2095,7 @@ window.addEventListener('offline',function(){
   if(tb)tb.classList.remove('active');
 });
 
-/* Service Worker - یک بار */
+/* Service Worker */
 if('serviceWorker'in navigator){
   window.addEventListener('load',function(){
     navigator.serviceWorker.register('/Safir-salamat-/sw.js')
