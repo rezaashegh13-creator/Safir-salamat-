@@ -703,7 +703,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 
 </div>
 
-<!-- کتابخانه Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
@@ -714,7 +713,15 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
    ============================================================ */
 const SUPABASE_URL = "https://bqhyypffalwbilaicdlw.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_KVthV8sXxlf7yeBV9HibvA_SfzVOYfI";
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// 🔥 راه‌حل مشکل کلید جدید: هدرهای پیش‌فرض را مجبور می‌کنیم کلید را درست بفرستند
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  global: {
+    headers: {
+      apikey: SUPABASE_ANON_KEY
+    }
+  }
+});
 
 var ADMIN_PASSWORD="maryam6625";
 var SAVE_PASSWORD_KEY="adminSavedPassword";
@@ -859,7 +866,7 @@ function handleReceiveRegime(){
 }
 
 /* ============================================================
-   🚀 SUPABASE HELPERS (جایگزین JSONBin)
+   🚀 SUPABASE HELPERS
    ============================================================ */
 function findCode(obj,code){
   if(!obj||!code)return null;
@@ -873,7 +880,6 @@ function findCode(obj,code){
   return null;
 }
 
-// تابع کمکی برای برگرداندن کل رکورد به ساختار مورد انتظار کد
 function getRecord(currentData){
   var record=currentData||{};
   if(!record.users)record.users={};
@@ -883,7 +889,6 @@ function getRecord(currentData){
   return record;
 }
 
-// خواندن دیتا از Supabase (جایگزین getRemoteRecord)
 async function getRemoteRecord(){
   const { data, error } = await supabaseClient
     .from('app_data')
@@ -893,11 +898,9 @@ async function getRemoteRecord(){
 
   if (error) throw new Error(error.message);
   
-  // اگر دیتابیس خالی بود، ساختار پیش‌فرض برمی‌گردانیم
   return { record: data ? data.data : {users:{},tables:{},messages:[],banner:{url:'',active:false}} };
 }
 
-// ذخیره دیتا در Supabase (جایگزین putRecord)
 async function putRecord(record){
   const { error } = await supabaseClient
     .from('app_data')
@@ -923,7 +926,6 @@ function receiveAll(silent){
       var record=getRecord(data.record);
       var gotSomething=false;
 
-      // نسخه
       var users=record.users||{};
       var prescription=findCode(users,code);
       if(prescription&&(prescription.content||prescription.text)){
@@ -936,7 +938,6 @@ function receiveAll(silent){
         gotSomething=true;
       }
 
-      // جدول
       var tables=record.tables||{};
       var tableInfo=findCode(tables,code);
       if(tableInfo){
