@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0d1f12">
 <title>سفیر سلامت حامی</title>
-<!-- فونت لاله‌زار برای ویترین -->
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/lalezar-font@v1.0.0/dist/font-face.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
 <link rel="manifest" href="/Safir-salamat-/manifest.json">
@@ -32,89 +31,45 @@ body{font-family:var(--font-family);background:var(--bg-primary);
   min-height:100vh;font-size:var(--font-size)}
 .container{max-width:750px;margin:0 auto;padding:10px}
 
+/* استایل پنل کاربر و بازگشت ادمین */
+.admin-return-bar { background: #c0392b; color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 1em; border-radius: 10px; margin-bottom: 15px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+
 /* ویترین برنامه امروز */
-.today-showcase {
-  background: linear-gradient(135deg, #1e3c26, #0d1f12);
-  border: 2px solid var(--accent);
-  border-radius: 20px;
-  padding: 15px;
-  margin-bottom: 15px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.4), inset 0 0 20px rgba(244,208,63,0.1);
-  position: relative;
-  overflow: hidden;
-}
-.today-showcase::before {
-  content: '✨';
-  position: absolute;
-  top: -10px;
-  left: -10px;
-  font-size: 5em;
-  opacity: 0.05;
-  transform: rotate(20deg);
-}
-.showcase-title {
-  font-family: 'Lalezar', cursive;
-  color: var(--accent);
-  font-size: 1.5em;
-  text-align: center;
-  margin-bottom: 15px;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-}
-.showcase-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 10px;
-}
-.showcase-card {
-  background: rgba(0,0,0,0.3);
-  border: 1px solid rgba(244,208,63,0.3);
-  border-radius: 12px;
-  padding: 10px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+.today-showcase { background: linear-gradient(135deg, #1e3c26, #0d1f12); border: 2px solid var(--accent); border-radius: 20px; padding: 15px; margin-bottom: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.4), inset 0 0 20px rgba(244,208,63,0.1); position: relative; overflow: hidden; }
+.today-showcase::before { content: '✨'; position: absolute; top: -10px; left: -10px; font-size: 5em; opacity: 0.05; transform: rotate(20deg); }
+.showcase-title { font-family: 'Lalezar', cursive; color: var(--accent); font-size: 1.5em; text-align: center; margin-bottom: 15px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+.showcase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+.showcase-card { background: rgba(0,0,0,0.3); border: 1px solid rgba(244,208,63,0.3); border-radius: 12px; padding: 10px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; }
 .showcase-card-icon { font-size: 1.8em; margin-bottom: 5px; }
 .showcase-card-label { font-size: 0.75em; color: var(--text-muted); margin-bottom: 4px; }
 .showcase-card-value { font-size: 0.9em; font-weight: bold; color: #fff; }
 .showcase-card-time { font-size: 0.7em; color: var(--accent2); margin-top: 4px; }
 
+/* پروفایل کاربر */
+.profile-header { display: flex; align-items: center; gap: 15px; background: linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary)); padding: 15px; border-radius: 16px; margin-bottom: 15px; border: 1px solid var(--border-color); cursor: pointer; }
+.profile-avatar { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); background: #000; }
+.profile-info h3 { color: var(--accent); font-size: 1.1em; margin-bottom: 4px; }
+.profile-info p { font-size: 0.8em; color: var(--text-muted); font-family: monospace; }
+
 #topBanner{display:none;width:100%;background:var(--bg-secondary);border-bottom:3px solid var(--accent);overflow:hidden}
 #topBanner.active{display:block}
 #topBanner img{width:100%;height:auto;max-height:220px;object-fit:cover;display:block}
 
-.main-header{text-align:center;margin-bottom:15px;padding:20px 15px;
-  background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));
-  border-radius:20px;border:1px solid rgba(244,208,63,.3);position:relative;overflow:hidden}
+.main-header{text-align:center;margin-bottom:15px;padding:20px 15px;background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border-radius:20px;border:1px solid rgba(244,208,63,.3);position:relative;overflow:hidden}
 .main-header::before{content:'🌿';position:absolute;font-size:8em;opacity:.03;top:-30px;left:-20px;transform:rotate(-15deg)}
 .main-header h1{color:var(--accent);font-size:1.6em;margin-bottom:5px}
 .main-header h2{color:var(--text-secondary);font-size:1em;margin-bottom:12px}
-.supervisor-box{background:rgba(244,208,63,.08);border:1px solid rgba(244,208,63,.25);
-  border-radius:12px;padding:10px 12px;margin-top:10px;font-size:.75em;line-height:1.8;color:var(--text-secondary)}
-.supervisor-box strong{color:var(--accent);font-size:1.1em;display:block;margin-top:3px}
 
 .page{display:none}.page.active{display:block}
-.menu-card{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));
-  border-radius:16px;padding:18px;margin-bottom:12px;cursor:pointer;
-  border:1px solid rgba(244,208,63,.2);border-right:5px solid var(--accent);
-  position:relative;overflow:hidden}
+.menu-card{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border-radius:16px;padding:18px;margin-bottom:12px;cursor:pointer;border:1px solid rgba(244,208,63,.2);border-right:5px solid var(--accent);position:relative;overflow:hidden}
 .menu-card:active{transform:scale(.98)}
 .menu-card-title{font-size:1.15em;font-weight:700;color:var(--accent);margin-bottom:5px}
 .menu-card-desc{font-size:.8em;color:var(--text-secondary);opacity:.85}
 .menu-card-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:2.5em;opacity:.1}
 
-.growth-btn{display:flex;align-items:center;justify-content:center;gap:6px;margin:20px auto 10px;
-  padding:10px 22px;background:linear-gradient(90deg,#e8b923,#f4d03f,#e8b923);color:#0d1f12;
-  text-decoration:none;border-radius:25px;font-size:.8em;font-weight:700;width:fit-content;
-  box-shadow:0 0 18px rgba(244,208,63,.5)}
+.back-btn{display:inline-block;padding:8px 16px;background:var(--bg-tertiary);color:var(--text-primary);border:1px solid var(--border-color);border-radius:10px;cursor:pointer;font-size:.85em;font-weight:700;margin-bottom:12px}
 
-.back-btn{display:inline-block;padding:8px 16px;background:var(--bg-tertiary);color:var(--text-primary);
-  border:1px solid var(--border-color);border-radius:10px;cursor:pointer;font-size:.85em;font-weight:700;margin-bottom:12px}
-
-.btn{padding:11px 15px;border:none;border-radius:10px;font-size:.85em;cursor:pointer;
-  font-weight:700;text-align:center;width:100%;margin:5px 0;font-family:var(--font-family)}
+.btn{padding:11px 15px;border:none;border-radius:10px;font-size:.85em;cursor:pointer;font-weight:700;text-align:center;width:100%;margin:5px 0;font-family:var(--font-family)}
 .btn-green{background:var(--btn-success);color:#fff}
 .btn-blue{background:var(--btn-primary);color:#fff}
 .btn-purple{background:var(--btn-purple);color:#fff}
@@ -124,191 +79,132 @@ body{font-family:var(--font-family);background:var(--bg-primary);
 .btn-row{display:flex;gap:8px;flex-wrap:wrap}
 .btn-row .btn{flex:1;min-width:100px;width:auto}
 
-.section-box{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));
-  padding:14px;border-radius:14px;margin:12px 0;border:1px solid var(--border-color)}
-.section-box h3{color:var(--accent);text-align:center;margin-bottom:12px;
-  font-size:.95em;padding-bottom:8px;border-bottom:1px dashed rgba(244,208,63,.2)}
+.section-box{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));padding:14px;border-radius:14px;margin:12px 0;border:1px solid var(--border-color)}
+.section-box h3{color:var(--accent);text-align:center;margin-bottom:12px;font-size:.95em;padding-bottom:8px;border-bottom:1px dashed rgba(244,208,63,.2)}
 .settings-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
 .settings-row label{font-size:.82em;color:var(--text-secondary);min-width:55px}
-.settings-row input,.settings-row select,.settings-row textarea{
-  background:var(--input-bg);color:var(--text-primary);border:1px solid #3d5a45;
-  padding:9px;border-radius:8px;flex:1;min-width:60px;font-family:var(--font-family);font-size:.9em}
+.settings-row input,.settings-row select,.settings-row textarea{background:var(--input-bg);color:var(--text-primary);border:1px solid #3d5a45;padding:9px;border-radius:8px;flex:1;min-width:60px;font-family:var(--font-family);font-size:.9em}
 textarea{resize:vertical;min-height:100px;line-height:1.8}
 
 /* جدول‌ها */
 .table-wrapper{overflow-x:auto;margin-top:10px;border-radius:12px}
-table{width:100%;border-collapse:collapse;background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));
-  border-radius:12px;overflow:hidden;font-size:.85em}
-th{padding:10px 6px;background:linear-gradient(180deg,#2b5738,#21452c);color:var(--accent);
-  text-align:center;font-size:.85em;border-bottom:2px solid rgba(244,208,63,.3)}
-td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1);
-  position:relative;word-break:break-word}
+table{width:100%;border-collapse:collapse;background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border-radius:12px;overflow:hidden;font-size:.85em}
+th{padding:10px 6px;background:linear-gradient(180deg,#2b5738,#21452c);color:var(--accent);text-align:center;font-size:.85em;border-bottom:2px solid rgba(244,208,63,.3)}
+td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1);position:relative;word-break:break-word}
 .today-row{border:3px solid var(--accent)!important;background:rgba(244,208,63,.1)!important;font-weight:700}
 .past-row{opacity:.4}
 .drug-name{cursor:pointer;font-weight:600;padding:3px 6px;border-radius:5px}
 .drug-name.active-drug{color:#0d1f12;background:var(--accent);padding:3px 7px}
-
-.property-popup{display:none;position:absolute;bottom:100%;left:50%;transform:translateX(-50%);
-  background:#142b1a;border:2px solid var(--accent);border-radius:12px;padding:12px;
-  min-width:180px;z-index:100;line-height:1.7;color:var(--accent);font-size:.8em;margin-bottom:5px}
+.property-popup{display:none;position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:#142b1a;border:2px solid var(--accent);border-radius:12px;padding:12px;min-width:180px;z-index:100;line-height:1.7;color:var(--accent);font-size:.8em;margin-bottom:5px}
 .property-popup.active{display:block}
 
-.status-box{margin-top:15px;padding:12px;background:linear-gradient(135deg,#142b1a,#0d1f12);
-  border-radius:12px;text-align:center;font-size:.85em;border:1px solid var(--border-color)}
+.status-box{margin-top:15px;padding:12px;background:linear-gradient(135deg,#142b1a,#0d1f12);border-radius:12px;text-align:center;font-size:.85em;border:1px solid var(--border-color)}
 
-.receive-prompt{display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:40px 20px;background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));
-  border-radius:20px;border:2px dashed var(--accent);margin:20px 0;text-align:center}
+.receive-prompt{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border-radius:20px;border:2px dashed var(--accent);margin:20px 0;text-align:center}
 .receive-prompt .receive-icon{font-size:4em;margin-bottom:15px}
-.receive-prompt .receive-btn{padding:16px 40px;background:linear-gradient(135deg,#27ae60,#2ecc71);
-  color:#fff;border:none;border-radius:50px;font-size:1.1em;font-weight:700;cursor:pointer;
-  margin:15px 0;box-shadow:0 5px 20px rgba(46,204,113,.4);font-family:var(--font-family)}
+.receive-prompt .receive-btn{padding:16px 40px;background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff;border:none;border-radius:50px;font-size:1.1em;font-weight:700;cursor:pointer;margin:15px 0;box-shadow:0 5px 20px rgba(46,204,113,.4);font-family:var(--font-family)}
 .receive-prompt .receive-note{font-size:.85em;color:var(--text-muted);margin-top:10px;line-height:1.8}
 
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);
-  z-index:99998;justify-content:center;align-items:center;padding:20px}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:99998;justify-content:center;align-items:center;padding:20px}
 .modal-overlay.active{display:flex}
-.modal-content{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));
-  border:2px solid var(--accent);border-radius:20px;padding:25px;max-width:380px;width:100%;text-align:center}
+.modal-content{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border:2px solid var(--accent);border-radius:20px;padding:25px;max-width:380px;width:100%;text-align:center;position:relative}
 .modal-content h2{color:var(--accent);margin-bottom:15px}
 .modal-content p{color:var(--text-secondary);margin-bottom:15px;line-height:1.8;font-size:.9em}
+.code-display{background:var(--input-bg);padding:15px;border-radius:12px;font-size:2em;font-weight:700;color:var(--accent);letter-spacing:5px;margin:15px 0;border:2px dashed var(--accent);font-family:monospace;direction:ltr}
 
-.code-display{background:var(--input-bg);padding:15px;border-radius:12px;font-size:2em;
-  font-weight:700;color:var(--accent);letter-spacing:5px;margin:15px 0;
-  border:2px dashed var(--accent);font-family:monospace;direction:ltr}
-
-.alarm-overlay{display:none;position:fixed;inset:0;
-  background:radial-gradient(circle,rgba(192,57,43,.95),rgba(0,0,0,.98));
-  z-index:99999;flex-direction:column;justify-content:center;align-items:center;padding:20px}
+.alarm-overlay{display:none;position:fixed;inset:0;background:radial-gradient(circle,rgba(192,57,43,.95),rgba(0,0,0,.98));z-index:99999;flex-direction:column;justify-content:center;align-items:center;padding:20px}
 .alarm-overlay.active{display:flex}
-.alarm-stop-btn{background:var(--btn-danger);color:#fff;font-size:1.6em;font-weight:700;
-  padding:20px 50px;border:4px solid #fff;border-radius:18px;cursor:pointer}
-.alarm-snooze-btn{background:var(--accent2);color:#0d1f12;font-size:1em;padding:12px 30px;
-  border:2px solid #fff;border-radius:18px;cursor:pointer;margin-top:15px;font-weight:700}
+.alarm-stop-btn{background:var(--btn-danger);color:#fff;font-size:1.6em;font-weight:700;padding:20px 50px;border:4px solid #fff;border-radius:18px;cursor:pointer}
+.alarm-snooze-btn{background:var(--accent2);color:#0d1f12;font-size:1em;padding:12px 30px;border:2px solid #fff;border-radius:18px;cursor:pointer;margin-top:15px;font-weight:700}
 .alarm-message{color:var(--accent);font-size:1.5em;margin-bottom:25px;text-align:center;font-weight:700}
 
-.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#2ecc71;
-  color:#fff;padding:12px 25px;border-radius:25px;font-weight:700;z-index:99999;
-  display:none;max-width:90%;text-align:center}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#2ecc71;color:#fff;padding:12px 25px;border-radius:25px;font-weight:700;z-index:99999;display:none;max-width:90%;text-align:center}
 .toast.error{background:#e74c3c}
 .toast.warning{background:#f39c12;color:#0d1f12}
 
-.regime-content{background:var(--input-bg);border-radius:12px;padding:15px;line-height:2;
-  min-height:150px;white-space:pre-wrap;word-wrap:break-word;font-size:.9em;
-  color:var(--text-primary);border:1px solid rgba(244,208,63,.2)}
+.regime-content{background:var(--input-bg);border-radius:12px;padding:15px;line-height:2;min-height:150px;white-space:pre-wrap;word-wrap:break-word;font-size:.9em;color:var(--text-primary);border:1px solid rgba(244,208,63,.2)}
 
-.admin-panel{background:linear-gradient(135deg,#2a1a1a,#3d2020);
-  border:2px solid var(--accent2);border-radius:15px;padding:15px;margin:10px 0}
+.admin-panel{background:linear-gradient(135deg,#2a1a1a,#3d2020);border:2px solid var(--accent2);border-radius:15px;padding:15px;margin:10px 0}
 .admin-panel h3{color:var(--accent);text-align:center;margin-bottom:10px}
-.admin-warning{background:rgba(244,208,63,.1);padding:8px;border-radius:8px;
-  font-size:.75em;color:var(--accent);text-align:center;margin-bottom:10px;
-  border:1px solid rgba(244,208,63,.3)}
+.admin-warning{background:rgba(244,208,63,.1);padding:8px;border-radius:8px;font-size:.75em;color:var(--accent);text-align:center;margin-bottom:10px;border:1px solid rgba(244,208,63,.3)}
 
-.msg-badge{position:absolute;top:-8px;right:-8px;background:#e74c3c;color:#fff;
-  border-radius:50%;width:24px;height:24px;font-size:.7em;display:flex;
-  align-items:center;justify-content:center;font-weight:700}
+.msg-badge{position:absolute;top:-8px;right:-8px;background:#e74c3c;color:#fff;border-radius:50%;width:24px;height:24px;font-size:.7em;display:flex;align-items:center;justify-content:center;font-weight:700}
 .menu-card{position:relative}
 
-.msg-item{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));
-  border-radius:12px;padding:14px;margin-bottom:10px;
-  border-right:4px solid var(--accent);position:relative}
+.msg-item{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border-radius:12px;padding:14px;margin-bottom:10px;border-right:4px solid var(--accent);position:relative}
 .msg-item.unread{border-right-color:#e74c3c}
 .msg-item-title{font-weight:700;color:var(--accent);font-size:.95em;margin-bottom:5px}
 .msg-item-date{font-size:.7em;color:var(--text-muted);margin-bottom:8px}
 .msg-item-content{font-size:.85em;line-height:1.8;color:var(--text-secondary);white-space:pre-wrap}
-.msg-close{position:absolute;top:8px;left:8px;background:#e74c3c;color:#fff;
-  border:none;border-radius:50%;width:26px;height:26px;cursor:pointer;
-  font-size:.8em;font-weight:700}
+.msg-close{position:absolute;top:8px;left:8px;background:#e74c3c;color:#fff;border:none;border-radius:50%;width:26px;height:26px;cursor:pointer;font-size:.8em;font-weight:700}
 
-.msg-popup-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);
-  z-index:99997;justify-content:center;align-items:center;padding:20px}
+.msg-popup-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:99997;justify-content:center;align-items:center;padding:20px}
 .msg-popup-overlay.active{display:flex}
-.msg-popup-content{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));
-  border:3px solid var(--accent);border-radius:22px;padding:25px;
-  max-width:400px;width:100%;text-align:center}
+.msg-popup-content{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border:3px solid var(--accent);border-radius:22px;padding:25px;max-width:400px;width:100%;text-align:center}
 .msg-popup-content h2{color:var(--accent);margin-bottom:15px;font-size:1.3em}
-.msg-popup-text{background:var(--input-bg);padding:15px;border-radius:12px;line-height:2;
-  color:var(--text-primary);font-size:.95em;margin:15px 0;text-align:right;
-  white-space:pre-wrap;max-height:300px;overflow-y:auto}
-.msg-popup-close{background:var(--btn-danger);color:#fff;border:none;
-  padding:12px 40px;border-radius:25px;font-weight:700;font-size:.95em;
-  cursor:pointer;margin-top:10px}
+.msg-popup-text{background:var(--input-bg);padding:15px;border-radius:12px;line-height:2;color:var(--text-primary);font-size:.95em;margin:15px 0;text-align:right;white-space:pre-wrap;max-height:300px;overflow-y:auto}
+.msg-popup-close{background:var(--btn-danger);color:#fff;border:none;padding:12px 40px;border-radius:25px;font-weight:700;font-size:.95em;cursor:pointer;margin-top:10px}
 
-.admin-tabs{display:flex;gap:5px;margin-bottom:15px;background:var(--input-bg);
-  padding:5px;border-radius:12px;flex-wrap:wrap}
-.admin-tab{flex:1;padding:10px 8px;text-align:center;cursor:pointer;border-radius:8px;
-  font-size:.75em;font-weight:700;color:var(--text-muted);user-select:none;min-width:70px}
+.admin-tabs{display:flex;gap:5px;margin-bottom:15px;background:var(--input-bg);padding:5px;border-radius:12px;flex-wrap:wrap}
+.admin-tab{flex:1;padding:10px 8px;text-align:center;cursor:pointer;border-radius:8px;font-size:.75em;font-weight:700;color:var(--text-muted);user-select:none;min-width:60px}
 .admin-tab.active{background:linear-gradient(135deg,#e74c3c,#c0392b);color:#fff}
 
-.history-item{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));
-  border:1px solid var(--border-color);border-radius:12px;padding:12px;
-  margin-bottom:10px;cursor:pointer;border-right:4px solid var(--accent)}
+.history-item{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border:1px solid var(--border-color);border-radius:12px;padding:12px;margin-bottom:10px;cursor:pointer;border-right:4px solid var(--accent)}
 .history-item.active-history{border-right-color:#2ecc71}
 .history-item-title{color:var(--accent);font-weight:700;font-size:.95em;margin-bottom:5px}
 .history-item-date{font-size:.72em;color:var(--text-muted);margin-bottom:5px}
-.history-item-preview{font-size:.8em;color:var(--text-secondary);opacity:.85;
-  max-height:40px;overflow:hidden;line-height:1.6}
-.history-badge{display:inline-block;background:#2ecc71;color:#fff;
-  font-size:.65em;padding:2px 8px;border-radius:10px;margin-right:5px}
+.history-item-preview{font-size:.8em;color:var(--text-secondary);opacity:.85;max-height:40px;overflow:hidden;line-height:1.6}
+.history-badge{display:inline-block;background:#2ecc71;color:#fff;font-size:.65em;padding:2px 8px;border-radius:10px;margin-right:5px}
 
 .dashboard-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:15px}
-.stat-card{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));
-  border-radius:12px;padding:15px;text-align:center;border:1px solid var(--border-color)}
+.stat-card{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border-radius:12px;padding:15px;text-align:center;border:1px solid var(--border-color)}
 .stat-number{font-size:2em;font-weight:700;color:var(--accent);margin-bottom:5px}
 .stat-label{font-size:.75em;color:var(--text-secondary)}
 
-.alarm-row{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;
-  background:rgba(0,0,0,.2);padding:8px;border-radius:8px;margin-bottom:8px}
+.alarm-row{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;background:rgba(0,0,0,.2);padding:8px;border-radius:8px;margin-bottom:8px}
 .alarm-row label{font-size:.8em;color:var(--accent);font-weight:700;white-space:nowrap;min-width:60px}
-.alarm-row input[type="time"]{background:var(--input-bg);color:var(--accent);
-  border:1px solid var(--accent);padding:6px 8px;border-radius:6px;
-  font-family:var(--font-family);font-size:.9em;width:100%}
-.alarm-row .toggle-btn{width:40px;height:26px;border-radius:13px;background:#444;
-  position:relative;cursor:pointer;border:none}
-.alarm-row .toggle-btn::after{content:'';position:absolute;top:2px;right:2px;
-  width:22px;height:22px;border-radius:50%;background:#888;transition:.2s}
+.alarm-row input[type="time"]{background:var(--input-bg);color:var(--accent);border:1px solid var(--accent);padding:6px 8px;border-radius:6px;font-family:var(--font-family);font-size:.9em;width:100%}
+.alarm-row .toggle-btn{width:40px;height:26px;border-radius:13px;background:#444;position:relative;cursor:pointer;border:none}
+.alarm-row .toggle-btn::after{content:'';position:absolute;top:2px;right:2px;width:22px;height:22px;border-radius:50%;background:#888;transition:.2s}
 .alarm-row .toggle-btn.active{background:var(--btn-success)}
 .alarm-row .toggle-btn.active::after{right:calc(100% - 24px);background:#fff}
 
-.preview-table{width:100%;border-collapse:collapse;background:var(--bg-primary);
-  border-radius:8px;overflow:hidden;font-size:.75em;margin-top:8px}
-.preview-table th{padding:6px 4px;background:#2b5738;color:var(--accent);
-  font-size:.75em;border-bottom:1px solid rgba(244,208,63,.3)}
-.preview-table td{padding:5px 4px;text-align:center;
-  border-bottom:1px solid rgba(244,208,63,.1);font-size:.75em}
+.preview-table{width:100%;border-collapse:collapse;background:var(--bg-primary);border-radius:8px;overflow:hidden;font-size:.75em;margin-top:8px}
+.preview-table th{padding:6px 4px;background:#2b5738;color:var(--accent);font-size:.75em;border-bottom:1px solid rgba(244,208,63,.3)}
+.preview-table td{padding:5px 4px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1);font-size:.75em}
 .preview-table tr:nth-child(even) td{background:rgba(0,0,0,.15)}
 .preview-scroll{max-height:350px;overflow-y:auto;border-radius:10px;border:1px solid var(--border-color)}
 
-.day-input-box{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;
-  background:var(--bg-primary);padding:10px;border-radius:8px;margin-bottom:8px}
+.day-input-box{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;background:var(--bg-primary);padding:10px;border-radius:8px;margin-bottom:8px}
 .day-input-box label{font-size:.75em;color:var(--accent);font-weight:700;white-space:nowrap}
-.day-input-box input{background:var(--bg-primary);color:var(--text-primary);
-  border:1px solid #3d5a45;padding:8px;border-radius:6px;
-  font-family:var(--font-family);font-size:.9em;width:100%}
+.day-input-box input{background:var(--bg-primary);color:var(--text-primary);border:1px solid #3d5a45;padding:8px;border-radius:6px;font-family:var(--font-family);font-size:.9em;width:100%}
 
-.editor-day-nav{display:flex;gap:8px;align-items:center;justify-content:center;
-  margin-bottom:12px;background:var(--input-bg);padding:8px;border-radius:10px}
-.editor-day-nav button{background:var(--btn-primary);color:#fff;border:none;
-  border-radius:8px;padding:8px 14px;font-size:.9em;font-weight:700;
-  cursor:pointer;font-family:var(--font-family)}
+.editor-day-nav{display:flex;gap:8px;align-items:center;justify-content:center;margin-bottom:12px;background:var(--input-bg);padding:8px;border-radius:10px}
+.editor-day-nav button{background:var(--btn-primary);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:.9em;font-weight:700;cursor:pointer;font-family:var(--font-family)}
 .editor-day-nav button:disabled{background:#444;cursor:not-allowed;opacity:.5}
-.editor-day-nav span{color:var(--accent);font-weight:700;font-size:.95em;
-  min-width:80px;text-align:center}
+.editor-day-nav span{color:var(--accent);font-weight:700;font-size:.95em;min-width:80px;text-align:center}
 
-.save-password-box{display:flex;align-items:center;gap:10px;margin-top:15px;
-  padding:12px;background:rgba(0,0,0,.3);border-radius:10px;
-  border:1px solid rgba(244,208,63,.3)}
-.save-password-box input[type="checkbox"]{width:22px;height:22px;
-  accent-color:#f4d03f;cursor:pointer;flex-shrink:0}
-.save-password-box label{font-size:.9em;color:#e8f0e3;cursor:pointer;
-  flex:1;user-select:none;text-align:right}
+.save-password-box{display:flex;align-items:center;gap:10px;margin-top:15px;padding:12px;background:rgba(0,0,0,.3);border-radius:10px;border:1px solid rgba(244,208,63,.3)}
+.save-password-box input[type="checkbox"]{width:22px;height:22px;accent-color:#f4d03f;cursor:pointer;flex-shrink:0}
+.save-password-box label{font-size:.9em;color:#e8f0e3;cursor:pointer;flex:1;user-select:none;text-align:right}
 
-.user-card{background:var(--bg-secondary);border-radius:10px;padding:12px;
-  margin-bottom:8px;border-right:4px solid var(--accent)}
-.user-card-code{font-family:monospace;font-size:1.1em;font-weight:700;
-  color:var(--accent);letter-spacing:2px;direction:ltr}
-.user-card-badge{display:inline-block;padding:3px 8px;border-radius:10px;
-  font-size:.7em;margin:2px}
+/* استایل لیست کشویی جستجو */
+.custom-dropdown { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-tertiary); border: 1px solid var(--accent); border-radius: 8px; max-height: 200px; overflow-y: auto; z-index: 1000; box-shadow: 0 10px 25px rgba(0,0,0,0.8); margin-top: 5px; }
+.custom-dropdown.active { display: block; }
+.dropdown-item { padding: 10px; border-bottom: 1px solid rgba(244,208,63,0.1); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+.dropdown-item:active, .dropdown-item:hover { background: rgba(244,208,63,0.2); }
+.dropdown-item-name { font-weight: bold; color: #fff; }
+.dropdown-item-code { font-family: monospace; color: var(--accent); font-size: 0.9em; }
+.search-container { position: relative; flex: 1; }
+
+/* لیست کاربران در پنل ادمین */
+.admin-user-row { background: var(--bg-secondary); border-radius: 10px; padding: 12px; margin-bottom: 8px; border-right: 4px solid var(--accent); display: flex; gap: 10px; align-items: center; }
+.admin-user-avatar { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); background: #000; }
+.admin-user-info { flex: 1; }
+.admin-user-name { font-weight: bold; color: var(--accent); font-size: 1em; }
+.admin-user-code { font-family: monospace; font-size: 0.8em; color: var(--text-muted); direction: ltr; }
+.admin-user-actions { display: flex; gap: 5px; flex-direction: column; }
+.btn-small { padding: 6px 10px; font-size: 0.75em; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; font-family: var(--font-family); }
 </style>
 </head>
 <body>
@@ -325,24 +221,41 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   <button class="alarm-snooze-btn" onclick="snoozeAlarm()">💤 چرت ۱۰ دقیقه</button>
 </div>
 
-<div class="modal-overlay" id="welcomeModal">
-  <div class="modal-content">
+<!-- مودال ثبت‌نام و پروفایل -->
+<div class="modal-overlay active" id="registerModal" style="z-index: 100000;">
+  <div class="modal-content" style="max-width:450px; border-color:var(--accent);">
     <h2>🌿 خوش آمدید</h2>
-    <p>کد اختصاصی شما برای دریافت نسخه‌های شخصی:</p>
-    <div class="code-display" id="welcomeCode">...</div>
-    <p style="font-size:.8em;color:var(--accent)">📌 این کد را برای اپراتور ارسال کنید</p>
-    <button class="btn btn-green" onclick="closeWelcomeModal()" style="margin-top:15px">✅ متوجه شدم</button>
+    <p>لطفاً برای شروع، پروفایل خود را تکمیل کنید.</p>
+    
+    <div style="text-align:center; margin: 15px 0;">
+      <label for="regAvatar" style="cursor:pointer; display:inline-block; position:relative;">
+        <img id="regAvatarPreview" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23222'/><text x='50' y='55' font-size='40' text-anchor='middle' fill='%23aaa'>📷</text></svg>" style="width:90px;height:90px;border-radius:50%;border:3px solid var(--accent);object-fit:cover;background:#000;">
+        <div style="position:absolute; bottom:0; right:0; background:var(--btn-success); border-radius:50%; width:28px; height:28px; display:flex; align-items:center; justify-content:center; border:2px solid #fff;">➕</div>
+      </label>
+      <input type="file" id="regAvatar" accept="image/*" style="display:none;" onchange="previewRegAvatar(event)">
+    </div>
+
+    <div class="settings-row">
+      <label style="min-width:80px;">نام:</label>
+      <input type="text" id="regFirstName" placeholder="مثلاً: مریم" required>
+    </div>
+    <div class="settings-row">
+      <label style="min-width:80px;">نام خانوادگی:</label>
+      <input type="text" id="regLastName" placeholder="مثلاً: حمیدیان" required>
+    </div>
+    <p style="font-size:0.8em;color:var(--accent);margin-top:15px;">📌 کد اختصاصی شما:</p>
+    <div class="code-display" id="welcomeCode" style="font-size:1.5em; margin:5px 0;">...</div>
+    
+    <button class="btn btn-green" onclick="submitProfile()" style="margin-top:15px; font-size:1em;">✅ ثبت و ورود به برنامه</button>
   </div>
 </div>
 
+<!-- مودال ورود ادمین -->
 <div class="modal-overlay" id="adminLoginModal">
   <div class="modal-content">
     <h2>🔐 پنل مدیریت</h2>
     <p>رمز اپراتور را وارد کنید:</p>
-    <input type="password" id="adminPasswordInput" placeholder="رمز"
-      style="width:100%;padding:15px;text-align:center;font-size:1.2em;background:var(--input-bg);
-      color:var(--accent);border:2px solid var(--accent);border-radius:10px;
-      font-family:monospace;direction:ltr">
+    <input type="password" id="adminPasswordInput" placeholder="رمز" style="width:100%;padding:15px;text-align:center;font-size:1.2em;background:var(--input-bg);color:var(--accent);border:2px solid var(--accent);border-radius:10px;font-family:monospace;direction:ltr">
     <div class="save-password-box">
       <input type="checkbox" id="savePasswordCheck">
       <label for="savePasswordCheck">🔒 رمز را به خاطر بسپار</label>
@@ -370,21 +283,32 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   </div>
 </div>
 
-<button id="pwaInstallBtn" onclick="installPWA()" style="display:none;position:fixed;
-  bottom:20px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#27ae60,#2ecc71);
-  color:#fff;border:none;border-radius:50px;padding:14px 30px;font-size:1em;font-weight:700;
-  cursor:pointer;box-shadow:0 5px 20px rgba(46,204,113,.5);z-index:9998;
-  font-family:var(--font-family);align-items:center;gap:8px">📲 نصب اپلیکیشن</button>
+<button id="pwaInstallBtn" onclick="installPWA()" style="display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff;border:none;border-radius:50px;padding:14px 30px;font-size:1em;font-weight:700;cursor:pointer;box-shadow:0 5px 20px rgba(46,204,113,.5);z-index:9998;font-family:var(--font-family);align-items:center;gap:8px">📲 نصب اپلیکیشن</button>
 
 <div class="container">
 
+<div id="adminReturnBar" class="admin-return-bar" style="display:none;" onclick="exitImpersonation()">
+  ⬅️ بازگشت به پنل مدیریت (شما در حال مشاهده پنل کاربر هستید)
+</div>
+
 <div class="page active" id="pageMenu">
+  
   <!-- ویترین امروز -->
   <div class="today-showcase" id="todayShowcase">
     <div class="showcase-title">امروز چی بخوریم؟</div>
     <div class="showcase-grid" id="showcaseGrid">
       <p style="text-align:center;color:var(--text-muted);grid-column:1/-1;font-size:0.9em;">در حال بارگذاری...</p>
     </div>
+  </div>
+
+  <!-- پروفایل کاربر -->
+  <div class="profile-header" onclick="openProfileEdit()" id="userProfileHeader" style="display:none;">
+    <img id="displayAvatar" class="profile-avatar" src="" alt="پروفایل">
+    <div class="profile-info">
+      <h3 id="displayName">نام کاربر</h3>
+      <p id="displayCode">کد: ----</p>
+    </div>
+    <div style="margin-right:auto; color:var(--accent);">✏️</div>
   </div>
 
   <div class="main-header">
@@ -433,25 +357,17 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     <div class="menu-card-desc">روی صفحه اصلی نصب کنید</div>
   </div>
 
-  <a href="https://eitaa.com/joinchat/878706709C93902231a1" target="_blank" class="growth-btn">
-    ✨🌟 برای رشد کلیک کن 🌟✨
-  </a>
+  <a href="https://eitaa.com/joinchat/878706709C93902231a1" target="_blank" class="growth-btn">✨🌟 برای رشد کلیک کن 🌟✨</a>
 </div>
 
 <div class="page" id="pageDaily">
-  <div class="main-header">
-    <h1>🍵 برنامه روزانه سلامت</h1>
-    <h2>برنامه شخصی شما</h2>
-  </div>
+  <div class="main-header"><h1>🍵 برنامه روزانه سلامت</h1><h2>برنامه شخصی شما</h2></div>
   <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
   <div id="dailyReceivePrompt"></div>
   <div id="dailyContent" style="display:none">
     <button class="btn btn-green" onclick="activateAlarms()" id="alarmMainBtn">🔔 فعال‌سازی آلارم‌ها</button>
     <div class="table-wrapper">
-      <table id="dietTable">
-        <thead id="tableHead"></thead>
-        <tbody id="scheduleBody"></tbody>
-      </table>
+      <table id="dietTable"><thead id="tableHead"></thead><tbody id="scheduleBody"></tbody></table>
     </div>
     <div class="status-box">
       <div id="statusText" style="font-weight:700;color:var(--accent)">⏳ آماده</div>
@@ -461,10 +377,7 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 </div>
 
 <div class="page" id="pageRegime">
-  <div class="main-header">
-    <h1>🥗 نسخه ویژه رژیم درمانی</h1>
-    <h2>رژیم اختصاصی شما</h2>
-  </div>
+  <div class="main-header"><h1>🥗 نسخه ویژه رژیم درمانی</h1><h2>رژیم اختصاصی شما</h2></div>
   <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
   <div id="regimeReceivePrompt"></div>
   <div id="regimeContent" style="display:none">
@@ -477,139 +390,71 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 </div>
 
 <div class="page" id="pageMessages">
-  <div class="main-header">
-    <h1>📬 پیام‌های من</h1>
-    <h2>پیام‌های دریافتی از اپراتور</h2>
-  </div>
+  <div class="main-header"><h1>📬 پیام‌های من</h1><h2>پیام‌های دریافتی از اپراتور</h2></div>
   <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
   <button class="btn btn-blue" onclick="loadMyMessages(true)">🔄 دریافت پیام‌های جدید</button>
-  <div id="messagesList" style="margin-top:12px">
-    <p style="text-align:center;color:var(--text-muted);padding:20px">در حال بارگذاری...</p>
-  </div>
+  <div id="messagesList" style="margin-top:12px"><p style="text-align:center;color:var(--text-muted);padding:20px">در حال بارگذاری...</p></div>
 </div>
 
 <div class="page" id="pageContact">
-  <div class="main-header">
-    <h1>📞 تماس و پشتیبانی</h1>
-    <h2>با ما در ارتباط باشید</h2>
-  </div>
+  <div class="main-header"><h1>📞 تماس و پشتیبانی</h1><h2>با ما در ارتباط باشید</h2></div>
   <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
-  <div class="menu-card" onclick="window.open('https://rubika.ir/Mhamidian313','_blank')" style="border-right-color:#2ecc71">
-    <div class="menu-card-icon">🩺</div>
-    <div class="menu-card-title">🩺 ویزیت از راه دور</div>
-    <div class="menu-card-desc">فقط با کمترین هزینه ویزیت شو</div>
-  </div>
-  <div class="menu-card" onclick="window.open('https://eitaa.com/Nabzezendegi133','_blank')" style="border-right-color:#e8b923">
-    <div class="menu-card-icon">📢</div>
-    <div class="menu-card-title">📢 کانال ایتا</div>
-    <div class="menu-card-desc">@Nabzezendegi133</div>
-  </div>
-  <div class="menu-card" onclick="window.open('https://rubika.ir/joing/GEABAACJ0KMFSXWCVGPUPQJRBLKATZUF','_blank')" style="border-right-color:#8e44ad">
-    <div class="menu-card-icon">💬</div>
-    <div class="menu-card-title">💬 گروه روبیکا</div>
-    <div class="menu-card-desc">عضویت در گروه پشتیبانی</div>
-  </div>
+  <div class="menu-card" onclick="window.open('https://rubika.ir/Mhamidian313','_blank')" style="border-right-color:#2ecc71"><div class="menu-card-icon">🩺</div><div class="menu-card-title">🩺 ویزیت از راه دور</div><div class="menu-card-desc">فقط با کمترین هزینه ویزیت شو</div></div>
+  <div class="menu-card" onclick="window.open('https://eitaa.com/Nabzezendegi133','_blank')" style="border-right-color:#e8b923"><div class="menu-card-icon">📢</div><div class="menu-card-title">📢 کانال ایتا</div><div class="menu-card-desc">@Nabzezendegi133</div></div>
+  <div class="menu-card" onclick="window.open('https://rubika.ir/joing/GEABAACJ0KMFSXWCVGPUPQJRBLKATZUF','_blank')" style="border-right-color:#8e44ad"><div class="menu-card-icon">💬</div><div class="menu-card-title">💬 گروه روبیکا</div><div class="menu-card-desc">عضویت در گروه پشتیبانی</div></div>
 </div>
 
 <div class="page" id="pageSettings">
-  <div class="main-header">
-    <h1>⚙️ تنظیمات</h1>
-    <h2>مدیریت برنامه</h2>
-  </div>
+  <div class="main-header"><h1>⚙️ تنظیمات</h1><h2>مدیریت برنامه</h2></div>
   <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
-
   <div class="section-box" style="border:2px solid var(--btn-success)">
     <h3>🔔 تنظیم هشدار جدول</h3>
     <div id="alarmSettingsContainer"></div>
     <button class="btn btn-green" onclick="saveAlarmSettings()" style="margin-top:8px">💾 ذخیره تنظیمات هشدار</button>
     <button class="btn btn-orange" onclick="testAlarmSound()" style="margin-top:6px">🔊 تست صدای آلارم</button>
   </div>
-
   <div class="section-box" style="border:2px solid var(--accent)">
     <h3>📥 دریافت از راه دور</h3>
     <div class="code-display" id="myCodeDisplay" style="font-size:1.4em">------</div>
     <button class="btn btn-green" onclick="receiveAll()">📥 دریافت نسخه و جدول</button>
   </div>
-
   <div class="section-box" style="border:2px solid var(--accent2)">
-    <h3>📚 تاریخچه نسخه‌ها و جدول‌ها</h3>
+    <h3>📚 تاریخچه</h3>
     <div class="btn-row">
-      <button class="btn btn-blue" onclick="showHistory('prescriptions')">💊 تاریخچه نسخه‌ها</button>
-      <button class="btn btn-purple" onclick="showHistory('tables')">📊 تاریخچه جدول‌ها</button>
+      <button class="btn btn-blue" onclick="showHistory('prescriptions')">💊 نسخه‌ها</button>
+      <button class="btn btn-purple" onclick="showHistory('tables')">📊 جدول‌ها</button>
     </div>
   </div>
-
   <div class="section-box">
     <h3>📅 تاریخ شروع برنامه</h3>
-    <input type="date" id="startDatePicker" onchange="onStartDateChanged()"
-      style="width:100%;padding:10px;background:var(--input-bg);color:var(--accent);
-      border:2px solid var(--accent);border-radius:8px;font-family:var(--font-family)">
-    <div style="font-size:.78em;color:var(--text-secondary);margin-top:8px;line-height:1.8">
-      📅 شمسی: <span id="jalaliDate" style="color:var(--accent);font-weight:700">--</span><br>
-      📌 امروز: <span id="dayBadge" style="color:var(--accent);font-weight:700">روز --</span>
-    </div>
+    <input type="date" id="startDatePicker" onchange="onStartDateChanged()" style="width:100%;padding:10px;background:var(--input-bg);color:var(--accent);border:2px solid var(--accent);border-radius:8px;font-family:var(--font-family)">
+    <div style="font-size:.78em;color:var(--text-secondary);margin-top:8px;line-height:1.8">📅 شمسی: <span id="jalaliDate" style="color:var(--accent);font-weight:700">--</span><br>📌 امروز: <span id="dayBadge" style="color:var(--accent);font-weight:700">روز --</span></div>
   </div>
-
-  <div class="section-box">
-    <h3>🎨 پوسته و تم</h3>
-    <div class="settings-row">
-      <label>تم:</label>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;flex:1;justify-content:center">
-        <span onclick="setTheme('nature')" style="width:35px;height:35px;border-radius:8px;cursor:pointer;background:linear-gradient(135deg,#0d1f12,#2b5738);border:2px solid #f4d03f"></span>
-        <span onclick="setTheme('honey')" style="width:35px;height:35px;border-radius:8px;cursor:pointer;background:linear-gradient(135deg,#3d2800,#8b6914);border:2px solid transparent"></span>
-        <span onclick="setTheme('herbal')" style="width:35px;height:35px;border-radius:8px;cursor:pointer;background:linear-gradient(135deg,#1a0f00,#4a3010);border:2px solid transparent"></span>
-        <span onclick="setTheme('mint')" style="width:35px;height:35px;border-radius:8px;cursor:pointer;background:linear-gradient(135deg,#0a2e2e,#1a4d4d);border:2px solid transparent"></span>
-        <span onclick="setTheme('dark')" style="width:35px;height:35px;border-radius:8px;cursor:pointer;background:linear-gradient(135deg,#111,#333);border:2px solid transparent"></span>
-        <span onclick="setTheme('purple')" style="width:35px;height:35px;border-radius:8px;cursor:pointer;background:linear-gradient(135deg,#1a0a2e,#3d2860);border:2px solid transparent"></span>
-      </div>
-    </div>
-    <div class="settings-row" style="margin-top:8px">
-      <label>🌙 حالت شب</label>
-      <input type="checkbox" id="nightMode" onchange="toggleNightMode()">
-    </div>
-  </div>
-
   <div class="section-box">
     <h3>🎨 نمایش</h3>
-    <div class="settings-row">
-      <label>نوع:</label>
-      <select id="viewMode" onchange="changeViewMode()">
-        <option value="all">کل روزها</option>
-        <option value="week">یک هفته</option>
-        <option value="today">فقط امروز</option>
-      </select>
-    </div>
-    <div class="settings-row">
-      <label>فونت:</label>
-      <select id="fontSize" onchange="changeFontSize()">
-        <option value="small">ریز</option>
-        <option value="medium" selected>متوسط</option>
-        <option value="large">بزرگ</option>
-      </select>
-    </div>
+    <div class="settings-row"><label>نوع:</label><select id="viewMode" onchange="changeViewMode()"><option value="all">کل روزها</option><option value="week">یک هفته</option><option value="today">فقط امروز</option></select></div>
+    <div class="settings-row"><label>فونت:</label><select id="fontSize" onchange="changeFontSize()"><option value="small">ریز</option><option value="medium" selected>متوسط</option><option value="large">بزرگ</option></select></div>
     <div class="settings-row"><label>📅 تاریخ</label><input type="checkbox" id="showDate" onchange="toggleShowDate()"></div>
     <div class="settings-row"><label>📆 هفته</label><input type="checkbox" id="showWeekday" onchange="toggleShowWeekday()"></div>
     <div class="settings-row"><label>📂 گذشته</label><input type="checkbox" id="showPastDays" onchange="toggleShowPastDays()" checked></div>
   </div>
-
   <button class="btn btn-red" onclick="openAdminLogin()" style="margin-top:15px">🔐 ورود به پنل مدیریت</button>
 </div>
 
 <div class="page" id="pageAdmin">
-  <div class="main-header">
-    <h1>🔐 پنل مدیریت</h1>
-    <h2>مخصوص اپراتور</h2>
-  </div>
+  <div class="main-header"><h1>🔐 پنل مدیریت</h1><h2>مخصوص اپراتور</h2></div>
   <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
 
   <div class="admin-tabs">
     <div class="admin-tab active" onclick="switchAdminTab('dashboard',this)">📊 داشبورد</div>
+    <div class="admin-tab" onclick="switchAdminTab('users',this)">👥 کاربران</div>
     <div class="admin-tab" onclick="switchAdminTab('prescription',this)">💊 نسخه</div>
     <div class="admin-tab" onclick="switchAdminTab('table',this)">📋 جدول</div>
     <div class="admin-tab" onclick="switchAdminTab('message',this)">📢 پیام</div>
     <div class="admin-tab" onclick="switchAdminTab('banner',this)">🖼️ بنر</div>
   </div>
 
+  <!-- تب داشبورد -->
   <div class="admin-panel" id="adminTabDashboard">
     <h3>📊 داشبورد گزارش</h3>
     <div class="dashboard-stats">
@@ -622,25 +467,27 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
       <button class="btn btn-blue" onclick="loadDashboard(true)">🔄 بروزرسانی</button>
       <button class="btn btn-green" onclick="exportDashboard()">📥 دانلود گزارش</button>
     </div>
-    <div style="background:var(--input-bg);padding:12px;border-radius:10px;margin-top:12px">
-      <div style="color:var(--accent);font-weight:700;font-size:.9em;margin-bottom:10px">
-        👥 لیست کاربران (<span id="userListCount">۰</span>)
-      </div>
-      <div id="userListContainer">
-        <p style="text-align:center;color:var(--text-muted);padding:20px;font-size:.85em">⏳ در حال بارگذاری...</p>
-      </div>
-    </div>
   </div>
 
+  <!-- تب کاربران -->
+  <div class="admin-panel" id="adminTabUsers" style="display:none;">
+    <h3>👥 مدیریت کاربران</h3>
+    <div class="admin-warning">💡 در این بخش می‌توانید نام کاربران را ویرایش کنید یا به پنل آن‌ها وارد شوید</div>
+    <input type="text" id="adminUserSearch" placeholder="جستجوی نام یا کد کاربر..." onkeyup="filterAdminUsers()" style="width:100%; padding:12px; background:var(--input-bg); color:#fff; border:1px solid var(--accent); border-radius:8px; margin-bottom:15px;">
+    <div id="adminUsersListContainer" style="max-height: 50vh; overflow-y: auto;"></div>
+  </div>
+
+  <!-- تب نسخه -->
   <div class="admin-panel" id="adminTabPrescription" style="display:none">
     <h3>📤 ارسال نسخه رژیم درمانی</h3>
     <div class="admin-warning">⚠️ این بخش فقط برای اپراتور است</div>
-    <div class="settings-row">
-      <label>کد کاربر:</label>
-      <input type="text" id="targetUserCode" placeholder="کد را انتخاب یا وارد کنید" maxlength="10"
-        list="usersListDatalist"
-        style="text-align:center;letter-spacing:3px;direction:ltr;font-size:1.1em">
-      <datalist id="usersListDatalist"></datalist>
+    <div class="settings-row" style="margin-bottom:10px; position:relative;">
+      <label>کاربر:</label>
+      <div class="search-container">
+        <input type="text" id="prescriptionUserSearch" placeholder="تایپ کنید..." oninput="showUserDropdown('prescriptionUserSearch', 'targetUserCode')" onfocus="showUserDropdown('prescriptionUserSearch', 'targetUserCode')" style="width:100%;">
+        <input type="hidden" id="targetUserCode">
+        <div class="custom-dropdown" id="prescriptionUserSearchDropdown"></div>
+      </div>
     </div>
     <div class="settings-row">
       <label>عنوان:</label>
@@ -653,22 +500,23 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     </div>
   </div>
 
+  <!-- تب جدول -->
   <div class="admin-panel" id="adminTabTable" style="display:none">
     <h3>📋 ویرایش جدول هوشمند</h3>
-    <div class="admin-warning">💡 تغییرات به صورت خودکار ذخیره می‌شوند</div>
-    <div class="settings-row" style="margin-bottom:10px">
-      <label>کد کاربر:</label>
-      <input type="text" id="targetUserCodeTable" placeholder="کد را انتخاب یا وارد کنید" maxlength="10"
-        list="usersListDatalist"
-        style="text-align:center;letter-spacing:3px;direction:ltr;font-size:1.1em">
+    
+    <div class="settings-row" style="margin-bottom:10px; position:relative;">
+      <label>کاربر:</label>
+      <div class="search-container">
+        <input type="text" id="tableUserSearch" placeholder="تایپ کنید..." oninput="showUserDropdown('tableUserSearch', 'targetUserCodeTable')" onfocus="showUserDropdown('tableUserSearch', 'targetUserCodeTable')" style="width:100%;">
+        <input type="hidden" id="targetUserCodeTable">
+        <div class="custom-dropdown" id="tableUserSearchDropdown"></div>
+      </div>
     </div>
 
     <div style="background:var(--input-bg);padding:12px;border-radius:10px;margin:10px 0">
       <div style="color:var(--accent);font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">🏷️ نام و ساعت وعده‌ها</div>
       <div id="tableEditorContainer"></div>
-      <button onclick="addTableColumnEditor()" style="width:100%;padding:10px;background:var(--btn-success);
-        color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;margin-top:8px;
-        font-size:.85em;font-family:var(--font-family)">➕ افزودن وعده جدید</button>
+      <button onclick="addTableColumnEditor()" style="width:100%;padding:10px;background:var(--btn-success);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;margin-top:8px;font-size:.85em;font-family:var(--font-family)">➕ افزودن وعده جدید</button>
     </div>
 
     <div style="background:var(--input-bg);padding:12px;border-radius:10px;margin:10px 0">
@@ -684,9 +532,9 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     <div style="background:rgba(231,76,60,.08);padding:12px;border-radius:10px;margin:10px 0;border:2px solid rgba(231,76,60,.3)">
       <div style="color:#e74c3c;font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">⚡ اعمال محتوای بالا روی:</div>
       <div style="display:grid;grid-template-columns:1fr;gap:8px">
-        <button onclick="applyToDays('all')" style="padding:12px;background:linear-gradient(135deg,#27ae60,#1e8449);color:#fff;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:.9em;font-family:var(--font-family)">📌 اعمال بر کل روزها</button>
-        <button onclick="applyToDays('odd')" style="padding:12px;background:linear-gradient(135deg,#6b8e23,#4a6618);color:#fff;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:.9em;font-family:var(--font-family)">🔵 اعمال بر روزهای فرد</button>
-        <button onclick="applyToDays('even')" style="padding:12px;background:linear-gradient(135deg,#e8b923,#b8941f);color:#0d1f12;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:.9em;font-family:var(--font-family)">🔴 اعمال بر روزهای زوج</button>
+        <button onclick="applyToDays('all')" style="padding:12px;background:linear-gradient(135deg,#27ae60,#1e8449);color:#fff;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:.9em;font-family:var(--font-family)">📌 کل روزها</button>
+        <button onclick="applyToDays('odd')" style="padding:12px;background:linear-gradient(135deg,#6b8e23,#4a6618);color:#fff;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:.9em;font-family:var(--font-family)">🔵 روزهای فرد</button>
+        <button onclick="applyToDays('even')" style="padding:12px;background:linear-gradient(135deg,#e8b923,#b8941f);color:#0d1f12;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:.9em;font-family:var(--font-family)">🔴 روزهای زوج</button>
       </div>
     </div>
 
@@ -695,14 +543,8 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
       <button onclick="togglePreview()" id="previewToggleBtn" style="width:100%;padding:10px;background:var(--btn-primary);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:.9em;margin-bottom:8px;font-family:var(--font-family)">نمایش جدول</button>
       <div id="previewContainer" style="display:none">
         <div class="preview-scroll">
-          <table class="preview-table" id="previewTable">
-            <thead id="previewTableHead"></thead>
-            <tbody id="previewTableBody"></tbody>
-          </table>
+          <table class="preview-table" id="previewTable"><thead id="previewTableHead"></thead><tbody id="previewTableBody"></tbody></table>
         </div>
-        <p style="font-size:.7em;color:var(--text-muted);margin-top:6px;text-align:center">
-          📊 <span id="previewCount">0</span> روز × <span id="previewCols">0</span> وعده
-        </p>
       </div>
     </div>
 
@@ -715,20 +557,21 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     </div>
   </div>
 
+  <!-- تب پیام -->
   <div class="admin-panel" id="adminTabMessage" style="display:none">
     <h3>📢 ارسال پیام</h3>
-    <div class="admin-warning">⚠️ پیام‌ها در اپ کاربران نمایش داده می‌شوند</div>
-    <div class="settings-row">
-      <label>عنوان:</label>
-      <input type="text" id="messageTitle" placeholder="مثلاً: یادآوری مهم">
-    </div>
+    <div class="settings-row"><label>عنوان:</label><input type="text" id="messageTitle" placeholder="مثلاً: یادآوری مهم"></div>
     <textarea id="messageContent" placeholder="متن پیام..." style="min-height:120px"></textarea>
-    <div class="settings-row" style="margin-top:8px">
+    
+    <div class="settings-row" style="margin-top:8px; position:relative;">
       <label>گیرنده:</label>
-      <input type="text" id="messageTarget" placeholder="کد کاربر یا خالی برای همه"
-        list="usersListDatalist"
-        style="text-align:center;letter-spacing:3px;direction:ltr">
+      <div class="search-container">
+        <input type="text" id="messageUserSearch" placeholder="خالی = همه کاربران" oninput="showUserDropdown('messageUserSearch', 'messageTarget')" onfocus="showUserDropdown('messageUserSearch', 'messageTarget')" style="width:100%;">
+        <input type="hidden" id="messageTarget">
+        <div class="custom-dropdown" id="messageUserSearchDropdown"></div>
+      </div>
     </div>
+    
     <p style="font-size:.75em;color:var(--text-muted);margin-top:5px">💡 اگر کد خالی باشد، پیام برای همه کاربران ارسال می‌شود</p>
     <div class="btn-row" style="margin-top:10px">
       <button class="btn btn-green" onclick="sendMessage()">📢 ارسال پیام</button>
@@ -736,26 +579,20 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     </div>
   </div>
 
+  <!-- تب بنر -->
   <div class="admin-panel" id="adminTabBanner" style="display:none">
     <h3>🖼️ مدیریت بنر اپلیکیشن</h3>
-    <div class="admin-warning">⚠️ با تغییر لینک، بنر برای همه کاربران تغییر می‌کند</div>
     <div class="settings-row">
       <label>لینک عکس:</label>
-      <input type="text" id="bannerUrlInput" placeholder="https://example.com/banner.jpg"
-        style="direction:ltr;text-align:left;font-size:.8em">
+      <input type="text" id="bannerUrlInput" placeholder="https://example.com/banner.jpg" style="direction:ltr;text-align:left;font-size:.8em">
     </div>
-    <p style="font-size:.75em;color:var(--text-muted);text-align:center;margin:8px 0">
-      📐 ابعاد پیشنهادی: <strong style="color:var(--accent)">۱۲۰۰×۳۰۰ پیکسل</strong> | فرمت: JPG یا PNG
-    </p>
     <div class="btn-row">
       <button class="btn btn-green" onclick="saveBannerUrl()">💾 ذخیره بنر</button>
-      <button class="btn btn-red" onclick="disableBanner()">🚫 غیرفعال کردن</button>
+      <button class="btn btn-red" onclick="disableBanner()">🚫 غیرفعال</button>
     </div>
     <div style="background:var(--input-bg);padding:10px;border-radius:8px;margin-top:12px">
       <div style="color:var(--accent);font-weight:700;font-size:.85em;margin-bottom:8px;text-align:center">👁️ پیش‌نمایش:</div>
-      <div id="bannerPreview" style="text-align:center">
-        <p style="font-size:.8em;color:var(--text-muted)">هنوز بنری تنظیم نشده</p>
-      </div>
+      <div id="bannerPreview" style="text-align:center"><p style="font-size:.8em;color:var(--text-muted)">هنوز بنری تنظیم نشده</p></div>
     </div>
   </div>
 
@@ -768,30 +605,32 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
 "use strict";
 
 const SUPABASE_URL = "https://bqhyypffalwbilaicdlw.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_KVthV8sXxlf7yeBV9HibvA_SfzVOYfI";
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  global: { headers: { apikey: SUPABASE_ANON_KEY } }
-});
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { global: { headers: { apikey: SUPABASE_ANON_KEY } } });
 
 var ADMIN_PASSWORD="maryam6625";
 var SAVE_PASSWORD_KEY="adminSavedPassword";
 
-var currentTheme="nature",nightMode=false,userId="";
+var currentTheme="nature",nightMode=false,userId="",userProfile=null;
 var alarmTimers=[],alarmActive=false,audioContext=null,alarmSoundInterval=null;
 var editingTableColumns=[],currentEditorDay=0,alarmEnabled={};
 var audioUnlocked=false,dashboardData={users:{},tables:{},messages:[]};
 var activePopup=null,previewVisible=false;
+var adminUsersCache = []; // کش لیست کاربران برای جستجو
 
-// دیتای اختصاصی پنل ادمین (جدا از نمایش کاربر)
+// دیتای اختصاصی پنل ادمین
 var adminTableColumns=['oil','breakfast','evening','dinner'];
 var adminTableColumnNames={oil:'💧 ناشتا',breakfast:'☀️ صبح',evening:'🌅 عصر',dinner:'🌙 شب'};
 var adminCurrentTimes={oil:"06:00",breakfast:"08:00",evening:"17:00",dinner:"21:00"};
 var adminTotalDays=40,adminFortyDayData=[];
+
+// متغیرهای Impersonation (مشاهده پنل کاربر توسط ادمین)
+var isImpersonating = false;
+var originalAdminCode = "";
 
 function showToast(msg,type,duration){
   type=type||"success";duration=duration||3000;
@@ -801,35 +640,14 @@ function showToast(msg,type,duration){
   t.style.display='block';
   setTimeout(function(){t.style.display='none';},duration);
 }
-function escapeHtml(s){
-  if(s==null)return"";
-  return String(s).replace(/[&<>"']/g,function(c){
-    return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
-  });
-}
+function escapeHtml(s){if(s==null)return"";return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function safeSetLS(key,val){try{localStorage.setItem(key,val);return true;}catch(e){return false;}}
 function safeGetLS(key,def){try{var v=localStorage.getItem(key);return v==null?def:v;}catch(e){return def;}}
 function safeParseJSON(str,def){if(!str)return def;try{return JSON.parse(str);}catch(e){return def;}}
 
-function showPage(pageId){
-  var pages=document.querySelectorAll('.page');
-  for(var i=0;i<pages.length;i++)pages[i].classList.remove('active');
-  var target=document.getElementById(pageId);
-  if(target)target.classList.add('active');
-  window.scrollTo({top:0,behavior:'smooth'});
-  if(pageId==='pageMenu') updateTodayShowcase(); // آپدیت ویترین
-  if(pageId==='pageDaily')checkDailyReceive();
-  if(pageId==='pageRegime')checkRegimeReceive();
-  if(pageId==='pageMessages')loadMyMessages();
-  if(pageId==='pageAdmin'){
-    loadUsersListForAdmin(); // لود لیست کشویی کاربران
-    buildAdminEditor(); 
-    loadAdminRecent();
-    loadDashboard(false);
-  }
-  if(pageId==='pageSettings')renderAlarmSettings();
-}
-
+/* ============================================================
+   ثبت‌نام و پروفایل
+   ============================================================ */
 function generateFallbackUserId(){
   var chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',code='';
   for(var i=0;i<6;i++)code+=chars.charAt(Math.floor(Math.random()*chars.length));
@@ -840,44 +658,106 @@ function initUserId(){
   if(!saved){
     saved=generateFallbackUserId();
     safeSetLS('userId',saved);
-    var wc=document.getElementById('welcomeCode');
-    if(wc)wc.textContent=saved;
-    var wm=document.getElementById('welcomeModal');
-    if(wm)wm.classList.add('active');
   }
   userId=saved;
-  var cd=document.getElementById('myCodeDisplay');
-  if(cd)cd.textContent=userId;
+  document.getElementById('welcomeCode').textContent=userId;
+  
+  // بررسی اینکه آیا پروفایل دارد یا نه
+  userProfile = safeParseJSON(safeGetLS('userProfile','null'), null);
+  if(!userProfile) {
+    document.getElementById('registerModal').classList.add('active');
+  } else {
+    document.getElementById('registerModal').classList.remove('active');
+    updateProfileUI();
+  }
 }
-function closeWelcomeModal(){
-  var wm=document.getElementById('welcomeModal');
-  if(wm)wm.classList.remove('active');
-  showToast('✅ کد شما ذخیره شد');
+
+function previewRegAvatar(event) {
+  var file = event.target.files[0];
+  if (file) {
+    if (file.size > 500 * 1024) { // حداکثر 500 کیلوبایت برای سرعت
+      showToast('حجم عکس باید کمتر از ۵۰۰ کیلوبایت باشد', 'error');
+      return;
+    }
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('regAvatarPreview').src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+async function submitProfile() {
+  var firstName = document.getElementById('regFirstName').value.trim();
+  var lastName = document.getElementById('regLastName').value.trim();
+  var avatarSrc = document.getElementById('regAvatarPreview').src;
+  
+  if(!firstName || !lastName) { showToast('نام و نام خانوادگی را وارد کنید', 'error'); return; }
+  
+  var fullName = firstName + ' ' + lastName;
+  
+  showToast('⏳ در حال ثبت...', 'warning');
+  
+  try {
+    var record = await getUserRecord(userId) || {};
+    record.profile = { name: fullName, avatar: avatarSrc, registeredAt: Date.now() };
+    var ok = await saveUserRecord(userId, record);
+    
+    if(ok) {
+      userProfile = record.profile;
+      safeSetLS('userProfile', JSON.stringify(userProfile));
+      document.getElementById('registerModal').classList.remove('active');
+      updateProfileUI();
+      showToast('✅ ثبت‌نام با موفقیت انجام شد');
+      if(userProfile && !isImpersonating) loadDashboard(false);
+    } else {
+      showToast('❌ خطا در ثبت نام', 'error');
+    }
+  } catch(e) {
+    showToast('❌ خطا: ' + e.message, 'error');
+  }
+}
+
+function updateProfileUI() {
+  if(userProfile) {
+    document.getElementById('userProfileHeader').style.display = 'flex';
+    document.getElementById('displayName').textContent = userProfile.name;
+    document.getElementById('displayCode').textContent = 'کد: ' + userId;
+    if(userProfile.avatar) document.getElementById('displayAvatar').src = userProfile.avatar;
+  } else {
+    document.getElementById('userProfileHeader').style.display = 'none';
+  }
+  document.getElementById('myCodeDisplay').textContent = userId;
+}
+
+function openProfileEdit() {
+  document.getElementById('regFirstName').value = userProfile ? userProfile.name.split(' ')[0] : '';
+  document.getElementById('regLastName').value = userProfile ? userProfile.name.split(' ').slice(1).join(' ') : '';
+  if(userProfile && userProfile.avatar) document.getElementById('regAvatarPreview').src = userProfile.avatar;
+  document.getElementById('welcomeCode').textContent = userId;
+  document.getElementById('registerModal').classList.add('active');
 }
 
 /* ============================================================
-   SUPABASE HELPERS (دیتابیس جدید)
+   Supabase Data
    ============================================================ */
 async function getUserRecord(code) {
   if (!code) return null;
   try {
-    const { data, error } = await supabaseClient
-      .from('users_list').select('data').eq('code', code.toUpperCase()).maybeSingle();
+    const { data, error } = await supabaseClient.from('users_list').select('data, name').eq('code', code.toUpperCase()).maybeSingle();
     if (error) throw error;
     return data ? data.data : null;
-  } catch(e) { console.error(e); return null; }
+  } catch(e) { return null; }
 }
-
 async function saveUserRecord(code, data) {
   if (!code) return false;
   try {
-    const { error } = await supabaseClient
-      .from('users_list').upsert({ code: code.toUpperCase(), data: data, updated_at: new Date().toISOString() });
+    var nameToSave = data.profile ? data.profile.name : null;
+    const { error } = await supabaseClient.from('users_list').upsert({ code: code.toUpperCase(), name: nameToSave, data: data, updated_at: new Date().toISOString() });
     if (error) throw error;
     return true;
-  } catch(e) { console.error(e); return false; }
+  } catch(e) { return false; }
 }
-
 async function getGlobalData() {
   try {
     const { data, error } = await supabaseClient.from('app_data').select('data').eq('id', 1).maybeSingle();
@@ -885,38 +765,219 @@ async function getGlobalData() {
     return data ? data.data : { messages: [], banner: { url: '', active: false } };
   } catch(e) { return { messages: [], banner: { url: '', active: false } }; }
 }
-
 async function saveGlobalData(record) {
   try {
     const { error } = await supabaseClient.from('app_data').upsert({ id: 1, user_code: 'GLOBAL', data: record, updated_at: new Date().toISOString() });
     return !error;
   } catch(e) { return false; }
 }
-
 async function getAllUsersFromDB() {
   try {
-    const { data, error } = await supabaseClient.from('users_list').select('code, data');
+    const { data, error } = await supabaseClient.from('users_list').select('code, name, data');
     if (error) throw error;
     return data || [];
   } catch(e) { return []; }
 }
 
 /* ============================================================
-   ویترین امروز
+   Impersonation (ورود ادمین به پنل کاربر)
    ============================================================ */
+async function impersonateUser(targetCode) {
+  if(!confirm('ورود به پنل کاربر ' + targetCode + '؟')) return;
+  
+  originalAdminCode = userId;
+  isImpersonating = true;
+  
+  // دریافت اطلاعات کاربر از دیتابیس
+  var userData = await getUserRecord(targetCode);
+  if(!userData) { showToast('اطلاعات کاربر یافت نشد', 'error'); return; }
+  
+  userId = targetCode;
+  userProfile = userData.profile || null;
+  
+  // آپدیت UI
+  safeSetLS('userId', userId);
+  if(userProfile) safeSetLS('userProfile', JSON.stringify(userProfile));
+  updateProfileUI();
+  
+  // نمایش نوار بازگشت
+  document.getElementById('adminReturnBar').style.display = 'block';
+  
+  // باز کردن صفحه اصلی کاربر
+  showPage('pageMenu');
+  
+  // بارگذاری دیتای کاربر
+  receiveAll(true).catch(function(){});
+  loadMyMessages();
+  
+  showToast('👤 شما وارد پنل ' + targetCode + ' شدید');
+}
+
+function exitImpersonation() {
+  isImpersonating = false;
+  userId = originalAdminCode;
+  safeSetLS('userId', userId);
+  
+  // پاک کردن پروفایل قبلی
+  localStorage.removeItem('userProfile');
+  userProfile = null;
+  
+  // پاک کردن جدول‌های کاربر
+  localStorage.removeItem('tableReceived');
+  localStorage.removeItem('lastPrescription');
+  
+  // بازگرداندن UI
+  document.getElementById('adminReturnBar').style.display = 'none';
+  updateProfileUI();
+  showPage('pageAdmin');
+  showToast('🔙 به پنل مدیریت بازگشتید');
+}
+
+/* ============================================================
+   جستجوی کاربر (Dropdown)
+   ============================================================ */
+function showUserDropdown(searchInputId, hiddenInputId) {
+  var searchVal = document.getElementById(searchInputId).value.toLowerCase().trim();
+  var dropdown = document.getElementById(searchInputId + 'Dropdown');
+  
+  if(!adminUsersCache || adminUsersCache.length === 0) {
+    dropdown.innerHTML = '<div style="padding:15px;text-align:center;color:var(--text-muted);">در حال بارگذاری لیست...</div>';
+    dropdown.classList.add('active');
+    loadUsersListForAdmin();
+    return;
+  }
+  
+  var filtered = adminUsersCache.filter(function(u) {
+    var name = (u.profile && u.profile.name) ? u.profile.name.toLowerCase() : '';
+    var code = u.code.toLowerCase();
+    return name.includes(searchVal) || code.includes(searchVal);
+  });
+  
+  if(filtered.length === 0) {
+    dropdown.innerHTML = '<div style="padding:15px;text-align:center;color:var(--text-muted);">کاربری یافت نشد</div>';
+  } else {
+    var html = '';
+    filtered.forEach(function(u) {
+      var displayName = (u.profile && u.profile.name) ? u.profile.name : 'بدون نام';
+      var avatarSrc = (u.profile && u.profile.avatar) ? u.profile.avatar : 'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'50\' fill=\'%23333\'/><text x=\'50\' y=\'65\' font-size=\'50\' text-anchor=\'middle\' fill=\'%23fff\'>👤</text></svg>';
+      html += '<div class="dropdown-item" onclick="selectUserFromDropdown(\''+searchInputId+'\', \''+hiddenInputId+'\', \''+u.code+'\', \''+escapeHtml(displayName)+'\')">';
+      html += '<div style="display:flex;align-items:center;gap:10px;">';
+      html += '<img src="'+avatarSrc+'" style="width:35px;height:35px;border-radius:50%;object-fit:cover;border:1px solid var(--accent);">';
+      html += '<div style="display:flex;flex-direction:column;text-align:right;">';
+      html += '<div class="dropdown-item-name">'+escapeHtml(displayName)+'</div>';
+      html += '<div class="dropdown-item-code">'+escapeHtml(u.code)+'</div>';
+      html += '</div></div>';
+      html += '<div style="color:var(--accent);">➕</div>';
+      html += '</div>';
+    });
+    dropdown.innerHTML = html;
+  }
+  dropdown.classList.add('active');
+}
+
+function selectUserFromDropdown(searchInputId, hiddenInputId, code, name) {
+  document.getElementById(searchInputId).value = name + ' (' + code + ')';
+  document.getElementById(hiddenInputId).value = code;
+  document.getElementById(searchInputId + 'Dropdown').classList.remove('active');
+}
+
+document.addEventListener('click', function(e){
+  document.querySelectorAll('.custom-dropdown').forEach(function(d){ 
+    if(!d.contains(e.target) && !d.previousElementSibling.contains(e.target)) d.classList.remove('active'); 
+  });
+});
+
+async function loadUsersListForAdmin() {
+  adminUsersCache = await getAllUsersFromDB();
+  renderAdminUsersList(adminUsersCache);
+}
+
+function renderAdminUsersList(users) {
+  var container = document.getElementById('adminUsersListContainer');
+  if(!container) return;
+  
+  if(users.length === 0) {
+    container.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:20px;">هیچ کاربری ثبت‌نام نکرده است</p>';
+    return;
+  }
+  
+  var html = '';
+  users.forEach(function(u) {
+    var name = (u.profile && u.profile.name) ? u.profile.name : 'بدون نام';
+    var avatarSrc = (u.profile && u.profile.avatar) ? u.profile.avatar : 'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'50\' fill=\'%23333\'/><text x=\'50\' y=\'65\' font-size=\'50\' text-anchor=\'middle\' fill=\'%23fff\'>👤</text></svg>';
+    
+    html += '<div class="admin-user-row">';
+    html += '<img src="'+avatarSrc+'" class="admin-user-avatar">';
+    html += '<div class="admin-user-info">';
+    html += '<div class="admin-user-name" id="uname_' + u.code + '">' + escapeHtml(name) + '</div>';
+    html += '<div class="admin-user-code">کد: ' + escapeHtml(u.code) + '</div>';
+    html += '</div>';
+    html += '<div class="admin-user-actions">';
+    html += '<button class="btn-small" style="background:var(--btn-primary);color:#fff;" onclick="editUserName(\''+u.code+'\', \''+escapeHtml(name)+'\')">✏️ ویرایش نام</button>';
+    html += '<button class="btn-small" style="background:var(--purple, #6b8e23);color:#fff;" onclick="impersonateUser(\''+u.code+'\')">👁️ ورود به پنل</button>';
+    html += '</div></div>';
+  });
+  container.innerHTML = html;
+}
+
+function filterAdminUsers() {
+  var q = document.getElementById('adminUserSearch').value.toLowerCase().trim();
+  var filtered = adminUsersCache.filter(function(u){
+    var name = (u.profile && u.profile.name) ? u.profile.name.toLowerCase() : '';
+    return name.includes(q) || u.code.toLowerCase().includes(q);
+  });
+  renderAdminUsersList(filtered);
+}
+
+async function editUserName(code, currentName) {
+  var newName = prompt('نام جدید را وارد کنید:', currentName);
+  if(newName && newName.trim() !== '' && newName !== currentName) {
+    var data = await getUserRecord(code);
+    if(data) {
+      if(!data.profile) data.profile = {};
+      data.profile.name = newName.trim();
+      var ok = await saveUserRecord(code, data);
+      if(ok) {
+        showToast('✅ نام ویرایش شد');
+        loadUsersListForAdmin();
+      } else showToast('❌ خطا در ویرایش', 'error');
+    }
+  }
+}
+
+/* ============================================================
+   Navigation & Data Loading
+   ============================================================ */
+function showPage(pageId){
+  var pages=document.querySelectorAll('.page');
+  for(var i=0;i<pages.length;i++)pages[i].classList.remove('active');
+  var target=document.getElementById(pageId);
+  if(target)target.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  
+  if(pageId==='pageMenu') updateTodayShowcase();
+  if(pageId==='pageDaily')checkDailyReceive();
+  if(pageId==='pageRegime')checkRegimeReceive();
+  if(pageId==='pageMessages')loadMyMessages();
+  if(pageId==='pageAdmin'){
+    loadUsersListForAdmin();
+    buildAdminEditor(); 
+    loadAdminRecent();
+    loadDashboard(false);
+  }
+  if(pageId==='pageSettings')renderAlarmSettings();
+}
+
 function updateTodayShowcase() {
   var grid = document.getElementById('showcaseGrid');
   if (!grid) return;
-  
   if (fortyDayData.length === 0) {
     grid.innerHTML = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;font-size:0.9em;">برنامه‌ای ثبت نشده است</p>';
     return;
   }
-
   var todayIdx = getCurrentDayAuto();
   var dayData = fortyDayData[todayIdx] || {};
   var html = '';
-
   tableColumns.forEach(function(col) {
     var val = dayData[col];
     if (!val || val === '❌') return;
@@ -927,7 +988,6 @@ function updateTodayShowcase() {
     else if (col.includes('breakfast')) icon = '☀️';
     else if (col.includes('evening')) icon = '🌅';
     else if (col.includes('dinner')) icon = '🌙';
-
     html += '<div class="showcase-card">';
     html += '<div class="showcase-card-icon">' + icon + '</div>';
     html += '<div class="showcase-card-label">' + escapeHtml(label) + '</div>';
@@ -935,14 +995,10 @@ function updateTodayShowcase() {
     if (time) html += '<div class="showcase-card-time">⏰ ' + time + '</div>';
     html += '</div>';
   });
-
   if (!html) html = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;font-size:0.9em;">برنامه‌ای برای امروز ثبت نشده</p>';
   grid.innerHTML = html;
 }
 
-/* ============================================================
-   دریافت اطلاعات کاربر
-   ============================================================ */
 function checkDailyReceive(){
   var p=document.getElementById('dailyReceivePrompt'),c=document.getElementById('dailyContent');
   if(!p||!c)return;
@@ -950,9 +1006,7 @@ function checkDailyReceive(){
     p.innerHTML='';c.style.display='block';renderTable();
   }else{
     c.style.display='none';
-    p.innerHTML='<div class="receive-prompt"><div class="receive-icon">🍵</div>'+
-      '<button class="receive-btn" onclick="handleReceiveDaily()">📥 دریافت برنامه</button>'+
-      '<div class="receive-note">📡 لطفاً از اتصال به اینترنت مطمئن شوید.</div></div>';
+    p.innerHTML='<div class="receive-prompt"><div class="receive-icon">🍵</div><button class="receive-btn" onclick="handleReceiveDaily()">📥 دریافت برنامه</button><div class="receive-note">📡 لطفاً از اتصال به اینترنت مطمئن شوید.</div></div>';
   }
 }
 function checkRegimeReceive(){
@@ -967,31 +1021,20 @@ function checkRegimeReceive(){
     }catch(e){}
   }else{
     c.style.display='none';
-    p.innerHTML='<div class="receive-prompt"><div class="receive-icon">🥗</div>'+
-      '<button class="receive-btn" onclick="handleReceiveRegime()">📥 دریافت رژیم ویژه شما</button>'+
-      '<div class="receive-note">📡 لطفاً از اتصال به اینترنت مطمئن شوید.</div></div>';
+    p.innerHTML='<div class="receive-prompt"><div class="receive-icon">🥗</div><button class="receive-btn" onclick="handleReceiveRegime()">📥 دریافت رژیم ویژه شما</button><div class="receive-note">📡 لطفاً از اتصال به اینترنت مطمئن شوید.</div></div>';
   }
 }
 function handleReceiveDaily(){
   if(!navigator.onLine){alert('❌ لطفاً از اتصال به اینترنت مطمئن شوید.');return;}
   var c=document.getElementById('dailyReceivePrompt');
   if(c)c.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--accent);font-size:1.1em">⏳ در حال دریافت...<br><br><span style="font-size:.8em;color:var(--text-muted)">لطفاً صبر کنید</span></div>';
-  receiveAll(true).then(function(){
-    safeSetLS('tableReceived','true');checkDailyReceive();
-    showToast('✅ برنامه شما دریافت شد');
-  }).catch(function(e){
-    alert('❌ خطا: '+e.message);checkDailyReceive();
-  });
+  receiveAll(true).then(function(){ safeSetLS('tableReceived','true');checkDailyReceive(); showToast('✅ برنامه شما دریافت شد'); }).catch(function(e){ alert('❌ خطا: '+e.message);checkDailyReceive(); });
 }
 function handleReceiveRegime(){
   if(!navigator.onLine){alert('❌ لطفاً از اتصال به اینترنت مطمئن شوید.');return;}
   var c=document.getElementById('regimeReceivePrompt');
   if(c)c.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--accent);font-size:1.1em">⏳ در حال دریافت...<br><br><span style="font-size:.8em;color:var(--text-muted)">لطفاً صبر کنید</span></div>';
-  receiveAll(true).then(function(){
-    checkRegimeReceive();showToast('✅ رژیم شما دریافت شد');
-  }).catch(function(e){
-    alert('❌ خطا: '+e.message);checkRegimeReceive();
-  });
+  receiveAll(true).then(function(){ checkRegimeReceive();showToast('✅ رژیم شما دریافت شد'); }).catch(function(e){ alert('❌ خطا: '+e.message);checkRegimeReceive(); });
 }
 
 function receiveAll(silent){
@@ -1027,6 +1070,12 @@ function receiveAll(silent){
           });
           saveAll();renderTable();updateTodayShowcase();
           safeSetLS('tableReceived','true');
+          
+          // ثبت تاریخ شروع از روز ارسال
+          if(data.tableData.sentAt) {
+             var sentDate = new Date(data.tableData.sentAt);
+             safeSetLS('healthStartDateGregorian', sentDate.toISOString());
+          }
           gotSomething=true;
         }
       }
@@ -1037,149 +1086,47 @@ function receiveAll(silent){
   });
 }
 
-/* ============================================================
-   ARCHIVE & BANNER
-   ============================================================ */
 function archiveCurrentPrescription(){
-  var current=safeGetLS('lastPrescription',null);
-  if(!current)return;
-  try{
-    var info=JSON.parse(current);
-    var archive=safeParseJSON(safeGetLS('prescriptionHistory','[]'),[]);
-    if(archive.some(function(a){return a.content===info.content;}))return;
-    archive.unshift({title:info.title||'بدون عنوان',content:info.content,archivedAt:Date.now()});
-    if(archive.length>20)archive.length=20;
-    safeSetLS('prescriptionHistory',JSON.stringify(archive));
-  }catch(e){}
+  var current=safeGetLS('lastPrescription',null);if(!current)return;
+  try{var info=JSON.parse(current);var archive=safeParseJSON(safeGetLS('prescriptionHistory','[]'),[]);if(archive.some(function(a){return a.content===info.content;}))return;archive.unshift({title:info.title||'بدون عنوان',content:info.content,archivedAt:Date.now()});if(archive.length>20)archive.length=20;safeSetLS('prescriptionHistory',JSON.stringify(archive));}catch(e){}
 }
 function archiveCurrentTable(){
   if(!fortyDayData||fortyDayData.length===0)return;
-  try{
-    var archive=safeParseJSON(safeGetLS('tableHistory','[]'),[]);
-    archive.unshift({
-      fortyDayData:JSON.parse(JSON.stringify(fortyDayData)),
-      tableColumns:[].concat(tableColumns),
-      tableColumnNames:Object.assign({},tableColumnNames),
-      currentTimes:Object.assign({},currentTimes),
-      totalDays:totalDays,
-      archivedAt:Date.now()
-    });
-    if(archive.length>20)archive.length=20;
-    safeSetLS('tableHistory',JSON.stringify(archive));
-  }catch(e){}
+  try{var archive=safeParseJSON(safeGetLS('tableHistory','[]'),[]);archive.unshift({fortyDayData:JSON.parse(JSON.stringify(fortyDayData)),tableColumns:[].concat(tableColumns),tableColumnNames:Object.assign({},tableColumnNames),currentTimes:Object.assign({},currentTimes),totalDays:totalDays,archivedAt:Date.now()});if(archive.length>20)archive.length=20;safeSetLS('tableHistory',JSON.stringify(archive));}catch(e){}
 }
 
 function loadRemoteBanner(){
-  var tb=document.getElementById('topBanner'),img=document.getElementById('topBannerImg');
-  if(!tb||!img)return;
-  if(!navigator.onLine){tb.classList.remove('active');return;}
-  getGlobalData().then(function(data){
-    var bc=data.banner;
-    if(!bc||!bc.url||bc.active===false){tb.classList.remove('active');return;}
-    img.onload=function(){img.style.display='block';tb.classList.add('active');};
-    img.onerror=function(){img.style.display='none';tb.classList.remove('active');};
-    img.src=bc.url;
-  }).catch(function(){tb.classList.remove('active');});
+  var tb=document.getElementById('topBanner'),img=document.getElementById('topBannerImg');if(!tb||!img)return;if(!navigator.onLine){tb.classList.remove('active');return;}
+  getGlobalData().then(function(data){var bc=data.banner;if(!bc||!bc.url||bc.active===false){tb.classList.remove('active');return;}img.onload=function(){img.style.display='block';tb.classList.add('active');};img.onerror=function(){img.style.display='none';tb.classList.remove('active');};img.src=bc.url;}).catch(function(){tb.classList.remove('active');});
 }
 function bannerLoaded(){}
-function bannerError(){
-  var tb=document.getElementById('topBanner'),img=document.getElementById('topBannerImg');
-  if(img)img.style.display='none';
-  if(tb)tb.classList.remove('active');
-}
-function loadBannerInAdmin(){
-  getGlobalData().then(function(data){
-    var bc=data.banner;
-    var p=document.getElementById('bannerPreview'),inp=document.getElementById('bannerUrlInput');
-    if(!p||!inp)return;
-    if(bc&&bc.url){
-      inp.value=bc.url;
-      if(bc.active===false)p.innerHTML='<p style="color:#e74c3c;font-size:.85em">🚫 غیرفعال</p>';
-      else p.innerHTML='<img src="'+escapeHtml(bc.url)+'" style="width:100%;max-width:500px;border-radius:10px;border:2px solid var(--accent)">';
-    }else{
-      p.innerHTML='<p style="font-size:.8em;color:var(--text-muted)">هنوز بنری تنظیم نشده</p>';
-      inp.value='';
-    }
-  }).catch(function(){});
-}
-function saveBannerUrl(){
-  var url=document.getElementById('bannerUrlInput').value.trim();
-  if(!url){showToast('لینک عکس را وارد کنید','error');return;}
-  if(!navigator.onLine){showToast('❌ اتصال به اینترنت را چک کنید','error');return;}
-  showToast('⏳ در حال ذخیره...','warning');
-  getGlobalData().then(function(record){
-    record.banner={url:url,active:true,updatedAt:Date.now()};
-    return saveGlobalData(record);
-  }).then(function(ok){
-    if(ok){showToast('✅ بنر ذخیره شد');loadBannerInAdmin();loadRemoteBanner();}
-    else showToast('❌ خطا در ذخیره','error');
-  }).catch(function(e){showToast('❌ خطا: '+e.message,'error');});
-}
-function disableBanner(){
-  if(!confirm('بنر غیرفعال شود؟'))return;
-  getGlobalData().then(function(record){
-    if(!record.banner)record.banner={url:'',active:false};
-    record.banner.active=false;record.banner.updatedAt=Date.now();
-    return saveGlobalData(record);
-  }).then(function(ok){
-    if(ok){showToast('✅ بنر غیرفعال شد');loadBannerInAdmin();document.getElementById('topBanner').classList.remove('active');}
-    else showToast('❌ خطا','error');
-  });
-}
+function bannerError(){var tb=document.getElementById('topBanner'),img=document.getElementById('topBannerImg');if(img)img.style.display='none';if(tb)tb.classList.remove('active');}
+function loadBannerInAdmin(){getGlobalData().then(function(data){var bc=data.banner;var p=document.getElementById('bannerPreview'),inp=document.getElementById('bannerUrlInput');if(!p||!inp)return;if(bc&&bc.url){inp.value=bc.url;if(bc.active===false)p.innerHTML='<p style="color:#e74c3c;font-size:.85em">🚫 غیرفعال</p>';else p.innerHTML='<img src="'+escapeHtml(bc.url)+'" style="width:100%;max-width:500px;border-radius:10px;border:2px solid var(--accent)">';}else{p.innerHTML='<p style="font-size:.8em;color:var(--text-muted)">هنوز بنری تنظیم نشده</p>';inp.value='';}}).catch(function(){});}
+function saveBannerUrl(){var url=document.getElementById('bannerUrlInput').value.trim();if(!url){showToast('لینک عکس را وارد کنید','error');return;}if(!navigator.onLine){showToast('❌ اتصال به اینترنت را چک کنید','error');return;}showToast('⏳ در حال ذخیره...','warning');getGlobalData().then(function(record){record.banner={url:url,active:true,updatedAt:Date.now()};return saveGlobalData(record);}).then(function(ok){if(ok){showToast('✅ بنر ذخیره شد');loadBannerInAdmin();loadRemoteBanner();}else showToast('❌ خطا در ذخیره','error');}).catch(function(e){showToast('❌ خطا: '+e.message,'error');});}
+function disableBanner(){if(!confirm('بنر غیرفعال شود؟'))return;getGlobalData().then(function(record){if(!record.banner)record.banner={url:'',active:false};record.banner.active=false;record.banner.updatedAt=Date.now();return saveGlobalData(record);}).then(function(ok){if(ok){showToast('✅ بنر غیرفعال شد');loadBannerInAdmin();document.getElementById('topBanner').classList.remove('active');}else showToast('❌ خطا','error');});}
 
-/* ============================================================
-   ADMIN LOGIN & PANEL
-   ============================================================ */
-function openAdminLogin(){
-  var inp=document.getElementById('adminPasswordInput'),cb=document.getElementById('savePasswordCheck'),m=document.getElementById('adminLoginModal');
-  if(inp){
-    var saved=safeGetLS(SAVE_PASSWORD_KEY,null);
-    if(saved){inp.value=saved;if(cb)cb.checked=true;}
-    else{inp.value='';if(cb)cb.checked=false;}
-  }
-  if(m)m.classList.add('active');
-}
+function openAdminLogin(){var inp=document.getElementById('adminPasswordInput'),cb=document.getElementById('savePasswordCheck'),m=document.getElementById('adminLoginModal');if(inp){var saved=safeGetLS(SAVE_PASSWORD_KEY,null);if(saved){inp.value=saved;if(cb)cb.checked=true;}else{inp.value='';if(cb)cb.checked=false;}}if(m)m.classList.add('active');}
 function closeAdminLogin(){document.getElementById('adminLoginModal').classList.remove('active');}
-function checkAdminPassword(){
-  var inp=document.getElementById('adminPasswordInput'),cb=document.getElementById('savePasswordCheck');
-  var pass=inp?inp.value:'',shouldSave=cb?cb.checked:false;
-  if(pass===ADMIN_PASSWORD){
-    if(shouldSave)safeSetLS(SAVE_PASSWORD_KEY,pass);
-    else try{localStorage.removeItem(SAVE_PASSWORD_KEY);}catch(e){}
-    closeAdminLogin();showPage('pageAdmin');showToast('✅ ورود موفق');
-  }else showToast('❌ رمز اشتباه است','error');
-}
+function checkAdminPassword(){var inp=document.getElementById('adminPasswordInput'),cb=document.getElementById('savePasswordCheck');var pass=inp?inp.value:'',shouldSave=cb?cb.checked:false;if(pass===ADMIN_PASSWORD){if(shouldSave)safeSetLS(SAVE_PASSWORD_KEY,pass);else try{localStorage.removeItem(SAVE_PASSWORD_KEY);}catch(e){}closeAdminLogin();showPage('pageAdmin');showToast('✅ ورود موفق');}else showToast('❌ رمز اشتباه است','error');}
 function switchAdminTab(tab,el){
-  var tabs=document.querySelectorAll('.admin-tab');
-  for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');
-  if(el)el.classList.add('active');
-  ['prescription','table','message','banner','dashboard'].forEach(function(t){
-    var id='adminTab'+t.charAt(0).toUpperCase()+t.slice(1);
-    var e=document.getElementById(id);
-    if(e)e.style.display=(t===tab)?'block':'none';
-  });
+  var tabs=document.querySelectorAll('.admin-tab');for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');if(el)el.classList.add('active');
+  ['dashboard','users','prescription','table','message','banner'].forEach(function(t){ var id='adminTab'+t.charAt(0).toUpperCase()+t.slice(1); var e=document.getElementById(id); if(e)e.style.display=(t===tab)?'block':'none'; });
   if(tab==='table') buildAdminEditor();
   if(tab==='banner')loadBannerInAdmin();
   if(tab==='dashboard')loadDashboard(false);
+  if(tab==='users')loadUsersListForAdmin();
 }
 
-// لود کردن لیست کاربران برای پیشنهاد کشویی
-async function loadUsersListForAdmin() {
-  var allUsers = await getAllUsersFromDB();
-  var datalist = document.getElementById('usersListDatalist');
-  if(datalist) {
-    var html = '';
-    allUsers.forEach(function(u) { html += '<option value="'+escapeHtml(u.code)+'"></option>'; });
-    datalist.innerHTML = html;
-  }
-}
-
-// دکمه ارسال نسخه
 async function sendPrescription(){
-  var ce=document.getElementById('targetUserCode'), te=document.getElementById('prescriptionTitle'), ce2=document.getElementById('prescriptionContent');
-  if(!ce||!te||!ce2)return;
-  var code=ce.value.trim().toUpperCase(), title=te.value.trim(), content=ce2.value.trim();
-  if(!code||code.length<3){showToast('کد کاربر معتبر وارد کنید','error');return;}
+  var code = document.getElementById('targetUserCode').value || document.getElementById('prescriptionUserSearch').value;
+  var te=document.getElementById('prescriptionTitle'), ce2=document.getElementById('prescriptionContent');
+  var title=te.value.trim(), content=ce2.value.trim();
+  
+  // اگر کد مخفی خالی بود، از فیلد جستجو حدس می‌زنیم شاید کد وارد شده باشد
+  if(!code) code = document.getElementById('prescriptionUserSearch').value.split('(')[1]?.replace(')','') || '';
+  code = code.trim().toUpperCase();
+  
+  if(!code||code.length<3){showToast('کاربر را انتخاب کنید','error');return;}
   if(!content){showToast('متن نسخه را وارد کنید','error');return;}
   
   showToast('⏳ در حال ارسال...','warning');
@@ -1189,17 +1136,23 @@ async function sendPrescription(){
   var ok = await saveUserRecord(code, userData);
   if(ok){
     showToast('✅ نسخه برای '+code+' ارسال شد');
-    ce.value='';te.value='';ce2.value='';
-    loadAdminRecent();
-    loadDashboard(false);
+    document.getElementById('prescriptionUserSearch').value='';
+    document.getElementById('targetUserCode').value='';
+    te.value='';ce2.value='';
+    loadAdminRecent(); loadDashboard(false);
   } else showToast('❌ خطا در ارسال','error');
 }
 
-// ارسال پیام (به app_data گلوبال)
 async function sendMessage(){
-  var te=document.getElementById('messageTitle'), ce=document.getElementById('messageContent'), ge=document.getElementById('messageTarget');
-  if(!te||!ce||!ge)return;
-  var title=te.value.trim(), content=ce.value.trim(), target=ge.value.trim().toUpperCase();
+  var targetCode = document.getElementById('messageTarget').value;
+  if(!targetCode) {
+      // بررسی اینکه کاربر کد رو مستقیم زده یا نه
+      var rawVal = document.getElementById('messageUserSearch').value.trim();
+      if(rawVal && rawVal.length >= 3 && rawVal.length <= 10) targetCode = rawVal;
+  }
+  
+  var te=document.getElementById('messageTitle'), ce=document.getElementById('messageContent');
+  var title=te.value.trim(), content=ce.value.trim();
   if(!content){showToast('متن پیام را وارد کنید','error');return;}
   
   showToast('⏳ در حال ارسال...','warning');
@@ -1207,53 +1160,37 @@ async function sendMessage(){
   if(!globalData.messages) globalData.messages = [];
   
   var id='m_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
-  globalData.messages.push({id:id,title:title||'پیام جدید',content:content,target:target||'all',sentAt:Date.now()});
+  globalData.messages.push({id:id,title:title||'پیام جدید',content:content,target:targetCode.toUpperCase()||'all',sentAt:Date.now()});
   if(globalData.messages.length>100) globalData.messages = globalData.messages.slice(-100);
   
   var ok = await saveGlobalData(globalData);
   if(ok){
-    showToast(target?'✅ پیام ارسال شد':'✅ پیام برای همه ارسال شد');
+    showToast(targetCode?'✅ پیام ارسال شد':'✅ پیام برای همه ارسال شد');
     clearMessageForm();loadAdminRecent();
   } else showToast('❌ خطا','error');
 }
-function clearMessageForm(){
-  var t=document.getElementById('messageTitle'),c=document.getElementById('messageContent'),g=document.getElementById('messageTarget');
-  if(t)t.value='';if(c)c.value='';if(g)g.value='';
-}
-function clearAdminForm(){
-  var t=document.getElementById('prescriptionTitle'),c=document.getElementById('prescriptionContent');
-  if(t)t.value='';if(c)c.value='';
-}
+function clearMessageForm(){var t=document.getElementById('messageTitle'),c=document.getElementById('messageContent'),g=document.getElementById('messageUserSearch');if(t)t.value='';if(c)c.value='';if(g)g.value='';document.getElementById('messageTarget').value='';}
+function clearAdminForm(){var t=document.getElementById('prescriptionTitle'),c=document.getElementById('prescriptionContent');if(t)t.value='';if(c)c.value='';document.getElementById('prescriptionUserSearch').value='';document.getElementById('targetUserCode').value='';}
 
 /* ============================================================
-   EDITOR TABLE (مختص ادمین - تغییر روی گوشی ادمین اثر ندارد)
+   Admin Editor Logic
    ============================================================ */
 function buildAdminEditor(){
-  adminTableColumns = [].concat(tableColumns); // کپی از جدول پیش‌فرض
+  adminTableColumns = [].concat(tableColumns);
   adminTableColumnNames = Object.assign({}, tableColumnNames);
   adminCurrentTimes = Object.assign({}, currentTimes);
   adminTotalDays = totalDays;
-  
   adminFortyDayData = JSON.parse(JSON.stringify(fortyDayData.length ? fortyDayData : generateDefaultTableData()));
-  
   renderAdminTableEditor(); 
   renderAdminDayEditor();
 }
-
 function generateDefaultTableData() {
   var arr = [];
-  for(var i=0;i<40;i++){
-    var d={};
-    tableColumns.forEach(function(c){ d[c]=''; });
-    arr.push(d);
-  }
+  for(var i=0;i<40;i++){ var d={}; tableColumns.forEach(function(c){ d[c]=''; }); arr.push(d); }
   return arr;
 }
-
 function renderAdminTableEditor(){
-  var container=document.getElementById('tableEditorContainer');
-  if(!container)return;
-  var html='';
+  var container=document.getElementById('tableEditorContainer');if(!container)return;var html='';
   adminTableColumns.forEach(function(col,i){
     var name = adminTableColumnNames[col] || col;
     var time = adminCurrentTimes[col] || '08:00';
@@ -1265,83 +1202,48 @@ function renderAdminTableEditor(){
   });
   container.innerHTML=html;
 }
-function updateAdminColName(i,val){
-  var col = adminTableColumns[i];
-  adminTableColumnNames[col] = val;
-}
-function updateAdminColTime(i,val){
-  var col = adminTableColumns[i];
-  adminCurrentTimes[col] = val;
-}
+function updateAdminColName(i,val){ var col = adminTableColumns[i]; adminTableColumnNames[col] = val; }
+function updateAdminColTime(i,val){ var col = adminTableColumns[i]; adminCurrentTimes[col] = val; }
 function addTableColumnEditor(){
   if(adminTableColumns.length>=8){showToast('حداکثر ۸ وعده','warning');return;}
-  var newCol='c_'+Date.now();
-  adminTableColumns.push(newCol);
-  adminTableColumnNames[newCol]='وعده '+adminTableColumns.length;
-  adminCurrentTimes[newCol]='08:00';
-  adminFortyDayData.forEach(function(day){day[newCol]='';});
-  renderAdminTableEditor(); renderAdminDayEditor();
+  var newCol='c_'+Date.now();adminTableColumns.push(newCol);adminTableColumnNames[newCol]='وعده '+adminTableColumns.length;adminCurrentTimes[newCol]='08:00';adminFortyDayData.forEach(function(day){day[newCol]='';});renderAdminTableEditor(); renderAdminDayEditor();
 }
-
 function renderAdminDayEditor(){
-  var container=document.getElementById('dayEditorContainer');
-  if(!container)return;
-  if(currentEditorDay>=adminTotalDays)currentEditorDay=0;
-  
+  var container=document.getElementById('dayEditorContainer');if(!container)return;if(currentEditorDay>=adminTotalDays)currentEditorDay=0;
   document.getElementById('editorDayLabel').textContent='روز '+(currentEditorDay+1);
   document.getElementById('prevDayBtn').disabled = currentEditorDay <= 0;
   document.getElementById('nextDayBtn').disabled = currentEditorDay >= adminTotalDays-1;
-  
-  var dayData = adminFortyDayData[currentEditorDay] || {};
-  var html='';
+  var dayData = adminFortyDayData[currentEditorDay] || {};var html='';
   adminTableColumns.forEach(function(col){
-    var label = adminTableColumnNames[col] || col;
-    var value = dayData[col] || '';
-    html+='<div class="day-input-box">';
-    html+='<label>'+escapeHtml(label)+':</label>';
-    html+='<input type="text" data-col="'+escapeHtml(col)+'" value="'+escapeHtml(value)+'" onchange="updateAdminDayField(this.getAttribute(\'data-col\'),this.value)">';
-    html+='</div>';
+    var label = adminTableColumnNames[col] || col;var value = dayData[col] || '';
+    html+='<div class="day-input-box"><label>'+escapeHtml(label)+':</label><input type="text" data-col="'+escapeHtml(col)+'" value="'+escapeHtml(value)+'" onchange="updateAdminDayField(this.getAttribute(\'data-col\'),this.value)"></div>';
   });
   container.innerHTML=html;
 }
-function updateAdminDayField(col,value){
-  if(!adminFortyDayData[currentEditorDay])adminFortyDayData[currentEditorDay]={};
-  adminFortyDayData[currentEditorDay][col]=value;
-  showToast('✅ ذخیره شد','success',1000);
-}
+function updateAdminDayField(col,value){ if(!adminFortyDayData[currentEditorDay])adminFortyDayData[currentEditorDay]={}; adminFortyDayData[currentEditorDay][col]=value; showToast('✅ ذخیره شد','success',1000); }
 function prevEditorDay(){if(currentEditorDay>0){currentEditorDay--;renderAdminDayEditor();}}
 function nextEditorDay(){if(currentEditorDay<adminTotalDays-1){currentEditorDay++;renderAdminDayEditor();}}
-
 function applyToDays(type){
-  var form = {}, hasValue = false;
-  var inputs = document.querySelectorAll('#dayEditorContainer input[data-col]');
-  for(var i=0;i<inputs.length;i++){
-    var col = inputs[i].getAttribute('data-col');
-    form[col] = inputs[i].value;
-    if(inputs[i].value && inputs[i].value.trim() !== '') hasValue = true;
-  }
+  var form = {}, hasValue = false;var inputs = document.querySelectorAll('#dayEditorContainer input[data-col]');
+  for(var i=0;i<inputs.length;i++){var col = inputs[i].getAttribute('data-col');form[col] = inputs[i].value;if(inputs[i].value && inputs[i].value.trim() !== '') hasValue = true;}
   if(!hasValue){ alert('❌ ابتدا فرم روز جاری را پر کنید!'); return; }
-  
   var targets=[], typeName='';
   if(type==='all'){for(var i=0;i<adminTotalDays;i++)targets.push(i);typeName='همه روزها';}
   else if(type==='odd'){for(var j=0;j<adminTotalDays;j+=2)targets.push(j);typeName='روزهای فرد';}
   else if(type==='even'){for(var k=1;k<adminTotalDays;k+=2)targets.push(k);typeName='روزهای زوج';}
-  
   if(!confirm('محتوا روی '+targets.length+' '+typeName+' اعمال شود؟'))return;
-  targets.forEach(function(idx){
-    if(!adminFortyDayData[idx]) adminFortyDayData[idx]={};
-    adminTableColumns.forEach(function(col){ adminFortyDayData[idx][col] = form[col] || ''; });
-  });
+  targets.forEach(function(idx){if(!adminFortyDayData[idx]) adminFortyDayData[idx]={};adminTableColumns.forEach(function(col){ adminFortyDayData[idx][col] = form[col] || ''; });});
   showToast('✅ اعمال شد');
 }
 
-// ارسال جدول به کاربر
 async function sendTableToUser(){
-  var ce=document.getElementById('targetUserCodeTable');
-  if(!ce)return;
-  var code=ce.value.trim().toUpperCase();
-  if(!code||code.length<3){showToast('کد کاربر معتبر وارد کنید','error');return;}
-  
+  var code = document.getElementById('targetUserCodeTable').value;
+  if(!code) {
+      var rawVal = document.getElementById('tableUserSearch').value.split('(')[1]?.replace(')','') || '';
+      code = rawVal.trim();
+  }
+  code = code.toUpperCase();
+  if(!code||code.length<3){showToast('کاربر را انتخاب کنید','error');return;}
   if(!confirm('جدول فعلی برای کاربر '+code+' ارسال شود؟'))return;
   showToast('⏳ در حال ارسال...','warning');
   
@@ -1351,298 +1253,98 @@ async function sendTableToUser(){
     tableColumnNames: Object.assign({}, adminTableColumnNames),
     currentTimes: Object.assign({}, adminCurrentTimes),
     totalDays: adminTotalDays,
-    sentAt: Date.now()
+    sentAt: Date.now() // تاریخ ارسال ثبت می‌شود
   };
   
   var userData = await getUserRecord(code) || {};
   userData.tableData = snapshot;
   
   var ok = await saveUserRecord(code, userData);
-  if(ok){ showToast('✅ جدول برای '+code+' ارسال شد'); loadAdminRecent(); loadDashboard(false); }
-  else showToast('❌ خطا','error');
+  if(ok){ 
+    showToast('✅ جدول برای '+code+' ارسال شد'); 
+    document.getElementById('tableUserSearch').value='';
+    document.getElementById('targetUserCodeTable').value='';
+    loadAdminRecent(); loadDashboard(false); 
+  } else showToast('❌ خطا','error');
 }
 
 async function sendTableToAll(){
   if(!confirm('⚠️ جدول برای همه کاربران ارسال شود؟'))return;
   showToast('⏳ در حال ارسال به همه...','warning');
-  
-  var snapshot = {
-    fortyDayData: JSON.parse(JSON.stringify(adminFortyDayData)),
-    tableColumns: [].concat(adminTableColumns),
-    tableColumnNames: Object.assign({}, adminTableColumnNames),
-    currentTimes: Object.assign({}, adminCurrentTimes),
-    totalDays: adminTotalDays,
-    sentAt: Date.now()
-  };
-  
+  var snapshot = { fortyDayData: JSON.parse(JSON.stringify(adminFortyDayData)), tableColumns: [].concat(adminTableColumns), tableColumnNames: Object.assign({}, adminTableColumnNames), currentTimes: Object.assign({}, adminCurrentTimes), totalDays: adminTotalDays, sentAt: Date.now() };
   var allUsers = await getAllUsersFromDB();
   if(allUsers.length === 0) { showToast('کاربری یافت نشد','error'); return; }
-  
   var count = 0;
-  for(var i=0; i<allUsers.length; i++) {
-    var u = allUsers[i];
-    var data = u.data || {};
-    data.tableData = snapshot;
-    var ok = await saveUserRecord(u.code, data);
-    if(ok) count++;
-  }
+  for(var i=0; i<allUsers.length; i++) { var u = allUsers[i]; var data = u.data || {}; data.tableData = snapshot; var ok = await saveUserRecord(u.code, data); if(ok) count++; }
   showToast('✅ جدول برای '+count+' کاربر ارسال شد');
   loadAdminRecent();
 }
 
-// پیش‌نمایش
-function togglePreview(){
-  previewVisible=!previewVisible;
-  var c=document.getElementById('previewContainer'),b=document.getElementById('previewToggleBtn');
-  if(previewVisible){c.style.display='block';b.textContent='🔽 مخفی کردن';updatePreview();}
-  else{c.style.display='none';b.textContent='👁️ نمایش جدول';}
-}
+function togglePreview(){ previewVisible=!previewVisible; var c=document.getElementById('previewContainer'),b=document.getElementById('previewToggleBtn'); if(previewVisible){c.style.display='block';b.textContent='🔽 مخفی کردن';updatePreview();} else{c.style.display='none';b.textContent='👁️ نمایش جدول';} }
 function updatePreview(){
-  var thead=document.getElementById('previewTableHead'), tbody=document.getElementById('previewTableBody');
-  var hh='<tr><th>روز</th>';
-  adminTableColumns.forEach(function(c){hh+='<th>'+escapeHtml(adminTableColumnNames[c]||c)+'</th>';});
-  hh+='</tr>'; thead.innerHTML=hh;
-  
-  var html='';
-  for(var i=0;i<adminTotalDays;i++){
-    var d=adminFortyDayData[i]||{};
-    html+='<tr><td style="color:var(--accent);font-weight:700">'+(i+1)+'</td>';
-    adminTableColumns.forEach(function(col){html+='<td>'+escapeHtml(d[col]||'-')+'</td>';});
-    html+='</tr>';
-  }
-  tbody.innerHTML=html;
-  document.getElementById('previewCount').textContent=adminTotalDays;
-  document.getElementById('previewCols').textContent=adminTableColumns.length;
+  var thead=document.getElementById('previewTableHead'), tbody=document.getElementById('previewTableBody');var hh='<tr><th>روز</th>';
+  adminTableColumns.forEach(function(c){hh+='<th>'+escapeHtml(adminTableColumnNames[c]||c)+'</th>';});hh+='</tr>'; thead.innerHTML=hh;
+  var html='';for(var i=0;i<adminTotalDays;i++){var d=adminFortyDayData[i]||{};html+='<tr><td style="color:var(--accent);font-weight:700">'+(i+1)+'</td>';adminTableColumns.forEach(function(col){html+='<td>'+escapeHtml(d[col]||'-')+'</td>';});html+='</tr>';}
+  tbody.innerHTML=html;document.getElementById('previewCount').textContent=adminTotalDays;document.getElementById('previewCols').textContent=adminTableColumns.length;
 }
 
-/* ============================================================
-   DASHBOARD & MESSAGES & OTHERS
-   ============================================================ */
 async function loadDashboard(showAlert){
-  var allUsers = await getAllUsersFromDB();
-  var globalData = await getGlobalData();
-  
+  var allUsers = await getAllUsersFromDB();var globalData = await getGlobalData();
   var usersWithP = 0, usersWithT = 0;
-  allUsers.forEach(function(u){
-    if(u.data && u.data.prescription) usersWithP++;
-    if(u.data && u.data.tableData) usersWithT++;
-  });
-  
-  document.getElementById('statUsers').textContent = allUsers.length;
-  document.getElementById('statPrescriptions').textContent = usersWithP;
-  document.getElementById('statTables').textContent = usersWithT;
-  document.getElementById('statMessages').textContent = (globalData.messages||[]).length;
-  
-  var container = document.getElementById('userListContainer');
-  document.getElementById('userListCount').textContent = allUsers.length + ' نفر';
-  
-  if(allUsers.length === 0){
-    container.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:20px;">هنوز کاربری ثبت نشده</p>';
-  } else {
-    var html = '';
-    allUsers.forEach(function(u){
-      var hasP = !!(u.data && u.data.prescription);
-      var hasT = !!(u.data && u.data.tableData);
-      var bc = '#f4d03f';
-      if(hasP && hasT) bc = '#2ecc71';
-      else if(hasP) bc = '#3498db';
-      else if(hasT) bc = '#9b59b6';
-      
-      html += '<div class="user-card" style="border-right-color:'+bc+'">';
-      html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">';
-      html += '<span class="user-card-code">'+escapeHtml(u.code)+'</span></div>';
-      html += '<div style="display:flex;gap:6px;flex-wrap:wrap;font-size:.75em">';
-      html += '<span class="user-card-badge" style="background:'+(hasP?'rgba(52,152,219,.2)':'var(--bg-primary)')+';color:'+(hasP?'#3498db':'var(--text-muted)')+'">'+(hasP?'✅':'⬜')+' نسخه</span>';
-      html += '<span class="user-card-badge" style="background:'+(hasT?'rgba(155,89,182,.2)':'var(--bg-primary)')+';color:'+(hasT?'#9b59b6':'var(--text-muted)')+'">'+(hasT?'✅':'⬜')+' جدول</span>';
-      html += '</div></div>';
-    });
-    container.innerHTML = html;
-  }
+  allUsers.forEach(function(u){ if(u.data && u.data.prescription) usersWithP++; if(u.data && u.data.tableData) usersWithT++; });
+  document.getElementById('statUsers').textContent = allUsers.length;document.getElementById('statPrescriptions').textContent = usersWithP;document.getElementById('statTables').textContent = usersWithT;document.getElementById('statMessages').textContent = (globalData.messages||[]).length;
   if(showAlert) showToast('✅ داشبورد بروز شد');
 }
-
 async function loadAdminRecent(){
-  var globalData = await getGlobalData();
-  var allUsers = await getAllUsersFromDB();
-  var html = '';
-  
-  var recentP = [];
-  allUsers.forEach(function(u){
-    if(u.data && u.data.prescription) {
-      recentP.push({code: u.code, title: u.data.prescription.title, time: u.data.prescription.sentAt});
-    }
-  });
+  var globalData = await getGlobalData();var allUsers = await getAllUsersFromDB();var html = '';
+  var recentP = [];allUsers.forEach(function(u){ if(u.data && u.data.prescription) { recentP.push({code: u.code, title: u.data.prescription.title, time: u.data.prescription.sentAt}); } });
   recentP.sort(function(a,b){return b.time - a.time;});
-  if(recentP.length > 0) {
-    html += '<div style="color:var(--accent);font-weight:700;margin-bottom:5px">💊 آخرین نسخه‌ها:</div>';
-    recentP.slice(0,3).forEach(function(p){
-      html += '📤 <strong>'+escapeHtml(p.code)+'</strong> - '+escapeHtml(p.title)+'<br>';
-    });
-  }
-  
+  if(recentP.length > 0) { html += '<div style="color:var(--accent);font-weight:700;margin-bottom:5px">💊 آخرین نسخه‌ها:</div>'; recentP.slice(0,3).forEach(function(p){ html += '📤 <strong>'+escapeHtml(p.code)+'</strong> - '+escapeHtml(p.title)+'<br>'; }); }
   var msgs = (globalData.messages||[]).slice(-3).reverse();
-  if(msgs.length > 0) {
-    html += '<div style="color:var(--accent);font-weight:700;margin:10px 0 5px">📢 آخرین پیام‌ها:</div>';
-    msgs.forEach(function(m){
-      html += '📨 <strong>'+escapeHtml(m.title)+'</strong><br>';
-    });
-  }
-  
-  if(!html) html = 'هنوز ارسالی انجام نشده...';
-  document.getElementById('adminRecentList').innerHTML = html;
+  if(msgs.length > 0) { html += '<div style="color:var(--accent);font-weight:700;margin:10px 0 5px">📢 آخرین پیام‌ها:</div>'; msgs.forEach(function(m){ html += '📨 <strong>'+escapeHtml(m.title)+'</strong><br>'; }); }
+  if(!html) html = 'هنوز ارسالی انجام نشده...';document.getElementById('adminRecentList').innerHTML = html;
 }
 
 function loadMyMessages(showAlert){
   getGlobalData().then(function(data){
-    var messages=data.messages||[];
-    var readIds=safeParseJSON(safeGetLS('readMsgIds','[]'),[]);
-    var hiddenIds=safeParseJSON(safeGetLS('hiddenMsgIds','[]'),[]);
-    var myMessages=messages.filter(function(m){
-      return(m.target==='all'||m.target===userId)&&hiddenIds.indexOf(m.id)===-1;
-    }).reverse();
-    
-    var list=document.getElementById('messagesList');
-    if(!list)return;
-    if(myMessages.length===0){
-      list.innerHTML='<p style="text-align:center;color:var(--text-muted);padding:20px">هیچ پیامی نیست</p>';
-      document.getElementById('msgBadge').style.display='none';
-      return;
-    }
+    var messages=data.messages||[];var readIds=safeParseJSON(safeGetLS('readMsgIds','[]'),[]);var hiddenIds=safeParseJSON(safeGetLS('hiddenMsgIds','[]'),[]);
+    var myMessages=messages.filter(function(m){return(m.target==='all'||m.target===userId)&&hiddenIds.indexOf(m.id)===-1;}).reverse();
+    var list=document.getElementById('messagesList');if(!list)return;
+    if(myMessages.length===0){list.innerHTML='<p style="text-align:center;color:var(--text-muted);padding:20px">هیچ پیامی نیست</p>';document.getElementById('msgBadge').style.display='none';return;}
     var html='',unread=0;
-    myMessages.forEach(function(msg){
-      var isRead=readIds.indexOf(msg.id)>-1;
-      if(!isRead)unread++;
-      var date=new Date(msg.sentAt).toLocaleString('fa-IR');
-      html+='<div class="msg-item '+(isRead?'':'unread')+'" data-msg-id="'+escapeHtml(msg.id)+'">';
-      html+='<button class="msg-close" onclick="deleteMessage(\''+escapeHtml(msg.id)+'\')">✕</button>';
-      html+='<div class="msg-item-title">'+escapeHtml(msg.title)+'</div>';
-      html+='<div class="msg-item-date">'+escapeHtml(date)+'</div>';
-      html+='<div class="msg-item-content">'+escapeHtml(msg.content)+'</div></div>';
-    });
-    list.innerHTML=html;
-    var b2=document.getElementById('msgBadge');
-    if(unread>0){b2.style.display='flex';b2.textContent=unread;}
-    else b2.style.display='none';
-    
-    var newRead=readIds.concat(myMessages.map(function(m){return m.id;}));
-    safeSetLS('readMsgIds',JSON.stringify(newRead.filter(function(v,i,a){return a.indexOf(v)===i;})));
+    myMessages.forEach(function(msg){var isRead=readIds.indexOf(msg.id)>-1;if(!isRead)unread++;var date=new Date(msg.sentAt).toLocaleString('fa-IR');html+='<div class="msg-item '+(isRead?'':'unread')+'" data-msg-id="'+escapeHtml(msg.id)+'"><button class="msg-close" onclick="deleteMessage(\''+escapeHtml(msg.id)+'\')">✕</button><div class="msg-item-title">'+escapeHtml(msg.title)+'</div><div class="msg-item-date">'+escapeHtml(date)+'</div><div class="msg-item-content">'+escapeHtml(msg.content)+'</div></div>';});
+    list.innerHTML=html;var b2=document.getElementById('msgBadge');if(unread>0){b2.style.display='flex';b2.textContent=unread;}else b2.style.display='none';
+    var newRead=readIds.concat(myMessages.map(function(m){return m.id;}));safeSetLS('readMsgIds',JSON.stringify(newRead.filter(function(v,i,a){return a.indexOf(v)===i;})));
     if(showAlert)showToast('✅ پیام‌ها بروز شد');
   });
 }
-function deleteMessage(msgId){
-  if(!confirm('این پیام حذف شود؟'))return;
-  var hidden=safeParseJSON(safeGetLS('hiddenMsgIds','[]'),[]);
-  if(hidden.indexOf(msgId)===-1)hidden.push(msgId);
-  safeSetLS('hiddenMsgIds',JSON.stringify(hidden));
-  var el=document.querySelector('[data-msg-id="'+msgId+'"]');
-  if(el)el.remove();
-  showToast('✅ پیام حذف شد');
-}
-function checkNewMessages(){
-  getGlobalData().then(function(data){
-    var messages=data.messages||[];
-    var readIds=safeParseJSON(safeGetLS('readMsgIds','[]'),[]);
-    var hiddenIds=safeParseJSON(safeGetLS('hiddenMsgIds','[]'),[]);
-    var shownIds=safeParseJSON(safeGetLS('shownPopupIds','[]'),[]);
-    var newMsg=messages.find(function(m){
-      return(m.target==='all'||m.target===userId)&&
-        readIds.indexOf(m.id)===-1&&hiddenIds.indexOf(m.id)===-1&&shownIds.indexOf(m.id)===-1;
-    });
-    if(newMsg){
-      document.getElementById('msgPopupTitle').textContent='📢 '+newMsg.title;
-      document.getElementById('msgPopupText').textContent=newMsg.content;
-      document.getElementById('msgPopupOverlay').classList.add('active');
-      safeSetLS('currentMsgId',newMsg.id);
-    }
-    loadMyMessages();
-  });
-}
-function closeMsgPopup(){
-  document.getElementById('msgPopupOverlay').classList.remove('active');
-  var msgId=safeGetLS('currentMsgId',null);
-  if(msgId){
-    var shown=safeParseJSON(safeGetLS('shownPopupIds','[]'),[]);
-    if(shown.indexOf(msgId)===-1)shown.push(msgId);
-    safeSetLS('shownPopupIds',JSON.stringify(shown));
-  }
-}
+function deleteMessage(msgId){if(!confirm('این پیام حذف شود؟'))return;var hidden=safeParseJSON(safeGetLS('hiddenMsgIds','[]'),[]);if(hidden.indexOf(msgId)===-1)hidden.push(msgId);safeSetLS('hiddenMsgIds',JSON.stringify(hidden));var el=document.querySelector('[data-msg-id="'+msgId+'"]');if(el)el.remove();showToast('✅ پیام حذف شد');}
+function checkNewMessages(){getGlobalData().then(function(data){var messages=data.messages||[];var readIds=safeParseJSON(safeGetLS('readMsgIds','[]'),[]);var hiddenIds=safeParseJSON(safeGetLS('hiddenMsgIds','[]'),[]);var shownIds=safeParseJSON(safeGetLS('shownPopupIds','[]'),[]);var newMsg=messages.find(function(m){return(m.target==='all'||m.target===userId)&&readIds.indexOf(m.id)===-1&&hiddenIds.indexOf(m.id)===-1&&shownIds.indexOf(m.id)===-1;});if(newMsg){document.getElementById('msgPopupTitle').textContent='📢 '+newMsg.title;document.getElementById('msgPopupText').textContent=newMsg.content;document.getElementById('msgPopupOverlay').classList.add('active');safeSetLS('currentMsgId',newMsg.id);}loadMyMessages();});}
+function closeMsgPopup(){document.getElementById('msgPopupOverlay').classList.remove('active');var msgId=safeGetLS('currentMsgId',null);if(msgId){var shown=safeParseJSON(safeGetLS('shownPopupIds','[]'),[]);if(shown.indexOf(msgId)===-1)shown.push(msgId);safeSetLS('shownPopupIds',JSON.stringify(shown));}}
 
-/* ============================================================
-   HISTORY & SETTINGS
-   ============================================================ */
 function showHistory(type){
   var modal=document.getElementById('historyModal'),title=document.getElementById('historyTitle'),list=document.getElementById('historyList');
   if(type==='prescriptions'){
-    title.textContent='💊 تاریخچه نسخه‌ها';
-    var archive=safeParseJSON(safeGetLS('prescriptionHistory','[]'),[]);
-    var current=safeGetLS('lastPrescription',null);
-    var html='';
-    if(current){
-      try{
-        var info=JSON.parse(current);
-        html+='<div class="history-item active-history"><div class="history-item-title"><span class="history-badge">فعال</span>'+escapeHtml(info.title||'نسخه فعلی')+'</div>';
-        html+='<div class="history-item-preview">'+escapeHtml((info.content||'').substring(0,100))+'</div></div>';
-      }catch(e){}
-    }
-    archive.forEach(function(item,i){
-      html+='<div class="history-item" onclick="restorePrescription('+i+')">';
-      html+='<div class="history-item-title">'+escapeHtml(item.title)+'</div>';
-      html+='<div class="history-item-preview">'+escapeHtml((item.content||'').substring(0,100))+'</div></div>';
-    });
+    title.textContent='💊 تاریخچه نسخه‌ها';var archive=safeParseJSON(safeGetLS('prescriptionHistory','[]'),[]);var current=safeGetLS('lastPrescription',null);var html='';
+    if(current){try{var info=JSON.parse(current);html+='<div class="history-item active-history"><div class="history-item-title"><span class="history-badge">فعال</span>'+escapeHtml(info.title||'نسخه فعلی')+'</div><div class="history-item-preview">'+escapeHtml((info.content||'').substring(0,100))+'</div></div>';}catch(e){}}
+    archive.forEach(function(item,i){html+='<div class="history-item" onclick="restorePrescription('+i+')"><div class="history-item-title">'+escapeHtml(item.title)+'</div><div class="history-item-preview">'+escapeHtml((item.content||'').substring(0,100))+'</div></div>';});
     list.innerHTML=html || '<p style="text-align:center;padding:20px">خالی</p>';
   }else{
-    title.textContent='📊 تاریخچه جدول‌ها';
-    var archive2=safeParseJSON(safeGetLS('tableHistory','[]'),[]);
-    var html2='<div class="history-item active-history"><div class="history-item-title"><span class="history-badge">فعال</span>جدول فعلی</div></div>';
-    archive2.forEach(function(item,i){
-      html2+='<div class="history-item" onclick="restoreTable('+i+')"><div class="history-item-title">جدول '+item.totalDays+' روزه</div></div>';
-    });
+    title.textContent='📊 تاریخچه جدول‌ها';var archive2=safeParseJSON(safeGetLS('tableHistory','[]'),[]);var html2='<div class="history-item active-history"><div class="history-item-title"><span class="history-badge">فعال</span>جدول فعلی</div></div>';
+    archive2.forEach(function(item,i){html2+='<div class="history-item" onclick="restoreTable('+i+')"><div class="history-item-title">جدول '+item.totalDays+' روزه</div></div>';});
     list.innerHTML=html2;
   }
   modal.classList.add('active');
 }
 function closeHistory(){document.getElementById('historyModal').classList.remove('active');}
-function restorePrescription(index){
-  if(!confirm('این نسخه جایگزین شود؟'))return;
-  var archive=safeParseJSON(safeGetLS('prescriptionHistory','[]'),[]);
-  var item=archive[index];if(!item)return;
-  safeSetLS('lastPrescription',JSON.stringify({title:item.title,content:item.content,sentAt:Date.now()}));
-  archive.splice(index,1);safeSetLS('prescriptionHistory',JSON.stringify(archive));
-  checkRegimeReceive();showPage('pageRegime');closeHistory();
-}
-function restoreTable(index){
-  if(!confirm('این جدول جایگزین شود؟'))return;
-  var archive=safeParseJSON(safeGetLS('tableHistory','[]'),[]);
-  var item=archive[index];if(!item)return;
-  fortyDayData=JSON.parse(JSON.stringify(item.fortyDayData));
-  tableColumns=[].concat(item.tableColumns);
-  tableColumnNames=Object.assign({},item.tableColumnNames);
-  currentTimes=Object.assign({},item.currentTimes);
-  totalDays=item.totalDays;
-  saveAll();renderTable();updateTodayShowcase();
-  archive.splice(index,1);safeSetLS('tableHistory',JSON.stringify(archive));
-  closeHistory();
-}
+function restorePrescription(index){if(!confirm('این نسخه جایگزین شود؟'))return;var archive=safeParseJSON(safeGetLS('prescriptionHistory','[]'),[]);var item=archive[index];if(!item)return;safeSetLS('lastPrescription',JSON.stringify({title:item.title,content:item.content,sentAt:Date.now()}));archive.splice(index,1);safeSetLS('prescriptionHistory',JSON.stringify(archive));checkRegimeReceive();showPage('pageRegime');closeHistory();}
+function restoreTable(index){if(!confirm('این جدول جایگزین شود؟'))return;var archive=safeParseJSON(safeGetLS('tableHistory','[]'),[]);var item=archive[index];if(!item)return;fortyDayData=JSON.parse(JSON.stringify(item.fortyDayData));tableColumns=[].concat(item.tableColumns);tableColumnNames=Object.assign({},item.tableColumnNames);currentTimes=Object.assign({},item.currentTimes);totalDays=item.totalDays;saveAll();renderTable();updateTodayShowcase();archive.splice(index,1);safeSetLS('tableHistory',JSON.stringify(archive));closeHistory();}
+function editMyRegime(){var el=document.getElementById('regimeDisplay');if(el.contentEditable==='true'){el.contentEditable='false';el.style.border='1px solid rgba(244,208,63,.2)';showToast('✅ ذخیره شد');}else{el.contentEditable='true';el.style.border='2px solid var(--accent)';el.focus();showToast('✏️ ویرایش کنید','warning');}}
 
-function editMyRegime(){
-  var el=document.getElementById('regimeDisplay');
-  if(el.contentEditable==='true'){
-    el.contentEditable='false';el.style.border='1px solid rgba(244,208,63,.2)';showToast('✅ ذخیره شد');
-  }else{
-    el.contentEditable='true';el.style.border='2px solid var(--accent)';el.focus();showToast('✏️ ویرایش کنید','warning');
-  }
-}
-
-/* ALARM */
 function renderAlarmSettings(){
-  var container=document.getElementById('alarmSettingsContainer');
-  var html='';
-  tableColumns.forEach(function(col){
-    var name=tableColumnNames[col]||col, time=currentTimes[col]||'08:00', enabled=alarmEnabled[col]!==false;
-    html+='<div class="alarm-row"><label>'+escapeHtml(name)+'</label>';
-    html+='<input type="time" value="'+escapeHtml(time)+'" onchange="updateAlarmTime(\''+escapeHtml(col)+'\',this.value)">';
-    html+='<button class="toggle-btn '+(enabled?'active':'')+'" onclick="toggleAlarmFor(\''+escapeHtml(col)+'\',this)"></button></div>';
-  });
+  var container=document.getElementById('alarmSettingsContainer');var html='';
+  tableColumns.forEach(function(col){var name=tableColumnNames[col]||col, time=currentTimes[col]||'08:00', enabled=alarmEnabled[col]!==false;
+  html+='<div class="alarm-row"><label>'+escapeHtml(name)+'</label><input type="time" value="'+escapeHtml(time)+'" onchange="updateAlarmTime(\''+escapeHtml(col)+'\',this.value)"><button class="toggle-btn '+(enabled?'active':'')+'" onclick="toggleAlarmFor(\''+escapeHtml(col)+'\',this)"></button></div>';});
   container.innerHTML=html;
 }
 function updateAlarmTime(col,time){currentTimes[col]=time;saveAll();}
