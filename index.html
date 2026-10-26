@@ -602,7 +602,10 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 
 const SUPABASE_URL = "https://bqhyypffalwbilaicdlw.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_KVthV8sXxlf7yeBV9HibvA_SfzVOYfI";
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { global: { headers: { apikey: SUPABASE_ANON_KEY } } });
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { 
+  global: { headers: { apikey: SUPABASE_ANON_KEY } },
+  auth: { persistSession: false } 
+});
 
 var ADMIN_PASSWORD="maryam6625";
 var SAVE_PASSWORD_KEY="adminSavedPassword";
@@ -623,7 +626,7 @@ var isImpersonating = false;
 var originalAdminCode = "";
 
 function showToast(msg,type,duration){
-  type=type||"success";duration=duration||3000;
+  type=type||"success";duration=duration||4000;
   var t=document.getElementById('toast');if(!t)return;
   t.textContent=msg;
   t.className='toast'+(type==='error'?' error':type==='warning'?' warning':'');
@@ -713,10 +716,18 @@ async function submitProfile() {
   if(btn) { btn.disabled = true; btn.textContent = 'در حال ارسال...'; }
   
   try {
+    // تعیین تایم اوت برای جلوگیری از گیر کردن
+    let timeoutId = setTimeout(() => {
+      if(btn) { btn.disabled = false; btn.textContent = '✅ ثبت و ورود به برنامه'; }
+      showToast('❌ اتصال به سرور طول کشید. اینترنت خود را بررسی کنید یا از VPN استفاده کنید.', 'error', 7000);
+    }, 10000);
+
     var record = await getUserRecord(userId) || {};
     record.profile = { name: fullName, avatar: avatarSrc, registeredAt: Date.now() };
     
+    // ارسال به دیتابیس
     var ok = await saveUserRecord(userId, record);
+    clearTimeout(timeoutId); // پاک کردن تایم اوت در صورت موفقیت
     
     if(ok) {
       userProfile = record.profile;
@@ -725,10 +736,10 @@ async function submitProfile() {
       updateProfileUI();
       showToast('✅ ثبت‌نام با موفقیت انجام شد');
     } else {
-      showToast('❌ خطا در ثبت نام. لطفاً اینترنت خود را بررسی کنید.', 'error', 5000);
+      showToast('❌ خطا در ثبت نام. ممکن است دسترسی دیتابیس بسته باشد.', 'error', 6000);
     }
   } catch(e) {
-    showToast('❌ خطای غیرمنتظره: ' + e.message, 'error', 5000);
+    showToast('❌ خطای غیرمنتظره: ' + e.message, 'error', 6000);
   } finally {
     if(btn) { btn.disabled = false; btn.textContent = '✅ ثبت و ورود به برنامه'; }
   }
@@ -778,16 +789,19 @@ async function getUserRecord(code) {
 async function saveUserRecord(code, data) {
   if (!code) return false;
   try {
-    // فقط فیلدهای موجود را ارسال می‌کنیم. نام در فیلد data ذخیره می‌شود نه ستون جداگانه
+    // فقط فیلدهای موجود را ارسال می‌کنیم.
     const { error } = await supabaseClient.from('users_list').upsert({ 
       code: code.toUpperCase(), 
       data: data, 
       updated_at: new Date().toISOString() 
     });
-    if (error) throw error;
+    if (error) {
+      console.error('saveUserRecord error:', error);
+      throw error;
+    }
     return true;
   } catch(e) { 
-    console.error('saveUserRecord error:', e);
+    console.error('saveUserRecord catch:', e);
     return false; 
   }
 }
