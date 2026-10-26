@@ -1,565 +1,2391 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#0d1f12">
-    <title>سفیر سلامت حامی</title>
-    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
-    
-    <!-- PWA -->
-    <link rel="manifest" href="/Safir-salamat-/manifest.json">
-    <link rel="apple-touch-icon" href="/Safir-salamat-/icon-192.png">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0d1f12">
+<title>سفیر سلامت حامی</title>
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<link rel="manifest" href="/Safir-salamat-/manifest.json">
+<link rel="apple-touch-icon" href="/Safir-salamat-/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="سفیر سلامت">
+<meta name="mobile-web-app-capable" content="yes">
 
-    <style>
-        :root {
-            --bg-primary: #0d1f12; --bg-secondary: #1a3322; --bg-tertiary: #21452c;
-            --text-primary: #ffffff; --text-secondary: #e8f0e3; --text-muted: #a8bfa8;
-            --accent: #f4d03f; --accent2: #e8b923; --btn-primary: #27ae60; --btn-success: #2ecc71;
-            --btn-danger: #c0392b; --btn-purple: #6b8e23; --border-color: rgba(244, 208, 63, 0.2);
-            --input-bg: #142b1a; --font-family: 'Vazirmatn', Tahoma, sans-serif; --font-size: 14px;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: var(--font-family); background: var(--bg-primary);
-            background-image: radial-gradient(circle at 20% 30%, rgba(46, 204, 113, 0.08) 0%, transparent 40%),
-                              radial-gradient(circle at 80% 70%, rgba(244, 208, 63, 0.05) 0%, transparent 40%);
-            background-attachment: fixed; color: var(--text-primary);
-            min-height: 100vh; padding-bottom: 20px; font-size: var(--font-size);
-        }
-        .container { max-width: 750px; margin: 0 auto; padding: 10px; }
-        
-        #topBanner { display: none; width: 100%; background: var(--bg-secondary); border-bottom: 3px solid var(--accent); overflow: hidden; }
-        #topBanner.active { display: block; }
-        #topBanner img { width: 100%; height: auto; max-height: 220px; object-fit: cover; display: block; }
-        
-        .main-header { text-align: center; margin-bottom: 15px; padding: 20px 15px; background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary)); border-radius: 20px; border: 1px solid rgba(244, 208, 63, 0.3); position: relative; overflow: hidden; }
-        .main-header::before { content: '🌿'; position: absolute; font-size: 8em; opacity: 0.03; top: -30px; left: -20px; transform: rotate(-15deg); }
-        .main-header h1 { color: var(--accent); font-size: 1.6em; margin-bottom: 5px; }
-        .main-header h2 { color: var(--text-secondary); font-size: 1em; margin-bottom: 12px; }
-        .supervisor-box { background: rgba(244, 208, 63, 0.08); border: 1px solid rgba(244, 208, 63, 0.25); border-radius: 12px; padding: 10px 12px; margin-top: 10px; font-size: 0.75em; line-height: 1.8; color: var(--text-secondary); }
-        .supervisor-box strong { color: var(--accent); font-size: 1.1em; display: block; margin-top: 3px; }
-        
-        .page { display: none; } .page.active { display: block; }
-        .menu-card { background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary)); border-radius: 16px; padding: 18px; margin-bottom: 12px; cursor: pointer; border: 1px solid rgba(244, 208, 63, 0.2); border-right: 5px solid var(--accent); position: relative; overflow: hidden; transition: transform 0.1s; }
-        .menu-card:active { transform: scale(0.98); }
-        .menu-card-title { font-size: 1.15em; font-weight: bold; color: var(--accent); margin-bottom: 5px; }
-        .menu-card-desc { font-size: 0.8em; color: var(--text-secondary); opacity: 0.85; }
-        .menu-card-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); font-size: 2.5em; opacity: 0.1; }
-        .growth-btn { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 20px auto 10px; padding: 10px 22px; background: linear-gradient(90deg, #e8b923, #f4d03f, #e8b923); color: #0d1f12; text-decoration: none; border-radius: 25px; font-size: 0.8em; font-weight: bold; width: fit-content; box-shadow: 0 0 18px rgba(244, 208, 63, 0.5); }
-        .back-btn { display: inline-block; padding: 8px 16px; background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 10px; cursor: pointer; font-size: 0.85em; font-weight: bold; margin-bottom: 12px; }
-        
-        .btn { padding: 11px 15px; border: none; border-radius: 10px; font-size: 0.85em; cursor: pointer; font-weight: bold; text-align: center; width: 100%; margin: 5px 0; font-family: var(--font-family); transition: 0.2s; }
-        .btn-green { background: var(--btn-success); color: white; } .btn-blue { background: var(--btn-primary); color: white; }
-        .btn-purple { background: var(--btn-purple); color: white; } .btn-red { background: var(--btn-danger); color: white; }
-        .btn-orange { background: var(--accent2); color: #0d1f12; } .btn-gray { background: #4a5a4e; color: white; }
-        .btn-row { display: flex; gap: 8px; flex-wrap: wrap; } .btn-row .btn { flex: 1; min-width: 100px; width: auto; }
-        
-        .section-box { background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary)); padding: 14px; border-radius: 14px; margin: 12px 0; border: 1px solid var(--border-color); }
-        .section-box h3 { color: var(--accent); text-align: center; margin-bottom: 12px; font-size: 0.95em; padding-bottom: 8px; border-bottom: 1px dashed rgba(244, 208, 63, 0.2); }
-        .settings-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
-        .settings-row label { font-size: 0.82em; color: var(--text-secondary); min-width: 60px; }
-        .settings-row input, .settings-row select, .settings-row textarea { background: var(--input-bg); color: var(--text-primary); border: 1px solid #3d5a45; padding: 9px; border-radius: 8px; flex: 1; min-width: 60px; font-family: var(--font-family); font-size: 0.9em; }
-        textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
-        
-        .table-wrapper { overflow-x: auto; margin-top: 10px; border-radius: 12px; }
-        table { width: 100%; border-collapse: collapse; background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary)); border-radius: 12px; font-size: 0.85em; }
-        th { padding: 10px 6px; background: linear-gradient(180deg, #2b5738, #21452c); color: var(--accent); text-align: center; border-bottom: 2px solid rgba(244, 208, 63, 0.3); }
-        td { padding: 8px 6px; text-align: center; border-bottom: 1px solid rgba(244, 208, 63, 0.1); word-break: break-word; }
-        .today-row { border: 3px solid var(--accent) !important; background: rgba(244, 208, 63, 0.1) !important; font-weight: bold; }
-        
-        .vitrine-box { background: linear-gradient(135deg, #21452c, #1a3322); border: 2px solid var(--accent); border-radius: 16px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .vitrine-title { color: var(--accent); text-align: center; font-weight: bold; margin-bottom: 10px; font-size: 1.1em; }
-        .vitrine-items { display: flex; flex-direction: column; gap: 8px; }
-        .vitrine-item { background: rgba(0,0,0,0.3); border-radius: 8px; padding: 10px; display: flex; justify-content: space-between; align-items: center; border-right: 4px solid var(--btn-success); }
-        .vitrine-item-name { color: var(--text-secondary); font-size: 0.9em; }
-        .vitrine-item-value { color: white; font-weight: bold; font-size: 0.95em; }
+<style>
+:root{
+  --bg-primary:#0d1f12;--bg-secondary:#1a3322;--bg-tertiary:#21452c;
+  --text-primary:#fff;--text-secondary:#e8f0e3;--text-muted:#a8bfa8;
+  --accent:#f4d03f;--accent2:#e8b923;
+  --btn-primary:#27ae60;--btn-success:#2ecc71;--btn-danger:#c0392b;--btn-purple:#6b8e23;
+  --border-color:rgba(244,208,63,.2);--input-bg:#142b1a;
+  --font-family:'Vazirmatn',Tahoma,sans-serif;--font-size:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-family);background:var(--bg-primary);
+  background-image:radial-gradient(circle at 20% 30%,rgba(46,204,113,.08) 0,transparent 40%),
+  radial-gradient(circle at 80% 70%,rgba(244,208,63,.05) 0,transparent 40%);
+  background-attachment:fixed;color:var(--text-primary);padding:0 0 20px;
+  min-height:100vh;font-size:var(--font-size)}
+.container{max-width:750px;margin:0 auto;padding:10px}
 
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); z-index: 9999; justify-content: center; align-items: center; padding: 20px; }
-        .modal-overlay.active { display: flex; }
-        .modal-content { background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary)); border: 2px solid var(--accent); border-radius: 20px; padding: 25px; max-width: 400px; width: 100%; text-align: center; }
-        
-        .admin-panel { background: linear-gradient(135deg, #2a1a1a, #3d2020); border: 2px solid var(--accent2); border-radius: 15px; padding: 15px; margin: 10px 0; }
-        .admin-tabs { display: flex; gap: 5px; margin-bottom: 15px; background: var(--input-bg); padding: 5px; border-radius: 12px; flex-wrap: wrap; }
-        .admin-tab { flex: 1; padding: 10px 8px; text-align: center; cursor: pointer; border-radius: 8px; font-size: 0.75em; font-weight: bold; color: var(--text-muted); user-select: none; }
-        .admin-tab.active { background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; }
-        
-        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #2ecc71; color: white; padding: 12px 25px; border-radius: 25px; font-weight: bold; z-index: 99999; display: none; max-width: 90%; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .toast.error { background: #e74c3c; } .toast.warning { background: #f39c12; color: #0d1f12; }
-        
-        .receive-prompt { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary)); border-radius: 20px; border: 2px dashed var(--accent); margin: 20px 0; text-align: center; }
-        .profile-pic { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--accent); object-fit: cover; margin-bottom: 10px; }
-        
-        .chat-box { background: var(--bg-primary); border-radius: 10px; padding: 10px; height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; border: 1px solid var(--border-color); margin-bottom: 10px; }
-        .chat-msg { max-width: 85%; padding: 10px 12px; border-radius: 12px; font-size: 0.85em; line-height: 1.5; word-wrap: break-word; }
-        .chat-msg.user { background: var(--btn-primary); color: white; align-self: flex-start; border-bottom-right-radius: 0; }
-        .chat-msg.admin { background: var(--bg-tertiary); color: var(--text-primary); align-self: flex-end; border-bottom-left-radius: 0; border: 1px solid var(--accent); }
-        .chat-input-row { display: flex; gap: 5px; align-items: center; }
-        .chat-input-row input[type="text"] { flex: 1; background: var(--input-bg); border: 1px solid var(--accent); color: white; padding: 10px; border-radius: 20px; margin-bottom: 0; }
-        .chat-input-row button, .chat-input-row label { width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--btn-primary); color: white; cursor: pointer; font-size: 1.2em; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin: 0; }
-        
-        .preview-table { width: 100%; border-collapse: collapse; background: var(--bg-primary); border-radius: 8px; font-size: 0.75em; margin-top: 8px; }
-        .preview-table th { padding: 6px 4px; background: #2b5738; color: var(--accent); border-bottom: 1px solid rgba(244, 208, 63, 0.3); }
-        .preview-table td { padding: 5px 4px; text-align: center; border-bottom: 1px solid rgba(244, 208, 63, 0.1); }
-        
-        .day-input-box { display: grid; grid-template-columns: auto 1fr; gap: 8px; align-items: center; background: var(--bg-primary); padding: 10px; border-radius: 8px; margin-bottom: 8px; }
-        .day-input-box input { background: var(--bg-primary); color: var(--text-primary); border: 1px solid #3d5a45; padding: 8px; border-radius: 6px; font-family: var(--font-family); font-size: 0.9em; width: 100%; }
-        
-        .editor-day-nav { display: flex; gap: 8px; align-items: center; justify-content: center; margin-bottom: 12px; background: var(--input-bg); padding: 8px; border-radius: 10px; }
-        .editor-day-nav button { background: var(--btn-primary); color: white; border: none; border-radius: 8px; padding: 8px 14px; font-size: 0.9em; font-weight: bold; cursor: pointer; font-family: var(--font-family); }
-        .editor-day-nav span { color: var(--accent); font-weight: bold; font-size: 0.95em; min-width: 80px; text-align: center; }
-    </style>
+#topBanner{display:none;width:100%;background:var(--bg-secondary);border-bottom:3px solid var(--accent);overflow:hidden}
+#topBanner.active{display:block}
+#topBanner img{width:100%;height:auto;max-height:220px;object-fit:cover;display:block}
+
+.main-header{text-align:center;margin-bottom:15px;padding:20px 15px;
+  background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));
+  border-radius:20px;border:1px solid rgba(244,208,63,.3);position:relative;overflow:hidden}
+.main-header::before{content:'🌿';position:absolute;font-size:8em;opacity:.03;top:-30px;left:-20px;transform:rotate(-15deg)}
+.main-header h1{color:var(--accent);font-size:1.6em;margin-bottom:5px}
+.main-header h2{color:var(--text-secondary);font-size:1em;margin-bottom:12px}
+.supervisor-box{background:rgba(244,208,63,.08);border:1px solid rgba(244,208,63,.25);
+  border-radius:12px;padding:10px 12px;margin-top:10px;font-size:.75em;line-height:1.8;color:var(--text-secondary)}
+.supervisor-box strong{color:var(--accent);font-size:1.1em;display:block;margin-top:3px}
+
+.page{display:none}.page.active{display:block}
+.menu-card{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));
+  border-radius:16px;padding:18px;margin-bottom:12px;cursor:pointer;
+  border:1px solid rgba(244,208,63,.2);border-right:5px solid var(--accent);
+  position:relative;overflow:hidden}
+.menu-card:active{transform:scale(.98)}
+.menu-card-title{font-size:1.15em;font-weight:700;color:var(--accent);margin-bottom:5px}
+.menu-card-desc{font-size:.8em;color:var(--text-secondary);opacity:.85}
+.menu-card-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:2.5em;opacity:.1}
+
+.growth-btn{display:flex;align-items:center;justify-content:center;gap:6px;margin:20px auto 10px;
+  padding:10px 22px;background:linear-gradient(90deg,#e8b923,#f4d03f,#e8b923);color:#0d1f12;
+  text-decoration:none;border-radius:25px;font-size:.8em;font-weight:700;width:fit-content;
+  box-shadow:0 0 18px rgba(244,208,63,.5)}
+
+.back-btn{display:inline-block;padding:8px 16px;background:var(--bg-tertiary);color:var(--text-primary);
+  border:1px solid var(--border-color);border-radius:10px;cursor:pointer;font-size:.85em;font-weight:700;margin-bottom:12px}
+
+.btn{padding:11px 15px;border:none;border-radius:10px;font-size:.85em;cursor:pointer;
+  font-weight:700;text-align:center;width:100%;margin:5px 0;font-family:var(--font-family)}
+.btn-green{background:var(--btn-success);color:#fff}
+.btn-blue{background:var(--btn-primary);color:#fff}
+.btn-purple{background:var(--btn-purple);color:#fff}
+.btn-red{background:var(--btn-danger);color:#fff}
+.btn-orange{background:var(--accent2);color:#0d1f12}
+.btn-gray{background:#4a5a4e;color:#fff}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.btn-row .btn{flex:1;min-width:100px;width:auto}
+
+.section-box{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));
+  padding:14px;border-radius:14px;margin:12px 0;border:1px solid var(--border-color)}
+.section-box h3{color:var(--accent);text-align:center;margin-bottom:12px;
+  font-size:.95em;padding-bottom:8px;border-bottom:1px dashed rgba(244,208,63,.2)}
+.settings-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.settings-row label{font-size:.82em;color:var(--text-secondary);min-width:55px}
+.settings-row input,.settings-row select,.settings-row textarea{
+  background:var(--input-bg);color:var(--text-primary);border:1px solid #3d5a45;
+  padding:9px;border-radius:8px;flex:1;min-width:60px;font-family:var(--font-family);font-size:.9em}
+textarea{resize:vertical;min-height:100px;line-height:1.8}
+
+.table-wrapper{overflow-x:auto;margin-top:10px;border-radius:12px}
+table{width:100%;border-collapse:collapse;background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));
+  border-radius:12px;overflow:hidden;font-size:.85em}
+th{padding:10px 6px;background:linear-gradient(180deg,#2b5738,#21452c);color:var(--accent);
+  text-align:center;font-size:.85em;border-bottom:2px solid rgba(244,208,63,.3)}
+td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1);
+  position:relative;word-break:break-word}
+.today-row{border:3px solid var(--accent)!important;background:rgba(244,208,63,.1)!important;font-weight:700}
+.past-row{opacity:.4}
+.drug-name{cursor:pointer;font-weight:600;padding:3px 6px;border-radius:5px}
+.drug-name.active-drug{color:#0d1f12;background:var(--accent);padding:3px 7px}
+
+.property-popup{display:none;position:absolute;bottom:100%;left:50%;transform:translateX(-50%);
+  background:#142b1a;border:2px solid var(--accent);border-radius:12px;padding:12px;
+  min-width:180px;z-index:100;line-height:1.7;color:var(--accent);font-size:.8em;margin-bottom:5px}
+.property-popup.active{display:block}
+
+.status-box{margin-top:15px;padding:12px;background:linear-gradient(135deg,#142b1a,#0d1f12);
+  border-radius:12px;text-align:center;font-size:.85em;border:1px solid var(--border-color)}
+
+.receive-prompt{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:40px 20px;background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));
+  border-radius:20px;border:2px dashed var(--accent);margin:20px 0;text-align:center}
+.receive-prompt .receive-icon{font-size:4em;margin-bottom:15px}
+.receive-prompt .receive-btn{padding:16px 40px;background:linear-gradient(135deg,#27ae60,#2ecc71);
+  color:#fff;border:none;border-radius:50px;font-size:1.1em;font-weight:700;cursor:pointer;
+  margin:15px 0;box-shadow:0 5px 20px rgba(46,204,113,.4);font-family:var(--font-family)}
+.receive-prompt .receive-note{font-size:.85em;color:var(--text-muted);margin-top:10px;line-height:1.8}
+
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);
+  z-index:99998;justify-content:center;align-items:center;padding:20px}
+.modal-overlay.active{display:flex}
+.modal-content{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));
+  border:2px solid var(--accent);border-radius:20px;padding:25px;max-width:380px;width:100%;text-align:center}
+.modal-content h2{color:var(--accent);margin-bottom:15px}
+.modal-content p{color:var(--text-secondary);margin-bottom:15px;line-height:1.8;font-size:.9em}
+
+.code-display{background:var(--input-bg);padding:15px;border-radius:12px;font-size:2em;
+  font-weight:700;color:var(--accent);letter-spacing:5px;margin:15px 0;
+  border:2px dashed var(--accent);font-family:monospace;direction:ltr}
+
+.alarm-overlay{display:none;position:fixed;inset:0;
+  background:radial-gradient(circle,rgba(192,57,43,.95),rgba(0,0,0,.98));
+  z-index:99999;flex-direction:column;justify-content:center;align-items:center;padding:20px}
+.alarm-overlay.active{display:flex}
+.alarm-stop-btn{background:var(--btn-danger);color:#fff;font-size:1.6em;font-weight:700;
+  padding:20px 50px;border:4px solid #fff;border-radius:18px;cursor:pointer}
+.alarm-snooze-btn{background:var(--accent2);color:#0d1f12;font-size:1em;padding:12px 30px;
+  border:2px solid #fff;border-radius:18px;cursor:pointer;margin-top:15px;font-weight:700}
+.alarm-message{color:var(--accent);font-size:1.5em;margin-bottom:25px;text-align:center;font-weight:700}
+
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#2ecc71;
+  color:#fff;padding:12px 25px;border-radius:25px;font-weight:700;z-index:99999;
+  display:none;max-width:90%;text-align:center}
+.toast.error{background:#e74c3c}
+.toast.warning{background:#f39c12;color:#0d1f12}
+
+.regime-content{background:var(--input-bg);border-radius:12px;padding:15px;line-height:2;
+  min-height:150px;white-space:pre-wrap;word-wrap:break-word;font-size:.9em;
+  color:var(--text-primary);border:1px solid rgba(244,208,63,.2)}
+
+.admin-panel{background:linear-gradient(135deg,#2a1a1a,#3d2020);
+  border:2px solid var(--accent2);border-radius:15px;padding:15px;margin:10px 0}
+.admin-panel h3{color:var(--accent);text-align:center;margin-bottom:10px}
+.admin-warning{background:rgba(244,208,63,.1);padding:8px;border-radius:8px;
+  font-size:.75em;color:var(--accent);text-align:center;margin-bottom:10px;
+  border:1px solid rgba(244,208,63,.3)}
+
+.msg-badge{position:absolute;top:-8px;right:-8px;background:#e74c3c;color:#fff;
+  border-radius:50%;width:24px;height:24px;font-size:.7em;display:flex;
+  align-items:center;justify-content:center;font-weight:700}
+.menu-card{position:relative}
+
+.msg-item{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));
+  border-radius:12px;padding:14px;margin-bottom:10px;
+  border-right:4px solid var(--accent);position:relative}
+.msg-item.unread{border-right-color:#e74c3c}
+.msg-item-title{font-weight:700;color:var(--accent);font-size:.95em;margin-bottom:5px}
+.msg-item-date{font-size:.7em;color:var(--text-muted);margin-bottom:8px}
+.msg-item-content{font-size:.85em;line-height:1.8;color:var(--text-secondary);white-space:pre-wrap}
+.msg-close{position:absolute;top:8px;left:8px;background:#e74c3c;color:#fff;
+  border:none;border-radius:50%;width:26px;height:26px;cursor:pointer;
+  font-size:.8em;font-weight:700}
+
+.msg-popup-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);
+  z-index:99997;justify-content:center;align-items:center;padding:20px}
+.msg-popup-overlay.active{display:flex}
+.msg-popup-content{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));
+  border:3px solid var(--accent);border-radius:22px;padding:25px;
+  max-width:400px;width:100%;text-align:center}
+.msg-popup-content h2{color:var(--accent);margin-bottom:15px;font-size:1.3em}
+.msg-popup-text{background:var(--input-bg);padding:15px;border-radius:12px;line-height:2;
+  color:var(--text-primary);font-size:.95em;margin:15px 0;text-align:right;
+  white-space:pre-wrap;max-height:300px;overflow-y:auto}
+.msg-popup-close{background:var(--btn-danger);color:#fff;border:none;
+  padding:12px 40px;border-radius:25px;font-weight:700;font-size:.95em;
+  cursor:pointer;margin-top:10px}
+
+.admin-tabs{display:flex;gap:5px;margin-bottom:15px;background:var(--input-bg);
+  padding:5px;border-radius:12px;flex-wrap:wrap}
+.admin-tab{flex:1;padding:10px 8px;text-align:center;cursor:pointer;border-radius:8px;
+  font-size:.75em;font-weight:700;color:var(--text-muted);user-select:none;min-width:70px}
+.admin-tab.active{background:linear-gradient(135deg,#e74c3c,#c0392b);color:#fff}
+
+.history-item{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));
+  border:1px solid var(--border-color);border-radius:12px;padding:12px;
+  margin-bottom:10px;cursor:pointer;border-right:4px solid var(--accent)}
+.history-item.active-history{border-right-color:#2ecc71}
+.history-item-title{color:var(--accent);font-weight:700;font-size:.95em;margin-bottom:5px}
+.history-item-date{font-size:.72em;color:var(--text-muted);margin-bottom:5px}
+.history-item-preview{font-size:.8em;color:var(--text-secondary);opacity:.85;
+  max-height:40px;overflow:hidden;line-height:1.6}
+.history-badge{display:inline-block;background:#2ecc71;color:#fff;
+  font-size:.65em;padding:2px 8px;border-radius:10px;margin-right:5px}
+
+.dashboard-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:15px}
+.stat-card{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));
+  border-radius:12px;padding:15px;text-align:center;border:1px solid var(--border-color)}
+.stat-number{font-size:2em;font-weight:700;color:var(--accent);margin-bottom:5px}
+.stat-label{font-size:.75em;color:var(--text-secondary)}
+
+.alarm-row{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;
+  background:rgba(0,0,0,.2);padding:8px;border-radius:8px;margin-bottom:8px}
+.alarm-row label{font-size:.8em;color:var(--accent);font-weight:700;white-space:nowrap;min-width:60px}
+.alarm-row input[type="time"]{background:var(--input-bg);color:var(--accent);
+  border:1px solid var(--accent);padding:6px 8px;border-radius:6px;
+  font-family:var(--font-family);font-size:.9em;width:100%}
+.alarm-row .toggle-btn{width:40px;height:26px;border-radius:13px;background:#444;
+  position:relative;cursor:pointer;border:none}
+.alarm-row .toggle-btn::after{content:'';position:absolute;top:2px;right:2px;
+  width:22px;height:22px;border-radius:50%;background:#888;transition:.2s}
+.alarm-row .toggle-btn.active{background:var(--btn-success)}
+.alarm-row .toggle-btn.active::after{right:calc(100% - 24px);background:#fff}
+
+.preview-table{width:100%;border-collapse:collapse;background:var(--bg-primary);
+  border-radius:8px;overflow:hidden;font-size:.75em;margin-top:8px}
+.preview-table th{padding:6px 4px;background:#2b5738;color:var(--accent);
+  font-size:.75em;border-bottom:1px solid rgba(244,208,63,.3)}
+.preview-table td{padding:5px 4px;text-align:center;
+  border-bottom:1px solid rgba(244,208,63,.1);font-size:.75em}
+.preview-table tr:nth-child(even) td{background:rgba(0,0,0,.15)}
+.preview-scroll{max-height:350px;overflow-y:auto;border-radius:10px;border:1px solid var(--border-color)}
+
+.day-input-box{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;
+  background:var(--bg-primary);padding:10px;border-radius:8px;margin-bottom:8px}
+.day-input-box label{font-size:.75em;color:var(--accent);font-weight:700;white-space:nowrap}
+.day-input-box input{background:var(--bg-primary);color:var(--text-primary);
+  border:1px solid #3d5a45;padding:8px;border-radius:6px;
+  font-family:var(--font-family);font-size:.9em;width:100%}
+
+.editor-day-nav{display:flex;gap:8px;align-items:center;justify-content:center;
+  margin-bottom:12px;background:var(--input-bg);padding:8px;border-radius:10px}
+.editor-day-nav button{background:var(--btn-primary);color:#fff;border:none;
+  border-radius:8px;padding:8px 14px;font-size:.9em;font-weight:700;
+  cursor:pointer;font-family:var(--font-family)}
+.editor-day-nav button:disabled{background:#444;cursor:not-allowed;opacity:.5}
+.editor-day-nav span{color:var(--accent);font-weight:700;font-size:.95em;
+  min-width:80px;text-align:center}
+
+.save-password-box{display:flex;align-items:center;gap:10px;margin-top:15px;
+  padding:12px;background:rgba(0,0,0,.3);border-radius:10px;
+  border:1px solid rgba(244,208,63,.3)}
+.save-password-box input[type="checkbox"]{width:22px;height:22px;
+  accent-color:#f4d03f;cursor:pointer;flex-shrink:0}
+.save-password-box label{font-size:.9em;color:#e8f0e3;cursor:pointer;
+  flex:1;user-select:none;text-align:right}
+
+.user-card{background:var(--bg-secondary);border-radius:10px;padding:12px;
+  margin-bottom:8px;border-right:4px solid var(--accent)}
+.user-card-code{font-family:monospace;font-size:1.1em;font-weight:700;
+  color:var(--accent);letter-spacing:2px;direction:ltr}
+.user-card-badge{display:inline-block;padding:3px 8px;border-radius:10px;
+  font-size:.7em;margin:2px}
+</style>
 </head>
 <body>
 
 <div class="toast" id="toast"></div>
-<div id="topBanner"><img id="topBannerImg" style="display:none;" onload="document.getElementById('topBanner').classList.add('active')" onerror="document.getElementById('topBanner').classList.remove('active')" alt=""></div>
 
-<!-- Modals -->
-<div class="modal-overlay" id="registerModal">
-    <div class="modal-content">
-        <h2 style="color:var(--accent); margin-bottom:10px;">🌿 خوش آمدید</h2>
-        <p style="font-size:0.9em; margin-bottom:15px; color:var(--text-muted);">لطفاً نام خود را وارد کنید.</p>
-        <input type="text" id="regModalName" placeholder="نام و نام خانوادگی" style="width:100%;padding:15px;margin-bottom:15px;background:var(--input-bg);color:var(--accent);border:2px solid var(--accent);border-radius:10px;text-align:center; font-family:var(--font-family);">
-        <button class="btn btn-green" onclick="registerUser()">🚀 ورود به اپلیکیشن</button>
-    </div>
+<div id="topBanner">
+  <img id="topBannerImg" style="display:none" onload="bannerLoaded()" onerror="bannerError()" alt="">
+</div>
+
+<div class="alarm-overlay" id="alarmOverlay">
+  <div class="alarm-message" id="alarmMessage">⏰ وقت دارو</div>
+  <button class="alarm-stop-btn" onclick="stopAlarm()">🔇 قطع آلارم</button>
+  <button class="alarm-snooze-btn" onclick="snoozeAlarm()">💤 چرت ۱۰ دقیقه</button>
+</div>
+
+<div class="modal-overlay" id="welcomeModal">
+  <div class="modal-content">
+    <h2>🌿 خوش آمدید</h2>
+    <p>کد اختصاصی شما برای دریافت نسخه‌های شخصی:</p>
+    <div class="code-display" id="welcomeCode">...</div>
+    <p style="font-size:.8em;color:var(--accent)">📌 این کد را برای اپراتور ارسال کنید</p>
+    <button class="btn btn-green" onclick="closeWelcomeModal()" style="margin-top:15px">✅ متوجه شدم</button>
+  </div>
 </div>
 
 <div class="modal-overlay" id="adminLoginModal">
-    <div class="modal-content">
-        <h2 style="color:var(--accent);">🔐 مدیریت</h2>
-        <input type="password" id="adminPasswordInput" placeholder="رمز" style="width:100%;padding:12px;margin:15px 0;background:var(--input-bg);color:var(--accent);border:2px solid var(--accent);border-radius:10px;text-align:center;">
-        <div class="btn-row">
-            <button class="btn btn-gray" onclick="document.getElementById('adminLoginModal').classList.remove('active')">انصراف</button>
-            <button class="btn btn-green" onclick="checkAdminPassword()">ورود</button>
-        </div>
+  <div class="modal-content">
+    <h2>🔐 پنل مدیریت</h2>
+    <p>رمز اپراتور را وارد کنید:</p>
+    <input type="password" id="adminPasswordInput" placeholder="رمز"
+      style="width:100%;padding:15px;text-align:center;font-size:1.2em;background:var(--input-bg);
+      color:var(--accent);border:2px solid var(--accent);border-radius:10px;
+      font-family:monospace;direction:ltr">
+    <div class="save-password-box">
+      <input type="checkbox" id="savePasswordCheck">
+      <label for="savePasswordCheck">🔒 رمز را به خاطر بسپار</label>
     </div>
+    <div class="btn-row" style="margin-top:15px">
+      <button class="btn btn-gray" onclick="closeAdminLogin()">انصراف</button>
+      <button class="btn btn-green" onclick="checkAdminPassword()">ورود</button>
+    </div>
+  </div>
 </div>
 
+<div class="modal-overlay" id="historyModal">
+  <div class="modal-content" style="max-width:500px">
+    <h2 id="historyTitle">📚 تاریخچه</h2>
+    <div id="historyList" style="max-height:60vh;overflow-y:auto;text-align:right;margin-top:15px"></div>
+    <button class="btn btn-gray" onclick="closeHistory()" style="margin-top:15px">✕ بستن</button>
+  </div>
+</div>
+
+<div class="msg-popup-overlay" id="msgPopupOverlay">
+  <div class="msg-popup-content">
+    <h2 id="msgPopupTitle">📢 پیام جدید</h2>
+    <div class="msg-popup-text" id="msgPopupText"></div>
+    <button class="msg-popup-close" onclick="closeMsgPopup()">✕ بستن</button>
+  </div>
+</div>
+
+<button id="pwaInstallBtn" onclick="installPWA()" style="display:none;position:fixed;
+  bottom:20px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#27ae60,#2ecc71);
+  color:#fff;border:none;border-radius:50px;padding:14px 30px;font-size:1em;font-weight:700;
+  cursor:pointer;box-shadow:0 5px 20px rgba(46,204,113,.5);z-index:9998;
+  font-family:var(--font-family);align-items:center;gap:8px">📲 نصب اپلیکیشن</button>
+
 <div class="container">
-    <!-- منوی اصلی -->
-    <div class="page active" id="pageMenu">
-        <div class="main-header">
-            <h1>🌿 سفیر سلامت حامی</h1>
-            <h2 id="welcomeUserText">خوش آمدید</h2>
-            <div class="supervisor-box">تحت نظارت کارشناس مزاج‌شناسی <strong>✨ مریم حمیدیان ✨</strong></div>
-        </div>
-        
-        <div class="vitrine-box" id="vitrineBox" style="display:none;">
-            <div class="vitrine-title">✨ وعده‌های امروز شما ✨</div>
-            <div class="vitrine-items" id="vitrineItems"></div>
-        </div>
 
-        <div class="menu-card" onclick="showPage('pageProfile')" style="border-right-color:#3498db;">
-            <div class="menu-card-icon">👤</div>
-            <div class="menu-card-title">👤 پروفایل کاربری</div>
-            <div class="menu-card-desc" id="menuProfileStatus">مشاهده وضعیت</div>
-        </div>
-        <div class="menu-card" onclick="showPage('pageDaily')"><div class="menu-card-icon">🍵</div><div class="menu-card-title">🍵 برنامه روزانه سلامت</div></div>
-        <div class="menu-card" onclick="showPage('pageRegime')"><div class="menu-card-icon">🥗</div><div class="menu-card-title">🥗 نسخه رژیم درمانی</div></div>
-        <div class="menu-card" onclick="showPage('pageMessages')"><div class="menu-card-icon">📬</div><div class="menu-card-title">📬 پیام‌های من</div></div>
-        <div class="menu-card" onclick="showPage('pageContact')"><div class="menu-card-icon">📞</div><div class="menu-card-title">📞 ارتباط با ما (چت)</div></div>
-        <div class="menu-card" onclick="showPage('pageSettings')"><div class="menu-card-icon">⚙️</div><div class="menu-card-title">⚙️ تنظیمات</div></div>
-        
-        <a href="https://eitaa.com/joinchat/878706709C93902231a1" target="_blank" class="growth-btn">✨🌟 برای رشد کلیک کن 🌟✨</a>
-        <button class="btn btn-green" onclick="installPWA()" style="border-radius:25px; margin-top:15px;">📲 نصب اپلیکیشن</button>
+<div class="page active" id="pageMenu">
+  <div class="main-header">
+    <h1>🌿 سفیر سلامت حامی</h1>
+    <h2>🍽️ برنامه هوشمند اصلاح مزاج</h2>
+    <div class="supervisor-box">
+      تحت نظارت کارشناس مزاج‌شناسی و زبان‌شناسی<br>با مدرک بین‌المللی
+      <strong>✨ مریم حمیدیان ✨</strong>
+    </div>
+  </div>
+
+  <div class="menu-card" onclick="showPage('pageDaily')">
+    <div class="menu-card-icon">🍵</div>
+    <div class="menu-card-title">🍵 برنامه روزانه سلامت</div>
+    <div class="menu-card-desc">دمنوش‌ها و وعده‌های روزانه</div>
+  </div>
+
+  <div class="menu-card" onclick="showPage('pageRegime')">
+    <div class="menu-card-icon">🥗</div>
+    <div class="menu-card-title">🥗 نسخه ویژه رژیم درمانی</div>
+    <div class="menu-card-desc">لاغری، چاقی، دیابت بارداری و...</div>
+  </div>
+
+  <div class="menu-card" onclick="showPage('pageMessages')" id="msgMenuCard">
+    <div class="menu-card-icon">📬</div>
+    <div class="menu-card-title">📬 پیام‌های من</div>
+    <div class="menu-card-desc">پیام‌های دریافتی از اپراتور</div>
+    <span class="msg-badge" id="msgBadge" style="display:none">0</span>
+  </div>
+
+  <div class="menu-card" onclick="showPage('pageContact')">
+    <div class="menu-card-icon">📞</div>
+    <div class="menu-card-title">📞 تماس و پشتیبانی</div>
+    <div class="menu-card-desc">ویزیت از راه دور و پشتیبانی</div>
+  </div>
+
+  <div class="menu-card" onclick="showPage('pageSettings')" style="border-right-color:#7f8c8d">
+    <div class="menu-card-icon">⚙️</div>
+    <div class="menu-card-title" style="color:#95a5a6">⚙️ تنظیمات</div>
+    <div class="menu-card-desc">آلارم، دریافت نسخه، تاریخ شروع، تاریخچه، تم و...</div>
+  </div>
+
+  <div class="menu-card" onclick="installPWA()" style="border-right-color:#2ecc71">
+    <div class="menu-card-icon">📲</div>
+    <div class="menu-card-title" style="color:#2ecc71">📲 نصب اپلیکیشن</div>
+    <div class="menu-card-desc">روی صفحه اصلی نصب کنید</div>
+  </div>
+
+  <a href="https://eitaa.com/joinchat/878706709C93902231a1" target="_blank" class="growth-btn">
+    ✨🌟 برای رشد کلیک کن 🌟✨
+  </a>
+</div>
+
+<div class="page" id="pageDaily">
+  <div class="main-header">
+    <h1>🍵 برنامه روزانه سلامت</h1>
+    <h2>برنامه شخصی شما</h2>
+  </div>
+  <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
+  <div id="dailyReceivePrompt"></div>
+  <div id="dailyContent" style="display:none">
+    <button class="btn btn-green" onclick="activateAlarms()" id="alarmMainBtn">🔔 فعال‌سازی آلارم‌ها</button>
+    <div class="table-wrapper">
+      <table id="dietTable">
+        <thead id="tableHead"></thead>
+        <tbody id="scheduleBody"></tbody>
+      </table>
+    </div>
+    <div class="status-box">
+      <div id="statusText" style="font-weight:700;color:var(--accent)">⏳ آماده</div>
+      <div style="margin:8px 0">⏰ <span id="clockDisplay">--:--:--</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="pageRegime">
+  <div class="main-header">
+    <h1>🥗 نسخه ویژه رژیم درمانی</h1>
+    <h2>رژیم اختصاصی شما</h2>
+  </div>
+  <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
+  <div id="regimeReceivePrompt"></div>
+  <div id="regimeContent" style="display:none">
+    <div class="section-box">
+      <h3>📝 تدابیر و رژیم اختصاصی</h3>
+      <div class="regime-content" id="regimeDisplay"></div>
+    </div>
+    <button class="btn btn-purple" onclick="editMyRegime()">✏️ ویرایش متن</button>
+  </div>
+</div>
+
+<div class="page" id="pageMessages">
+  <div class="main-header">
+    <h1>📬 پیام‌های من</h1>
+    <h2>پیام‌های دریافتی از اپراتور</h2>
+  </div>
+  <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
+  <button class="btn btn-blue" onclick="loadMyMessages(true)">🔄 دریافت پیام‌های جدید</button>
+  <div id="messagesList" style="margin-top:12px">
+    <p style="text-align:center;color:var(--text-muted);padding:20px">در حال بارگذاری...</p>
+  </div>
+</div>
+
+<div class="page" id="pageContact">
+  <div class="main-header">
+    <h1>📞 تماس و پشتیبانی</h1>
+    <h2>با ما در ارتباط باشید</h2>
+  </div>
+  <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
+  <div class="menu-card" onclick="window.open('https://rubika.ir/Mhamidian313','_blank')" style="border-right-color:#2ecc71">
+    <div class="menu-card-icon">🩺</div>
+    <div class="menu-card-title">🩺 ویزیت از راه دور</div>
+    <div class="menu-card-desc">فقط با کمترین هزینه ویزیت شو</div>
+  </div>
+  <div class="menu-card" onclick="window.open('https://eitaa.com/Nabzezendegi133','_blank')" style="border-right-color:#e8b923">
+    <div class="menu-card-icon">📢</div>
+    <div class="menu-card-title">📢 کانال ایتا</div>
+    <div class="menu-card-desc">@Nabzezendegi133</div>
+  </div>
+  <div class="menu-card" onclick="window.open('https://rubika.ir/joing/GEABAACJ0KMFSXWCVGPUPQJRBLKATZUF','_blank')" style="border-right-color:#8e44ad">
+    <div class="menu-card-icon">💬</div>
+    <div class="menu-card-title">💬 گروه روبیکا</div>
+    <div class="menu-card-desc">عضویت در گروه پشتیبانی</div>
+  </div>
+</div>
+
+<div class="page" id="pageSettings">
+  <div class="main-header">
+    <h1>⚙️ تنظیمات</h1>
+    <h2>مدیریت برنامه</h2>
+  </div>
+  <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
+
+  <div class="section-box" style="border:2px solid var(--btn-success)">
+    <h3>🔔 تنظیم هشدار جدول</h3>
+    <div id="alarmSettingsContainer"></div>
+    <button class="btn btn-green" onclick="saveAlarmSettings()" style="margin-top:8px">💾 ذخیره تنظیمات هشدار</button>
+    <button class="btn btn-orange" onclick="testAlarmSound()" style="margin-top:6px">🔊 تست صدای آلارم</button>
+  </div>
+
+  <div class="section-box" style="border:2px solid var(--accent)">
+    <h3>📥 دریافت از راه دور</h3>
+    <div class="code-display" id="myCodeDisplay" style="font-size:1.4em">------</div>
+    <button class="btn btn-green" onclick="receiveAll()">📥 دریافت نسخه و جدول</button>
+  </div>
+
+  <div class="section-box" style="border:2px solid var(--accent2)">
+    <h3>📚 تاریخچه نسخه‌ها و جدول‌ها</h3>
+    <div class="btn-row">
+      <button class="btn btn-blue" onclick="showHistory('prescriptions')">💊 تاریخچه نسخه‌ها</button>
+      <button class="btn btn-purple" onclick="showHistory('tables')">📊 تاریخچه جدول‌ها</button>
+    </div>
+  </div>
+
+  <div class="section-box">
+    <h3>📅 تاریخ شروع برنامه</h3>
+    <input type="date" id="startDatePicker" onchange="onStartDateChanged()"
+      style="width:100%;padding:10px;background:var(--input-bg);color:var(--accent);
+      border:2px solid var(--accent);border-radius:8px;font-family:var(--font-family)">
+    <div style="font-size:.78em;color:var(--text-secondary);margin-top:8px;line-height:1.8">
+      📅 شمسی: <span id="jalaliDate" style="color:var(--accent);font-weight:700">--</span><br>
+      📌 امروز: <span id="dayBadge" style="color:var(--accent);font-weight:700">روز --</span>
+    </div>
+  </div>
+
+  <div class="section-box">
+    <h3>🎨 پوسته و تم</h3>
+    <div class="settings-row">
+      <label>تم:</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;flex:1;justify-content:center">
+        <span onclick="setTheme('nature')" style="width:35px;height:35px;border-radius:8px;cursor:pointer;background:linear-gradient(135deg,#0d1f12,#2b5738);border:2px solid #f4d03f"></span>
+        <span onclick="setTheme('honey')" style="width:35px;height:35px;border-radius:8px;cursor:pointer;background:linear-gradient(135deg,#3d2800,#8b6914);border:2px solid transparent"></span>
+        <span onclick="setTheme('herbal')" style="width:35px;height:35px;border-radius:8px;cursor:pointer;background:linear-gradient(135deg,#1a0f00,#4a3010);border:2px solid transparent"></span>
+        <span onclick="setTheme('mint')" style="width:35px;height:35px;border-radius:8px;cursor:pointer;background:linear-gradient(135deg,#0a2e2e,#1a4d4d);border:2px solid transparent"></span>
+        <span onclick="setTheme('dark')" style="width:35px;height:35px;border-radius:8px;cursor:pointer;background:linear-gradient(135deg,#111,#333);border:2px solid transparent"></span>
+        <span onclick="setTheme('purple')" style="width:35px;height:35px;border-radius:8px;cursor:pointer;background:linear-gradient(135deg,#1a0a2e,#3d2860);border:2px solid transparent"></span>
+      </div>
+    </div>
+    <div class="settings-row" style="margin-top:8px">
+      <label>🌙 حالت شب</label>
+      <input type="checkbox" id="nightMode" onchange="toggleNightMode()">
+    </div>
+  </div>
+
+  <div class="section-box">
+    <h3>🎨 نمایش</h3>
+    <div class="settings-row">
+      <label>نوع:</label>
+      <select id="viewMode" onchange="changeViewMode()">
+        <option value="all">کل روزها</option>
+        <option value="week">یک هفته</option>
+        <option value="today">فقط امروز</option>
+      </select>
+    </div>
+    <div class="settings-row">
+      <label>فونت:</label>
+      <select id="fontSize" onchange="changeFontSize()">
+        <option value="small">ریز</option>
+        <option value="medium" selected>متوسط</option>
+        <option value="large">بزرگ</option>
+      </select>
+    </div>
+    <div class="settings-row"><label>📅 تاریخ</label><input type="checkbox" id="showDate" onchange="toggleShowDate()"></div>
+    <div class="settings-row"><label>📆 هفته</label><input type="checkbox" id="showWeekday" onchange="toggleShowWeekday()"></div>
+    <div class="settings-row"><label>📂 گذشته</label><input type="checkbox" id="showPastDays" onchange="toggleShowPastDays()" checked></div>
+  </div>
+
+  <button class="btn btn-red" onclick="openAdminLogin()" style="margin-top:15px">🔐 ورود به پنل مدیریت</button>
+</div>
+
+<div class="page" id="pageAdmin">
+  <div class="main-header">
+    <h1>🔐 پنل مدیریت</h1>
+    <h2>مخصوص اپراتور</h2>
+  </div>
+  <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
+
+  <div class="admin-tabs">
+    <div class="admin-tab active" onclick="switchAdminTab('dashboard',this)">📊 داشبورد</div>
+    <div class="admin-tab" onclick="switchAdminTab('prescription',this)">💊 نسخه</div>
+    <div class="admin-tab" onclick="switchAdminTab('table',this)">📋 جدول</div>
+    <div class="admin-tab" onclick="switchAdminTab('message',this)">📢 پیام</div>
+    <div class="admin-tab" onclick="switchAdminTab('banner',this)">🖼️ بنر</div>
+  </div>
+
+  <div class="admin-panel" id="adminTabDashboard">
+    <h3>📊 داشبورد گزارش</h3>
+    <div class="dashboard-stats">
+      <div class="stat-card"><div class="stat-number" id="statUsers">-</div><div class="stat-label">👥 کاربران</div></div>
+      <div class="stat-card"><div class="stat-number" id="statPrescriptions">-</div><div class="stat-label">💊 نسخه‌ها</div></div>
+      <div class="stat-card"><div class="stat-number" id="statTables">-</div><div class="stat-label">📋 جدول‌ها</div></div>
+      <div class="stat-card"><div class="stat-number" id="statMessages">-</div><div class="stat-label">📢 پیام‌ها</div></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-blue" onclick="loadDashboard(true)">🔄 بروزرسانی</button>
+      <button class="btn btn-green" onclick="exportDashboard()">📥 دانلود گزارش</button>
+    </div>
+    <div style="background:var(--input-bg);padding:12px;border-radius:10px;margin-top:12px">
+      <div style="color:var(--accent);font-weight:700;font-size:.9em;margin-bottom:10px">
+        👥 لیست کاربران (<span id="userListCount">۰</span>)
+      </div>
+      <div id="userListContainer">
+        <p style="text-align:center;color:var(--text-muted);padding:20px;font-size:.85em">⏳ در حال بارگذاری...</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-panel" id="adminTabPrescription" style="display:none">
+    <h3>📤 ارسال نسخه رژیم درمانی</h3>
+    <div class="admin-warning">⚠️ این بخش فقط برای اپراتور است</div>
+    <div class="settings-row">
+      <label>کد کاربر:</label>
+      <input type="text" id="targetUserCode" placeholder="A3B5C7" maxlength="6"
+        style="text-align:center;letter-spacing:3px;direction:ltr;font-size:1.1em">
+    </div>
+    <div class="settings-row">
+      <label>عنوان:</label>
+      <input type="text" id="prescriptionTitle" placeholder="مثلاً: رژیم لاغری">
+    </div>
+    <textarea id="prescriptionContent" placeholder="متن رژیم..." style="min-height:150px"></textarea>
+    <div class="btn-row" style="margin-top:10px">
+      <button class="btn btn-green" onclick="sendPrescription()">📤 ارسال</button>
+      <button class="btn btn-gray" onclick="clearAdminForm()">🗑️ پاک</button>
+    </div>
+  </div>
+
+  <div class="admin-panel" id="adminTabTable" style="display:none">
+    <h3>📋 ویرایش جدول هوشمند</h3>
+    <div class="admin-warning">💡 تغییرات به صورت خودکار ذخیره می‌شوند</div>
+    <div class="settings-row" style="margin-bottom:10px">
+      <label>کد کاربر:</label>
+      <input type="text" id="targetUserCodeTable" placeholder="A3B5C7" maxlength="6"
+        style="text-align:center;letter-spacing:3px;direction:ltr;font-size:1.1em">
     </div>
 
-    <!-- پروفایل -->
-    <div class="page" id="pageProfile">
-        <div class="main-header"><h1>👤 پروفایل من</h1></div>
-        <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
-        <div class="section-box" style="text-align:center;">
-            <div id="profileNameShow" style="font-weight:bold; color:var(--accent); font-size:1.5em; margin-bottom:10px;"></div>
-            <div style="font-size:0.9em; color:var(--text-muted);">کد شما: <span id="displayCode" style="color:white; font-family:monospace; font-size:1.2em;"></span></div>
-            <div id="profileStatusShow" style="margin-top:15px; font-size:0.9em;"></div>
-        </div>
+    <div style="background:var(--input-bg);padding:12px;border-radius:10px;margin:10px 0">
+      <div style="color:var(--accent);font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">🏷️ نام و ساعت وعده‌ها</div>
+      <div id="tableEditorContainer"></div>
+      <button onclick="addTableColumnEditor()" style="width:100%;padding:10px;background:var(--btn-success);
+        color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;margin-top:8px;
+        font-size:.85em;font-family:var(--font-family)">➕ افزودن وعده جدید</button>
     </div>
 
-    <!-- برنامه روزانه -->
-    <div class="page" id="pageDaily">
-        <div class="main-header"><h1>🍵 برنامه روزانه</h1></div>
-        <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
-        <div id="dailyContent"></div>
+    <div style="background:var(--input-bg);padding:12px;border-radius:10px;margin:10px 0">
+      <div style="color:var(--accent);font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">📅 ویرایش محتوای روزها</div>
+      <div class="editor-day-nav" id="dayNavSingle">
+        <button onclick="prevEditorDay()" id="prevDayBtn">◀ قبل</button>
+        <span id="editorDayLabel">روز 1</span>
+        <button onclick="nextEditorDay()" id="nextDayBtn">بعد ▶</button>
+      </div>
+      <div id="dayEditorContainer"></div>
     </div>
 
-    <!-- رژیم -->
-    <div class="page" id="pageRegime">
-        <div class="main-header"><h1>🥗 رژیم درمانی</h1></div>
-        <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
-        <div id="regimeContent"></div>
+    <div style="background:rgba(231,76,60,.08);padding:12px;border-radius:10px;margin:10px 0;border:2px solid rgba(231,76,60,.3)">
+      <div style="color:#e74c3c;font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">⚡ اعمال محتوای بالا روی:</div>
+      <div style="display:grid;grid-template-columns:1fr;gap:8px">
+        <button onclick="applyToDays('all')" style="padding:12px;background:linear-gradient(135deg,#27ae60,#1e8449);color:#fff;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:.9em;font-family:var(--font-family)">📌 اعمال بر کل روزها</button>
+        <button onclick="applyToDays('odd')" style="padding:12px;background:linear-gradient(135deg,#6b8e23,#4a6618);color:#fff;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:.9em;font-family:var(--font-family)">🔵 اعمال بر روزهای فرد</button>
+        <button onclick="applyToDays('even')" style="padding:12px;background:linear-gradient(135deg,#e8b923,#b8941f);color:#0d1f12;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:.9em;font-family:var(--font-family)">🔴 اعمال بر روزهای زوج</button>
+      </div>
     </div>
 
-    <!-- پیام‌ها -->
-    <div class="page" id="pageMessages">
-        <div class="main-header"><h1>📬 پیام‌ها</h1></div>
-        <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
-        <div id="messagesList" style="margin-top:12px;"></div>
+    <div style="background:var(--input-bg);padding:12px;border-radius:10px;margin:10px 0;border:2px solid var(--accent)">
+      <div style="color:var(--accent);font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">👁️ پیش‌نمایش جدول</div>
+      <button onclick="togglePreview()" id="previewToggleBtn" style="width:100%;padding:10px;background:var(--btn-primary);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:.9em;margin-bottom:8px;font-family:var(--font-family)">نمایش جدول</button>
+      <div id="previewContainer" style="display:none">
+        <div class="preview-scroll">
+          <table class="preview-table" id="previewTable">
+            <thead id="previewTableHead"></thead>
+            <tbody id="previewTableBody"></tbody>
+          </table>
+        </div>
+        <p style="font-size:.7em;color:var(--text-muted);margin-top:6px;text-align:center">
+          📊 <span id="previewCount">0</span> روز × <span id="previewCols">0</span> وعده
+        </p>
+      </div>
     </div>
 
-    <!-- چت -->
-    <div class="page" id="pageContact">
-        <div class="main-header"><h1>📞 چت با پشتیبانی</h1></div>
-        <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
-        <div class="section-box" style="padding:10px;">
-            <div class="chat-box" id="chatBox"></div>
-            <div class="chat-input-row">
-                <label for="chatImageInput" style="background:var(--bg-tertiary); border:1px solid var(--accent);">📷</label>
-                <input type="file" id="chatImageInput" accept="image/*" style="display:none;" onchange="sendChatImage(this)">
-                <button type="button" id="micBtn" onclick="toggleRecording()" style="background:var(--accent); color:black;">🎤</button>
-                <input type="text" id="chatInput" placeholder="پیام...">
-                <button onclick="sendChatMessage()">➤</button>
-            </div>
-            <button class="btn btn-gray" onclick="loadUserChat()" style="margin-top:5px; font-size:0.8em;">🔄 بروزرسانی چت</button>
-        </div>
+    <div style="background:rgba(46,204,113,.1);padding:12px;border-radius:10px;margin:10px 0;border:2px solid var(--btn-success)">
+      <div style="color:var(--btn-success);font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">📤 ارسال جدول</div>
+      <div class="btn-row">
+        <button class="btn btn-blue" onclick="sendTableToUser()">📤 ارسال به کاربر</button>
+        <button class="btn btn-orange" onclick="sendTableToAll()">📢 ارسال به همه</button>
+      </div>
     </div>
+  </div>
 
-    <!-- تنظیمات -->
-    <div class="page" id="pageSettings">
-        <div class="main-header"><h1>⚙️ تنظیمات</h1></div>
-        <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
-        
-        <div class="section-box">
-            <h3>📅 تاریخ شروع (شمسی)</h3>
-            <input type="date" id="startDatePicker" onchange="saveStartDate()">
-            <div id="jalaliShow" style="font-size:0.85em; margin-top:10px; color:var(--accent); text-align:center;"></div>
-        </div>
-        
-        <button class="btn btn-red" onclick="document.getElementById('adminLoginModal').classList.add('active')" style="margin-top:15px;">🔐 ورود به پنل مدیریت</button>
+  <div class="admin-panel" id="adminTabMessage" style="display:none">
+    <h3>📢 ارسال پیام</h3>
+    <div class="admin-warning">⚠️ پیام‌ها در اپ کاربران نمایش داده می‌شوند</div>
+    <div class="settings-row">
+      <label>عنوان:</label>
+      <input type="text" id="messageTitle" placeholder="مثلاً: یادآوری مهم">
     </div>
-
-    <!-- پنل مدیر -->
-    <div class="page" id="pageAdmin">
-        <div class="main-header"><h1>🔐 مدیریت</h1></div>
-        <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
-        
-        <div class="admin-tabs">
-            <div class="admin-tab active" onclick="switchAdminTab('dashboard', this)">📊 آمار</div>
-            <div class="admin-tab" onclick="switchAdminTab('profiles', this)">👥 کاربران</div>
-            <div class="admin-tab" onclick="switchAdminTab('table', this)">📋 جدول</div>
-            <div class="admin-tab" onclick="switchAdminTab('chat', this)">💬 چت</div>
-        </div>
-
-        <div class="admin-panel" id="adminTabDashboard">
-            <h3>📊 آمار</h3>
-            <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; text-align:center;">
-                <div style="background:var(--bg-primary); padding:10px; border-radius:10px;"><div id="statUsers" style="color:var(--accent); font-size:1.5em;">0</div><div style="font-size:0.7em;">کاربران</div></div>
-                <div style="background:var(--bg-primary); padding:10px; border-radius:10px;"><div id="statPending" style="color:#e74c3c; font-size:1.5em;">0</div><div style="font-size:0.7em;">در انتظار تایید</div></div>
-            </div>
-        </div>
-
-        <div class="admin-panel" id="adminTabProfiles" style="display:none;">
-            <h3>👥 لیست کاربران</h3>
-            <button class="btn btn-blue" onclick="loadAdminUserList()" style="margin-bottom:10px;">🔄 دریافت لیست</button>
-            <select id="adminUserSelect" onchange="onAdminSelectUser()">
-                <option value="">-- انتخاب کنید --</select>
-            </select>
-            <div id="adminProfilesList" style="margin-top:10px;"></div>
-        </div>
-
-        <div class="admin-panel" id="adminTabTable" style="display:none;">
-            <h3>📋 ارسال جدول</h3>
-            <textarea id="adminTableText" placeholder="محتوای جدول..." style="height:100px; margin-bottom:10px;"></textarea>
-            <button class="btn btn-green" onclick="sendTableToUser()">📤 ارسال</button>
-        </div>
-
-        <div class="admin-panel" id="adminTabChat" style="display:none;">
-            <h3>💬 چت</h3>
-            <select id="adminChatTarget" onchange="loadAdminChatData()" style="margin-bottom:10px;">
-                <option value="">-- انتخاب کنید --</option>
-            </select>
-            <div class="chat-box" id="adminChatBox"></div>
-            <div class="chat-input-row">
-                <label for="adminChatImageInput" style="background:var(--bg-tertiary); border:1px solid var(--accent);">📷</label>
-                <input type="file" id="adminChatImageInput" accept="image/*" style="display:none;" onchange="sendAdminChatImage(this)">
-                <input type="text" id="adminChatInput" placeholder="پاسخ...">
-                <button onclick="sendAdminChatMessage()">➤</button>
-            </div>
-            <button class="btn btn-gray" onclick="loadAdminChatData()" style="margin-top:5px; font-size:0.8em;">🔄 بروزرسانی</button>
-        </div>
+    <textarea id="messageContent" placeholder="متن پیام..." style="min-height:120px"></textarea>
+    <div class="settings-row" style="margin-top:8px">
+      <label>گیرنده:</label>
+      <input type="text" id="messageTarget" placeholder="کد کاربر یا خالی برای همه"
+        style="text-align:center;letter-spacing:3px;direction:ltr">
     </div>
+    <p style="font-size:.75em;color:var(--text-muted);margin-top:5px">💡 اگر کد خالی باشد، پیام برای همه کاربران ارسال می‌شود</p>
+    <div class="btn-row" style="margin-top:10px">
+      <button class="btn btn-green" onclick="sendMessage()">📢 ارسال پیام</button>
+      <button class="btn btn-gray" onclick="clearMessageForm()">🗑️ پاک</button>
+    </div>
+  </div>
+
+  <div class="admin-panel" id="adminTabBanner" style="display:none">
+    <h3>🖼️ مدیریت بنر اپلیکیشن</h3>
+    <div class="admin-warning">⚠️ با تغییر لینک، بنر برای همه کاربران تغییر می‌کند</div>
+    <div class="settings-row">
+      <label>لینک عکس:</label>
+      <input type="text" id="bannerUrlInput" placeholder="https://example.com/banner.jpg"
+        style="direction:ltr;text-align:left;font-size:.8em">
+    </div>
+    <p style="font-size:.75em;color:var(--text-muted);text-align:center;margin:8px 0">
+      📐 ابعاد پیشنهادی: <strong style="color:var(--accent)">۱۲۰۰×۳۰۰ پیکسل</strong> | فرمت: JPG یا PNG
+    </p>
+    <div class="btn-row">
+      <button class="btn btn-green" onclick="saveBannerUrl()">💾 ذخیره بنر</button>
+      <button class="btn btn-red" onclick="disableBanner()">🚫 غیرفعال کردن</button>
+    </div>
+    <div style="background:var(--input-bg);padding:10px;border-radius:8px;margin-top:12px">
+      <div style="color:var(--accent);font-weight:700;font-size:.85em;margin-bottom:8px;text-align:center">👁️ پیش‌نمایش:</div>
+      <div id="bannerPreview" style="text-align:center">
+        <p style="font-size:.8em;color:var(--text-muted)">هنوز بنری تنظیم نشده</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-box">
+    <h3>📋 آخرین ارسال‌ها</h3>
+    <div id="adminRecentList" style="font-size:.8em;line-height:1.8;color:var(--text-secondary)">هنوز ارسالی انجام نشده...</div>
+  </div>
+</div>
+
 </div>
 
 <script>
-var JSONBIN_API_KEY = "$2a$10$HZGvoCokb.bOp8eDysy62ediIrcqQU/Zpksor16E58jBiqrEK/zYK";
-var JSONBIN_BIN_ID = "6ab8a6f3ac6210605af9d9c8";
-var JSONBIN_URL = "https://api.jsonbin.io/v3/b/" + JSONBIN_BIN_ID;
-var ADMIN_PASSWORD = "maryam6625";
+"use strict";
 
-var userId = localStorage.getItem('userId');
-var userName = localStorage.getItem('userName');
-var currentAdminChatCode = "";
-var mediaRecorder = null; var audioChunks = [];
-var deferredPrompt = null;
-
-// سیستم توست (پیام)
-function showToast(msg, type) {
-    var t = document.getElementById('toast'); t.textContent = msg;
-    t.className = 'toast' + (type === 'error' ? ' error' : '');
-    t.style.display = 'block'; setTimeout(function() { t.style.display = 'none'; }, 3000);
+/* ============================================================
+   📦 LZ-String (فشرده‌سازی متن برای کاهش حجم ارسال)
+   نسخه مینی‌فای شده برای صرفه‌جویی در حجم
+   ============================================================ */
+var LZString=(function(){
+var f=String.fromCharCode;
+var keyStrUriSafe="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$";
+var baseReverseDic={};
+function getBaseValue(alphabet,character){
+  if(!baseReverseDic[alphabet]){
+    baseReverseDic[alphabet]={};
+    for(var i=0;i<alphabet.length;i++)baseReverseDic[alphabet][alphabet.charAt(i)]=i;
+  }
+  return baseReverseDic[alphabet][character];
 }
-
-// ثبت نام
-function registerUser() {
-    var name = document.getElementById('regModalName').value.trim();
-    if (!name) { alert('لطفا نام خود را وارد کنید'); return; }
-    showToast('⏳ در حال ثبت...', 'warning');
-    var newId = Math.floor(1000 + Math.random() * 9000).toString();
-    
-    fetch(JSONBIN_URL + "/latest?t=" + Date.now(), { headers: { "X-Master-Key": JSONBIN_API_KEY } })
-    .then(res => res.json()).then(data => {
-        var r = data.record || {};
-        if (!r.profiles) r.profiles = {};
-        r.profiles[newId] = { name: name, approved: false, createdAt: Date.now() };
-        return fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
-    }).then(res => {
-        if(res.ok) {
-            localStorage.setItem('userId', newId);
-            localStorage.setItem('userName', name);
-            showToast('✅ ثبت نام شد');
-            setTimeout(function() { location.reload(); }, 1000);
-        } else { showToast('❌ خطا در ثبت نام', 'error'); }
-    }).catch(() => showToast('❌ خطای شبکه', 'error'));
-}
-
-// فشرده‌سازی عکس
-function compressImage(file, callback) {
-    var reader = new FileReader(); reader.readAsDataURL(file);
-    reader.onload = function(event) {
-        var img = new Image(); img.src = event.target.result;
-        img.onload = function() {
-            var canvas = document.createElement('canvas');
-            var MAX_WIDTH = 200; var width = img.width; var height = img.height;
-            if (width > height && width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
-            else if (height > MAX_WIDTH) { width *= MAX_WIDTH / height; height = MAX_WIDTH; }
-            canvas.width = width; canvas.height = height;
-            canvas.getContext("2d").drawImage(img, 0, 0, width, height);
-            callback(canvas.toDataURL("image/jpeg", 0.4));
-        }
+function _compress(uncompressed,bitsPerChar,getCharFromInt){
+  if(uncompressed==null)return"";
+  var i,value,context_dictionary={},context_dictionaryToCreate={},
+  context_c="",context_wc="",context_w="",context_enlargeIn=2,
+  context_dictSize=3,context_numBits=2,context_data=[],context_data_val=0,
+  context_data_position=0,ii;
+  for(ii=0;ii<uncompressed.length;ii+=1){
+    context_c=uncompressed.charAt(ii);
+    if(!Object.prototype.hasOwnProperty.call(context_dictionary,context_c)){
+      context_dictionary[context_c]=context_dictSize++;
+      context_dictionaryToCreate[context_c]=true;
     }
-}
-
-// ساخت قالب پیام
-function buildMessageHTML(msg) {
-    var content = '';
-    if(msg.text) content += msg.text;
-    if(msg.image) content += '<img src="'+msg.image+'" style="max-width:100%; border-radius:8px; margin-top:5px;">';
-    if(msg.audio) content += '<audio controls src="'+msg.audio+'" style="max-width:100%; margin-top:5px;"></audio>';
-    return '<div class="chat-msg '+(msg.sender==='user'?'user':'admin')+'">'+content+'</div>';
-}
-
-// پاکسازی دیتابیس
-function cleanUpDatabase(r) {
-    if(!r.chats) return r;
-    Object.keys(r.chats).forEach(code => {
-        if(r.chats[code].length > 30) { r.chats[code] = r.chats[code].slice(-30); }
-    });
-    return r;
-}
-
-// بارگذاری اطلاعات کاربر
-function initUserData() {
-    if(!userId) return;
-    fetch(JSONBIN_URL + "/latest?t=" + Date.now(), { headers: { "X-Master-Key": JSONBIN_API_KEY } })
-    .then(res => res.json()).then(data => {
-        var r = data.record || {};
-        if (r.profiles && r.profiles[userId] && document.getElementById('profileNameShow')) {
-            document.getElementById('profileNameShow').textContent = r.profiles[userId].name;
-            document.getElementById('welcomeUserText').textContent = 'سلام ' + r.profiles[userId].name;
-            document.getElementById('displayCode').textContent = userId;
-            document.getElementById('profileStatusShow').innerHTML = r.profiles[userId].approved ? '<span style="color:#2ecc71;">✅ تایید شده</span>' : '<span style="color:#f39c12;">⏳ در انتظار تایید</span>';
+    context_wc=context_w+context_c;
+    if(Object.prototype.hasOwnProperty.call(context_dictionary,context_wc)){
+      context_w=context_wc;
+    }else{
+      if(Object.prototype.hasOwnProperty.call(context_dictionaryToCreate,context_w)){
+        if(context_w.charCodeAt(0)<256){
+          for(i=0;i<context_numBits;i++){
+            context_data_val=(context_data_val<<1);
+            if(context_data_position==bitsPerChar-1){
+              context_data_position=0;context_data.push(getCharFromInt(context_data_val));context_data_val=0;
+            }else{context_data_position++;}
+          }
+          value=context_w.charCodeAt(0);
+          for(i=0;i<8;i++){
+            context_data_val=(context_data_val<<1)|(value&1);
+            if(context_data_position==bitsPerChar-1){
+              context_data_position=0;context_data.push(getCharFromInt(context_data_val));context_data_val=0;
+            }else{context_data_position++;}
+            value=value>>1;
+          }
+        }else{
+          value=1;
+          for(i=0;i<context_numBits;i++){
+            context_data_val=(context_data_val<<1)|value;
+            if(context_data_position==bitsPerChar-1){
+              context_data_position=0;context_data.push(getCharFromInt(context_data_val));context_data_val=0;
+            }else{context_data_position++;}
+            value=0;
+          }
+          value=context_w.charCodeAt(0);
+          for(i=0;i<16;i++){
+            context_data_val=(context_data_val<<1)|(value&1);
+            if(context_data_position==bitsPerChar-1){
+              context_data_position=0;context_data.push(getCharFromInt(context_data_val));context_data_val=0;
+            }else{context_data_position++;}
+            value=value>>1;
+          }
         }
-        if (r.tables && r.tables[userId] && document.getElementById('dailyContent')) {
-            document.getElementById('dailyContent').innerHTML = '<div style="line-height:2; white-space:pre-wrap; padding:15px; background:var(--bg-secondary); border-radius:10px;">' + r.tables[userId] + '</div>';
+        context_enlargeIn--;
+        if(context_enlargeIn==0){context_enlargeIn=Math.pow(2,context_numBits);context_numBits++;}
+        delete context_dictionaryToCreate[context_w];
+      }else{
+        value=context_dictionary[context_w];
+        for(i=0;i<context_numBits;i++){
+          context_data_val=(context_data_val<<1)|(value&1);
+          if(context_data_position==bitsPerChar-1){
+            context_data_position=0;context_data.push(getCharFromInt(context_data_val));context_data_val=0;
+          }else{context_data_position++;}
+          value=value>>1;
         }
-    }).catch(e => console.log('Init error:', e.message));
-}
-
-// چت کاربر
-function loadUserChat() {
-    if(!userId) return;
-    fetch(JSONBIN_URL + "/latest?t=" + Date.now(), { headers: { "X-Master-Key": JSONBIN_API_KEY } })
-    .then(res => res.json()).then(data => {
-        var chats = (data.record.chats && data.record.chats[userId]) ? data.record.chats[userId] : [];
-        var html = ''; chats.forEach(c => html += buildMessageHTML(c));
-        var box = document.getElementById('chatBox');
-        box.innerHTML = html || '<p style="text-align:center; color:var(--text-muted);">چتی وجود ندارد</p>';
-        box.scrollTop = box.scrollHeight;
-    });
-}
-
-function sendChatMessage() {
-    var text = document.getElementById('chatInput').value.trim(); if (!text) return; document.getElementById('chatInput').value = '';
-    document.getElementById('chatBox').innerHTML += buildMessageHTML({sender:'user', text:text});
-    document.getElementById('chatBox').scrollTop = document.getElementById('chatBox').scrollHeight;
-    fetch(JSONBIN_URL + "/latest?t=" + Date.now(), { headers: { "X-Master-Key": JSONBIN_API_KEY } })
-    .then(res => res.json()).then(data => {
-        var r = data.record || {}; if (!r.chats) r.chats = {}; if (!r.chats[userId]) r.chats[userId] = [];
-        r.chats[userId].push({ sender: 'user', text: text, time: Date.now() });
-        r = cleanUpDatabase(r);
-        return fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
-    }).then(() => loadUserChat());
-}
-
-function sendChatImage(input) {
-    if(!input.files[0]) return; showToast('⏳ ارسال...', 'warning');
-    compressImage(input.files[0], function(b64) {
-        document.getElementById('chatBox').innerHTML += buildMessageHTML({sender:'user', image:b64});
-        document.getElementById('chatBox').scrollTop = document.getElementById('chatBox').scrollHeight;
-        fetch(JSONBIN_URL + "/latest?t=" + Date.now(), { headers: { "X-Master-Key": JSONBIN_API_KEY } })
-        .then(res => res.json()).then(data => {
-            var r = data.record || {}; if (!r.chats) r.chats = {}; if (!r.chats[userId]) r.chats[userId] = [];
-            r.chats[userId].push({ sender: 'user', image: b64, time: Date.now() });
-            r = cleanUpDatabase(r);
-            return fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
-        }).then(() => { loadUserChat(); input.value=''; });
-    });
-}
-
-function toggleRecording() {
-    var btn = document.getElementById('micBtn');
-    if (mediaRecorder && mediaRecorder.state === 'recording') { mediaRecorder.stop(); btn.style.background = 'var(--accent)'; btn.textContent = '🎤'; }
-    else {
-        navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-            mediaRecorder = new MediaRecorder(stream); audioChunks = [];
-            mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-            mediaRecorder.onstop = () => {
-                var reader = new FileReader(); reader.readAsDataURL(new Blob(audioChunks, { type: 'audio/webm' }));
-                reader.onloadend = () => {
-                    var b64 = reader.result;
-                    document.getElementById('chatBox').innerHTML += buildMessageHTML({sender:'user', audio:b64});
-                    document.getElementById('chatBox').scrollTop = document.getElementById('chatBox').scrollHeight;
-                    fetch(JSONBIN_URL + "/latest?t=" + Date.now(), { headers: { "X-Master-Key": JSONBIN_API_KEY } })
-                    .then(res => res.json()).then(data => {
-                        var r = data.record || {}; if (!r.chats) r.chats = {}; if (!r.chats[userId]) r.chats[userId] = [];
-                        r.chats[userId].push({ sender: 'user', audio: b64, time: Date.now() });
-                        r = cleanUpDatabase(r);
-                        return fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
-                    }).then(() => loadUserChat());
-                };
-                stream.getTracks().forEach(t => t.stop());
-            };
-            mediaRecorder.start(); btn.style.background = '#e74c3c'; btn.textContent = '⏹';
-        }).catch(() => showToast('❌ دسترسی ندارید', 'error'));
+      }
+      context_enlargeIn--;
+      if(context_enlargeIn==0){context_enlargeIn=Math.pow(2,context_numBits);context_numBits++;}
+      context_dictionary[context_wc]=context_dictSize++;
+      context_w=String(context_c);
     }
+  }
+  if(context_w!==""){
+    if(Object.prototype.hasOwnProperty.call(context_dictionaryToCreate,context_w)){
+      if(context_w.charCodeAt(0)<256){
+        for(i=0;i<context_numBits;i++){
+          context_data_val=(context_data_val<<1);
+          if(context_data_position==bitsPerChar-1){
+            context_data_position=0;context_data.push(getCharFromInt(context_data_val));context_data_val=0;
+          }else{context_data_position++;}
+        }
+        value=context_w.charCodeAt(0);
+        for(i=0;i<8;i++){
+          context_data_val=(context_data_val<<1)|(value&1);
+          if(context_data_position==bitsPerChar-1){
+            context_data_position=0;context_data.push(getCharFromInt(context_data_val));context_data_val=0;
+          }else{context_data_position++;}
+          value=value>>1;
+        }
+      }else{
+        value=1;
+        for(i=0;i<context_numBits;i++){
+          context_data_val=(context_data_val<<1)|value;
+          if(context_data_position==bitsPerChar-1){
+            context_data_position=0;context_data.push(getCharFromInt(context_data_val));context_data_val=0;
+          }else{context_data_position++;}
+          value=0;
+        }
+        value=context_w.charCodeAt(0);
+        for(i=0;i<16;i++){
+          context_data_val=(context_data_val<<1)|(value&1);
+          if(context_data_position==bitsPerChar-1){
+            context_data_position=0;context_data.push(getCharFromInt(context_data_val));context_data_val=0;
+          }else{context_data_position++;}
+          value=value>>1;
+        }
+      }
+      context_enlargeIn--;
+      if(context_enlargeIn==0){context_enlargeIn=Math.pow(2,context_numBits);context_numBits++;}
+      delete context_dictionaryToCreate[context_w];
+    }else{
+      value=context_dictionary[context_w];
+      for(i=0;i<context_numBits;i++){
+        context_data_val=(context_data_val<<1)|(value&1);
+        if(context_data_position==bitsPerChar-1){
+          context_data_position=0;context_data.push(getCharFromInt(context_data_val));context_data_val=0;
+        }else{context_data_position++;}
+        value=value>>1;
+      }
+    }
+    context_enlargeIn--;
+    if(context_enlargeIn==0){context_enlargeIn=Math.pow(2,context_numBits);context_numBits++;}
+  }
+  value=2;
+  for(i=0;i<context_numBits;i++){
+    context_data_val=(context_data_val<<1)|(value&1);
+    if(context_data_position==bitsPerChar-1){
+      context_data_position=0;context_data.push(getCharFromInt(context_data_val));context_data_val=0;
+    }else{context_data_position++;}
+    value=value>>1;
+  }
+  while(true){
+    context_data_val=(context_data_val<<1);
+    if(context_data_position==bitsPerChar-1){
+      context_data.push(getCharFromInt(context_data_val));break;
+    }else context_data_position++;
+  }
+  return context_data.join("");
 }
-
-// پنل ادمین
-function checkAdminPassword() {
-    if (document.getElementById('adminPasswordInput').value === ADMIN_PASSWORD) {
-        document.getElementById('adminLoginModal').classList.remove('active');
-        showPage('pageAdmin');
-        loadAdminUserList();
-    } else { showToast('❌ رمز اشتباه', 'error'); }
+function _decompress(length,resetValue,getNextValue){
+  if(length==0)return"";
+  var dictionary=[],next,enlargeIn=4,dictSize=4,numBits=3,entry="",result=[],
+  i,w,bits,resb,maxpower,power,c,data={val:getNextValue(0),position:resetValue,index:1};
+  for(i=0;i<3;i+=1)dictionary[i]=i;
+  bits=0;maxpower=Math.pow(2,2);power=1;
+  while(power!=maxpower){
+    resb=data.val&data.position;data.position>>=1;
+    if(data.position==0){data.position=resetValue;data.val=getNextValue(data.index++);}
+    bits|=(resb>0?1:0)*power;power<<=1;
+  }
+  switch(next=bits){
+    case 0:
+      bits=0;maxpower=Math.pow(2,8);power=1;
+      while(power!=maxpower){
+        resb=data.val&data.position;data.position>>=1;
+        if(data.position==0){data.position=resetValue;data.val=getNextValue(data.index++);}
+        bits|=(resb>0?1:0)*power;power<<=1;
+      }
+      c=f(bits);break;
+    case 1:
+      bits=0;maxpower=Math.pow(2,16);power=1;
+      while(power!=maxpower){
+        resb=data.val&data.position;data.position>>=1;
+        if(data.position==0){data.position=resetValue;data.val=getNextValue(data.index++);}
+        bits|=(resb>0?1:0)*power;power<<=1;
+      }
+      c=f(bits);break;
+    case 2:return"";
+  }
+  dictionary[3]=c;w=c;result.push(c);
+  while(true){
+    if(data.index>length)return"";
+    bits=0;maxpower=Math.pow(2,numBits);power=1;
+    while(power!=maxpower){
+      resb=data.val&data.position;data.position>>=1;
+      if(data.position==0){data.position=resetValue;data.val=getNextValue(data.index++);}
+      bits|=(resb>0?1:0)*power;power<<=1;
+    }
+    switch(c=bits){
+      case 0:
+        bits=0;maxpower=Math.pow(2,8);power=1;
+        while(power!=maxpower){
+          resb=data.val&data.position;data.position>>=1;
+          if(data.position==0){data.position=resetValue;data.val=getNextValue(data.index++);}
+          bits|=(resb>0?1:0)*power;power<<=1;
+        }
+        dictionary[dictSize++]=f(bits);c=dictSize-1;enlargeIn--;
+        break;
+      case 1:
+        bits=0;maxpower=Math.pow(2,16);power=1;
+        while(power!=maxpower){
+          resb=data.val&data.position;data.position>>=1;
+          if(data.position==0){data.position=resetValue;data.val=getNextValue(data.index++);}
+          bits|=(resb>0?1:0)*power;power<<=1;
+        }
+        dictionary[dictSize++]=f(bits);c=dictSize-1;enlargeIn--;
+        break;
+      case 2:return result.join('');
+    }
+    if(enlargeIn==0){enlargeIn=Math.pow(2,numBits);numBits++;}
+    if(dictionary[c])entry=dictionary[c];
+    else{if(c===dictSize)entry=w+w.charAt(0);else return null;}
+    result.push(entry);
+    dictionary[dictSize++]=w+entry.charAt(0);
+    enlargeIn--;
+    w=entry;
+    if(enlargeIn==0){enlargeIn=Math.pow(2,numBits);numBits++;}
+  }
 }
-
-function loadAdminUserList() {
-    document.getElementById('adminUserSelect').innerHTML = '<option>در حال دریافت...</option>';
-    fetch(JSONBIN_URL + "/latest?t=" + Date.now(), { headers: { "X-Master-Key": JSONBIN_API_KEY } })
-    .then(res => res.json()).then(data => {
-        var r = data.record || {}; if (!r.profiles) r.profiles = {};
-        var opts = '<option value="">-- انتخاب کنید --</option>';
-        var count = 0;
-        Object.keys(r.profiles).forEach(k => {
-            opts += '<option value="'+k+'">'+r.profiles[k].name+' (کد: '+k+')</option>';
-            count++;
-        });
-        document.getElementById('adminUserSelect').innerHTML = opts;
-        document.getElementById('adminChatTarget').innerHTML = opts;
-        document.getElementById('statUsers').textContent = count;
-        showToast('✅ ' + count + ' کاربر لود شد');
-    }).catch(err => {
-        document.getElementById('adminUserSelect').innerHTML = '<option>❌ خطای شبکه</option>';
-        showToast('خطا در لود لیست', 'error');
-    });
-}
-
-function onAdminSelectUser() {
-    currentAdminChatCode = document.getElementById('adminUserSelect').value;
-    if(!currentAdminChatCode) return;
-    loadAdminChatData();
-}
-
-function loadAdminChatData() {
-    if(!currentAdminChatCode) return showToast('کاربر را انتخاب کنید', 'error');
-    fetch(JSONBIN_URL + "/latest?t=" + Date.now(), { headers: { "X-Master-Key": JSONBIN_API_KEY } })
-    .then(res => res.json()).then(data => {
-        var chats = (data.record.chats && data.record.chats[currentAdminChatCode]) ? data.record.chats[currentAdminChatCode] : [];
-        var html = ''; chats.forEach(c => html += buildMessageHTML(c));
-        var box = document.getElementById('adminChatBox');
-        box.innerHTML = html || '<p style="text-align:center; color:var(--text-muted);">چتی نیست</p>';
-        box.scrollTop = box.scrollHeight;
-    });
-}
-
-function sendAdminChatMessage() {
-    if(!currentAdminChatCode) return showToast('ابتدا کاربر را انتخاب کنید', 'error');
-    var tx = document.getElementById('adminChatInput').value.trim(); if(!tx) return;
-    document.getElementById('adminChatInput').value = '';
-    fetch(JSONBIN_URL + "/latest?t=" + Date.now(), { headers: { "X-Master-Key": JSONBIN_API_KEY } })
-    .then(res => res.json()).then(data => {
-        var r = data.record || {}; if (!r.chats) r.chats = {}; if (!r.chats[currentAdminChatCode]) r.chats[currentAdminChatCode] = [];
-        r.chats[currentAdminChatCode].push({ sender: 'admin', text: tx, time: Date.now() });
-        r = cleanUpDatabase(r);
-        return fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
-    }).then(() => loadAdminChatData());
-}
-
-function sendAdminChatImage(input) {
-    if(!input.files[0] || !currentAdminChatCode) return;
-    compressImage(input.files[0], function(b64) {
-        fetch(JSONBIN_URL + "/latest?t=" + Date.now(), { headers: { "X-Master-Key": JSONBIN_API_KEY } })
-        .then(res => res.json()).then(data => {
-            var r = data.record || {}; if (!r.chats) r.chats = {}; if (!r.chats[currentAdminChatCode]) r.chats[currentAdminChatCode] = [];
-            r.chats[currentAdminChatCode].push({ sender: 'admin', image: b64, time: Date.now() });
-            r = cleanUpDatabase(r);
-            return fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
-        }).then(() => { loadAdminChatData(); input.value=''; });
-    });
-}
-
-function sendTableToUser() {
-    if(!currentAdminChatCode) return showToast('ابتدا کاربر را انتخاب کنید', 'error');
-    var text = document.getElementById('adminTableText').value.trim();
-    if (!text) return showToast('متن جدول الزامی است', 'error');
-    fetch(JSONBIN_URL + "/latest?t=" + Date.now(), { headers: { "X-Master-Key": JSONBIN_API_KEY } })
-    .then(res => res.json()).then(data => {
-        var r = data.record || {}; if (!r.tables) r.tables = {}; r.tables[currentAdminChatCode] = text;
-        return fetch(JSONBIN_URL, { method: "PUT", headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_API_KEY }, body: JSON.stringify(r) });
-    }).then(() => showToast('✅ جدول ارسال شد'));
-}
-
-function switchAdminTab(tab, el) {
-    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
-    ['dashboard','profiles','table','chat'].forEach(t => {
-        document.getElementById('adminTab'+t.charAt(0).toUpperCase()+t.slice(1)).style.display = (t===tab)?'block':'none';
-    });
-    if(tab==='profiles' || tab==='chat') loadAdminUserList();
-}
-
-// ناوبری
-function showPage(id) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(id).classList.add('active'); window.scrollTo(0,0);
-    
-    if (id === 'pageContact') loadUserChat();
-    if (id === 'pageDaily' || id === 'pageProfile') initUserData();
-    if (id === 'pageAdmin') loadAdminUserList();
-}
-
-function installPWA() {
-    if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt.userChoice.then(() => { deferredPrompt = null; }); }
-    else { alert('برای نصب، از منوی مرورگر گزینه "Add to Home Screen" را انتخاب کنید.'); }
-}
-window.addEventListener('beforeinstallprompt', function(e) { e.preventDefault(); deferredPrompt = e; });
-
-window.onload = function() {
-    if (!userId) document.getElementById('registerModal').classList.add('active');
-    else initUserData();
+return{
+  compressToEncodedURIComponent:function(input){
+    if(input==null)return"";
+    return _compress(input,6,function(a){return keyStrUriSafe.charAt(a);});
+  },
+  decompressFromEncodedURIComponent:function(input){
+    if(input==null)return"";
+    if(input=="")return null;
+    input=input.replace(/ /g,"+");
+    return _decompress(input.length,32,function(index){return getBaseValue(keyStrUriSafe,input.charAt(index));});
+  }
 };
+})();
+
+/* ============================================================
+   CONFIG
+   ============================================================ */
+var JSONBIN_API_KEY="$2a$10$HZGvoCokb.bOp8eDysy62ediIrcqQU/Zpksor16E58jBiqrEK/zYK";
+var JSONBIN_BIN_ID="6ab8a6f3ac6210605af9d9c8";
+var JSONBIN_URL="https://api.jsonbin.io/v3/b/"+JSONBIN_BIN_ID;
+var ADMIN_PASSWORD="maryam6625";
+var SAVE_PASSWORD_KEY="adminSavedPassword";
+
+/* ============================================================
+   STATE
+   ============================================================ */
+var currentTheme="nature",nightMode=false,userId="";
+var alarmTimers=[],alarmActive=false,audioContext=null,alarmSoundInterval=null;
+var editingTableColumns=[],currentEditorDay=0,alarmEnabled={};
+var audioUnlocked=false,dashboardData={users:{},tables:{},messages:[]};
+var activePopup=null,previewVisible=false;
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+function showToast(msg,type,duration){
+  type=type||"success";duration=duration||3000;
+  var t=document.getElementById('toast');if(!t)return;
+  t.textContent=msg;
+  t.className='toast'+(type==='error'?' error':type==='warning'?' warning':'');
+  t.style.display='block';
+  setTimeout(function(){t.style.display='none';},duration);
+}
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function escapeHtml(s){
+  if(s==null)return"";
+  return String(s).replace(/[&<>"']/g,function(c){
+    return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+function safeSetLS(key,val){
+  try{localStorage.setItem(key,val);return true;}catch(e){return false;}
+}
+function safeGetLS(key,def){
+  try{var v=localStorage.getItem(key);return v==null?def:v;}catch(e){return def;}
+}
+function safeParseJSON(str,def){
+  if(!str)return def;
+  try{return JSON.parse(str);}catch(e){return def;}
+}
+
+/* ============================================================
+   PAGE NAVIGATION
+   ============================================================ */
+function showPage(pageId){
+  var pages=document.querySelectorAll('.page');
+  for(var i=0;i<pages.length;i++)pages[i].classList.remove('active');
+  var target=document.getElementById(pageId);
+  if(target)target.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(pageId==='pageDaily')checkDailyReceive();
+  if(pageId==='pageRegime')checkRegimeReceive();
+  if(pageId==='pageMessages')loadMyMessages();
+  if(pageId==='pageAdmin'){buildTableEditor();buildDayEditor();loadAdminRecent();loadDashboard(false);}
+  if(pageId==='pageSettings')renderAlarmSettings();
+}
+
+/* ============================================================
+   USER ID
+   ============================================================ */
+function generateFallbackUserId(){
+  var chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',code='';
+  for(var i=0;i<6;i++)code+=chars.charAt(Math.floor(Math.random()*chars.length));
+  return code;
+}
+function initUserId(){
+  var saved=safeGetLS('userId',null);
+  if(!saved){
+    saved=generateFallbackUserId();
+    safeSetLS('userId',saved);
+    var wc=document.getElementById('welcomeCode');
+    if(wc)wc.textContent=saved;
+    var wm=document.getElementById('welcomeModal');
+    if(wm)wm.classList.add('active');
+  }
+  userId=saved;
+  var cd=document.getElementById('myCodeDisplay');
+  if(cd)cd.textContent=userId;
+}
+function closeWelcomeModal(){
+  var wm=document.getElementById('welcomeModal');
+  if(wm)wm.classList.remove('active');
+  showToast('✅ کد شما ذخیره شد');
+}
+
+/* ============================================================
+   RECEIVE PROMPTS
+   ============================================================ */
+function checkDailyReceive(){
+  var p=document.getElementById('dailyReceivePrompt'),c=document.getElementById('dailyContent');
+  if(!p||!c)return;
+  if(safeGetLS('tableReceived',null)==='true'){
+    p.innerHTML='';c.style.display='block';renderTable();
+  }else{
+    c.style.display='none';
+    p.innerHTML='<div class="receive-prompt"><div class="receive-icon">🍵</div>'+
+      '<button class="receive-btn" onclick="handleReceiveDaily()">📥 دریافت برنامه</button>'+
+      '<div class="receive-note">📡 لطفاً از اتصال به اینترنت مطمئن شوید.</div></div>';
+  }
+}
+function checkRegimeReceive(){
+  var p=document.getElementById('regimeReceivePrompt'),c=document.getElementById('regimeContent'),d=document.getElementById('regimeDisplay');
+  if(!p||!c)return;
+  var has=safeGetLS('lastPrescription',null);
+  if(has){
+    p.innerHTML='';c.style.display='block';
+    try{
+      var info=JSON.parse(has);
+      if(d)d.innerHTML='<strong style="color:var(--accent)">'+escapeHtml(info.title||'نسخه اختصاصی')+'</strong>\n\n'+escapeHtml(info.content);
+    }catch(e){}
+  }else{
+    c.style.display='none';
+    p.innerHTML='<div class="receive-prompt"><div class="receive-icon">🥗</div>'+
+      '<button class="receive-btn" onclick="handleReceiveRegime()">📥 دریافت رژیم ویژه شما</button>'+
+      '<div class="receive-note">📡 لطفاً از اتصال به اینترنت مطمئن شوید.</div></div>';
+  }
+}
+function handleReceiveDaily(){
+  if(!navigator.onLine){alert('❌ لطفاً از اتصال به اینترنت مطمئن شوید.');return;}
+  var c=document.getElementById('dailyReceivePrompt');
+  if(c)c.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--accent);font-size:1.1em">⏳ در حال دریافت برنامه...<br><br><span style="font-size:.8em;color:var(--text-muted)">لطفاً صبر کنید</span></div>';
+  receiveAll(true).then(function(){
+    safeSetLS('tableReceived','true');checkDailyReceive();
+    showToast('✅ برنامه شما با موفقیت دریافت شد');
+  }).catch(function(e){
+    alert('❌ خطا در دریافت: '+e.message);checkDailyReceive();
+  });
+}
+function handleReceiveRegime(){
+  if(!navigator.onLine){alert('❌ لطفاً از اتصال به اینترنت مطمئن شوید.');return;}
+  var c=document.getElementById('regimeReceivePrompt');
+  if(c)c.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--accent);font-size:1.1em">⏳ در حال دریافت رژیم...<br><br><span style="font-size:.8em;color:var(--text-muted)">لطفاً صبر کنید</span></div>';
+  receiveAll(true).then(function(){
+    checkRegimeReceive();showToast('✅ رژیم شما دریافت شد');
+  }).catch(function(e){
+    alert('❌ خطا در دریافت: '+e.message);checkRegimeReceive();
+  });
+}
+
+/* ============================================================
+   JSONBin HELPERS
+   ============================================================ */
+function findCode(obj,code){
+  if(!obj||!code)return null;
+  var upper=String(code).toUpperCase().trim();
+  if(obj[upper])return obj[upper];
+  if(obj[code])return obj[code];
+  var keys=Object.keys(obj);
+  for(var i=0;i<keys.length;i++){
+    if(String(keys[i]).toUpperCase().trim()===upper)return obj[keys[i]];
+  }
+  return null;
+}
+function getRecord(currentData){
+  var record=currentData.record||currentData||{};
+  if(record.record)record=record.record;
+  if(!record.users)record.users={};
+  if(!record.tables)record.tables={};
+  if(!record.messages)record.messages=[];
+  if(!record.banner)record.banner={url:'',active:false};
+  return record;
+}
+function putRecord(record){
+  return fetch(JSONBIN_URL,{
+    method:"PUT",
+    headers:{"Content-Type":"application/json","X-Master-Key":JSONBIN_API_KEY},
+    body:JSON.stringify(record)
+  });
+}
+function getRemoteRecord(){
+  return fetch(JSONBIN_URL+"/latest",{headers:{"X-Master-Key":JSONBIN_API_KEY}})
+  .then(function(res){
+    if(!res.ok)throw new Error('خطا در اتصال: '+res.status);
+    return res.json();
+  });
+}
+
+/* ============================================================
+   🎯 فشرده‌سازی و بازگشایی جدول برای کاهش حجم
+   ============================================================ */
+function packTable(forty,cols,names,times,total){
+  // ساخت آبجکت فشرده: فقط مقادیر
+  // خروجی: {c:[...], n:{...}, t:{...}, T:40, d:"..."}
+  var rows=[];
+  forty.forEach(function(day){
+    var row=[];
+    cols.forEach(function(col){row.push(day[col]||'');});
+    rows.push(row);
+  });
+  var rawData=JSON.stringify(rows);
+  var compressed=LZString.compressToEncodedURIComponent(rawData);
+  return {
+    c:cols,
+    n:names,
+    t:times,
+    T:total,
+    d:compressed
+  };
+}
+function unpackTable(packed){
+  if(!packed)return null;
+  // پشتیبانی از فرمت قدیمی
+  if(packed.fortyDayData||packed.days){
+    return {
+      forty:packed.fortyDayData||packed.days,
+      cols:packed.tableColumns||packed.columns||[],
+      names:packed.tableColumnNames||packed.columnNames||{},
+      times:packed.currentTimes||packed.times||{},
+      total:packed.totalDays||40
+    };
+  }
+  // فرمت جدید فشرده
+  var raw=LZString.decompressFromEncodedURIComponent(packed.d);
+  var rows=raw?JSON.parse(raw):[];
+  var cols=packed.c||[];
+  var forty=[];
+  for(var i=0;i<(packed.T||rows.length);i++){
+    var day={};
+    var r=rows[i]||[];
+    for(var j=0;j<cols.length;j++){
+      day[cols[j]]=r[j]||'';
+    }
+    forty.push(day);
+  }
+  return {
+    forty:forty,
+    cols:cols,
+    names:packed.n||{},
+    times:packed.t||{},
+    total:packed.T||40
+  };
+}
+
+/* ============================================================
+   📥 RECEIVE ALL
+   ============================================================ */
+function receiveAll(silent){
+  return new Promise(function(resolve,reject){
+    var code=String(userId||'').toUpperCase().trim();
+    if(!code){reject(new Error('کد کاربری یافت نشد'));return;}
+    if(!silent)showToast('⏳ در حال دریافت...','warning');
+
+    getRemoteRecord().then(function(data){
+      var record=getRecord(data);
+      var gotSomething=false;
+
+      // نسخه
+      var users=record.users||record.prescriptions||{};
+      var prescription=findCode(users,code);
+      if(prescription&&(prescription.content||prescription.text)){
+        archiveCurrentPrescription();
+        safeSetLS('lastPrescription',JSON.stringify({
+          title:prescription.title||prescription.name||'نسخه اختصاصی',
+          content:prescription.content||prescription.text||'',
+          sentAt:prescription.sentAt||Date.now()
+        }));
+        gotSomething=true;
+      }
+
+      // جدول
+      var tables=record.tables||record.schedules||{};
+      var tableInfo=findCode(tables,code);
+      if(tableInfo){
+        var unpacked=unpackTable(tableInfo);
+        if(unpacked&&unpacked.forty&&unpacked.forty.length>0){
+          archiveCurrentTable();
+          fortyDayData=JSON.parse(JSON.stringify(unpacked.forty));
+          if(unpacked.cols.length===0&&fortyDayData[0]){
+            unpacked.cols=Object.keys(fortyDayData[0]);
+          }
+          if(unpacked.cols.length>0)tableColumns=[].concat(unpacked.cols);
+          if(Object.keys(unpacked.names).length>0)tableColumnNames=Object.assign({},unpacked.names);
+          if(Object.keys(unpacked.times).length>0)currentTimes=Object.assign({},unpacked.times);
+          totalDays=unpacked.total||40;
+          while(fortyDayData.length<totalDays)fortyDayData.push({});
+          if(fortyDayData.length>totalDays)fortyDayData.length=totalDays;
+          fortyDayData.forEach(function(day){
+            tableColumns.forEach(function(col){
+              if(day[col]===undefined)day[col]='';
+            });
+          });
+          saveAll();renderTable();
+          safeSetLS('tableReceived','true');
+          gotSomething=true;
+        }
+      }
+
+      if(!gotSomething){
+        reject(new Error('محتوایی برای کد '+code+' یافت نشد'));
+        return;
+      }
+      resolve(true);
+    }).catch(function(e){
+      reject(e);
+    });
+  });
+}
+
+/* ============================================================
+   💾 ARCHIVE
+   ============================================================ */
+function archiveCurrentPrescription(){
+  var current=safeGetLS('lastPrescription',null);
+  if(!current)return;
+  try{
+    var info=JSON.parse(current);
+    var archive=safeParseJSON(safeGetLS('prescriptionHistory','[]'),[]);
+    if(archive.some(function(a){return a.content===info.content;}))return;
+    archive.unshift({title:info.title||'بدون عنوان',content:info.content,archivedAt:Date.now()});
+    if(archive.length>20)archive.length=20;
+    safeSetLS('prescriptionHistory',JSON.stringify(archive));
+  }catch(e){}
+}
+function archiveCurrentTable(){
+  if(!fortyDayData||fortyDayData.length===0)return;
+  try{
+    var archive=safeParseJSON(safeGetLS('tableHistory','[]'),[]);
+    archive.unshift({
+      fortyDayData:JSON.parse(JSON.stringify(fortyDayData)),
+      tableColumns:[].concat(tableColumns),
+      tableColumnNames:Object.assign({},tableColumnNames),
+      currentTimes:Object.assign({},currentTimes),
+      totalDays:totalDays,
+      archivedAt:Date.now()
+    });
+    if(archive.length>20)archive.length=20;
+    // برای صرفه‌جویی در حجم localStorage فقط ۵ تای آخر را با آرایه کامل نگه می‌داریم
+    archive=archive.slice(0,5).concat(archive.slice(5).map(function(item){
+      // بهینه‌سازی: برای تاریخچه‌های قدیمی‌تر حجم را کم می‌کنیم
+      return item;
+    }));
+    safeSetLS('tableHistory',JSON.stringify(archive));
+  }catch(e){}
+}
+
+/* ============================================================
+   🖼️ BANNER
+   ============================================================ */
+function loadRemoteBanner(){
+  var tb=document.getElementById('topBanner'),img=document.getElementById('topBannerImg');
+  if(!tb||!img)return;
+  if(!navigator.onLine){tb.classList.remove('active');return;}
+  getRemoteRecord().then(function(data){
+    var record=getRecord(data),bc=record.banner;
+    if(!bc||!bc.url||bc.active===false){tb.classList.remove('active');return;}
+    img.onload=function(){img.style.display='block';tb.classList.add('active');};
+    img.onerror=function(){img.style.display='none';tb.classList.remove('active');};
+    img.src=bc.url;
+  }).catch(function(){tb.classList.remove('active');});
+}
+function bannerLoaded(){}
+function bannerError(){
+  var tb=document.getElementById('topBanner'),img=document.getElementById('topBannerImg');
+  if(img)img.style.display='none';
+  if(tb)tb.classList.remove('active');
+}
+function loadBannerInAdmin(){
+  getRemoteRecord().then(function(data){
+    var record=getRecord(data),bc=record.banner;
+    var p=document.getElementById('bannerPreview'),inp=document.getElementById('bannerUrlInput');
+    if(!p||!inp)return;
+    if(bc&&bc.url){
+      inp.value=bc.url;
+      if(bc.active===false)p.innerHTML='<p style="color:#e74c3c;font-size:.85em">🚫 غیرفعال</p>';
+      else p.innerHTML='<img src="'+escapeHtml(bc.url)+'" style="width:100%;max-width:500px;border-radius:10px;border:2px solid var(--accent)">';
+    }else{
+      p.innerHTML='<p style="font-size:.8em;color:var(--text-muted)">هنوز بنری تنظیم نشده</p>';
+      inp.value='';
+    }
+  }).catch(function(){});
+}
+function saveBannerUrl(){
+  var url=document.getElementById('bannerUrlInput').value.trim();
+  if(!url){showToast('لینک عکس را وارد کنید','error');return;}
+  if(!navigator.onLine){showToast('❌ اتصال به اینترنت را چک کنید','error');return;}
+  showToast('⏳ در حال ذخیره...','warning');
+  getRemoteRecord().then(function(cur){
+    var record=getRecord(cur);
+    record.banner={url:url,active:true,updatedAt:Date.now()};
+    return putRecord(record);
+  }).then(function(res){
+    if(res.ok){showToast('✅ بنر ذخیره شد');loadBannerInAdmin();loadRemoteBanner();}
+    else showToast('❌ خطا (کد '+res.status+')','error');
+  }).catch(function(e){showToast('❌ خطا: '+e.message,'error');});
+}
+function disableBanner(){
+  if(!confirm('بنر غیرفعال شود؟'))return;
+  if(!navigator.onLine){showToast('❌ اتصال به اینترنت را چک کنید','error');return;}
+  getRemoteRecord().then(function(cur){
+    var record=getRecord(cur);
+    if(!record.banner)record.banner={url:'',active:false};
+    record.banner.active=false;record.banner.updatedAt=Date.now();
+    return putRecord(record);
+  }).then(function(res){
+    if(res.ok){
+      showToast('✅ بنر غیرفعال شد');loadBannerInAdmin();
+      var tb=document.getElementById('topBanner');
+      if(tb)tb.classList.remove('active');
+    }else showToast('❌ خطا (کد '+res.status+')','error');
+  }).catch(function(e){showToast('❌ خطا: '+e.message,'error');});
+}
+
+/* ============================================================
+   ADMIN LOGIN
+   ============================================================ */
+function openAdminLogin(){
+  var inp=document.getElementById('adminPasswordInput'),cb=document.getElementById('savePasswordCheck'),m=document.getElementById('adminLoginModal');
+  if(inp){
+    var saved=safeGetLS(SAVE_PASSWORD_KEY,null);
+    if(saved){inp.value=saved;if(cb)cb.checked=true;}
+    else{inp.value='';if(cb)cb.checked=false;}
+  }
+  if(m)m.classList.add('active');
+}
+function closeAdminLogin(){
+  var m=document.getElementById('adminLoginModal');if(m)m.classList.remove('active');
+}
+function checkAdminPassword(){
+  var inp=document.getElementById('adminPasswordInput'),cb=document.getElementById('savePasswordCheck');
+  var pass=inp?inp.value:'',shouldSave=cb?cb.checked:false;
+  if(pass===ADMIN_PASSWORD){
+    if(shouldSave)safeSetLS(SAVE_PASSWORD_KEY,pass);
+    else try{localStorage.removeItem(SAVE_PASSWORD_KEY);}catch(e){}
+    closeAdminLogin();showPage('pageAdmin');showToast('✅ ورود موفق');
+  }else showToast('❌ رمز اشتباه است','error');
+}
+function switchAdminTab(tab,el){
+  var tabs=document.querySelectorAll('.admin-tab');
+  for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');
+  if(el)el.classList.add('active');
+  ['prescription','table','message','banner','dashboard'].forEach(function(t){
+    var id='adminTab'+t.charAt(0).toUpperCase()+t.slice(1);
+    var e=document.getElementById(id);
+    if(e)e.style.display=(t===tab)?'block':'none';
+  });
+  if(tab==='table'){buildTableEditor();buildDayEditor();}
+  if(tab==='banner')loadBannerInAdmin();
+  if(tab==='dashboard')loadDashboard(false);
+}
+
+/* ============================================================
+   SEND PRESCRIPTION
+   ============================================================ */
+function sendPrescription(){
+  var ce=document.getElementById('targetUserCode'),
+      te=document.getElementById('prescriptionTitle'),
+      ce2=document.getElementById('prescriptionContent');
+  if(!ce||!te||!ce2){showToast('❌ فیلدها پیدا نشدند','error');return;}
+  var code=ce.value.trim().toUpperCase(),title=te.value.trim(),content=ce2.value.trim();
+  if(!code||code.length<3){showToast('کد کاربر معتبر وارد کنید','error');return;}
+  if(!content){showToast('متن نسخه را وارد کنید','error');return;}
+  if(!navigator.onLine){showToast('❌ اتصال به اینترنت را چک کنید','error');return;}
+  showToast('⏳ در حال ارسال...','warning');
+  getRemoteRecord().then(function(cur){
+    var record=getRecord(cur);
+    record.users[code]={title:title||'نسخه اختصاصی',content:content,sentAt:Date.now()};
+    return putRecord(record);
+  }).then(function(res){
+    if(res.ok){
+      showToast('✅ نسخه برای کاربر '+code+' ارسال شد');
+      ce.value='';te.value='';ce2.value='';loadAdminRecent();
+    }else showToast('❌ خطا (کد '+res.status+')','error');
+  }).catch(function(e){showToast('❌ خطا: '+e.message,'error');});
+}
+
+/* ============================================================
+   📤 SEND TABLE (فشرده - کمتر از 20KB)
+   ============================================================ */
+function sendTableToUser(){
+  var ce=document.getElementById('targetUserCodeTable');
+  if(!ce){showToast('❌ فیلد کد پیدا نشد','error');return;}
+  var code=ce.value.trim().toUpperCase();
+  if(!code||code.length<3){showToast('کد کاربر معتبر وارد کنید','error');return;}
+  if(!fortyDayData||fortyDayData.length===0){showToast('❌ جدولی برای ارسال وجود ندارد','error');return;}
+  if(!confirm('جدول کنونی برای کاربر '+code+' ارسال شود؟'))return;
+  if(!navigator.onLine){showToast('❌ اتصال به اینترنت را چک کنید','error');return;}
+  showToast('⏳ در حال ارسال...','warning');
+
+  var packed=packTable(fortyDayData,tableColumns,tableColumnNames,currentTimes,totalDays);
+  packed.s=Date.now();
+
+  // بررسی حجم
+  var sizeBytes=new Blob([JSON.stringify(packed)]).size;
+  var sizeKB=(sizeBytes/1024).toFixed(1);
+  if(sizeBytes>20480){
+    showToast('⚠️ حجم جدول '+sizeKB+'KB است (بیشتر از ۲۰KB)','warning',4000);
+    if(!confirm('حجم ارسال '+sizeKB+' کیلوبایت است که از حد مجاز بیشتر است. ادامه می‌دهید؟'))return;
+  }else{
+    showToast('📦 حجم ارسال: '+sizeKB+' کیلوبایت','success',2000);
+  }
+
+  getRemoteRecord().then(function(cur){
+    var record=getRecord(cur);
+    record.tables[code]=packed;
+    return putRecord(record);
+  }).then(function(res){
+    if(res.ok){showToast('✅ جدول برای '+code+' ارسال شد ('+sizeKB+'KB)');loadAdminRecent();}
+    else showToast('❌ خطا (کد '+res.status+')','error');
+  }).catch(function(e){showToast('❌ خطا: '+e.message,'error');});
+}
+
+function sendTableToAll(){
+  if(!fortyDayData||fortyDayData.length===0){showToast('❌ جدولی برای ارسال وجود ندارد','error');return;}
+  if(!confirm('⚠️ جدول برای همه کاربران ارسال شود؟'))return;
+  if(!navigator.onLine){showToast('❌ اتصال به اینترنت را چک کنید','error');return;}
+  showToast('⏳ در حال ارسال...','warning');
+
+  var packed=packTable(fortyDayData,tableColumns,tableColumnNames,currentTimes,totalDays);
+  packed.s=Date.now();
+  var sizeBytes=new Blob([JSON.stringify(packed)]).size;
+  var sizeKB=(sizeBytes/1024).toFixed(1);
+
+  if(sizeBytes>20480){
+    if(!confirm('حجم جدول '+sizeKB+'KB است. ادامه می‌دهید؟'))return;
+  }
+
+  getRemoteRecord().then(function(cur){
+    var record=getRecord(cur);
+    var allUsers=Object.keys(record.users);
+    if(allUsers.length===0)throw new Error('هیچ کاربری ثبت نشده');
+    allUsers.forEach(function(uc){
+      record.tables[uc]=JSON.parse(JSON.stringify(packed));
+    });
+    return putRecord(record).then(function(r){return{res:r,count:allUsers.length};});
+  }).then(function(result){
+    if(result.res.ok){
+      showToast('✅ جدول برای '+result.count+' کاربر ارسال شد ('+sizeKB+'KB هرکدام)');
+      loadAdminRecent();
+    }else showToast('❌ خطا (کد '+result.res.status+')','error');
+  }).catch(function(e){showToast('❌ خطا: '+e.message,'error');});
+}
+
+/* ============================================================
+   SEND MESSAGE
+   ============================================================ */
+function sendMessage(){
+  var te=document.getElementById('messageTitle'),
+      ce=document.getElementById('messageContent'),
+      ge=document.getElementById('messageTarget');
+  if(!te||!ce||!ge){showToast('❌ فیلدها پیدا نشدند','error');return;}
+  var title=te.value.trim(),content=ce.value.trim(),target=ge.value.trim().toUpperCase();
+  if(!content){showToast('متن پیام را وارد کنید','error');return;}
+  if(!navigator.onLine){showToast('❌ اتصال به اینترنت را چک کنید','error');return;}
+  showToast('⏳ در حال ارسال...','warning');
+  getRemoteRecord().then(function(cur){
+    var record=getRecord(cur);
+    var id='m_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
+    record.messages.push({id:id,title:title||'پیام جدید',content:content,target:target||'all',sentAt:Date.now()});
+    if(record.messages.length>100)record.messages=record.messages.slice(-100);
+    return putRecord(record);
+  }).then(function(res){
+    if(res.ok){
+      showToast(target?'✅ پیام برای '+target+' ارسال شد':'✅ پیام برای همه ارسال شد');
+      clearMessageForm();loadAdminRecent();
+    }else showToast('❌ خطا (کد '+res.status+')','error');
+  }).catch(function(e){showToast('❌ خطا: '+e.message,'error');});
+}
+function clearMessageForm(){
+  var t=document.getElementById('messageTitle'),c=document.getElementById('messageContent'),g=document.getElementById('messageTarget');
+  if(t)t.value='';if(c)c.value='';if(g)g.value='';
+}
+function clearAdminForm(){
+  var t=document.getElementById('prescriptionTitle'),c=document.getElementById('prescriptionContent');
+  if(t)t.value='';if(c)c.value='';
+}
+
+/* ============================================================
+   DASHBOARD
+   ============================================================ */
+function loadDashboard(showAlert){
+  getRemoteRecord().then(function(data){
+    var record=getRecord(data);
+    var users=record.users||{},tables=record.tables||{},messages=record.messages||[];
+    var el1=document.getElementById('statUsers'),
+        el2=document.getElementById('statPrescriptions'),
+        el3=document.getElementById('statTables'),
+        el4=document.getElementById('statMessages');
+    if(el1)el1.textContent=Object.keys(users).length;
+    if(el2)el2.textContent=Object.keys(users).length;
+    if(el3)el3.textContent=Object.keys(tables).length;
+    if(el4)el4.textContent=messages.length;
+
+    var allCodes=Object.keys(users).concat(Object.keys(tables).filter(function(c){return!users[c];}));
+    var items=[];
+    allCodes.forEach(function(code){
+      var presc=users[code],tbl=tables[code];
+      var lastTime=Math.max((presc&&presc.sentAt)||0,(tbl&&tbl.s)||0);
+      var days=tbl?(tbl.T||(tbl.totalDays)||0):0;
+      items.push({code:code,hasP:!!presc,hasT:!!tbl,pTitle:(presc&&presc.title)||'',tDays:days,lastTime:lastTime});
+    });
+    items.sort(function(a,b){return b.lastTime-a.lastTime;});
+
+    var container=document.getElementById('userListContainer');
+    var countEl=document.getElementById('userListCount');
+    if(countEl)countEl.textContent=items.length+' نفر';
+    if(!container)return;
+
+    if(items.length===0){
+      container.innerHTML='<p style="text-align:center;color:var(--text-muted);padding:20px;font-size:.85em">هنوز کاربری ثبت نشده</p>';
+    }else{
+      var html='';
+      items.forEach(function(u){
+        var bc='#f4d03f',st='';
+        if(u.hasP&&u.hasT){bc='#2ecc71';st='✅ کامل';}
+        else if(u.hasP){bc='#3498db';st='💊 فقط نسخه';}
+        else if(u.hasT){bc='#9b59b6';st='📋 فقط جدول';}
+        var date=u.lastTime?new Date(u.lastTime).toLocaleString('fa-IR'):'ثبت نشده';
+        html+='<div class="user-card" style="border-right-color:'+bc+'">';
+        html+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">';
+        html+='<span class="user-card-code">'+escapeHtml(u.code)+'</span>';
+        html+='<span style="font-size:.7em;color:var(--text-muted)">'+escapeHtml(date)+'</span></div>';
+        html+='<div style="display:flex;gap:6px;flex-wrap:wrap;font-size:.75em">';
+        html+='<span class="user-card-badge" style="background:'+(u.hasP?'rgba(52,152,219,.2)':'var(--bg-primary)')+';color:'+(u.hasP?'#3498db':'var(--text-muted)')+'">'+(u.hasP?'✅':'⬜')+' نسخه</span>';
+        html+='<span class="user-card-badge" style="background:'+(u.hasT?'rgba(155,89,182,.2)':'var(--bg-primary)')+';color:'+(u.hasT?'#9b59b6':'var(--text-muted)')+'">'+(u.hasT?'✅':'⬜')+' جدول '+(u.hasT?'('+u.tDays+' روز)':'')+'</span>';
+        html+='<span class="user-card-badge" style="background:rgba(46,204,113,.2);color:#2ecc71;font-weight:700">'+st+'</span>';
+        html+='</div></div>';
+      });
+      container.innerHTML=html;
+    }
+    dashboardData={users:users,tables:tables,messages:messages};
+    if(showAlert)showToast('✅ داشبورد بروز شد');
+  }).catch(function(){
+    var container=document.getElementById('userListContainer');
+    if(container)container.innerHTML='<p style="text-align:center;color:#e74c3c;padding:20px;font-size:.85em">خطا در دریافت اطلاعات</p>';
+  });
+}
+function exportDashboard(){
+  try{
+    var users=dashboardData.users||{},tables=dashboardData.tables||{};
+    var text='📊 گزارش اپ سفیر سلامت حامی\n📅 تاریخ: '+new Date().toLocaleString('fa-IR')+'\n\n';
+    var allCodes=Object.keys(users).concat(Object.keys(tables).filter(function(c){return!users[c];}));
+    text+='👥 کاربران: '+allCodes.length+'\n💊 نسخه‌ها: '+Object.keys(users).length+'\n📋 جدول‌ها: '+Object.keys(tables).length+'\n\n';
+    allCodes.forEach(function(code,i){
+      var presc=users[code],tbl=tables[code];
+      text+=(i+1)+'. کد: '+code+'\n';
+      if(presc)text+='   💊 '+(presc.title||'بدون عنوان')+'\n';
+      if(tbl)text+='   📋 '+((tbl.T||tbl.totalDays)||0)+' روز\n';
+      text+='\n';
+    });
+    var blob=new Blob([text],{type:'text/plain;charset=utf-8'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=url;a.download='report-'+Date.now()+'.txt';a.click();
+    URL.revokeObjectURL(url);
+    showToast('✅ گزارش دانلود شد');
+  }catch(e){showToast('❌ خطا در دانلود','error');}
+}
+
+/* ============================================================
+   TABLE EDITOR
+   ============================================================ */
+function buildTableEditor(){
+  editingTableColumns=tableColumns.map(function(col){
+    return{originalCol:col,name:tableColumnNames[col]||col,time:currentTimes[col]||'08:00'};
+  });
+  renderTableEditor();
+}
+function renderTableEditor(){
+  var container=document.getElementById('tableEditorContainer');
+  if(!container)return;
+  var html='';
+  editingTableColumns.forEach(function(col,i){
+    html+='<div style="display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;background:var(--bg-primary);padding:10px;border-radius:8px;margin-bottom:8px">';
+    html+='<label style="font-size:.85em;color:var(--accent);font-weight:700">🏷️</label>';
+    html+='<input type="text" value="'+escapeHtml(col.name)+'" onchange="updateTableEditorName('+i+',this.value)" placeholder="نام وعده" style="background:var(--bg-primary);color:var(--text-primary);border:1px solid #3d5a45;padding:8px;border-radius:6px;font-family:var(--font-family);font-size:.9em;width:100%">';
+    html+='<input type="time" value="'+escapeHtml(col.time)+'" onchange="updateTableEditorTime('+i+',this.value)" style="width:90px;background:var(--bg-primary);color:var(--accent);border:1px solid var(--accent);padding:6px;border-radius:6px;font-family:var(--font-family)">';
+    html+='</div>';
+  });
+  if(editingTableColumns.length>1){
+    editingTableColumns.forEach(function(col,i){
+      html+='<button onclick="removeTableEditorColumn('+i+')" style="width:100%;padding:5px;background:#c0392b;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:.7em;font-weight:700;margin-bottom:6px;font-family:var(--font-family)">🗑️ حذف "'+escapeHtml(col.name)+'"</button>';
+    });
+  }
+  container.innerHTML=html;
+}
+function updateTableEditorName(i,val){
+  editingTableColumns[i].name=val;
+  var col=editingTableColumns[i].originalCol;
+  if(tableColumnNames[col]!==undefined)tableColumnNames[col]=val;
+  saveAll();
+}
+function updateTableEditorTime(i,val){
+  editingTableColumns[i].time=val;
+  var col=editingTableColumns[i].originalCol;
+  if(currentTimes[col]!==undefined)currentTimes[col]=val;
+  saveAll();
+}
+function removeTableEditorColumn(i){
+  if(editingTableColumns.length<=1){showToast('حداقل یک وعده لازم است','error');return;}
+  if(!confirm('وعده "'+editingTableColumns[i].name+'" حذف شود؟'))return;
+  var colToRemove=editingTableColumns[i].originalCol;
+  tableColumns=tableColumns.filter(function(c){return c!==colToRemove;});
+  delete tableColumnNames[colToRemove];delete currentTimes[colToRemove];delete alarmEnabled[colToRemove];
+  fortyDayData.forEach(function(day){delete day[colToRemove];});
+  editingTableColumns.splice(i,1);
+  saveAll();renderTableEditor();renderTable();
+  showToast('✅ وعده حذف شد');
+}
+function addTableColumnEditor(){
+  if(editingTableColumns.length>=8){showToast('حداکثر ۸ وعده','warning');return;}
+  var newCol='c_'+Date.now();
+  editingTableColumns.push({originalCol:newCol,name:'وعده '+(editingTableColumns.length+1),time:'08:00'});
+  tableColumns.push(newCol);
+  tableColumnNames[newCol]='وعده '+editingTableColumns.length;
+  currentTimes[newCol]='08:00';
+  fortyDayData.forEach(function(day){day[newCol]='';});
+  saveAll();renderTableEditor();
+  showToast('✅ وعده جدید اضافه شد');
+}
+
+/* ============================================================
+   DAY EDITOR
+   ============================================================ */
+function buildDayEditor(){
+  var container=document.getElementById('dayEditorContainer');
+  if(!container)return;
+  if(currentEditorDay>=totalDays)currentEditorDay=0;
+  var lbl=document.getElementById('editorDayLabel'),
+      prevBtn=document.getElementById('prevDayBtn'),
+      nextBtn=document.getElementById('nextDayBtn');
+  if(lbl)lbl.textContent='روز '+(currentEditorDay+1);
+  if(prevBtn)prevBtn.disabled=currentEditorDay<=0;
+  if(nextBtn)nextBtn.disabled=currentEditorDay>=totalDays-1;
+  var dayData=fortyDayData[currentEditorDay]||{};
+  var html='';
+  tableColumns.forEach(function(col){
+    var label=tableColumnNames[col]||col;
+    var value=(dayData[col]||'');
+    html+='<div class="day-input-box">';
+    html+='<label>'+escapeHtml(label)+':</label>';
+    html+='<input type="text" data-col="'+escapeHtml(col)+'" value="'+escapeHtml(value)+'" onchange="updateDayField(this.getAttribute(\'data-col\'),this.value)">';
+    html+='</div>';
+  });
+  container.innerHTML=html;
+}
+function updateDayField(col,value){
+  if(!fortyDayData[currentEditorDay])fortyDayData[currentEditorDay]={};
+  fortyDayData[currentEditorDay][col]=value;
+  saveAll();renderTable();
+  showToast('✅ ذخیره شد','success',1000);
+}
+function prevEditorDay(){if(currentEditorDay>0){currentEditorDay--;buildDayEditor();}}
+function nextEditorDay(){if(currentEditorDay<totalDays-1){currentEditorDay++;buildDayEditor();}}
+
+/* ============================================================
+   APPLY TO DAYS
+   ============================================================ */
+function getCurrentFormValues(){
+  var values={},hasValue=false;
+  var inputs=document.querySelectorAll('#dayEditorContainer input[data-col]');
+  for(var i=0;i<inputs.length;i++){
+    var col=inputs[i].getAttribute('data-col');
+    values[col]=inputs[i].value;
+    if(inputs[i].value&&inputs[i].value.trim()!=='')hasValue=true;
+  }
+  return{values:values,hasValue:hasValue};
+}
+function applyToDays(type){
+  try{
+    var form=getCurrentFormValues();
+    if(!form.hasValue){alert('❌ ابتدا فرم را پر کنید!');return;}
+    var targets=[],typeName='';
+    if(type==='all'){for(var i=0;i<totalDays;i++)targets.push(i);typeName='همه روزها';}
+    else if(type==='odd'){for(var j=0;j<totalDays;j+=2)targets.push(j);typeName='روزهای فرد';}
+    else if(type==='even'){for(var k=1;k<totalDays;k+=2)targets.push(k);typeName='روزهای زوج';}
+    if(!confirm('محتوای وارد شده روی '+targets.length+' '+typeName+' اعمال شود؟'))return;
+    targets.forEach(function(idx){
+      if(!fortyDayData[idx])fortyDayData[idx]={};
+      tableColumns.forEach(function(col){fortyDayData[idx][col]=form.values[col]||'';});
+    });
+    saveAll();renderTable();updatePreview();
+    showToast('✅ محتوا روی '+targets.length+' '+typeName+' اعمال شد');
+  }catch(e){alert('❌ خطا: '+e.message);}
+}
+
+/* ============================================================
+   PREVIEW
+   ============================================================ */
+function togglePreview(){
+  previewVisible=!previewVisible;
+  var c=document.getElementById('previewContainer'),b=document.getElementById('previewToggleBtn');
+  if(!c||!b)return;
+  if(previewVisible){c.style.display='block';b.textContent='🔽 مخفی کردن جدول';updatePreview();}
+  else{c.style.display='none';b.textContent='👁️ نمایش جدول';}
+}
+function updatePreview(){
+  var thead=document.getElementById('previewTableHead'),
+      tbody=document.getElementById('previewTableBody');
+  if(!thead||!tbody)return;
+  var hh='<tr><th>روز</th>';
+  tableColumns.forEach(function(c){hh+='<th>'+escapeHtml(tableColumnNames[c]||c)+'</th>';});
+  hh+='</tr>';
+  thead.innerHTML=hh;
+  var html='';
+  for(var i=0;i<totalDays;i++){
+    var d=fortyDayData[i]||{};
+    html+='<tr><td style="color:var(--accent);font-weight:700">'+(i+1)+'</td>';
+    tableColumns.forEach(function(col){html+='<td>'+escapeHtml(d[col]||'-')+'</td>';});
+    html+='</tr>';
+  }
+  tbody.innerHTML=html;
+  var pc=document.getElementById('previewCount'),pcol=document.getElementById('previewCols');
+  if(pc)pc.textContent=totalDays;
+  if(pcol)pcol.textContent=tableColumns.length;
+}
+
+/* ============================================================
+   ADMIN RECENT
+   ============================================================ */
+function loadAdminRecent(){
+  getRemoteRecord().then(function(data){
+    var record=getRecord(data);
+    var html='';
+    var userEntries=Object.entries(record.users||{}).slice(-3).reverse();
+    if(userEntries.length>0){
+      html+='<div style="color:var(--accent);font-weight:700;margin-bottom:5px">💊 آخرین نسخه‌ها:</div>';
+      userEntries.forEach(function(entry){
+        html+='📤 <strong>'+escapeHtml(entry[0])+'</strong> - '+escapeHtml(entry[1].title||'بدون عنوان')+'<br>';
+      });
+    }
+    var msgEntries=(record.messages||[]).slice(-3).reverse();
+    if(msgEntries.length>0){
+      html+='<div style="color:var(--accent);font-weight:700;margin:10px 0 5px">📢 آخرین پیام‌ها:</div>';
+      msgEntries.forEach(function(msg){
+        html+='📨 <strong>'+escapeHtml(msg.title)+'</strong> → '+escapeHtml(msg.target==='all'?'همه':msg.target)+'<br>';
+      });
+    }
+    if(!html)html='هنوز ارسالی انجام نشده...';
+    var el=document.getElementById('adminRecentList');
+    if(el)el.innerHTML=html;
+  }).catch(function(){});
+}
+
+/* ============================================================
+   MESSAGES
+   ============================================================ */
+function loadMyMessages(showAlert){
+  getRemoteRecord().then(function(data){
+    var record=getRecord(data);
+    var messages=record.messages||[];
+    var readIds=safeParseJSON(safeGetLS('readMsgIds','[]'),[]);
+    var hiddenIds=safeParseJSON(safeGetLS('hiddenMsgIds','[]'),[]);
+    var myMessages=messages.filter(function(m){
+      return(m.target==='all'||m.target===userId)&&hiddenIds.indexOf(m.id)===-1;
+    }).reverse();
+    var list=document.getElementById('messagesList');
+    if(!list)return;
+    if(myMessages.length===0){
+      list.innerHTML='<p style="text-align:center;color:var(--text-muted);padding:20px">هیچ پیامی نیست</p>';
+      var b=document.getElementById('msgBadge');
+      if(b)b.style.display='none';
+      return;
+    }
+    var html='',unread=0;
+    myMessages.forEach(function(msg){
+      var isRead=readIds.indexOf(msg.id)>-1;
+      if(!isRead)unread++;
+      var date=new Date(msg.sentAt).toLocaleString('fa-IR');
+      var tgt=msg.target==='all'?'📢 عمومی':'✉️ اختصاصی';
+      html+='<div class="msg-item '+(isRead?'':'unread')+'" data-msg-id="'+escapeHtml(msg.id)+'">';
+      html+='<button class="msg-close" onclick="deleteMessage(\''+escapeHtml(msg.id)+'\')">✕</button>';
+      html+='<div class="msg-item-title">'+escapeHtml(msg.title)+'</div>';
+      html+='<div class="msg-item-date">'+escapeHtml(date)+' • '+tgt+'</div>';
+      html+='<div class="msg-item-content">'+escapeHtml(msg.content)+'</div></div>';
+    });
+    list.innerHTML=html;
+    var b2=document.getElementById('msgBadge');
+    if(unread>0&&b2){b2.style.display='flex';b2.textContent=unread;}
+    else if(b2)b2.style.display='none';
+    var newRead=readIds.concat(myMessages.map(function(m){return m.id;}));
+    safeSetLS('readMsgIds',JSON.stringify(newRead.filter(function(v,i,a){return a.indexOf(v)===i;})));
+    if(showAlert)showToast('✅ پیام‌ها بروز شد');
+  }).catch(function(){
+    var list=document.getElementById('messagesList');
+    if(list)list.innerHTML='<p style="text-align:center;color:#e74c3c;padding:20px">خطا در دریافت پیام‌ها</p>';
+  });
+}
+function deleteMessage(msgId){
+  if(!confirm('این پیام حذف شود؟'))return;
+  var hidden=safeParseJSON(safeGetLS('hiddenMsgIds','[]'),[]);
+  if(hidden.indexOf(msgId)===-1)hidden.push(msgId);
+  safeSetLS('hiddenMsgIds',JSON.stringify(hidden));
+  var el=document.querySelector('[data-msg-id="'+msgId+'"]');
+  if(el)el.remove();
+  showToast('✅ پیام حذف شد');
+}
+function checkNewMessages(){
+  getRemoteRecord().then(function(data){
+    var record=getRecord(data);
+    var messages=record.messages||[];
+    var readIds=safeParseJSON(safeGetLS('readMsgIds','[]'),[]);
+    var hiddenIds=safeParseJSON(safeGetLS('hiddenMsgIds','[]'),[]);
+    var shownIds=safeParseJSON(safeGetLS('shownPopupIds','[]'),[]);
+    var newMsg=messages.find(function(m){
+      return(m.target==='all'||m.target===userId)&&
+        readIds.indexOf(m.id)===-1&&hiddenIds.indexOf(m.id)===-1&&shownIds.indexOf(m.id)===-1;
+    });
+    if(newMsg){
+      var pt=document.getElementById('msgPopupTitle'),
+          ptx=document.getElementById('msgPopupText'),
+          ov=document.getElementById('msgPopupOverlay');
+      if(pt)pt.textContent='📢 '+newMsg.title;
+      if(ptx)ptx.textContent=newMsg.content;
+      if(ov)ov.classList.add('active');
+      safeSetLS('currentMsgId',newMsg.id);
+    }
+    loadMyMessages();
+  }).catch(function(){});
+}
+function closeMsgPopup(){
+  var ov=document.getElementById('msgPopupOverlay');
+  if(ov)ov.classList.remove('active');
+  var msgId=safeGetLS('currentMsgId',null);
+  if(msgId){
+    var shown=safeParseJSON(safeGetLS('shownPopupIds','[]'),[]);
+    if(shown.indexOf(msgId)===-1)shown.push(msgId);
+    safeSetLS('shownPopupIds',JSON.stringify(shown));
+  }
+}
+
+/* ============================================================
+   HISTORY
+   ============================================================ */
+function showHistory(type){
+  var modal=document.getElementById('historyModal'),
+      title=document.getElementById('historyTitle'),
+      list=document.getElementById('historyList');
+  if(!modal||!title||!list)return;
+  if(type==='prescriptions'){
+    title.textContent='💊 تاریخچه نسخه‌ها';
+    var archive=safeParseJSON(safeGetLS('prescriptionHistory','[]'),[]);
+    var current=safeGetLS('lastPrescription',null);
+    var html='';
+    if(current){
+      try{
+        var info=JSON.parse(current);
+        html+='<div class="history-item active-history"><div class="history-item-title"><span class="history-badge">فعال</span>'+escapeHtml(info.title||'نسخه فعلی')+'</div>';
+        html+='<div class="history-item-preview">'+escapeHtml((info.content||'').substring(0,100))+'</div></div>';
+      }catch(e){}
+    }
+    if(archive.length>0){
+      html+='<div style="color:var(--accent);font-size:.8em;font-weight:700;margin:10px 0 8px">📚 نسخه‌های قبلی:</div>';
+      archive.forEach(function(item,i){
+        html+='<div class="history-item" onclick="restorePrescription('+i+')">';
+        html+='<div class="history-item-title">'+escapeHtml(item.title)+'</div>';
+        html+='<div class="history-item-date">📅 '+escapeHtml(new Date(item.archivedAt).toLocaleString('fa-IR'))+'</div>';
+        html+='<div class="history-item-preview">'+escapeHtml((item.content||'').substring(0,100))+'</div></div>';
+      });
+    }else if(!current){
+      html='<p style="text-align:center;color:var(--text-muted);padding:20px">هیچ نسخه‌ای نیست</p>';
+    }
+    list.innerHTML=html;
+  }else{
+    title.textContent='📊 تاریخچه جدول‌ها';
+    var archive2=safeParseJSON(safeGetLS('tableHistory','[]'),[]);
+    var html2='<div class="history-item active-history"><div class="history-item-title"><span class="history-badge">فعال</span>جدول فعلی ('+totalDays+' روز)</div></div>';
+    if(archive2.length>0){
+      archive2.forEach(function(item,i){
+        html2+='<div class="history-item" onclick="restoreTable('+i+')">';
+        html2+='<div class="history-item-title">جدول '+item.totalDays+' روزه</div>';
+        html2+='<div class="history-item-date">📅 '+escapeHtml(new Date(item.archivedAt).toLocaleString('fa-IR'))+'</div></div>';
+      });
+    }else{
+      html2+='<p style="text-align:center;color:var(--text-muted);padding:20px;font-size:.85em">هیچ جدول قبلی نیست</p>';
+    }
+    list.innerHTML=html2;
+  }
+  modal.classList.add('active');
+}
+function closeHistory(){
+  var m=document.getElementById('historyModal');if(m)m.classList.remove('active');
+}
+function restorePrescription(index){
+  if(!confirm('این نسخه جایگزین نسخه فعلی شود؟'))return;
+  var archive=safeParseJSON(safeGetLS('prescriptionHistory','[]'),[]);
+  var item=archive[index];if(!item)return;
+  safeSetLS('lastPrescription',JSON.stringify({title:item.title,content:item.content,sentAt:Date.now()}));
+  archive.splice(index,1);
+  safeSetLS('prescriptionHistory',JSON.stringify(archive));
+  checkRegimeReceive();showPage('pageRegime');closeHistory();
+  showToast('✅ نسخه بازیابی شد');
+}
+function restoreTable(index){
+  if(!confirm('این جدول جایگزین جدول فعلی شود؟'))return;
+  var archive=safeParseJSON(safeGetLS('tableHistory','[]'),[]);
+  var item=archive[index];if(!item)return;
+  fortyDayData=JSON.parse(JSON.stringify(item.fortyDayData));
+  tableColumns=[].concat(item.tableColumns);
+  tableColumnNames=Object.assign({},item.tableColumnNames);
+  currentTimes=Object.assign({},item.currentTimes);
+  totalDays=item.totalDays;
+  saveAll();renderTable();
+  archive.splice(index,1);
+  safeSetLS('tableHistory',JSON.stringify(archive));
+  closeHistory();showToast('✅ جدول بازیابی شد');
+}
+var hm=document.getElementById('historyModal');
+if(hm)hm.addEventListener('click',function(e){if(e.target===this)closeHistory();});
+
+function editMyRegime(){
+  var el=document.getElementById('regimeDisplay');if(!el)return;
+  if(el.contentEditable==='true'){
+    el.contentEditable='false';
+    el.style.border='1px solid rgba(244,208,63,.2)';
+    showToast('✅ ویرایش ذخیره شد');
+    safeSetLS('myRegimeText',el.innerHTML);
+  }else{
+    el.contentEditable='true';
+    el.style.border='2px solid var(--accent)';
+    el.focus();showToast('✏️ ویرایش کنید','warning');
+  }
+}
+
+/* ============================================================
+   ALARM
+   ============================================================ */
+function renderAlarmSettings(){
+  var container=document.getElementById('alarmSettingsContainer');
+  if(!container)return;
+  var html='';
+  tableColumns.forEach(function(col){
+    var name=tableColumnNames[col]||col;
+    var time=currentTimes[col]||'08:00';
+    var enabled=alarmEnabled[col]!==false;
+    html+='<div class="alarm-row">';
+    html+='<label>'+escapeHtml(name)+'</label>';
+    html+='<input type="time" value="'+escapeHtml(time)+'" onchange="updateAlarmTime(\''+escapeHtml(col)+'\',this.value)">';
+    html+='<button class="toggle-btn '+(enabled?'active':'')+'" onclick="toggleAlarmFor(\''+escapeHtml(col)+'\',this)"></button>';
+    html+='</div>';
+  });
+  container.innerHTML=html;
+}
+function updateAlarmTime(col,time){currentTimes[col]=time;saveAll();}
+function toggleAlarmFor(col,btn){
+  var current=alarmEnabled[col]!==false;
+  alarmEnabled[col]=!current;
+  btn.classList.toggle('active',!current);
+  if(alarmActive)scheduleAlarms();
+}
+function saveAlarmSettings(){
+  saveAll();
+  if(alarmActive)scheduleAlarms();
+  showToast('✅ تنظیمات هشدار ذخیره شد');
+}
+function testAlarmSound(){
+  unlockAudio();playAlarmSound();
+  setTimeout(stopAlarmSound,3000);
+  showToast('🔊 تست صدا');
+}
+function clearTimers(){alarmTimers.forEach(function(t){clearTimeout(t);});alarmTimers=[];}
+function msUntil(t){
+  var p=t.split(':'),h=parseInt(p[0]),m=parseInt(p[1]);
+  var now=new Date(),target=new Date(now);
+  target.setHours(h,m,0,0);
+  if(target<=now)target.setDate(target.getDate()+1);
+  return target.getTime()-now.getTime();
+}
+function unlockAudio(){
+  if(audioUnlocked)return true;
+  try{
+    audioContext=new(window.AudioContext||window.webkitAudioContext)();
+    if(audioContext.state==='suspended')audioContext.resume();
+    var osc=audioContext.createOscillator(),g=audioContext.createGain();
+    osc.connect(g);g.connect(audioContext.destination);
+    g.gain.setValueAtTime(0,audioContext.currentTime);
+    osc.start(audioContext.currentTime);osc.stop(audioContext.currentTime+.1);
+    audioUnlocked=true;return true;
+  }catch(e){return false;}
+}
+function scheduleAlarms(){
+  clearTimers();
+  if(!alarmActive)return;
+  var td=fortyDayData[getCurrentDayAuto()]||{};
+  tableColumns.forEach(function(col){
+    if(alarmEnabled[col]===false)return;
+    var time=currentTimes[col],name=td[col]||'';
+    if(time&&name&&name!=='❌'){
+      var ms=msUntil(time);
+      if(ms>0&&ms<86400000){
+        alarmTimers.push(setTimeout(function(){
+          triggerAlarm({name:name,type:tableColumnNames[col]});
+          setTimeout(scheduleAlarms,60000);
+        },ms));
+      }
+    }
+  });
+}
+function triggerAlarm(a){
+  var msg=document.getElementById('alarmMessage');
+  if(msg)msg.textContent='⏰ '+a.type+': '+a.name;
+  var ov=document.getElementById('alarmOverlay');
+  if(ov)ov.classList.add('active');
+  playAlarmSound();
+  if(navigator.vibrate)navigator.vibrate([500,200,500,200,500]);
+}
+function playAlarmSound(){
+  stopAlarmSound();
+  if(!audioUnlocked)unlockAudio();
+  try{
+    if(!audioContext||audioContext.state==='suspended'){
+      audioContext=new(window.AudioContext||window.webkitAudioContext)();
+      if(audioContext.state==='suspended')audioContext.resume();
+    }
+    function beep(){
+      if(!audioContext||audioContext.state!=='running')return;
+      var o=audioContext.createOscillator(),g=audioContext.createGain();
+      o.connect(g);g.connect(audioContext.destination);
+      o.type='sine';o.frequency.setValueAtTime(880,audioContext.currentTime);
+      g.gain.setValueAtTime(0,audioContext.currentTime);
+      g.gain.linearRampToValueAtTime(.5,audioContext.currentTime+.05);
+      g.gain.linearRampToValueAtTime(0,audioContext.currentTime+.5);
+      o.start(audioContext.currentTime);o.stop(audioContext.currentTime+.5);
+    }
+    beep();alarmSoundInterval=setInterval(beep,700);
+  }catch(e){}
+}
+function stopAlarmSound(){
+  if(alarmSoundInterval){clearInterval(alarmSoundInterval);alarmSoundInterval=null;}
+  if(audioContext){
+    try{if(audioContext.state!=='closed')audioContext.close();}catch(e){}
+    audioContext=null;audioUnlocked=false;
+  }
+}
+function stopAlarm(){
+  var ov=document.getElementById('alarmOverlay');
+  if(ov)ov.classList.remove('active');
+  stopAlarmSound();
+  if(navigator.vibrate)navigator.vibrate(0);
+}
+function snoozeAlarm(){
+  stopAlarm();
+  setTimeout(function(){if(alarmActive)triggerAlarm({name:'یادآوری',type:'🔔'});},600000);
+}
+function activateAlarms(){
+  unlockAudio();
+  if('Notification'in window&&Notification.permission==='default'){
+    try{Notification.requestPermission();}catch(e){}
+  }
+  if(alarmActive){
+    alarmActive=false;clearTimers();
+    var st=document.getElementById('statusText');
+    if(st)st.textContent='⏸ غیرفعال';
+    showToast('آلارم‌ها غیرفعال شدند','warning');return;
+  }
+  alarmActive=true;scheduleAlarms();
+  var st2=document.getElementById('statusText');
+  if(st2)st2.textContent='✅ فعال';
+  showToast('✅ آلارم‌ها فعال شدند');
+  setTimeout(function(){playAlarmSound();setTimeout(stopAlarmSound,2000);},100);
+}
+
+/* ============================================================
+   DATA
+   ============================================================ */
+var defaultHerbProperties={
+  "روغن بادام شیرین":"تقویت مغز و اعصاب، رفع خشکی پوست",
+  "دمنوش کاسنی":"تصفیه خون، تقویت کبد، ضد التهاب",
+  "چای آلبالو":"ضد التهاب مفاصل، خواب‌آور طبیعی",
+  "هل":"تقویت معده، ضد نفخ",
+  "دمنوش ۵ گیاه":"لاغری و چربی‌سوزی، سم‌زدایی",
+  "چای سیاه و وانیل":"انرژی، آنتی‌اکسیدان، تقویت قلب"
+};
+var herbProperties={};
+var tableColumns=['oil','breakfast','evening','dinner'];
+var tableColumnNames={oil:'💧 ناشتا',breakfast:'☀️ صبح',evening:'🌅 عصر',dinner:'🌙 شب'};
+var currentTimes={oil:"06:00",breakfast:"08:00",evening:"17:00",dinner:"21:00"};
+var totalDays=40,fortyDayData=[];
+var viewMode="all",fontSize="medium",fontFamily="Vazirmatn";
+var showDate=false,showWeekday=false,showPast=true;
+
+var persianMonths=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+var weekdays=['شنبه','یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه'];
+
+function gregorianToJalali(gDate){
+  var g=new Date(gDate),gy=g.getFullYear(),gm=g.getMonth()+1,gd=g.getDate();
+  var gdm=[0,31,59,90,120,151,181,212,243,273,304,334],gy2=gm>2?gy+1:gy;
+  var days=355666+365*gy+Math.floor((gy2+3)/4)-Math.floor((gy2+99)/100)+Math.floor((gy2+399)/400)+gd+gdm[gm-1];
+  var jy=-1595+33*Math.floor(days/12053);days%=12053;
+  jy+=4*Math.floor(days/1461);days%=1461;
+  if(days>365){jy+=Math.floor((days-1)/365);days=(days-1)%365;}
+  var jm=days<186?1+Math.floor(days/31):7+Math.floor((days-186)/30);
+  var jd=days<186?1+days%31:1+(days-186)%30;
+  return{y:jy,m:jm,d:jd};
+}
+function formatJalali(j){return j.y+'/'+String(j.m).padStart(2,'0')+'/'+String(j.d).padStart(2,'0');}
+function formatJalaliFull(j){return j.d+' '+persianMonths[j.m-1]+' '+j.y;}
+function getStartDateGregorian(){return new Date(safeGetLS('healthStartDateGregorian','2026-08-04'));}
+function setStartDateGregorian(d){safeSetLS('healthStartDateGregorian',d.toISOString());}
+function getCurrentDayAuto(){return Math.max(0,Math.min(totalDays-1,Math.floor((Date.now()-getStartDateGregorian().getTime())/86400000)));}
+function toDateInputValue(d){return d.toISOString().split('T')[0];}
+
+function initData(){
+  herbProperties=safeParseJSON(safeGetLS('herbProperties','null'),null)||JSON.parse(JSON.stringify(defaultHerbProperties));
+  var sc=safeGetLS('tableColumns',null);
+  if(sc){
+    try{
+      var p=JSON.parse(sc);
+      tableColumns=p.columns||tableColumns;
+      tableColumnNames=p.names||tableColumnNames;
+      totalDays=p.totalDays||40;
+    }catch(e){}
+  }
+  viewMode=safeGetLS('viewMode','all');
+  fontSize=safeGetLS('fontSize','medium');
+  fontFamily=safeGetLS('fontFamily','Vazirmatn');
+  showDate=safeGetLS('showDate',null)==='true';
+  showWeekday=safeGetLS('showWeekday',null)==='true';
+  showPast=safeGetLS('showPastDays',null)!=='false';
+  currentTheme=safeGetLS('theme','nature');
+  nightMode=safeGetLS('nightMode',null)==='true';
+  alarmEnabled=safeParseJSON(safeGetLS('alarmEnabled','{}'),{});
+
+  applyTheme();applySettings();
+
+  var saved=safeGetLS('health40Data',null);
+  if(saved){
+    try{
+      fortyDayData=JSON.parse(saved);
+      if(fortyDayData.length===totalDays){
+        var st=safeGetLS('health40Times',null);
+        if(st)currentTimes=JSON.parse(st);
+        return;
+      }
+    }catch(e){}
+  }
+  generateDefaultData();
+}
+function generateDefaultData(){
+  fortyDayData=[];
+  for(var i=1;i<=totalDays;i++){
+    var d={};
+    tableColumns.forEach(function(c){
+      if(c==='oil')d[c]='روغن بادام شیرین';
+      else if(c==='breakfast')d[c]=i%2?'دمنوش کاسنی':'چای سیاه و وانیل';
+      else if(c==='evening')d[c]='چای آلبالو + هل';
+      else if(c==='dinner')d[c]=i%2?'دمنوش ۵ گیاه':'شنبلیه، گزنه، گشنیز';
+      else d[c]='';
+    });
+    fortyDayData.push(d);
+  }
+  saveAll();
+}
+function saveAll(){
+  safeSetLS('health40Data',JSON.stringify(fortyDayData));
+  safeSetLS('health40Times',JSON.stringify(currentTimes));
+  safeSetLS('herbProperties',JSON.stringify(herbProperties));
+  safeSetLS('tableColumns',JSON.stringify({columns:tableColumns,names:tableColumnNames,totalDays:totalDays}));
+  safeSetLS('viewMode',viewMode);
+  safeSetLS('fontSize',fontSize);
+  safeSetLS('fontFamily',fontFamily);
+  safeSetLS('showDate',String(showDate));
+  safeSetLS('showWeekday',String(showWeekday));
+  safeSetLS('showPastDays',String(showPast));
+  safeSetLS('theme',currentTheme);
+  safeSetLS('nightMode',String(nightMode));
+  safeSetLS('alarmEnabled',JSON.stringify(alarmEnabled));
+}
+
+var themes={
+  'nature':{'--bg-primary':'#0d1f12','--bg-secondary':'#1a3322','--bg-tertiary':'#21452c','--accent':'#f4d03f','--accent2':'#e8b923','--input-bg':'#142b1a','--text-primary':'#ffffff','--text-secondary':'#e8f0e3','--text-muted':'#a8bfa8'},
+  'honey':{'--bg-primary':'#1a1200','--bg-secondary':'#3d2800','--bg-tertiary':'#5a3d00','--accent':'#f4d03f','--accent2':'#ffb700','--input-bg':'#3d2800','--text-primary':'#ffffff','--text-secondary':'#f0e5c8','--text-muted':'#bfa874'},
+  'herbal':{'--bg-primary':'#1a0f00','--bg-secondary':'#2e1c08','--bg-tertiary':'#4a3010','--accent':'#d4a017','--accent2':'#b8860b','--input-bg':'#2e1c08','--text-primary':'#ffffff','--text-secondary':'#e8dcc8','--text-muted':'#a89468'},
+  'mint':{'--bg-primary':'#0a2e2e','--bg-secondary':'#0f4444','--bg-tertiary':'#1a5c5c','--accent':'#7fffd4','--accent2':'#40e0d0','--input-bg':'#0f4444','--text-primary':'#ffffff','--text-secondary':'#d4f0f0','--text-muted':'#8fb5b5'},
+  'dark':{'--bg-primary':'#0a0a0a','--bg-secondary':'#1a1a1a','--bg-tertiary':'#2a2a2a','--accent':'#ffd700','--accent2':'#ff8c00','--input-bg':'#1a1a1a','--text-primary':'#ffffff','--text-secondary':'#dddddd','--text-muted':'#888888'},
+  'purple':{'--bg-primary':'#1a0a2e','--bg-secondary':'#251545','--bg-tertiary':'#301e50','--accent':'#f4d03f','--accent2':'#e056a0','--input-bg':'#251545','--text-primary':'#ffffff','--text-secondary':'#e8dcf0','--text-muted':'#a894bf'}
+};
+function applyTheme(){
+  var t=themes[currentTheme];if(!t)return;
+  for(var k in t)document.documentElement.style.setProperty(k,t[k]);
+  document.body.style.filter=nightMode?'brightness(.7)':'none';
+}
+function setTheme(t){currentTheme=t;applyTheme();saveAll();}
+function toggleNightMode(){nightMode=document.getElementById('nightMode').checked;applyTheme();saveAll();}
+function applySettings(){
+  var s={small:'11px',medium:'14px',large:'18px'};
+  document.documentElement.style.setProperty('--font-size',s[fontSize]||'14px');
+  document.documentElement.style.setProperty('--font-family',fontFamily+',Tahoma,sans-serif');
+}
+
+function renderTable(){
+  var thead=document.getElementById('tableHead'),hh='<tr><th>روز</th>';
+  if(showWeekday)hh+='<th>هفته</th>';
+  if(showDate)hh+='<th>تاریخ</th>';
+  tableColumns.forEach(function(c){hh+='<th>'+escapeHtml(tableColumnNames[c]||c)+'</th>';});
+  hh+='</tr>';
+  if(thead)thead.innerHTML=hh;
+  var tbody=document.getElementById('scheduleBody');
+  if(!tbody)return;
+  var today=getCurrentDayAuto(),sd=getStartDateGregorian(),days=[];
+  if(viewMode==='today')days=[today];
+  else if(viewMode==='week'){
+    var ws=Math.max(0,Math.min(today-3,totalDays-7));
+    for(var i=ws;i<Math.min(totalDays,ws+7);i++)days.push(i);
+  }else{
+    for(var k=0;k<totalDays;k++)if(showPast||k>=today)days.push(k);
+  }
+  var html='';
+  days.forEach(function(i){
+    var d=fortyDayData[i]||{},isT=i===today,isP=i<today,cls=isT?'today-row':'';
+    if(isP&&!isT)cls+=' past-row';
+    var date=new Date(sd);date.setDate(date.getDate()+i);
+    html+='<tr class="'+cls+'"><td>'+(isT?'🔵 ':'')+(i+1)+'</td>';
+    if(showWeekday)html+='<td>'+weekdays[(date.getDay()+1)%7]+'</td>';
+    if(showDate)html+='<td>'+formatJalali(gregorianToJalali(date))+'</td>';
+    tableColumns.forEach(function(col){
+      var txt=d[col]||'-',prop=getProperty(txt);
+      html+='<td><span class="drug-name" onclick="toggleProp(event,this)">'+escapeHtml(txt)+'</span><div class="property-popup">'+escapeHtml(prop)+'</div></td>';
+    });
+    html+='</tr>';
+  });
+  tbody.innerHTML=html;
+}
+function getProperty(txt){
+  for(var k in herbProperties)if(txt.indexOf(k)>-1)return herbProperties[k];
+  return'خواص عمومی';
+}
+function toggleProp(e,el){
+  e.stopPropagation();
+  document.querySelectorAll('.drug-name.active-drug').forEach(function(x){x.classList.remove('active-drug');});
+  el.classList.add('active-drug');
+  var pop=el.nextElementSibling;
+  if(activePopup&&activePopup!==pop)activePopup.classList.remove('active');
+  pop.classList.toggle('active');
+  activePopup=pop.classList.contains('active')?pop:null;
+}
+document.addEventListener('click',function(e){
+  if(activePopup&&!e.target.classList.contains('drug-name')){
+    activePopup.classList.remove('active');activePopup=null;
+    document.querySelectorAll('.drug-name.active-drug').forEach(function(x){x.classList.remove('active-drug');});
+  }
+});
+
+function onStartDateChanged(){
+  var gDate=new Date(document.getElementById('startDatePicker').value+'T00:00:00');
+  if(isNaN(gDate.getTime()))return;
+  setStartDateGregorian(gDate);
+  updateDateConversionInfo();updateDayDisplay();renderTable();saveAll();
+}
+function updateDateConversionInfo(){
+  var sd=getStartDateGregorian(),j=gregorianToJalali(sd);
+  var el=document.getElementById('jalaliDate');
+  if(el)el.textContent=formatJalaliFull(j);
+}
+function updateDayDisplay(){
+  var el=document.getElementById('dayBadge');
+  if(el)el.textContent='روز '+(getCurrentDayAuto()+1)+' از '+totalDays;
+}
+function changeViewMode(){viewMode=document.getElementById('viewMode').value;saveAll();renderTable();}
+function changeFontSize(){fontSize=document.getElementById('fontSize').value;applySettings();saveAll();}
+function toggleShowDate(){showDate=document.getElementById('showDate').checked;saveAll();renderTable();}
+function toggleShowWeekday(){showWeekday=document.getElementById('showWeekday').checked;saveAll();renderTable();}
+function toggleShowPastDays(){showPast=document.getElementById('showPastDays').checked;saveAll();renderTable();}
+function updateClock(){
+  var el=document.getElementById('clockDisplay');
+  if(el)el.textContent=new Date().toLocaleTimeString('fa-IR');
+}
+
+/* ============================================================
+   PWA INSTALL (یک بار - بدون تکرار)
+   ============================================================ */
+var deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',function(e){
+  e.preventDefault();deferredPrompt=e;
+  var b=document.getElementById('pwaInstallBtn');
+  if(b)b.style.display='flex';
+});
+function installPWA(){
+  if(!deferredPrompt){showInstallGuide();return;}
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(function(r){
+    if(r.outcome==='accepted'){
+      showToast('✅ اپ نصب شد!');
+      var b=document.getElementById('pwaInstallBtn');
+      if(b)b.style.display='none';
+    }
+    deferredPrompt=null;
+  });
+}
+function showInstallGuide(){
+  var ua=navigator.userAgent.toLowerCase();
+  var isIOS=/iphone|ipad|ipod/.test(ua);
+  var isSafari=/safari/.test(ua)&&!/chrome/.test(ua);
+  var isFirefox=/firefox/.test(ua);
+  var isSamsung=/samsungbrowser/.test(ua);
+  var msg='';
+  if(isIOS||isSafari)msg='📱 نصب روی iPhone / Safari:\n\n۱. دکمه Share رو بزن\n۲. Add to Home Screen\n۳. Add رو بزن';
+  else if(isFirefox)msg='📱 نصب روی Firefox:\n\n۱. منوی ۳ نقطه\n۲. Install';
+  else if(isSamsung)msg='📱 نصب روی Samsung:\n\n۱. منوی ۳ خط\n۲. Add page to → Home screen';
+  else msg='📱 نصب اپلیکیشن:\n\n۱. منوی ۳ نقطه (بالا راست)\n۲. Add to Home screen / Install App';
+  alert(msg);
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+function init(){
+  initUserId();
+  initData();
+  applyTheme();applySettings();
+  renderTable();renderAlarmSettings();
+  var sdp=document.getElementById('startDatePicker');
+  if(sdp)sdp.value=toDateInputValue(getStartDateGregorian());
+  updateDateConversionInfo();updateDayDisplay();
+  var vm=document.getElementById('viewMode');if(vm)vm.value=viewMode;
+  var fs=document.getElementById('fontSize');if(fs)fs.value=fontSize;
+  var sd=document.getElementById('showDate');if(sd)sd.checked=showDate;
+  var sw=document.getElementById('showWeekday');if(sw)sw.checked=showWeekday;
+  var sp=document.getElementById('showPastDays');if(sp)sp.checked=showPast;
+  var nm=document.getElementById('nightMode');if(nm)nm.checked=nightMode;
+  setInterval(updateClock,1000);updateClock();
+  setTimeout(loadRemoteBanner,1500);
+  setInterval(loadRemoteBanner,300000);
+  setTimeout(checkNewMessages,3000);
+  setInterval(checkNewMessages,60000);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
+else init();
+
+window.addEventListener('online',function(){loadRemoteBanner();});
+window.addEventListener('offline',function(){
+  var tb=document.getElementById('topBanner');
+  if(tb)tb.classList.remove('active');
+});
+
+/* Service Worker - یک بار */
+if('serviceWorker'in navigator){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('/Safir-salamat-/sw.js')
+    .then(function(r){console.log('✅ SW:',r.scope);})
+    .catch(function(e){console.log('❌ SW:',e);});
+  });
+}
+if(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone){
+  var b=document.getElementById('pwaInstallBtn');
+  if(b)b.style.display='none';
+}
 </script>
 </body>
 </html>
