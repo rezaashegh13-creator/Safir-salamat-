@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0d1f12">
 <title>سفیر سلامت حامی</title>
+<!-- فونت لاله‌زار برای ویترین -->
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/lalezar-font@v1.0.0/dist/font-face.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
 <link rel="manifest" href="/Safir-salamat-/manifest.json">
 <link rel="apple-touch-icon" href="/Safir-salamat-/icon-192.png">
@@ -29,6 +31,55 @@ body{font-family:var(--font-family);background:var(--bg-primary);
   background-attachment:fixed;color:var(--text-primary);padding:0 0 20px;
   min-height:100vh;font-size:var(--font-size)}
 .container{max-width:750px;margin:0 auto;padding:10px}
+
+/* ویترین برنامه امروز */
+.today-showcase {
+  background: linear-gradient(135deg, #1e3c26, #0d1f12);
+  border: 2px solid var(--accent);
+  border-radius: 20px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4), inset 0 0 20px rgba(244,208,63,0.1);
+  position: relative;
+  overflow: hidden;
+}
+.today-showcase::before {
+  content: '✨';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  font-size: 5em;
+  opacity: 0.05;
+  transform: rotate(20deg);
+}
+.showcase-title {
+  font-family: 'Lalezar', cursive;
+  color: var(--accent);
+  font-size: 1.5em;
+  text-align: center;
+  margin-bottom: 15px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+.showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+}
+.showcase-card {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(244,208,63,0.3);
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.showcase-card-icon { font-size: 1.8em; margin-bottom: 5px; }
+.showcase-card-label { font-size: 0.75em; color: var(--text-muted); margin-bottom: 4px; }
+.showcase-card-value { font-size: 0.9em; font-weight: bold; color: #fff; }
+.showcase-card-time { font-size: 0.7em; color: var(--accent2); margin-top: 4px; }
 
 #topBanner{display:none;width:100%;background:var(--bg-secondary);border-bottom:3px solid var(--accent);overflow:hidden}
 #topBanner.active{display:block}
@@ -84,6 +135,7 @@ body{font-family:var(--font-family);background:var(--bg-primary);
   padding:9px;border-radius:8px;flex:1;min-width:60px;font-family:var(--font-family);font-size:.9em}
 textarea{resize:vertical;min-height:100px;line-height:1.8}
 
+/* جدول‌ها */
 .table-wrapper{overflow-x:auto;margin-top:10px;border-radius:12px}
 table{width:100%;border-collapse:collapse;background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));
   border-radius:12px;overflow:hidden;font-size:.85em}
@@ -327,6 +379,14 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 <div class="container">
 
 <div class="page active" id="pageMenu">
+  <!-- ویترین امروز -->
+  <div class="today-showcase" id="todayShowcase">
+    <div class="showcase-title">امروز چی بخوریم؟</div>
+    <div class="showcase-grid" id="showcaseGrid">
+      <p style="text-align:center;color:var(--text-muted);grid-column:1/-1;font-size:0.9em;">در حال بارگذاری...</p>
+    </div>
+  </div>
+
   <div class="main-header">
     <h1>🌿 سفیر سلامت حامی</h1>
     <h2>🍽️ برنامه هوشمند اصلاح مزاج</h2>
@@ -577,8 +637,10 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     <div class="admin-warning">⚠️ این بخش فقط برای اپراتور است</div>
     <div class="settings-row">
       <label>کد کاربر:</label>
-      <input type="text" id="targetUserCode" placeholder="A3B5C7" maxlength="6"
+      <input type="text" id="targetUserCode" placeholder="کد را انتخاب یا وارد کنید" maxlength="10"
+        list="usersListDatalist"
         style="text-align:center;letter-spacing:3px;direction:ltr;font-size:1.1em">
+      <datalist id="usersListDatalist"></datalist>
     </div>
     <div class="settings-row">
       <label>عنوان:</label>
@@ -596,7 +658,8 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     <div class="admin-warning">💡 تغییرات به صورت خودکار ذخیره می‌شوند</div>
     <div class="settings-row" style="margin-bottom:10px">
       <label>کد کاربر:</label>
-      <input type="text" id="targetUserCodeTable" placeholder="A3B5C7" maxlength="6"
+      <input type="text" id="targetUserCodeTable" placeholder="کد را انتخاب یا وارد کنید" maxlength="10"
+        list="usersListDatalist"
         style="text-align:center;letter-spacing:3px;direction:ltr;font-size:1.1em">
     </div>
 
@@ -663,6 +726,7 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     <div class="settings-row" style="margin-top:8px">
       <label>گیرنده:</label>
       <input type="text" id="messageTarget" placeholder="کد کاربر یا خالی برای همه"
+        list="usersListDatalist"
         style="text-align:center;letter-spacing:3px;direction:ltr">
     </div>
     <p style="font-size:.75em;color:var(--text-muted);margin-top:5px">💡 اگر کد خالی باشد، پیام برای همه کاربران ارسال می‌شود</p>
@@ -708,36 +772,27 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 <script>
 "use strict";
 
-/* ============================================================
-   CONFIG & SUPABASE INIT
-   ============================================================ */
 const SUPABASE_URL = "https://bqhyypffalwbilaicdlw.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_KVthV8sXxlf7yeBV9HibvA_SfzVOYfI";
-
-// 🔥 راه‌حل مشکل کلید جدید: هدرهای پیش‌فرض را مجبور می‌کنیم کلید را درست بفرستند
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  global: {
-    headers: {
-      apikey: SUPABASE_ANON_KEY
-    }
-  }
+  global: { headers: { apikey: SUPABASE_ANON_KEY } }
 });
 
 var ADMIN_PASSWORD="maryam6625";
 var SAVE_PASSWORD_KEY="adminSavedPassword";
 
-/* ============================================================
-   STATE
-   ============================================================ */
 var currentTheme="nature",nightMode=false,userId="";
 var alarmTimers=[],alarmActive=false,audioContext=null,alarmSoundInterval=null;
 var editingTableColumns=[],currentEditorDay=0,alarmEnabled={};
 var audioUnlocked=false,dashboardData={users:{},tables:{},messages:[]};
 var activePopup=null,previewVisible=false;
 
-/* ============================================================
-   TOAST
-   ============================================================ */
+// دیتای اختصاصی پنل ادمین (جدا از نمایش کاربر)
+var adminTableColumns=['oil','breakfast','evening','dinner'];
+var adminTableColumnNames={oil:'💧 ناشتا',breakfast:'☀️ صبح',evening:'🌅 عصر',dinner:'🌙 شب'};
+var adminCurrentTimes={oil:"06:00",breakfast:"08:00",evening:"17:00",dinner:"21:00"};
+var adminTotalDays=40,adminFortyDayData=[];
+
 function showToast(msg,type,duration){
   type=type||"success";duration=duration||3000;
   var t=document.getElementById('toast');if(!t)return;
@@ -746,46 +801,35 @@ function showToast(msg,type,duration){
   t.style.display='block';
   setTimeout(function(){t.style.display='none';},duration);
 }
-
-/* ============================================================
-   HELPERS
-   ============================================================ */
 function escapeHtml(s){
   if(s==null)return"";
   return String(s).replace(/[&<>"']/g,function(c){
     return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
   });
 }
-function safeSetLS(key,val){
-  try{localStorage.setItem(key,val);return true;}catch(e){return false;}
-}
-function safeGetLS(key,def){
-  try{var v=localStorage.getItem(key);return v==null?def:v;}catch(e){return def;}
-}
-function safeParseJSON(str,def){
-  if(!str)return def;
-  try{return JSON.parse(str);}catch(e){return def;}
-}
+function safeSetLS(key,val){try{localStorage.setItem(key,val);return true;}catch(e){return false;}}
+function safeGetLS(key,def){try{var v=localStorage.getItem(key);return v==null?def:v;}catch(e){return def;}}
+function safeParseJSON(str,def){if(!str)return def;try{return JSON.parse(str);}catch(e){return def;}}
 
-/* ============================================================
-   PAGE NAVIGATION
-   ============================================================ */
 function showPage(pageId){
   var pages=document.querySelectorAll('.page');
   for(var i=0;i<pages.length;i++)pages[i].classList.remove('active');
   var target=document.getElementById(pageId);
   if(target)target.classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
+  if(pageId==='pageMenu') updateTodayShowcase(); // آپدیت ویترین
   if(pageId==='pageDaily')checkDailyReceive();
   if(pageId==='pageRegime')checkRegimeReceive();
   if(pageId==='pageMessages')loadMyMessages();
-  if(pageId==='pageAdmin'){buildTableEditor();buildDayEditor();loadAdminRecent();loadDashboard(false);}
+  if(pageId==='pageAdmin'){
+    loadUsersListForAdmin(); // لود لیست کشویی کاربران
+    buildAdminEditor(); 
+    loadAdminRecent();
+    loadDashboard(false);
+  }
   if(pageId==='pageSettings')renderAlarmSettings();
 }
 
-/* ============================================================
-   USER ID
-   ============================================================ */
 function generateFallbackUserId(){
   var chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',code='';
   for(var i=0;i<6;i++)code+=chars.charAt(Math.floor(Math.random()*chars.length));
@@ -812,7 +856,92 @@ function closeWelcomeModal(){
 }
 
 /* ============================================================
-   RECEIVE PROMPTS
+   SUPABASE HELPERS (دیتابیس جدید)
+   ============================================================ */
+async function getUserRecord(code) {
+  if (!code) return null;
+  try {
+    const { data, error } = await supabaseClient
+      .from('users_list').select('data').eq('code', code.toUpperCase()).maybeSingle();
+    if (error) throw error;
+    return data ? data.data : null;
+  } catch(e) { console.error(e); return null; }
+}
+
+async function saveUserRecord(code, data) {
+  if (!code) return false;
+  try {
+    const { error } = await supabaseClient
+      .from('users_list').upsert({ code: code.toUpperCase(), data: data, updated_at: new Date().toISOString() });
+    if (error) throw error;
+    return true;
+  } catch(e) { console.error(e); return false; }
+}
+
+async function getGlobalData() {
+  try {
+    const { data, error } = await supabaseClient.from('app_data').select('data').eq('id', 1).maybeSingle();
+    if (error) throw error;
+    return data ? data.data : { messages: [], banner: { url: '', active: false } };
+  } catch(e) { return { messages: [], banner: { url: '', active: false } }; }
+}
+
+async function saveGlobalData(record) {
+  try {
+    const { error } = await supabaseClient.from('app_data').upsert({ id: 1, user_code: 'GLOBAL', data: record, updated_at: new Date().toISOString() });
+    return !error;
+  } catch(e) { return false; }
+}
+
+async function getAllUsersFromDB() {
+  try {
+    const { data, error } = await supabaseClient.from('users_list').select('code, data');
+    if (error) throw error;
+    return data || [];
+  } catch(e) { return []; }
+}
+
+/* ============================================================
+   ویترین امروز
+   ============================================================ */
+function updateTodayShowcase() {
+  var grid = document.getElementById('showcaseGrid');
+  if (!grid) return;
+  
+  if (fortyDayData.length === 0) {
+    grid.innerHTML = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;font-size:0.9em;">برنامه‌ای ثبت نشده است</p>';
+    return;
+  }
+
+  var todayIdx = getCurrentDayAuto();
+  var dayData = fortyDayData[todayIdx] || {};
+  var html = '';
+
+  tableColumns.forEach(function(col) {
+    var val = dayData[col];
+    if (!val || val === '❌') return;
+    var label = tableColumnNames[col] || col;
+    var time = currentTimes[col] || '';
+    var icon = '🕐';
+    if (col.includes('oil')) icon = '💧';
+    else if (col.includes('breakfast')) icon = '☀️';
+    else if (col.includes('evening')) icon = '🌅';
+    else if (col.includes('dinner')) icon = '🌙';
+
+    html += '<div class="showcase-card">';
+    html += '<div class="showcase-card-icon">' + icon + '</div>';
+    html += '<div class="showcase-card-label">' + escapeHtml(label) + '</div>';
+    html += '<div class="showcase-card-value">' + escapeHtml(val) + '</div>';
+    if (time) html += '<div class="showcase-card-time">⏰ ' + time + '</div>';
+    html += '</div>';
+  });
+
+  if (!html) html = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;font-size:0.9em;">برنامه‌ای برای امروز ثبت نشده</p>';
+  grid.innerHTML = html;
+}
+
+/* ============================================================
+   دریافت اطلاعات کاربر
    ============================================================ */
 function checkDailyReceive(){
   var p=document.getElementById('dailyReceivePrompt'),c=document.getElementById('dailyContent');
@@ -846,141 +975,70 @@ function checkRegimeReceive(){
 function handleReceiveDaily(){
   if(!navigator.onLine){alert('❌ لطفاً از اتصال به اینترنت مطمئن شوید.');return;}
   var c=document.getElementById('dailyReceivePrompt');
-  if(c)c.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--accent);font-size:1.1em">⏳ در حال دریافت برنامه...<br><br><span style="font-size:.8em;color:var(--text-muted)">لطفاً صبر کنید</span></div>';
+  if(c)c.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--accent);font-size:1.1em">⏳ در حال دریافت...<br><br><span style="font-size:.8em;color:var(--text-muted)">لطفاً صبر کنید</span></div>';
   receiveAll(true).then(function(){
     safeSetLS('tableReceived','true');checkDailyReceive();
-    showToast('✅ برنامه شما با موفقیت دریافت شد');
+    showToast('✅ برنامه شما دریافت شد');
   }).catch(function(e){
-    alert('❌ خطا در دریافت: '+e.message);checkDailyReceive();
+    alert('❌ خطا: '+e.message);checkDailyReceive();
   });
 }
 function handleReceiveRegime(){
   if(!navigator.onLine){alert('❌ لطفاً از اتصال به اینترنت مطمئن شوید.');return;}
   var c=document.getElementById('regimeReceivePrompt');
-  if(c)c.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--accent);font-size:1.1em">⏳ در حال دریافت رژیم...<br><br><span style="font-size:.8em;color:var(--text-muted)">لطفاً صبر کنید</span></div>';
+  if(c)c.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--accent);font-size:1.1em">⏳ در حال دریافت...<br><br><span style="font-size:.8em;color:var(--text-muted)">لطفاً صبر کنید</span></div>';
   receiveAll(true).then(function(){
     checkRegimeReceive();showToast('✅ رژیم شما دریافت شد');
   }).catch(function(e){
-    alert('❌ خطا در دریافت: '+e.message);checkRegimeReceive();
+    alert('❌ خطا: '+e.message);checkRegimeReceive();
   });
 }
 
-/* ============================================================
-   🚀 SUPABASE HELPERS
-   ============================================================ */
-function findCode(obj,code){
-  if(!obj||!code)return null;
-  var upper=String(code).toUpperCase().trim();
-  if(obj[upper])return obj[upper];
-  if(obj[code])return obj[code];
-  var keys=Object.keys(obj);
-  for(var i=0;i<keys.length;i++){
-    if(String(keys[i]).toUpperCase().trim()===upper)return obj[keys[i]];
-  }
-  return null;
-}
-
-function getRecord(currentData){
-  var record=currentData||{};
-  if(!record.users)record.users={};
-  if(!record.tables)record.tables={};
-  if(!record.messages)record.messages=[];
-  if(!record.banner)record.banner={url:'',active:false};
-  return record;
-}
-
-async function getRemoteRecord(){
-  const { data, error } = await supabaseClient
-    .from('app_data')
-    .select('data')
-    .eq('id', 1)
-    .maybeSingle();
-
-  if (error) throw new Error(error.message);
-  
-  return { record: data ? data.data : {users:{},tables:{},messages:[],banner:{url:'',active:false}} };
-}
-
-async function putRecord(record){
-  const { error } = await supabaseClient
-    .from('app_data')
-    .upsert({ id: 1, user_code: 'GLOBAL', data: record, updated_at: new Date().toISOString() });
-
-  if (error) {
-    console.error('Supabase Error:', error);
-    return { ok: false, status: 500 };
-  }
-  return { ok: true, status: 200 };
-}
-
-/* ============================================================
-   📥 RECEIVE ALL
-   ============================================================ */
 function receiveAll(silent){
   return new Promise(function(resolve,reject){
     var code=String(userId||'').toUpperCase().trim();
     if(!code){reject(new Error('کد کاربری یافت نشد'));return;}
     if(!silent)showToast('⏳ در حال دریافت...','warning');
 
-    getRemoteRecord().then(function(data){
-      var record=getRecord(data.record);
+    getUserRecord(code).then(function(data){
       var gotSomething=false;
+      if(!data) { reject(new Error('اطلاعاتی برای این کد یافت نشد')); return; }
 
-      var users=record.users||{};
-      var prescription=findCode(users,code);
-      if(prescription&&(prescription.content||prescription.text)){
+      if(data.prescription) {
         archiveCurrentPrescription();
-        safeSetLS('lastPrescription',JSON.stringify({
-          title:prescription.title||prescription.name||'نسخه اختصاصی',
-          content:prescription.content||prescription.text||'',
-          sentAt:prescription.sentAt||Date.now()
-        }));
+        safeSetLS('lastPrescription',JSON.stringify(data.prescription));
         gotSomething=true;
       }
 
-      var tables=record.tables||{};
-      var tableInfo=findCode(tables,code);
-      if(tableInfo){
-        var forty=tableInfo.fortyDayData||tableInfo.days||[];
-        var cols=tableInfo.tableColumns||tableInfo.columns||[];
-        var names=tableInfo.tableColumnNames||tableInfo.columnNames||{};
-        var times=tableInfo.currentTimes||tableInfo.times||{};
-        var total=tableInfo.totalDays||forty.length||40;
-
-        if(forty&&forty.length>0){
+      if(data.tableData) {
+        var forty=data.tableData.fortyDayData||[];
+        if(forty.length>0){
           archiveCurrentTable();
           fortyDayData=JSON.parse(JSON.stringify(forty));
-          if(cols.length===0&&fortyDayData[0])cols=Object.keys(fortyDayData[0]);
-          if(cols.length>0)tableColumns=[].concat(cols);
-          if(Object.keys(names).length>0)tableColumnNames=Object.assign({},names);
-          if(Object.keys(times).length>0)currentTimes=Object.assign({},times);
-          totalDays=total;
+          tableColumns=[].concat(data.tableData.tableColumns||[]);
+          tableColumnNames=Object.assign({},data.tableData.tableColumnNames||{});
+          currentTimes=Object.assign({},data.tableData.currentTimes||{});
+          totalDays=data.tableData.totalDays||40;
+          
           while(fortyDayData.length<totalDays)fortyDayData.push({});
           if(fortyDayData.length>totalDays)fortyDayData.length=totalDays;
           fortyDayData.forEach(function(day){
-            tableColumns.forEach(function(col){
-              if(day[col]===undefined)day[col]='';
-            });
+            tableColumns.forEach(function(col){ if(day[col]===undefined)day[col]=''; });
           });
-          saveAll();renderTable();
+          saveAll();renderTable();updateTodayShowcase();
           safeSetLS('tableReceived','true');
           gotSomething=true;
         }
       }
 
-      if(!gotSomething){
-        reject(new Error('محتوایی برای کد '+code+' یافت نشد'));
-        return;
-      }
+      if(!gotSomething){ reject(new Error('دیتایی برای شما ثبت نشده است')); return; }
       resolve(true);
-    }).catch(function(e){
-      reject(e);
-    });
+    }).catch(function(e){ reject(e); });
   });
 }
 
 /* ============================================================
-   💾 ARCHIVE
+   ARCHIVE & BANNER
    ============================================================ */
 function archiveCurrentPrescription(){
   var current=safeGetLS('lastPrescription',null);
@@ -1011,15 +1069,12 @@ function archiveCurrentTable(){
   }catch(e){}
 }
 
-/* ============================================================
-   🖼️ BANNER
-   ============================================================ */
 function loadRemoteBanner(){
   var tb=document.getElementById('topBanner'),img=document.getElementById('topBannerImg');
   if(!tb||!img)return;
   if(!navigator.onLine){tb.classList.remove('active');return;}
-  getRemoteRecord().then(function(data){
-    var record=getRecord(data.record),bc=record.banner;
+  getGlobalData().then(function(data){
+    var bc=data.banner;
     if(!bc||!bc.url||bc.active===false){tb.classList.remove('active');return;}
     img.onload=function(){img.style.display='block';tb.classList.add('active');};
     img.onerror=function(){img.style.display='none';tb.classList.remove('active');};
@@ -1033,8 +1088,8 @@ function bannerError(){
   if(tb)tb.classList.remove('active');
 }
 function loadBannerInAdmin(){
-  getRemoteRecord().then(function(data){
-    var record=getRecord(data.record),bc=record.banner;
+  getGlobalData().then(function(data){
+    var bc=data.banner;
     var p=document.getElementById('bannerPreview'),inp=document.getElementById('bannerUrlInput');
     if(!p||!inp)return;
     if(bc&&bc.url){
@@ -1052,34 +1107,28 @@ function saveBannerUrl(){
   if(!url){showToast('لینک عکس را وارد کنید','error');return;}
   if(!navigator.onLine){showToast('❌ اتصال به اینترنت را چک کنید','error');return;}
   showToast('⏳ در حال ذخیره...','warning');
-  getRemoteRecord().then(function(cur){
-    var record=getRecord(cur.record);
+  getGlobalData().then(function(record){
     record.banner={url:url,active:true,updatedAt:Date.now()};
-    return putRecord(record);
-  }).then(function(res){
-    if(res.ok){showToast('✅ بنر ذخیره شد');loadBannerInAdmin();loadRemoteBanner();}
-    else showToast('❌ خطا (کد '+res.status+')','error');
+    return saveGlobalData(record);
+  }).then(function(ok){
+    if(ok){showToast('✅ بنر ذخیره شد');loadBannerInAdmin();loadRemoteBanner();}
+    else showToast('❌ خطا در ذخیره','error');
   }).catch(function(e){showToast('❌ خطا: '+e.message,'error');});
 }
 function disableBanner(){
   if(!confirm('بنر غیرفعال شود؟'))return;
-  if(!navigator.onLine){showToast('❌ اتصال به اینترنت را چک کنید','error');return;}
-  getRemoteRecord().then(function(cur){
-    var record=getRecord(cur.record);
+  getGlobalData().then(function(record){
     if(!record.banner)record.banner={url:'',active:false};
     record.banner.active=false;record.banner.updatedAt=Date.now();
-    return putRecord(record);
-  }).then(function(res){
-    if(res.ok){
-      showToast('✅ بنر غیرفعال شد');loadBannerInAdmin();
-      var tb=document.getElementById('topBanner');
-      if(tb)tb.classList.remove('active');
-    }else showToast('❌ خطا (کد '+res.status+')','error');
-  }).catch(function(e){showToast('❌ خطا: '+e.message,'error');});
+    return saveGlobalData(record);
+  }).then(function(ok){
+    if(ok){showToast('✅ بنر غیرفعال شد');loadBannerInAdmin();document.getElementById('topBanner').classList.remove('active');}
+    else showToast('❌ خطا','error');
+  });
 }
 
 /* ============================================================
-   ADMIN LOGIN
+   ADMIN LOGIN & PANEL
    ============================================================ */
 function openAdminLogin(){
   var inp=document.getElementById('adminPasswordInput'),cb=document.getElementById('savePasswordCheck'),m=document.getElementById('adminLoginModal');
@@ -1090,9 +1139,7 @@ function openAdminLogin(){
   }
   if(m)m.classList.add('active');
 }
-function closeAdminLogin(){
-  var m=document.getElementById('adminLoginModal');if(m)m.classList.remove('active');
-}
+function closeAdminLogin(){document.getElementById('adminLoginModal').classList.remove('active');}
 function checkAdminPassword(){
   var inp=document.getElementById('adminPasswordInput'),cb=document.getElementById('savePasswordCheck');
   var pass=inp?inp.value:'',shouldSave=cb?cb.checked:false;
@@ -1111,123 +1158,63 @@ function switchAdminTab(tab,el){
     var e=document.getElementById(id);
     if(e)e.style.display=(t===tab)?'block':'none';
   });
-  if(tab==='table'){buildTableEditor();buildDayEditor();}
+  if(tab==='table') buildAdminEditor();
   if(tab==='banner')loadBannerInAdmin();
   if(tab==='dashboard')loadDashboard(false);
 }
 
-/* ============================================================
-   SEND PRESCRIPTION
-   ============================================================ */
-function sendPrescription(){
-  var ce=document.getElementById('targetUserCode'),
-      te=document.getElementById('prescriptionTitle'),
-      ce2=document.getElementById('prescriptionContent');
-  if(!ce||!te||!ce2){showToast('❌ فیلدها پیدا نشدند','error');return;}
-  var code=ce.value.trim().toUpperCase(),title=te.value.trim(),content=ce2.value.trim();
+// لود کردن لیست کاربران برای پیشنهاد کشویی
+async function loadUsersListForAdmin() {
+  var allUsers = await getAllUsersFromDB();
+  var datalist = document.getElementById('usersListDatalist');
+  if(datalist) {
+    var html = '';
+    allUsers.forEach(function(u) { html += '<option value="'+escapeHtml(u.code)+'"></option>'; });
+    datalist.innerHTML = html;
+  }
+}
+
+// دکمه ارسال نسخه
+async function sendPrescription(){
+  var ce=document.getElementById('targetUserCode'), te=document.getElementById('prescriptionTitle'), ce2=document.getElementById('prescriptionContent');
+  if(!ce||!te||!ce2)return;
+  var code=ce.value.trim().toUpperCase(), title=te.value.trim(), content=ce2.value.trim();
   if(!code||code.length<3){showToast('کد کاربر معتبر وارد کنید','error');return;}
   if(!content){showToast('متن نسخه را وارد کنید','error');return;}
-  if(!navigator.onLine){showToast('❌ اتصال به اینترنت را چک کنید','error');return;}
+  
   showToast('⏳ در حال ارسال...','warning');
-  getRemoteRecord().then(function(cur){
-    var record=getRecord(cur.record);
-    record.users[code]={title:title||'نسخه اختصاصی',content:content,sentAt:Date.now()};
-    return putRecord(record);
-  }).then(function(res){
-    if(res.ok){
-      showToast('✅ نسخه برای کاربر '+code+' ارسال شد');
-      ce.value='';te.value='';ce2.value='';loadAdminRecent();
-    }else showToast('❌ خطا (کد '+res.status+')','error');
-  }).catch(function(e){showToast('❌ خطا: '+e.message,'error');});
+  var userData = await getUserRecord(code) || {};
+  userData.prescription = { title: title||'نسخه اختصاصی', content: content, sentAt: Date.now() };
+  
+  var ok = await saveUserRecord(code, userData);
+  if(ok){
+    showToast('✅ نسخه برای '+code+' ارسال شد');
+    ce.value='';te.value='';ce2.value='';
+    loadAdminRecent();
+    loadDashboard(false);
+  } else showToast('❌ خطا در ارسال','error');
 }
 
-/* ============================================================
-   📤 SEND TABLE
-   ============================================================ */
-function sendTableToUser(){
-  var ce=document.getElementById('targetUserCodeTable');
-  if(!ce){showToast('❌ فیلد کد پیدا نشد','error');return;}
-  var code=ce.value.trim().toUpperCase();
-  if(!code||code.length<3){showToast('کد کاربر معتبر وارد کنید','error');return;}
-  if(!fortyDayData||fortyDayData.length===0){showToast('❌ جدولی برای ارسال وجود ندارد','error');return;}
-  if(!confirm('جدول کنونی برای کاربر '+code+' ارسال شود؟'))return;
-  if(!navigator.onLine){showToast('❌ اتصال به اینترنت را چک کنید','error');return;}
-  showToast('⏳ در حال ارسال...','warning');
-
-  var snapshot = {
-    fortyDayData: JSON.parse(JSON.stringify(fortyDayData)),
-    tableColumns: [].concat(tableColumns),
-    tableColumnNames: Object.assign({}, tableColumnNames),
-    currentTimes: Object.assign({}, currentTimes),
-    totalDays: totalDays,
-    sentAt: Date.now()
-  };
-
-  getRemoteRecord().then(function(cur){
-    var record=getRecord(cur.record);
-    record.tables[code]=snapshot;
-    return putRecord(record);
-  }).then(function(res){
-    if(res.ok){showToast('✅ جدول برای '+code+' ارسال شد');loadAdminRecent();}
-    else showToast('❌ خطا (کد '+res.status+')','error');
-  }).catch(function(e){showToast('❌ خطا: '+e.message,'error');});
-}
-
-function sendTableToAll(){
-  if(!fortyDayData||fortyDayData.length===0){showToast('❌ جدولی برای ارسال وجود ندارد','error');return;}
-  if(!confirm('⚠️ جدول برای همه کاربران ارسال شود؟'))return;
-  if(!navigator.onLine){showToast('❌ اتصال به اینترنت را چک کنید','error');return;}
-  showToast('⏳ در حال ارسال...','warning');
-
-  var snapshot = {
-    fortyDayData: JSON.parse(JSON.stringify(fortyDayData)),
-    tableColumns: [].concat(tableColumns),
-    tableColumnNames: Object.assign({}, tableColumnNames),
-    currentTimes: Object.assign({}, currentTimes),
-    totalDays: totalDays,
-    sentAt: Date.now()
-  };
-
-  getRemoteRecord().then(function(cur){
-    var record=getRecord(cur.record);
-    var allUsers=Object.keys(record.users);
-    if(allUsers.length===0)throw new Error('هیچ کاربری ثبت نشده');
-    allUsers.forEach(function(uc){
-      record.tables[uc]=JSON.parse(JSON.stringify(snapshot));
-    });
-    return putRecord(record).then(function(r){return{res:r,count:allUsers.length};});
-  }).then(function(result){
-    if(result.res.ok){
-      showToast('✅ جدول برای '+result.count+' کاربر ارسال شد');
-      loadAdminRecent();
-    }else showToast('❌ خطا (کد '+result.res.status+')','error');
-  }).catch(function(e){showToast('❌ خطا: '+e.message,'error');});
-}
-
-/* ============================================================
-   SEND MESSAGE
-   ============================================================ */
-function sendMessage(){
-  var te=document.getElementById('messageTitle'),
-      ce=document.getElementById('messageContent'),
-      ge=document.getElementById('messageTarget');
-  if(!te||!ce||!ge){showToast('❌ فیلدها پیدا نشدند','error');return;}
-  var title=te.value.trim(),content=ce.value.trim(),target=ge.value.trim().toUpperCase();
+// ارسال پیام (به app_data گلوبال)
+async function sendMessage(){
+  var te=document.getElementById('messageTitle'), ce=document.getElementById('messageContent'), ge=document.getElementById('messageTarget');
+  if(!te||!ce||!ge)return;
+  var title=te.value.trim(), content=ce.value.trim(), target=ge.value.trim().toUpperCase();
   if(!content){showToast('متن پیام را وارد کنید','error');return;}
-  if(!navigator.onLine){showToast('❌ اتصال به اینترنت را چک کنید','error');return;}
+  
   showToast('⏳ در حال ارسال...','warning');
-  getRemoteRecord().then(function(cur){
-    var record=getRecord(cur.record);
-    var id='m_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
-    record.messages.push({id:id,title:title||'پیام جدید',content:content,target:target||'all',sentAt:Date.now()});
-    if(record.messages.length>100)record.messages=record.messages.slice(-100);
-    return putRecord(record);
-  }).then(function(res){
-    if(res.ok){
-      showToast(target?'✅ پیام برای '+target+' ارسال شد':'✅ پیام برای همه ارسال شد');
-      clearMessageForm();loadAdminRecent();
-    }else showToast('❌ خطا (کد '+res.status+')','error');
-  }).catch(function(e){showToast('❌ خطا: '+e.message,'error');});
+  var globalData = await getGlobalData();
+  if(!globalData.messages) globalData.messages = [];
+  
+  var id='m_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
+  globalData.messages.push({id:id,title:title||'پیام جدید',content:content,target:target||'all',sentAt:Date.now()});
+  if(globalData.messages.length>100) globalData.messages = globalData.messages.slice(-100);
+  
+  var ok = await saveGlobalData(globalData);
+  if(ok){
+    showToast(target?'✅ پیام ارسال شد':'✅ پیام برای همه ارسال شد');
+    clearMessageForm();loadAdminRecent();
+  } else showToast('❌ خطا','error');
 }
 function clearMessageForm(){
   var t=document.getElementById('messageTitle'),c=document.getElementById('messageContent'),g=document.getElementById('messageTarget');
@@ -1239,290 +1226,286 @@ function clearAdminForm(){
 }
 
 /* ============================================================
-   DASHBOARD
+   EDITOR TABLE (مختص ادمین - تغییر روی گوشی ادمین اثر ندارد)
    ============================================================ */
-function loadDashboard(showAlert){
-  getRemoteRecord().then(function(data){
-    var record=getRecord(data.record);
-    var users=record.users||{},tables=record.tables||{},messages=record.messages||[];
-    var el1=document.getElementById('statUsers'),
-        el2=document.getElementById('statPrescriptions'),
-        el3=document.getElementById('statTables'),
-        el4=document.getElementById('statMessages');
-    if(el1)el1.textContent=Object.keys(users).length;
-    if(el2)el2.textContent=Object.keys(users).length;
-    if(el3)el3.textContent=Object.keys(tables).length;
-    if(el4)el4.textContent=messages.length;
-
-    var allCodes=Object.keys(users).concat(Object.keys(tables).filter(function(c){return!users[c];}));
-    var items=[];
-    allCodes.forEach(function(code){
-      var presc=users[code],tbl=tables[code];
-      var lastTime=Math.max((presc&&presc.sentAt)||0,(tbl&&tbl.sentAt)||0);
-      var days=tbl?(tbl.totalDays)||0:0;
-      items.push({code:code,hasP:!!presc,hasT:!!tbl,pTitle:(presc&&presc.title)||'',tDays:days,lastTime:lastTime});
-    });
-    items.sort(function(a,b){return b.lastTime-a.lastTime;});
-
-    var container=document.getElementById('userListContainer');
-    var countEl=document.getElementById('userListCount');
-    if(countEl)countEl.textContent=items.length+' نفر';
-    if(!container)return;
-
-    if(items.length===0){
-      container.innerHTML='<p style="text-align:center;color:var(--text-muted);padding:20px;font-size:.85em">هنوز کاربری ثبت نشده</p>';
-    }else{
-      var html='';
-      items.forEach(function(u){
-        var bc='#f4d03f',st='';
-        if(u.hasP&&u.hasT){bc='#2ecc71';st='✅ کامل';}
-        else if(u.hasP){bc='#3498db';st='💊 فقط نسخه';}
-        else if(u.hasT){bc='#9b59b6';st='📋 فقط جدول';}
-        var date=u.lastTime?new Date(u.lastTime).toLocaleString('fa-IR'):'ثبت نشده';
-        html+='<div class="user-card" style="border-right-color:'+bc+'">';
-        html+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">';
-        html+='<span class="user-card-code">'+escapeHtml(u.code)+'</span>';
-        html+='<span style="font-size:.7em;color:var(--text-muted)">'+escapeHtml(date)+'</span></div>';
-        html+='<div style="display:flex;gap:6px;flex-wrap:wrap;font-size:.75em">';
-        html+='<span class="user-card-badge" style="background:'+(u.hasP?'rgba(52,152,219,.2)':'var(--bg-primary)')+';color:'+(u.hasP?'#3498db':'var(--text-muted)')+'">'+(u.hasP?'✅':'⬜')+' نسخه</span>';
-        html+='<span class="user-card-badge" style="background:'+(u.hasT?'rgba(155,89,182,.2)':'var(--bg-primary)')+';color:'+(u.hasT?'#9b59b6':'var(--text-muted)')+'">'+(u.hasT?'✅':'⬜')+' جدول '+(u.hasT?'('+u.tDays+' روز)':'')+'</span>';
-        html+='<span class="user-card-badge" style="background:rgba(46,204,113,.2);color:#2ecc71;font-weight:700">'+st+'</span>';
-        html+='</div></div>';
-      });
-      container.innerHTML=html;
-    }
-    dashboardData={users:users,tables:tables,messages:messages};
-    if(showAlert)showToast('✅ داشبورد بروز شد');
-  }).catch(function(){
-    var container=document.getElementById('userListContainer');
-    if(container)container.innerHTML='<p style="text-align:center;color:#e74c3c;padding:20px;font-size:.85em">خطا در دریافت اطلاعات</p>';
-  });
-}
-function exportDashboard(){
-  try{
-    var users=dashboardData.users||{},tables=dashboardData.tables||{};
-    var text='📊 گزارش اپ سفیر سلامت حامی\n📅 تاریخ: '+new Date().toLocaleString('fa-IR')+'\n\n';
-    var allCodes=Object.keys(users).concat(Object.keys(tables).filter(function(c){return!users[c];}));
-    text+='👥 کاربران: '+allCodes.length+'\n💊 نسخه‌ها: '+Object.keys(users).length+'\n📋 جدول‌ها: '+Object.keys(tables).length+'\n\n';
-    allCodes.forEach(function(code,i){
-      var presc=users[code],tbl=tables[code];
-      text+=(i+1)+'. کد: '+code+'\n';
-      if(presc)text+='   💊 '+(presc.title||'بدون عنوان')+'\n';
-      if(tbl)text+='   📋 '+((tbl.totalDays)||0)+' روز\n';
-      text+='\n';
-    });
-    var blob=new Blob([text],{type:'text/plain;charset=utf-8'});
-    var url=URL.createObjectURL(blob);
-    var a=document.createElement('a');
-    a.href=url;a.download='report-'+Date.now()+'.txt';a.click();
-    URL.revokeObjectURL(url);
-    showToast('✅ گزارش دانلود شد');
-  }catch(e){showToast('❌ خطا در دانلود','error');}
+function buildAdminEditor(){
+  adminTableColumns = [].concat(tableColumns); // کپی از جدول پیش‌فرض
+  adminTableColumnNames = Object.assign({}, tableColumnNames);
+  adminCurrentTimes = Object.assign({}, currentTimes);
+  adminTotalDays = totalDays;
+  
+  adminFortyDayData = JSON.parse(JSON.stringify(fortyDayData.length ? fortyDayData : generateDefaultTableData()));
+  
+  renderAdminTableEditor(); 
+  renderAdminDayEditor();
 }
 
-/* ============================================================
-   TABLE EDITOR
-   ============================================================ */
-function buildTableEditor(){
-  editingTableColumns=tableColumns.map(function(col){
-    return{originalCol:col,name:tableColumnNames[col]||col,time:currentTimes[col]||'08:00'};
-  });
-  renderTableEditor();
+function generateDefaultTableData() {
+  var arr = [];
+  for(var i=0;i<40;i++){
+    var d={};
+    tableColumns.forEach(function(c){ d[c]=''; });
+    arr.push(d);
+  }
+  return arr;
 }
-function renderTableEditor(){
+
+function renderAdminTableEditor(){
   var container=document.getElementById('tableEditorContainer');
   if(!container)return;
   var html='';
-  editingTableColumns.forEach(function(col,i){
+  adminTableColumns.forEach(function(col,i){
+    var name = adminTableColumnNames[col] || col;
+    var time = adminCurrentTimes[col] || '08:00';
     html+='<div style="display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;background:var(--bg-primary);padding:10px;border-radius:8px;margin-bottom:8px">';
     html+='<label style="font-size:.85em;color:var(--accent);font-weight:700">🏷️</label>';
-    html+='<input type="text" value="'+escapeHtml(col.name)+'" onchange="updateTableEditorName('+i+',this.value)" placeholder="نام وعده" style="background:var(--bg-primary);color:var(--text-primary);border:1px solid #3d5a45;padding:8px;border-radius:6px;font-family:var(--font-family);font-size:.9em;width:100%">';
-    html+='<input type="time" value="'+escapeHtml(col.time)+'" onchange="updateTableEditorTime('+i+',this.value)" style="width:90px;background:var(--bg-primary);color:var(--accent);border:1px solid var(--accent);padding:6px;border-radius:6px;font-family:var(--font-family)">';
+    html+='<input type="text" value="'+escapeHtml(name)+'" onchange="updateAdminColName('+i+',this.value)" style="background:var(--bg-primary);color:var(--text-primary);border:1px solid #3d5a45;padding:8px;border-radius:6px;font-family:var(--font-family);font-size:.9em;width:100%">';
+    html+='<input type="time" value="'+escapeHtml(time)+'" onchange="updateAdminColTime('+i+',this.value)" style="width:90px;background:var(--bg-primary);color:var(--accent);border:1px solid var(--accent);padding:6px;border-radius:6px;font-family:var(--font-family)">';
     html+='</div>';
   });
-  if(editingTableColumns.length>1){
-    editingTableColumns.forEach(function(col,i){
-      html+='<button onclick="removeTableEditorColumn('+i+')" style="width:100%;padding:5px;background:#c0392b;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:.7em;font-weight:700;margin-bottom:6px;font-family:var(--font-family)">🗑️ حذف "'+escapeHtml(col.name)+'"</button>';
-    });
-  }
   container.innerHTML=html;
 }
-function updateTableEditorName(i,val){
-  editingTableColumns[i].name=val;
-  var col=editingTableColumns[i].originalCol;
-  if(tableColumnNames[col]!==undefined)tableColumnNames[col]=val;
-  saveAll();
+function updateAdminColName(i,val){
+  var col = adminTableColumns[i];
+  adminTableColumnNames[col] = val;
 }
-function updateTableEditorTime(i,val){
-  editingTableColumns[i].time=val;
-  var col=editingTableColumns[i].originalCol;
-  if(currentTimes[col]!==undefined)currentTimes[col]=val;
-  saveAll();
-}
-function removeTableEditorColumn(i){
-  if(editingTableColumns.length<=1){showToast('حداقل یک وعده لازم است','error');return;}
-  if(!confirm('وعده "'+editingTableColumns[i].name+'" حذف شود؟'))return;
-  var colToRemove=editingTableColumns[i].originalCol;
-  tableColumns=tableColumns.filter(function(c){return c!==colToRemove;});
-  delete tableColumnNames[colToRemove];delete currentTimes[colToRemove];delete alarmEnabled[colToRemove];
-  fortyDayData.forEach(function(day){delete day[colToRemove];});
-  editingTableColumns.splice(i,1);
-  saveAll();renderTableEditor();renderTable();
-  showToast('✅ وعده حذف شد');
+function updateAdminColTime(i,val){
+  var col = adminTableColumns[i];
+  adminCurrentTimes[col] = val;
 }
 function addTableColumnEditor(){
-  if(editingTableColumns.length>=8){showToast('حداکثر ۸ وعده','warning');return;}
+  if(adminTableColumns.length>=8){showToast('حداکثر ۸ وعده','warning');return;}
   var newCol='c_'+Date.now();
-  editingTableColumns.push({originalCol:newCol,name:'وعده '+(editingTableColumns.length+1),time:'08:00'});
-  tableColumns.push(newCol);
-  tableColumnNames[newCol]='وعده '+editingTableColumns.length;
-  currentTimes[newCol]='08:00';
-  fortyDayData.forEach(function(day){day[newCol]='';});
-  saveAll();renderTableEditor();
-  showToast('✅ وعده جدید اضافه شد');
+  adminTableColumns.push(newCol);
+  adminTableColumnNames[newCol]='وعده '+adminTableColumns.length;
+  adminCurrentTimes[newCol]='08:00';
+  adminFortyDayData.forEach(function(day){day[newCol]='';});
+  renderAdminTableEditor(); renderAdminDayEditor();
 }
 
-/* ============================================================
-   DAY EDITOR
-   ============================================================ */
-function buildDayEditor(){
+function renderAdminDayEditor(){
   var container=document.getElementById('dayEditorContainer');
   if(!container)return;
-  if(currentEditorDay>=totalDays)currentEditorDay=0;
-  var lbl=document.getElementById('editorDayLabel'),
-      prevBtn=document.getElementById('prevDayBtn'),
-      nextBtn=document.getElementById('nextDayBtn');
-  if(lbl)lbl.textContent='روز '+(currentEditorDay+1);
-  if(prevBtn)prevBtn.disabled=currentEditorDay<=0;
-  if(nextBtn)nextBtn.disabled=currentEditorDay>=totalDays-1;
-  var dayData=fortyDayData[currentEditorDay]||{};
+  if(currentEditorDay>=adminTotalDays)currentEditorDay=0;
+  
+  document.getElementById('editorDayLabel').textContent='روز '+(currentEditorDay+1);
+  document.getElementById('prevDayBtn').disabled = currentEditorDay <= 0;
+  document.getElementById('nextDayBtn').disabled = currentEditorDay >= adminTotalDays-1;
+  
+  var dayData = adminFortyDayData[currentEditorDay] || {};
   var html='';
-  tableColumns.forEach(function(col){
-    var label=tableColumnNames[col]||col;
-    var value=(dayData[col]||'');
+  adminTableColumns.forEach(function(col){
+    var label = adminTableColumnNames[col] || col;
+    var value = dayData[col] || '';
     html+='<div class="day-input-box">';
     html+='<label>'+escapeHtml(label)+':</label>';
-    html+='<input type="text" data-col="'+escapeHtml(col)+'" value="'+escapeHtml(value)+'" onchange="updateDayField(this.getAttribute(\'data-col\'),this.value)">';
+    html+='<input type="text" data-col="'+escapeHtml(col)+'" value="'+escapeHtml(value)+'" onchange="updateAdminDayField(this.getAttribute(\'data-col\'),this.value)">';
     html+='</div>';
   });
   container.innerHTML=html;
 }
-function updateDayField(col,value){
-  if(!fortyDayData[currentEditorDay])fortyDayData[currentEditorDay]={};
-  fortyDayData[currentEditorDay][col]=value;
-  saveAll();renderTable();
+function updateAdminDayField(col,value){
+  if(!adminFortyDayData[currentEditorDay])adminFortyDayData[currentEditorDay]={};
+  adminFortyDayData[currentEditorDay][col]=value;
   showToast('✅ ذخیره شد','success',1000);
 }
-function prevEditorDay(){if(currentEditorDay>0){currentEditorDay--;buildDayEditor();}}
-function nextEditorDay(){if(currentEditorDay<totalDays-1){currentEditorDay++;buildDayEditor();}}
+function prevEditorDay(){if(currentEditorDay>0){currentEditorDay--;renderAdminDayEditor();}}
+function nextEditorDay(){if(currentEditorDay<adminTotalDays-1){currentEditorDay++;renderAdminDayEditor();}}
 
-/* ============================================================
-   APPLY TO DAYS
-   ============================================================ */
-function getCurrentFormValues(){
-  var values={},hasValue=false;
-  var inputs=document.querySelectorAll('#dayEditorContainer input[data-col]');
-  for(var i=0;i<inputs.length;i++){
-    var col=inputs[i].getAttribute('data-col');
-    values[col]=inputs[i].value;
-    if(inputs[i].value&&inputs[i].value.trim()!=='')hasValue=true;
-  }
-  return{values:values,hasValue:hasValue};
-}
 function applyToDays(type){
-  try{
-    var form=getCurrentFormValues();
-    if(!form.hasValue){alert('❌ ابتدا فرم را پر کنید!');return;}
-    var targets=[],typeName='';
-    if(type==='all'){for(var i=0;i<totalDays;i++)targets.push(i);typeName='همه روزها';}
-    else if(type==='odd'){for(var j=0;j<totalDays;j+=2)targets.push(j);typeName='روزهای فرد';}
-    else if(type==='even'){for(var k=1;k<totalDays;k+=2)targets.push(k);typeName='روزهای زوج';}
-    if(!confirm('محتوای وارد شده روی '+targets.length+' '+typeName+' اعمال شود؟'))return;
-    targets.forEach(function(idx){
-      if(!fortyDayData[idx])fortyDayData[idx]={};
-      tableColumns.forEach(function(col){fortyDayData[idx][col]=form.values[col]||'';});
-    });
-    saveAll();renderTable();updatePreview();
-    showToast('✅ محتوا روی '+targets.length+' '+typeName+' اعمال شد');
-  }catch(e){alert('❌ خطا: '+e.message);}
+  var form = {}, hasValue = false;
+  var inputs = document.querySelectorAll('#dayEditorContainer input[data-col]');
+  for(var i=0;i<inputs.length;i++){
+    var col = inputs[i].getAttribute('data-col');
+    form[col] = inputs[i].value;
+    if(inputs[i].value && inputs[i].value.trim() !== '') hasValue = true;
+  }
+  if(!hasValue){ alert('❌ ابتدا فرم روز جاری را پر کنید!'); return; }
+  
+  var targets=[], typeName='';
+  if(type==='all'){for(var i=0;i<adminTotalDays;i++)targets.push(i);typeName='همه روزها';}
+  else if(type==='odd'){for(var j=0;j<adminTotalDays;j+=2)targets.push(j);typeName='روزهای فرد';}
+  else if(type==='even'){for(var k=1;k<adminTotalDays;k+=2)targets.push(k);typeName='روزهای زوج';}
+  
+  if(!confirm('محتوا روی '+targets.length+' '+typeName+' اعمال شود؟'))return;
+  targets.forEach(function(idx){
+    if(!adminFortyDayData[idx]) adminFortyDayData[idx]={};
+    adminTableColumns.forEach(function(col){ adminFortyDayData[idx][col] = form[col] || ''; });
+  });
+  showToast('✅ اعمال شد');
 }
 
-/* ============================================================
-   PREVIEW
-   ============================================================ */
+// ارسال جدول به کاربر
+async function sendTableToUser(){
+  var ce=document.getElementById('targetUserCodeTable');
+  if(!ce)return;
+  var code=ce.value.trim().toUpperCase();
+  if(!code||code.length<3){showToast('کد کاربر معتبر وارد کنید','error');return;}
+  
+  if(!confirm('جدول فعلی برای کاربر '+code+' ارسال شود؟'))return;
+  showToast('⏳ در حال ارسال...','warning');
+  
+  var snapshot = {
+    fortyDayData: JSON.parse(JSON.stringify(adminFortyDayData)),
+    tableColumns: [].concat(adminTableColumns),
+    tableColumnNames: Object.assign({}, adminTableColumnNames),
+    currentTimes: Object.assign({}, adminCurrentTimes),
+    totalDays: adminTotalDays,
+    sentAt: Date.now()
+  };
+  
+  var userData = await getUserRecord(code) || {};
+  userData.tableData = snapshot;
+  
+  var ok = await saveUserRecord(code, userData);
+  if(ok){ showToast('✅ جدول برای '+code+' ارسال شد'); loadAdminRecent(); loadDashboard(false); }
+  else showToast('❌ خطا','error');
+}
+
+async function sendTableToAll(){
+  if(!confirm('⚠️ جدول برای همه کاربران ارسال شود؟'))return;
+  showToast('⏳ در حال ارسال به همه...','warning');
+  
+  var snapshot = {
+    fortyDayData: JSON.parse(JSON.stringify(adminFortyDayData)),
+    tableColumns: [].concat(adminTableColumns),
+    tableColumnNames: Object.assign({}, adminTableColumnNames),
+    currentTimes: Object.assign({}, adminCurrentTimes),
+    totalDays: adminTotalDays,
+    sentAt: Date.now()
+  };
+  
+  var allUsers = await getAllUsersFromDB();
+  if(allUsers.length === 0) { showToast('کاربری یافت نشد','error'); return; }
+  
+  var count = 0;
+  for(var i=0; i<allUsers.length; i++) {
+    var u = allUsers[i];
+    var data = u.data || {};
+    data.tableData = snapshot;
+    var ok = await saveUserRecord(u.code, data);
+    if(ok) count++;
+  }
+  showToast('✅ جدول برای '+count+' کاربر ارسال شد');
+  loadAdminRecent();
+}
+
+// پیش‌نمایش
 function togglePreview(){
   previewVisible=!previewVisible;
   var c=document.getElementById('previewContainer'),b=document.getElementById('previewToggleBtn');
-  if(!c||!b)return;
-  if(previewVisible){c.style.display='block';b.textContent='🔽 مخفی کردن جدول';updatePreview();}
+  if(previewVisible){c.style.display='block';b.textContent='🔽 مخفی کردن';updatePreview();}
   else{c.style.display='none';b.textContent='👁️ نمایش جدول';}
 }
 function updatePreview(){
-  var thead=document.getElementById('previewTableHead'),
-      tbody=document.getElementById('previewTableBody');
-  if(!thead||!tbody)return;
+  var thead=document.getElementById('previewTableHead'), tbody=document.getElementById('previewTableBody');
   var hh='<tr><th>روز</th>';
-  tableColumns.forEach(function(c){hh+='<th>'+escapeHtml(tableColumnNames[c]||c)+'</th>';});
-  hh+='</tr>';
-  thead.innerHTML=hh;
+  adminTableColumns.forEach(function(c){hh+='<th>'+escapeHtml(adminTableColumnNames[c]||c)+'</th>';});
+  hh+='</tr>'; thead.innerHTML=hh;
+  
   var html='';
-  for(var i=0;i<totalDays;i++){
-    var d=fortyDayData[i]||{};
+  for(var i=0;i<adminTotalDays;i++){
+    var d=adminFortyDayData[i]||{};
     html+='<tr><td style="color:var(--accent);font-weight:700">'+(i+1)+'</td>';
-    tableColumns.forEach(function(col){html+='<td>'+escapeHtml(d[col]||'-')+'</td>';});
+    adminTableColumns.forEach(function(col){html+='<td>'+escapeHtml(d[col]||'-')+'</td>';});
     html+='</tr>';
   }
   tbody.innerHTML=html;
-  var pc=document.getElementById('previewCount'),pcol=document.getElementById('previewCols');
-  if(pc)pc.textContent=totalDays;
-  if(pcol)pcol.textContent=tableColumns.length;
+  document.getElementById('previewCount').textContent=adminTotalDays;
+  document.getElementById('previewCols').textContent=adminTableColumns.length;
 }
 
 /* ============================================================
-   ADMIN RECENT
+   DASHBOARD & MESSAGES & OTHERS
    ============================================================ */
-function loadAdminRecent(){
-  getRemoteRecord().then(function(data){
-    var record=getRecord(data.record);
-    var html='';
-    var userEntries=Object.entries(record.users||{}).slice(-3).reverse();
-    if(userEntries.length>0){
-      html+='<div style="color:var(--accent);font-weight:700;margin-bottom:5px">💊 آخرین نسخه‌ها:</div>';
-      userEntries.forEach(function(entry){
-        html+='📤 <strong>'+escapeHtml(entry[0])+'</strong> - '+escapeHtml(entry[1].title||'بدون عنوان')+'<br>';
-      });
-    }
-    var msgEntries=(record.messages||[]).slice(-3).reverse();
-    if(msgEntries.length>0){
-      html+='<div style="color:var(--accent);font-weight:700;margin:10px 0 5px">📢 آخرین پیام‌ها:</div>';
-      msgEntries.forEach(function(msg){
-        html+='📨 <strong>'+escapeHtml(msg.title)+'</strong> → '+escapeHtml(msg.target==='all'?'همه':msg.target)+'<br>';
-      });
-    }
-    if(!html)html='هنوز ارسالی انجام نشده...';
-    var el=document.getElementById('adminRecentList');
-    if(el)el.innerHTML=html;
-  }).catch(function(){});
+async function loadDashboard(showAlert){
+  var allUsers = await getAllUsersFromDB();
+  var globalData = await getGlobalData();
+  
+  var usersWithP = 0, usersWithT = 0;
+  allUsers.forEach(function(u){
+    if(u.data && u.data.prescription) usersWithP++;
+    if(u.data && u.data.tableData) usersWithT++;
+  });
+  
+  document.getElementById('statUsers').textContent = allUsers.length;
+  document.getElementById('statPrescriptions').textContent = usersWithP;
+  document.getElementById('statTables').textContent = usersWithT;
+  document.getElementById('statMessages').textContent = (globalData.messages||[]).length;
+  
+  var container = document.getElementById('userListContainer');
+  document.getElementById('userListCount').textContent = allUsers.length + ' نفر';
+  
+  if(allUsers.length === 0){
+    container.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:20px;">هنوز کاربری ثبت نشده</p>';
+  } else {
+    var html = '';
+    allUsers.forEach(function(u){
+      var hasP = !!(u.data && u.data.prescription);
+      var hasT = !!(u.data && u.data.tableData);
+      var bc = '#f4d03f';
+      if(hasP && hasT) bc = '#2ecc71';
+      else if(hasP) bc = '#3498db';
+      else if(hasT) bc = '#9b59b6';
+      
+      html += '<div class="user-card" style="border-right-color:'+bc+'">';
+      html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">';
+      html += '<span class="user-card-code">'+escapeHtml(u.code)+'</span></div>';
+      html += '<div style="display:flex;gap:6px;flex-wrap:wrap;font-size:.75em">';
+      html += '<span class="user-card-badge" style="background:'+(hasP?'rgba(52,152,219,.2)':'var(--bg-primary)')+';color:'+(hasP?'#3498db':'var(--text-muted)')+'">'+(hasP?'✅':'⬜')+' نسخه</span>';
+      html += '<span class="user-card-badge" style="background:'+(hasT?'rgba(155,89,182,.2)':'var(--bg-primary)')+';color:'+(hasT?'#9b59b6':'var(--text-muted)')+'">'+(hasT?'✅':'⬜')+' جدول</span>';
+      html += '</div></div>';
+    });
+    container.innerHTML = html;
+  }
+  if(showAlert) showToast('✅ داشبورد بروز شد');
 }
 
-/* ============================================================
-   MESSAGES
-   ============================================================ */
+async function loadAdminRecent(){
+  var globalData = await getGlobalData();
+  var allUsers = await getAllUsersFromDB();
+  var html = '';
+  
+  var recentP = [];
+  allUsers.forEach(function(u){
+    if(u.data && u.data.prescription) {
+      recentP.push({code: u.code, title: u.data.prescription.title, time: u.data.prescription.sentAt});
+    }
+  });
+  recentP.sort(function(a,b){return b.time - a.time;});
+  if(recentP.length > 0) {
+    html += '<div style="color:var(--accent);font-weight:700;margin-bottom:5px">💊 آخرین نسخه‌ها:</div>';
+    recentP.slice(0,3).forEach(function(p){
+      html += '📤 <strong>'+escapeHtml(p.code)+'</strong> - '+escapeHtml(p.title)+'<br>';
+    });
+  }
+  
+  var msgs = (globalData.messages||[]).slice(-3).reverse();
+  if(msgs.length > 0) {
+    html += '<div style="color:var(--accent);font-weight:700;margin:10px 0 5px">📢 آخرین پیام‌ها:</div>';
+    msgs.forEach(function(m){
+      html += '📨 <strong>'+escapeHtml(m.title)+'</strong><br>';
+    });
+  }
+  
+  if(!html) html = 'هنوز ارسالی انجام نشده...';
+  document.getElementById('adminRecentList').innerHTML = html;
+}
+
 function loadMyMessages(showAlert){
-  getRemoteRecord().then(function(data){
-    var record=getRecord(data.record);
-    var messages=record.messages||[];
+  getGlobalData().then(function(data){
+    var messages=data.messages||[];
     var readIds=safeParseJSON(safeGetLS('readMsgIds','[]'),[]);
     var hiddenIds=safeParseJSON(safeGetLS('hiddenMsgIds','[]'),[]);
     var myMessages=messages.filter(function(m){
       return(m.target==='all'||m.target===userId)&&hiddenIds.indexOf(m.id)===-1;
     }).reverse();
+    
     var list=document.getElementById('messagesList');
     if(!list)return;
     if(myMessages.length===0){
       list.innerHTML='<p style="text-align:center;color:var(--text-muted);padding:20px">هیچ پیامی نیست</p>';
-      var b=document.getElementById('msgBadge');
-      if(b)b.style.display='none';
+      document.getElementById('msgBadge').style.display='none';
       return;
     }
     var html='',unread=0;
@@ -1530,23 +1513,20 @@ function loadMyMessages(showAlert){
       var isRead=readIds.indexOf(msg.id)>-1;
       if(!isRead)unread++;
       var date=new Date(msg.sentAt).toLocaleString('fa-IR');
-      var tgt=msg.target==='all'?'📢 عمومی':'✉️ اختصاصی';
       html+='<div class="msg-item '+(isRead?'':'unread')+'" data-msg-id="'+escapeHtml(msg.id)+'">';
       html+='<button class="msg-close" onclick="deleteMessage(\''+escapeHtml(msg.id)+'\')">✕</button>';
       html+='<div class="msg-item-title">'+escapeHtml(msg.title)+'</div>';
-      html+='<div class="msg-item-date">'+escapeHtml(date)+' • '+tgt+'</div>';
+      html+='<div class="msg-item-date">'+escapeHtml(date)+'</div>';
       html+='<div class="msg-item-content">'+escapeHtml(msg.content)+'</div></div>';
     });
     list.innerHTML=html;
     var b2=document.getElementById('msgBadge');
-    if(unread>0&&b2){b2.style.display='flex';b2.textContent=unread;}
-    else if(b2)b2.style.display='none';
+    if(unread>0){b2.style.display='flex';b2.textContent=unread;}
+    else b2.style.display='none';
+    
     var newRead=readIds.concat(myMessages.map(function(m){return m.id;}));
     safeSetLS('readMsgIds',JSON.stringify(newRead.filter(function(v,i,a){return a.indexOf(v)===i;})));
     if(showAlert)showToast('✅ پیام‌ها بروز شد');
-  }).catch(function(){
-    var list=document.getElementById('messagesList');
-    if(list)list.innerHTML='<p style="text-align:center;color:#e74c3c;padding:20px">خطا در دریافت پیام‌ها</p>';
   });
 }
 function deleteMessage(msgId){
@@ -1559,9 +1539,8 @@ function deleteMessage(msgId){
   showToast('✅ پیام حذف شد');
 }
 function checkNewMessages(){
-  getRemoteRecord().then(function(data){
-    var record=getRecord(data.record);
-    var messages=record.messages||[];
+  getGlobalData().then(function(data){
+    var messages=data.messages||[];
     var readIds=safeParseJSON(safeGetLS('readMsgIds','[]'),[]);
     var hiddenIds=safeParseJSON(safeGetLS('hiddenMsgIds','[]'),[]);
     var shownIds=safeParseJSON(safeGetLS('shownPopupIds','[]'),[]);
@@ -1570,20 +1549,16 @@ function checkNewMessages(){
         readIds.indexOf(m.id)===-1&&hiddenIds.indexOf(m.id)===-1&&shownIds.indexOf(m.id)===-1;
     });
     if(newMsg){
-      var pt=document.getElementById('msgPopupTitle'),
-          ptx=document.getElementById('msgPopupText'),
-          ov=document.getElementById('msgPopupOverlay');
-      if(pt)pt.textContent='📢 '+newMsg.title;
-      if(ptx)ptx.textContent=newMsg.content;
-      if(ov)ov.classList.add('active');
+      document.getElementById('msgPopupTitle').textContent='📢 '+newMsg.title;
+      document.getElementById('msgPopupText').textContent=newMsg.content;
+      document.getElementById('msgPopupOverlay').classList.add('active');
       safeSetLS('currentMsgId',newMsg.id);
     }
     loadMyMessages();
-  }).catch(function(){});
+  });
 }
 function closeMsgPopup(){
-  var ov=document.getElementById('msgPopupOverlay');
-  if(ov)ov.classList.remove('active');
+  document.getElementById('msgPopupOverlay').classList.remove('active');
   var msgId=safeGetLS('currentMsgId',null);
   if(msgId){
     var shown=safeParseJSON(safeGetLS('shownPopupIds','[]'),[]);
@@ -1593,13 +1568,10 @@ function closeMsgPopup(){
 }
 
 /* ============================================================
-   HISTORY
+   HISTORY & SETTINGS
    ============================================================ */
 function showHistory(type){
-  var modal=document.getElementById('historyModal'),
-      title=document.getElementById('historyTitle'),
-      list=document.getElementById('historyList');
-  if(!modal||!title||!list)return;
+  var modal=document.getElementById('historyModal'),title=document.getElementById('historyTitle'),list=document.getElementById('historyList');
   if(type==='prescriptions'){
     title.textContent='💊 تاریخچه نسخه‌ها';
     var archive=safeParseJSON(safeGetLS('prescriptionHistory','[]'),[]);
@@ -1612,50 +1584,34 @@ function showHistory(type){
         html+='<div class="history-item-preview">'+escapeHtml((info.content||'').substring(0,100))+'</div></div>';
       }catch(e){}
     }
-    if(archive.length>0){
-      html+='<div style="color:var(--accent);font-size:.8em;font-weight:700;margin:10px 0 8px">📚 نسخه‌های قبلی:</div>';
-      archive.forEach(function(item,i){
-        html+='<div class="history-item" onclick="restorePrescription('+i+')">';
-        html+='<div class="history-item-title">'+escapeHtml(item.title)+'</div>';
-        html+='<div class="history-item-date">📅 '+escapeHtml(new Date(item.archivedAt).toLocaleString('fa-IR'))+'</div>';
-        html+='<div class="history-item-preview">'+escapeHtml((item.content||'').substring(0,100))+'</div></div>';
-      });
-    }else if(!current){
-      html='<p style="text-align:center;color:var(--text-muted);padding:20px">هیچ نسخه‌ای نیست</p>';
-    }
-    list.innerHTML=html;
+    archive.forEach(function(item,i){
+      html+='<div class="history-item" onclick="restorePrescription('+i+')">';
+      html+='<div class="history-item-title">'+escapeHtml(item.title)+'</div>';
+      html+='<div class="history-item-preview">'+escapeHtml((item.content||'').substring(0,100))+'</div></div>';
+    });
+    list.innerHTML=html || '<p style="text-align:center;padding:20px">خالی</p>';
   }else{
     title.textContent='📊 تاریخچه جدول‌ها';
     var archive2=safeParseJSON(safeGetLS('tableHistory','[]'),[]);
-    var html2='<div class="history-item active-history"><div class="history-item-title"><span class="history-badge">فعال</span>جدول فعلی ('+totalDays+' روز)</div></div>';
-    if(archive2.length>0){
-      archive2.forEach(function(item,i){
-        html2+='<div class="history-item" onclick="restoreTable('+i+')">';
-        html2+='<div class="history-item-title">جدول '+item.totalDays+' روزه</div>';
-        html2+='<div class="history-item-date">📅 '+escapeHtml(new Date(item.archivedAt).toLocaleString('fa-IR'))+'</div></div>';
-      });
-    }else{
-      html2+='<p style="text-align:center;color:var(--text-muted);padding:20px;font-size:.85em">هیچ جدول قبلی نیست</p>';
-    }
+    var html2='<div class="history-item active-history"><div class="history-item-title"><span class="history-badge">فعال</span>جدول فعلی</div></div>';
+    archive2.forEach(function(item,i){
+      html2+='<div class="history-item" onclick="restoreTable('+i+')"><div class="history-item-title">جدول '+item.totalDays+' روزه</div></div>';
+    });
     list.innerHTML=html2;
   }
   modal.classList.add('active');
 }
-function closeHistory(){
-  var m=document.getElementById('historyModal');if(m)m.classList.remove('active');
-}
+function closeHistory(){document.getElementById('historyModal').classList.remove('active');}
 function restorePrescription(index){
-  if(!confirm('این نسخه جایگزین نسخه فعلی شود؟'))return;
+  if(!confirm('این نسخه جایگزین شود؟'))return;
   var archive=safeParseJSON(safeGetLS('prescriptionHistory','[]'),[]);
   var item=archive[index];if(!item)return;
   safeSetLS('lastPrescription',JSON.stringify({title:item.title,content:item.content,sentAt:Date.now()}));
-  archive.splice(index,1);
-  safeSetLS('prescriptionHistory',JSON.stringify(archive));
+  archive.splice(index,1);safeSetLS('prescriptionHistory',JSON.stringify(archive));
   checkRegimeReceive();showPage('pageRegime');closeHistory();
-  showToast('✅ نسخه بازیابی شد');
 }
 function restoreTable(index){
-  if(!confirm('این جدول جایگزین جدول فعلی شود؟'))return;
+  if(!confirm('این جدول جایگزین شود؟'))return;
   var archive=safeParseJSON(safeGetLS('tableHistory','[]'),[]);
   var item=archive[index];if(!item)return;
   fortyDayData=JSON.parse(JSON.stringify(item.fortyDayData));
@@ -1663,199 +1619,54 @@ function restoreTable(index){
   tableColumnNames=Object.assign({},item.tableColumnNames);
   currentTimes=Object.assign({},item.currentTimes);
   totalDays=item.totalDays;
-  saveAll();renderTable();
-  archive.splice(index,1);
-  safeSetLS('tableHistory',JSON.stringify(archive));
-  closeHistory();showToast('✅ جدول بازیابی شد');
+  saveAll();renderTable();updateTodayShowcase();
+  archive.splice(index,1);safeSetLS('tableHistory',JSON.stringify(archive));
+  closeHistory();
 }
-var hm=document.getElementById('historyModal');
-if(hm)hm.addEventListener('click',function(e){if(e.target===this)closeHistory();});
 
 function editMyRegime(){
-  var el=document.getElementById('regimeDisplay');if(!el)return;
+  var el=document.getElementById('regimeDisplay');
   if(el.contentEditable==='true'){
-    el.contentEditable='false';
-    el.style.border='1px solid rgba(244,208,63,.2)';
-    showToast('✅ ویرایش ذخیره شد');
-    safeSetLS('myRegimeText',el.innerHTML);
+    el.contentEditable='false';el.style.border='1px solid rgba(244,208,63,.2)';showToast('✅ ذخیره شد');
   }else{
-    el.contentEditable='true';
-    el.style.border='2px solid var(--accent)';
-    el.focus();showToast('✏️ ویرایش کنید','warning');
+    el.contentEditable='true';el.style.border='2px solid var(--accent)';el.focus();showToast('✏️ ویرایش کنید','warning');
   }
 }
 
-/* ============================================================
-   ALARM
-   ============================================================ */
+/* ALARM */
 function renderAlarmSettings(){
   var container=document.getElementById('alarmSettingsContainer');
-  if(!container)return;
   var html='';
   tableColumns.forEach(function(col){
-    var name=tableColumnNames[col]||col;
-    var time=currentTimes[col]||'08:00';
-    var enabled=alarmEnabled[col]!==false;
-    html+='<div class="alarm-row">';
-    html+='<label>'+escapeHtml(name)+'</label>';
+    var name=tableColumnNames[col]||col, time=currentTimes[col]||'08:00', enabled=alarmEnabled[col]!==false;
+    html+='<div class="alarm-row"><label>'+escapeHtml(name)+'</label>';
     html+='<input type="time" value="'+escapeHtml(time)+'" onchange="updateAlarmTime(\''+escapeHtml(col)+'\',this.value)">';
-    html+='<button class="toggle-btn '+(enabled?'active':'')+'" onclick="toggleAlarmFor(\''+escapeHtml(col)+'\',this)"></button>';
-    html+='</div>';
+    html+='<button class="toggle-btn '+(enabled?'active':'')+'" onclick="toggleAlarmFor(\''+escapeHtml(col)+'\',this)"></button></div>';
   });
   container.innerHTML=html;
 }
 function updateAlarmTime(col,time){currentTimes[col]=time;saveAll();}
-function toggleAlarmFor(col,btn){
-  var current=alarmEnabled[col]!==false;
-  alarmEnabled[col]=!current;
-  btn.classList.toggle('active',!current);
-  if(alarmActive)scheduleAlarms();
-}
-function saveAlarmSettings(){
-  saveAll();
-  if(alarmActive)scheduleAlarms();
-  showToast('✅ تنظیمات هشدار ذخیره شد');
-}
-function testAlarmSound(){
-  unlockAudio();playAlarmSound();
-  setTimeout(stopAlarmSound,3000);
-  showToast('🔊 تست صدا');
-}
+function toggleAlarmFor(col,btn){var c=alarmEnabled[col]!==false;alarmEnabled[col]=!c;btn.classList.toggle('active',!c);if(alarmActive)scheduleAlarms();}
+function saveAlarmSettings(){saveAll();if(alarmActive)scheduleAlarms();showToast('✅ ذخیره شد');}
+function testAlarmSound(){unlockAudio();playAlarmSound();setTimeout(stopAlarmSound,3000);showToast('🔊 تست');}
 function clearTimers(){alarmTimers.forEach(function(t){clearTimeout(t);});alarmTimers=[];}
-function msUntil(t){
-  var p=t.split(':'),h=parseInt(p[0]),m=parseInt(p[1]);
-  var now=new Date(),target=new Date(now);
-  target.setHours(h,m,0,0);
-  if(target<=now)target.setDate(target.getDate()+1);
-  return target.getTime()-now.getTime();
-}
-function unlockAudio(){
-  if(audioUnlocked)return true;
-  try{
-    audioContext=new(window.AudioContext||window.webkitAudioContext)();
-    if(audioContext.state==='suspended')audioContext.resume();
-    var osc=audioContext.createOscillator(),g=audioContext.createGain();
-    osc.connect(g);g.connect(audioContext.destination);
-    g.gain.setValueAtTime(0,audioContext.currentTime);
-    osc.start(audioContext.currentTime);osc.stop(audioContext.currentTime+.1);
-    audioUnlocked=true;return true;
-  }catch(e){return false;}
-}
-function scheduleAlarms(){
-  clearTimers();
-  if(!alarmActive)return;
-  var td=fortyDayData[getCurrentDayAuto()]||{};
-  tableColumns.forEach(function(col){
-    if(alarmEnabled[col]===false)return;
-    var time=currentTimes[col],name=td[col]||'';
-    if(time&&name&&name!=='❌'){
-      var ms=msUntil(time);
-      if(ms>0&&ms<86400000){
-        alarmTimers.push(setTimeout(function(){
-          triggerAlarm({name:name,type:tableColumnNames[col]});
-          setTimeout(scheduleAlarms,60000);
-        },ms));
-      }
-    }
-  });
-}
-function triggerAlarm(a){
-  var msg=document.getElementById('alarmMessage');
-  if(msg)msg.textContent='⏰ '+a.type+': '+a.name;
-  var ov=document.getElementById('alarmOverlay');
-  if(ov)ov.classList.add('active');
-  playAlarmSound();
-  if(navigator.vibrate)navigator.vibrate([500,200,500,200,500]);
-}
-function playAlarmSound(){
-  stopAlarmSound();
-  if(!audioUnlocked)unlockAudio();
-  try{
-    if(!audioContext||audioContext.state==='suspended'){
-      audioContext=new(window.AudioContext||window.webkitAudioContext)();
-      if(audioContext.state==='suspended')audioContext.resume();
-    }
-    function beep(){
-      if(!audioContext||audioContext.state!=='running')return;
-      var o=audioContext.createOscillator(),g=audioContext.createGain();
-      o.connect(g);g.connect(audioContext.destination);
-      o.type='sine';o.frequency.setValueAtTime(880,audioContext.currentTime);
-      g.gain.setValueAtTime(0,audioContext.currentTime);
-      g.gain.linearRampToValueAtTime(.5,audioContext.currentTime+.05);
-      g.gain.linearRampToValueAtTime(0,audioContext.currentTime+.5);
-      o.start(audioContext.currentTime);o.stop(audioContext.currentTime+.5);
-    }
-    beep();alarmSoundInterval=setInterval(beep,700);
-  }catch(e){}
-}
-function stopAlarmSound(){
-  if(alarmSoundInterval){clearInterval(alarmSoundInterval);alarmSoundInterval=null;}
-  if(audioContext){
-    try{if(audioContext.state!=='closed')audioContext.close();}catch(e){}
-    audioContext=null;audioUnlocked=false;
-  }
-}
-function stopAlarm(){
-  var ov=document.getElementById('alarmOverlay');
-  if(ov)ov.classList.remove('active');
-  stopAlarmSound();
-  if(navigator.vibrate)navigator.vibrate(0);
-}
-function snoozeAlarm(){
-  stopAlarm();
-  setTimeout(function(){if(alarmActive)triggerAlarm({name:'یادآوری',type:'🔔'});},600000);
-}
-function activateAlarms(){
-  unlockAudio();
-  if('Notification'in window&&Notification.permission==='default'){
-    try{Notification.requestPermission();}catch(e){}
-  }
-  if(alarmActive){
-    alarmActive=false;clearTimers();
-    var st=document.getElementById('statusText');
-    if(st)st.textContent='⏸ غیرفعال';
-    showToast('آلارم‌ها غیرفعال شدند','warning');return;
-  }
-  alarmActive=true;scheduleAlarms();
-  var st2=document.getElementById('statusText');
-  if(st2)st2.textContent='✅ فعال';
-  showToast('✅ آلارم‌ها فعال شدند');
-  setTimeout(function(){playAlarmSound();setTimeout(stopAlarmSound,2000);},100);
-}
+function msUntil(t){var p=t.split(':'),h=parseInt(p[0]),m=parseInt(p[1]),now=new Date(),target=new Date(now);target.setHours(h,m,0,0);if(target<=now)target.setDate(target.getDate()+1);return target.getTime()-now.getTime();}
+function unlockAudio(){if(audioUnlocked)return true;try{audioContext=new(window.AudioContext||window.webkitAudioContext)();if(audioContext.state==='suspended')audioContext.resume();var osc=audioContext.createOscillator(),g=audioContext.createGain();osc.connect(g);g.connect(audioContext.destination);g.gain.setValueAtTime(0,audioContext.currentTime);osc.start(audioContext.currentTime);osc.stop(audioContext.currentTime+.1);audioUnlocked=true;return true;}catch(e){return false;}}
+function scheduleAlarms(){clearTimers();if(!alarmActive)return;var td=fortyDayData[getCurrentDayAuto()]||{};tableColumns.forEach(function(col){if(alarmEnabled[col]===false)return;var time=currentTimes[col],name=td[col]||'';if(time&&name&&name!=='❌'){var ms=msUntil(time);if(ms>0&&ms<86400000){alarmTimers.push(setTimeout(function(){triggerAlarm({name:name,type:tableColumnNames[col]});setTimeout(scheduleAlarms,60000);},ms));}}});}
+function triggerAlarm(a){document.getElementById('alarmMessage').textContent='⏰ '+a.type+': '+a.name;document.getElementById('alarmOverlay').classList.add('active');playAlarmSound();if(navigator.vibrate)navigator.vibrate([500,200,500,200,500]);}
+function playAlarmSound(){stopAlarmSound();if(!audioUnlocked)unlockAudio();try{if(!audioContext||audioContext.state==='suspended'){audioContext=new(window.AudioContext||window.webkitAudioContext)();if(audioContext.state==='suspended')audioContext.resume();}function beep(){if(!audioContext||audioContext.state!=='running')return;var o=audioContext.createOscillator(),g=audioContext.createGain();o.connect(g);g.connect(audioContext.destination);o.type='sine';o.frequency.setValueAtTime(880,audioContext.currentTime);g.gain.setValueAtTime(0,audioContext.currentTime);g.gain.linearRampToValueAtTime(.5,audioContext.currentTime+.05);g.gain.linearRampToValueAtTime(0,audioContext.currentTime+.5);o.start(audioContext.currentTime);o.stop(audioContext.currentTime+.5);}beep();alarmSoundInterval=setInterval(beep,700);}catch(e){}}
+function stopAlarmSound(){if(alarmSoundInterval){clearInterval(alarmSoundInterval);alarmSoundInterval=null;}if(audioContext){try{if(audioContext.state!=='closed')audioContext.close();}catch(e){}audioContext=null;audioUnlocked=false;}}
+function stopAlarm(){document.getElementById('alarmOverlay').classList.remove('active');stopAlarmSound();if(navigator.vibrate)navigator.vibrate(0);}
+function snoozeAlarm(){stopAlarm();setTimeout(function(){if(alarmActive)triggerAlarm({name:'یادآوری',type:'🔔'});},600000);}
+function activateAlarms(){unlockAudio();if('Notification'in window&&Notification.permission==='default'){try{Notification.requestPermission();}catch(e){}}if(alarmActive){alarmActive=false;clearTimers();document.getElementById('statusText').textContent='⏸ غیرفعال';return;}alarmActive=true;scheduleAlarms();document.getElementById('statusText').textContent='✅ فعال';setTimeout(function(){playAlarmSound();setTimeout(stopAlarmSound,2000);},100);}
 
-/* ============================================================
-   DATA
-   ============================================================ */
-var defaultHerbProperties={
-  "روغن بادام شیرین":"تقویت مغز و اعصاب، رفع خشکی پوست",
-  "دمنوش کاسنی":"تصفیه خون، تقویت کبد، ضد التهاب",
-  "چای آلبالو":"ضد التهاب مفاصل، خواب‌آور طبیعی",
-  "هل":"تقویت معده، ضد نفخ",
-  "دمنوش ۵ گیاه":"لاغری و چربی‌سوزی، سم‌زدایی",
-  "چای سیاه و وانیل":"انرژی، آنتی‌اکسیدان، تقویت قلب"
-};
-var herbProperties={};
-var tableColumns=['oil','breakfast','evening','dinner'];
-var tableColumnNames={oil:'💧 ناشتا',breakfast:'☀️ صبح',evening:'🌅 عصر',dinner:'🌙 شب'};
-var currentTimes={oil:"06:00",breakfast:"08:00",evening:"17:00",dinner:"21:00"};
-var totalDays=40,fortyDayData=[];
-var viewMode="all",fontSize="medium",fontFamily="Vazirmatn";
-var showDate=false,showWeekday=false,showPast=true;
+/* DATA */
+var defaultHerbProperties={"روغن بادام شیرین":"تقویت مغز و اعصاب","دمنوش کاسنی":"تصفیه خون","چای آلبالو":"ضد التهاب","هل":"ضد نفخ","دمنوش ۵ گیاه":"لاغری","چای سیاه و وانیل":"انرژی"};
+var herbProperties={},tableColumns=['oil','breakfast','evening','dinner'],tableColumnNames={oil:'💧 ناشتا',breakfast:'☀️ صبح',evening:'🌅 عصر',dinner:'🌙 شب'},currentTimes={oil:"06:00",breakfast:"08:00",evening:"17:00",dinner:"21:00"};
+var totalDays=40,fortyDayData=[],viewMode="all",fontSize="medium",fontFamily="Vazirmatn",showDate=false,showWeekday=false,showPast=true;
+var persianMonths=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'],weekdays=['شنبه','یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه'];
 
-var persianMonths=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
-var weekdays=['شنبه','یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه'];
-
-function gregorianToJalali(gDate){
-  var g=new Date(gDate),gy=g.getFullYear(),gm=g.getMonth()+1,gd=g.getDate();
-  var gdm=[0,31,59,90,120,151,181,212,243,273,304,334],gy2=gm>2?gy+1:gy;
-  var days=355666+365*gy+Math.floor((gy2+3)/4)-Math.floor((gy2+99)/100)+Math.floor((gy2+399)/400)+gd+gdm[gm-1];
-  var jy=-1595+33*Math.floor(days/12053);days%=12053;
-  jy+=4*Math.floor(days/1461);days%=1461;
-  if(days>365){jy+=Math.floor((days-1)/365);days=(days-1)%365;}
-  var jm=days<186?1+Math.floor(days/31):7+Math.floor((days-186)/30);
-  var jd=days<186?1+days%31:1+(days-186)%30;
-  return{y:jy,m:jm,d:jd};
-}
+function gregorianToJalali(gDate){var g=new Date(gDate),gy=g.getFullYear(),gm=g.getMonth()+1,gd=g.getDate();var gdm=[0,31,59,90,120,151,181,212,243,273,304,334],gy2=gm>2?gy+1:gy;var days=355666+365*gy+Math.floor((gy2+3)/4)-Math.floor((gy2+99)/100)+Math.floor((gy2+399)/400)+gd+gdm[gm-1];var jy=-1595+33*Math.floor(days/12053);days%=12053;jy+=4*Math.floor(days/1461);days%=1461;if(days>365){jy+=Math.floor((days-1)/365);days=(days-1)%365;}var jm=days<186?1+Math.floor(days/31):7+Math.floor((days-186)/30);var jd=days<186?1+days%31:1+(days-186)%30;return{y:jy,m:jm,d:jd};}
 function formatJalali(j){return j.y+'/'+String(j.m).padStart(2,'0')+'/'+String(j.d).padStart(2,'0');}
 function formatJalaliFull(j){return j.d+' '+persianMonths[j.m-1]+' '+j.y;}
 function getStartDateGregorian(){return new Date(safeGetLS('healthStartDateGregorian','2026-08-04'));}
@@ -1865,109 +1676,34 @@ function toDateInputValue(d){return d.toISOString().split('T')[0];}
 
 function initData(){
   herbProperties=safeParseJSON(safeGetLS('herbProperties','null'),null)||JSON.parse(JSON.stringify(defaultHerbProperties));
-  var sc=safeGetLS('tableColumns',null);
-  if(sc){
-    try{
-      var p=JSON.parse(sc);
-      tableColumns=p.columns||tableColumns;
-      tableColumnNames=p.names||tableColumnNames;
-      totalDays=p.totalDays||40;
-    }catch(e){}
-  }
-  viewMode=safeGetLS('viewMode','all');
-  fontSize=safeGetLS('fontSize','medium');
-  fontFamily=safeGetLS('fontFamily','Vazirmatn');
-  showDate=safeGetLS('showDate',null)==='true';
-  showWeekday=safeGetLS('showWeekday',null)==='true';
-  showPast=safeGetLS('showPastDays',null)!=='false';
-  currentTheme=safeGetLS('theme','nature');
-  nightMode=safeGetLS('nightMode',null)==='true';
-  alarmEnabled=safeParseJSON(safeGetLS('alarmEnabled','{}'),{});
-
+  var sc=safeGetLS('tableColumns',null); if(sc){try{var p=JSON.parse(sc);tableColumns=p.columns||tableColumns;tableColumnNames=p.names||tableColumnNames;totalDays=p.totalDays||40;}catch(e){}}
+  viewMode=safeGetLS('viewMode','all');fontSize=safeGetLS('fontSize','medium');showDate=safeGetLS('showDate',null)==='true';showWeekday=safeGetLS('showWeekday',null)==='true';showPast=safeGetLS('showPastDays',null)!=='false';currentTheme=safeGetLS('theme','nature');nightMode=safeGetLS('nightMode',null)==='true';alarmEnabled=safeParseJSON(safeGetLS('alarmEnabled','{}'),{});
   applyTheme();applySettings();
-
   var saved=safeGetLS('health40Data',null);
-  if(saved){
-    try{
-      fortyDayData=JSON.parse(saved);
-      if(fortyDayData.length===totalDays){
-        var st=safeGetLS('health40Times',null);
-        if(st)currentTimes=JSON.parse(st);
-        return;
-      }
-    }catch(e){}
-  }
+  if(saved){try{fortyDayData=JSON.parse(saved);if(fortyDayData.length===totalDays){var st=safeGetLS('health40Times',null);if(st)currentTimes=JSON.parse(st);return;}}catch(e){}}
   generateDefaultData();
 }
-function generateDefaultData(){
-  fortyDayData=[];
-  for(var i=1;i<=totalDays;i++){
-    var d={};
-    tableColumns.forEach(function(c){
-      if(c==='oil')d[c]='روغن بادام شیرین';
-      else if(c==='breakfast')d[c]=i%2?'دمنوش کاسنی':'چای سیاه و وانیل';
-      else if(c==='evening')d[c]='چای آلبالو + هل';
-      else if(c==='dinner')d[c]=i%2?'دمنوش ۵ گیاه':'شنبلیه، گزنه، گشنیز';
-      else d[c]='';
-    });
-    fortyDayData.push(d);
-  }
-  saveAll();
-}
-function saveAll(){
-  safeSetLS('health40Data',JSON.stringify(fortyDayData));
-  safeSetLS('health40Times',JSON.stringify(currentTimes));
-  safeSetLS('herbProperties',JSON.stringify(herbProperties));
-  safeSetLS('tableColumns',JSON.stringify({columns:tableColumns,names:tableColumnNames,totalDays:totalDays}));
-  safeSetLS('viewMode',viewMode);
-  safeSetLS('fontSize',fontSize);
-  safeSetLS('fontFamily',fontFamily);
-  safeSetLS('showDate',String(showDate));
-  safeSetLS('showWeekday',String(showWeekday));
-  safeSetLS('showPastDays',String(showPast));
-  safeSetLS('theme',currentTheme);
-  safeSetLS('nightMode',String(nightMode));
-  safeSetLS('alarmEnabled',JSON.stringify(alarmEnabled));
-}
+function generateDefaultData(){fortyDayData=[];for(var i=1;i<=totalDays;i++){var d={};tableColumns.forEach(function(c){if(c==='oil')d[c]='روغن بادام شیرین';else if(c==='breakfast')d[c]=i%2?'دمنوش کاسنی':'چای سیاه و وانیل';else if(c==='evening')d[c]='چای آلبالو + هل';else if(c==='dinner')d[c]=i%2?'دمنوش ۵ گیاه':'شنبلیه، گزنه، گشنیز';else d[c]='';});fortyDayData.push(d);}saveAll();}
+function saveAll(){safeSetLS('health40Data',JSON.stringify(fortyDayData));safeSetLS('health40Times',JSON.stringify(currentTimes));safeSetLS('herbProperties',JSON.stringify(herbProperties));safeSetLS('tableColumns',JSON.stringify({columns:tableColumns,names:tableColumnNames,totalDays:totalDays}));safeSetLS('viewMode',viewMode);safeSetLS('fontSize',fontSize);safeSetLS('showDate',String(showDate));safeSetLS('showWeekday',String(showWeekday));safeSetLS('showPastDays',String(showPast));safeSetLS('theme',currentTheme);safeSetLS('nightMode',String(nightMode));safeSetLS('alarmEnabled',JSON.stringify(alarmEnabled));}
 
-var themes={
-  'nature':{'--bg-primary':'#0d1f12','--bg-secondary':'#1a3322','--bg-tertiary':'#21452c','--accent':'#f4d03f','--accent2':'#e8b923','--input-bg':'#142b1a','--text-primary':'#ffffff','--text-secondary':'#e8f0e3','--text-muted':'#a8bfa8'},
-  'honey':{'--bg-primary':'#1a1200','--bg-secondary':'#3d2800','--bg-tertiary':'#5a3d00','--accent':'#f4d03f','--accent2':'#ffb700','--input-bg':'#3d2800','--text-primary':'#ffffff','--text-secondary':'#f0e5c8','--text-muted':'#bfa874'},
-  'herbal':{'--bg-primary':'#1a0f00','--bg-secondary':'#2e1c08','--bg-tertiary':'#4a3010','--accent':'#d4a017','--accent2':'#b8860b','--input-bg':'#2e1c08','--text-primary':'#ffffff','--text-secondary':'#e8dcc8','--text-muted':'#a89468'},
-  'mint':{'--bg-primary':'#0a2e2e','--bg-secondary':'#0f4444','--bg-tertiary':'#1a5c5c','--accent':'#7fffd4','--accent2':'#40e0d0','--input-bg':'#0f4444','--text-primary':'#ffffff','--text-secondary':'#d4f0f0','--text-muted':'#8fb5b5'},
-  'dark':{'--bg-primary':'#0a0a0a','--bg-secondary':'#1a1a1a','--bg-tertiary':'#2a2a2a','--accent':'#ffd700','--accent2':'#ff8c00','--input-bg':'#1a1a1a','--text-primary':'#ffffff','--text-secondary':'#dddddd','--text-muted':'#888888'},
-  'purple':{'--bg-primary':'#1a0a2e','--bg-secondary':'#251545','--bg-tertiary':'#301e50','--accent':'#f4d03f','--accent2':'#e056a0','--input-bg':'#251545','--text-primary':'#ffffff','--text-secondary':'#e8dcf0','--text-muted':'#a894bf'}
-};
-function applyTheme(){
-  var t=themes[currentTheme];if(!t)return;
-  for(var k in t)document.documentElement.style.setProperty(k,t[k]);
-  document.body.style.filter=nightMode?'brightness(.7)':'none';
-}
+var themes={'nature':{'--bg-primary':'#0d1f12','--bg-secondary':'#1a3322','--bg-tertiary':'#21452c','--accent':'#f4d03f','--accent2':'#e8b923','--input-bg':'#142b1a','--text-primary':'#ffffff','--text-secondary':'#e8f0e3','--text-muted':'#a8bfa8'},'honey':{'--bg-primary':'#1a1200','--bg-secondary':'#3d2800','--bg-tertiary':'#5a3d00','--accent':'#f4d03f','--accent2':'#ffb700','--input-bg':'#3d2800','--text-primary':'#ffffff','--text-secondary':'#f0e5c8','--text-muted':'#bfa874'},'herbal':{'--bg-primary':'#1a0f00','--bg-secondary':'#2e1c08','--bg-tertiary':'#4a3010','--accent':'#d4a017','--accent2':'#b8860b','--input-bg':'#2e1c08','--text-primary':'#ffffff','--text-secondary':'#e8dcc8','--text-muted':'#a89468'},'mint':{'--bg-primary':'#0a2e2e','--bg-secondary':'#0f4444','--bg-tertiary':'#1a5c5c','--accent':'#7fffd4','--accent2':'#40e0d0','--input-bg':'#0f4444','--text-primary':'#ffffff','--text-secondary':'#d4f0f0','--text-muted':'#8fb5b5'},'dark':{'--bg-primary':'#0a0a0a','--bg-secondary':'#1a1a1a','--bg-tertiary':'#2a2a2a','--accent':'#ffd700','--accent2':'#ff8c00','--input-bg':'#1a1a1a','--text-primary':'#ffffff','--text-secondary':'#dddddd','--text-muted':'#888888'},'purple':{'--bg-primary':'#1a0a2e','--bg-secondary':'#251545','--bg-tertiary':'#301e50','--accent':'#f4d03f','--accent2':'#e056a0','--input-bg':'#251545','--text-primary':'#ffffff','--text-secondary':'#e8dcf0','--text-muted':'#a894bf'}};
+function applyTheme(){var t=themes[currentTheme];if(!t)return;for(var k in t)document.documentElement.style.setProperty(k,t[k]);document.body.style.filter=nightMode?'brightness(.7)':'none';}
 function setTheme(t){currentTheme=t;applyTheme();saveAll();}
 function toggleNightMode(){nightMode=document.getElementById('nightMode').checked;applyTheme();saveAll();}
-function applySettings(){
-  var s={small:'11px',medium:'14px',large:'18px'};
-  document.documentElement.style.setProperty('--font-size',s[fontSize]||'14px');
-  document.documentElement.style.setProperty('--font-family',fontFamily+',Tahoma,sans-serif');
-}
+function applySettings(){var s={small:'11px',medium:'14px',large:'18px'};document.documentElement.style.setProperty('--font-size',s[fontSize]||'14px');document.documentElement.style.setProperty('--font-family','Vazirmatn,Tahoma,sans-serif');}
 
 function renderTable(){
   var thead=document.getElementById('tableHead'),hh='<tr><th>روز</th>';
-  if(showWeekday)hh+='<th>هفته</th>';
-  if(showDate)hh+='<th>تاریخ</th>';
-  tableColumns.forEach(function(c){hh+='<th>'+escapeHtml(tableColumnNames[c]||c)+'</th>';});
-  hh+='</tr>';
+  if(showWeekday)hh+='<th>هفته</th>';if(showDate)hh+='<th>تاریخ</th>';
+  tableColumns.forEach(function(c){hh+='<th>'+escapeHtml(tableColumnNames[c]||c)+'</th>';});hh+='</tr>';
   if(thead)thead.innerHTML=hh;
-  var tbody=document.getElementById('scheduleBody');
-  if(!tbody)return;
+  
+  var tbody=document.getElementById('scheduleBody');if(!tbody)return;
   var today=getCurrentDayAuto(),sd=getStartDateGregorian(),days=[];
   if(viewMode==='today')days=[today];
-  else if(viewMode==='week'){
-    var ws=Math.max(0,Math.min(today-3,totalDays-7));
-    for(var i=ws;i<Math.min(totalDays,ws+7);i++)days.push(i);
-  }else{
-    for(var k=0;k<totalDays;k++)if(showPast||k>=today)days.push(k);
-  }
+  else if(viewMode==='week'){var ws=Math.max(0,Math.min(today-3,totalDays-7));for(var i=ws;i<Math.min(totalDays,ws+7);i++)days.push(i);}
+  else{for(var k=0;k<totalDays;k++)if(showPast||k>=today)days.push(k);}
+  
   var html='';
   days.forEach(function(i){
     var d=fortyDayData[i]||{},isT=i===today,isP=i<today,cls=isT?'today-row':'';
@@ -1984,96 +1720,31 @@ function renderTable(){
   });
   tbody.innerHTML=html;
 }
-function getProperty(txt){
-  for(var k in herbProperties)if(txt.indexOf(k)>-1)return herbProperties[k];
-  return'خواص عمومی';
-}
-function toggleProp(e,el){
-  e.stopPropagation();
-  document.querySelectorAll('.drug-name.active-drug').forEach(function(x){x.classList.remove('active-drug');});
-  el.classList.add('active-drug');
-  var pop=el.nextElementSibling;
-  if(activePopup&&activePopup!==pop)activePopup.classList.remove('active');
-  pop.classList.toggle('active');
-  activePopup=pop.classList.contains('active')?pop:null;
-}
-document.addEventListener('click',function(e){
-  if(activePopup&&!e.target.classList.contains('drug-name')){
-    activePopup.classList.remove('active');activePopup=null;
-    document.querySelectorAll('.drug-name.active-drug').forEach(function(x){x.classList.remove('active-drug');});
-  }
-});
+function getProperty(txt){for(var k in herbProperties)if(txt.indexOf(k)>-1)return herbProperties[k];return'خواص عمومی';}
+function toggleProp(e,el){e.stopPropagation();document.querySelectorAll('.drug-name.active-drug').forEach(function(x){x.classList.remove('active-drug');});el.classList.add('active-drug');var pop=el.nextElementSibling;if(activePopup&&activePopup!==pop)activePopup.classList.remove('active');pop.classList.toggle('active');activePopup=pop.classList.contains('active')?pop:null;}
+document.addEventListener('click',function(e){if(activePopup&&!e.target.classList.contains('drug-name')){activePopup.classList.remove('active');activePopup=null;document.querySelectorAll('.drug-name.active-drug').forEach(function(x){x.classList.remove('active-drug');});}});
 
-function onStartDateChanged(){
-  var gDate=new Date(document.getElementById('startDatePicker').value+'T00:00:00');
-  if(isNaN(gDate.getTime()))return;
-  setStartDateGregorian(gDate);
-  updateDateConversionInfo();updateDayDisplay();renderTable();saveAll();
-}
-function updateDateConversionInfo(){
-  var sd=getStartDateGregorian(),j=gregorianToJalali(sd);
-  var el=document.getElementById('jalaliDate');
-  if(el)el.textContent=formatJalaliFull(j);
-}
-function updateDayDisplay(){
-  var el=document.getElementById('dayBadge');
-  if(el)el.textContent='روز '+(getCurrentDayAuto()+1)+' از '+totalDays;
-}
+function onStartDateChanged(){var gDate=new Date(document.getElementById('startDatePicker').value+'T00:00:00');if(isNaN(gDate.getTime()))return;setStartDateGregorian(gDate);updateDateConversionInfo();updateDayDisplay();renderTable();updateTodayShowcase();saveAll();}
+function updateDateConversionInfo(){var sd=getStartDateGregorian(),j=gregorianToJalali(sd);document.getElementById('jalaliDate').textContent=formatJalaliFull(j);}
+function updateDayDisplay(){document.getElementById('dayBadge').textContent='روز '+(getCurrentDayAuto()+1)+' از '+totalDays;}
 function changeViewMode(){viewMode=document.getElementById('viewMode').value;saveAll();renderTable();}
 function changeFontSize(){fontSize=document.getElementById('fontSize').value;applySettings();saveAll();}
 function toggleShowDate(){showDate=document.getElementById('showDate').checked;saveAll();renderTable();}
 function toggleShowWeekday(){showWeekday=document.getElementById('showWeekday').checked;saveAll();renderTable();}
 function toggleShowPastDays(){showPast=document.getElementById('showPastDays').checked;saveAll();renderTable();}
-function updateClock(){
-  var el=document.getElementById('clockDisplay');
-  if(el)el.textContent=new Date().toLocaleTimeString('fa-IR');
-}
+function updateClock(){var el=document.getElementById('clockDisplay');if(el)el.textContent=new Date().toLocaleTimeString('fa-IR');}
 
-/* ============================================================
-   PWA INSTALL
-   ============================================================ */
+/* PWA INSTALL */
 var deferredPrompt=null;
-window.addEventListener('beforeinstallprompt',function(e){
-  e.preventDefault();deferredPrompt=e;
-  var b=document.getElementById('pwaInstallBtn');
-  if(b)b.style.display='flex';
-});
-function installPWA(){
-  if(!deferredPrompt){showInstallGuide();return;}
-  deferredPrompt.prompt();
-  deferredPrompt.userChoice.then(function(r){
-    if(r.outcome==='accepted'){
-      showToast('✅ اپ نصب شد!');
-      var b=document.getElementById('pwaInstallBtn');
-      if(b)b.style.display='none';
-    }
-    deferredPrompt=null;
-  });
-}
-function showInstallGuide(){
-  var ua=navigator.userAgent.toLowerCase();
-  var isIOS=/iphone|ipad|ipod/.test(ua);
-  var isSafari=/safari/.test(ua)&&!/chrome/.test(ua);
-  var isFirefox=/firefox/.test(ua);
-  var isSamsung=/samsungbrowser/.test(ua);
-  var msg='';
-  if(isIOS||isSafari)msg='📱 نصب روی iPhone / Safari:\n\n۱. دکمه Share رو بزن\n۲. Add to Home Screen\n۳. Add رو بزن';
-  else if(isFirefox)msg='📱 نصب روی Firefox:\n\n۱. منوی ۳ نقطه\n۲. Install';
-  else if(isSamsung)msg='📱 نصب روی Samsung:\n\n۱. منوی ۳ خط\n۲. Add page to → Home screen';
-  else msg='📱 نصب اپلیکیشن:\n\n۱. منوی ۳ نقطه (بالا راست)\n۲. Add to Home screen / Install App';
-  alert(msg);
-}
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;var b=document.getElementById('pwaInstallBtn');if(b)b.style.display='flex';});
+function installPWA(){if(!deferredPrompt){showInstallGuide();return;}deferredPrompt.prompt();deferredPrompt.userChoice.then(function(r){if(r.outcome==='accepted'){showToast('✅ اپ نصب شد!');var b=document.getElementById('pwaInstallBtn');if(b)b.style.display='none';}deferredPrompt=null;});}
+function showInstallGuide(){var ua=navigator.userAgent.toLowerCase();var isIOS=/iphone|ipad|ipod/.test(ua);var isSafari=/safari/.test(ua)&&!/chrome/.test(ua);var isFirefox=/firefox/.test(ua);var isSamsung=/samsungbrowser/.test(ua);var msg='';if(isIOS||isSafari)msg='📱 نصب روی iPhone / Safari:\n\n۱. دکمه Share رو بزن\n۲. Add to Home Screen\n۳. Add رو بزن';else if(isFirefox)msg='📱 نصب روی Firefox:\n\n۱. منوی ۳ نقطه\n۲. Install';else if(isSamsung)msg='📱 نصب روی Samsung:\n\n۱. منوی ۳ خط\n۲. Add page to → Home screen';else msg='📱 نصب اپلیکیشن:\n\n۱. منوی ۳ نقطه (بالا راست)\n۲. Add to Home screen / Install App';alert(msg);}
 
-/* ============================================================
-   INIT
-   ============================================================ */
+/* INIT */
 function init(){
-  initUserId();
-  initData();
-  applyTheme();applySettings();
-  renderTable();renderAlarmSettings();
-  var sdp=document.getElementById('startDatePicker');
-  if(sdp)sdp.value=toDateInputValue(getStartDateGregorian());
+  initUserId(); initData(); applyTheme(); applySettings();
+  renderTable(); renderAlarmSettings(); updateTodayShowcase();
+  var sdp=document.getElementById('startDatePicker'); if(sdp)sdp.value=toDateInputValue(getStartDateGregorian());
   updateDateConversionInfo();updateDayDisplay();
   var vm=document.getElementById('viewMode');if(vm)vm.value=viewMode;
   var fs=document.getElementById('fontSize');if(fs)fs.value=fontSize;
@@ -2082,32 +1753,17 @@ function init(){
   var sp=document.getElementById('showPastDays');if(sp)sp.checked=showPast;
   var nm=document.getElementById('nightMode');if(nm)nm.checked=nightMode;
   setInterval(updateClock,1000);updateClock();
-  setTimeout(loadRemoteBanner,1500);
-  setInterval(loadRemoteBanner,300000);
-  setTimeout(checkNewMessages,3000);
-  setInterval(checkNewMessages,60000);
+  setTimeout(loadRemoteBanner,1500); setInterval(loadRemoteBanner,300000);
+  setTimeout(checkNewMessages,3000); setInterval(checkNewMessages,60000);
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
 else init();
 
 window.addEventListener('online',function(){loadRemoteBanner();});
-window.addEventListener('offline',function(){
-  var tb=document.getElementById('topBanner');
-  if(tb)tb.classList.remove('active');
-});
+window.addEventListener('offline',function(){document.getElementById('topBanner').classList.remove('active');});
 
-/* Service Worker */
-if('serviceWorker'in navigator){
-  window.addEventListener('load',function(){
-    navigator.serviceWorker.register('/Safir-salamat-/sw.js')
-    .then(function(r){console.log('✅ SW:',r.scope);})
-    .catch(function(e){console.log('❌ SW:',e);});
-  });
-}
-if(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone){
-  var b=document.getElementById('pwaInstallBtn');
-  if(b)b.style.display='none';
-}
+if('serviceWorker'in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/Safir-salamat-/sw.js').then(function(r){console.log('SW:',r.scope);}).catch(function(e){console.log(e);});});}
+if(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone){var b=document.getElementById('pwaInstallBtn');if(b)b.style.display='none';}
 </script>
 </body>
 </html>
