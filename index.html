@@ -52,6 +52,20 @@ body{font-family:var(--font-family);background:var(--bg-primary);
 .profile-info h3 { color: #fff; font-size: 1.15em; margin-bottom: 4px; }
 .profile-info p { font-size: 0.8em; color: var(--text-muted); font-family: monospace; }
 
+/* دکمه رشد گرافیکی */
+.growth-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin: 25px auto 10px; padding: 14px 35px;
+  background: linear-gradient(90deg, #e8b923, #fff8b0, #f4d03f, #e8b923);
+  background-size: 300% 100%;
+  color: #0d1f12; text-decoration: none; border-radius: 30px;
+  font-family: 'Lalezar', cursive; font-size: 1.1em; font-weight: bold;
+  width: fit-content; box-shadow: 0 0 20px rgba(244,208,63,0.6);
+  animation: shine 3s infinite linear; border: 2px solid #fff;
+  text-shadow: 1px 1px 0px rgba(255,255,255,0.5);
+}
+@keyframes shine { 0% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
 #topBanner{display:none;width:100%;background:var(--bg-secondary);border-bottom:3px solid var(--accent);overflow:hidden}
 #topBanner.active{display:block}
 #topBanner img{width:100%;height:auto;max-height:220px;object-fit:cover;display:block}
@@ -170,11 +184,19 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 .alarm-row .toggle-btn.active{background:var(--btn-success)}
 .alarm-row .toggle-btn.active::after{right:calc(100% - 24px);background:#fff}
 
+/* استایل جدول پیش‌نمایش قابل ویرایش */
 .preview-table{width:100%;border-collapse:collapse;background:var(--bg-primary);border-radius:8px;overflow:hidden;font-size:.75em;margin-top:8px}
 .preview-table th{padding:6px 4px;background:#2b5738;color:var(--accent);font-size:.75em;border-bottom:1px solid rgba(244,208,63,.3)}
 .preview-table td{padding:5px 4px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1);font-size:.75em}
 .preview-table tr:nth-child(even) td{background:rgba(0,0,0,.15)}
 .preview-scroll{max-height:350px;overflow-y:auto;border-radius:10px;border:1px solid var(--border-color)}
+
+.preview-edit-input {
+  width: 100%; background: transparent; border: 1px solid transparent;
+  color: var(--text-primary); text-align: center; font-family: inherit; font-size: inherit;
+  padding: 4px; border-radius: 4px; cursor: text;
+}
+.preview-edit-input:focus { border-color: var(--accent); background: rgba(0,0,0,0.5); outline: none; }
 
 .day-input-box{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;background:var(--bg-primary);padding:10px;border-radius:8px;margin-bottom:8px}
 .day-input-box label{font-size:.75em;color:var(--accent);font-weight:700;white-space:nowrap}
@@ -478,7 +500,7 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   <!-- تب کاربران -->
   <div class="admin-panel" id="adminTabUsers" style="display:none;">
     <h3>👥 مدیریت کاربران</h3>
-    <div class="admin-warning">💡 در این بخش می‌توانید نام کاربران را ویرایش کنید یا به پنل آن‌ها وارد شوید</div>
+    <div class="admin-warning">💡 در این بخش می‌توانید نام کاربران را ویرایش یا آن‌ها را حذف کنید</div>
     <input type="text" id="adminUserSearch" placeholder="جستجوی نام یا کد کاربر..." onkeyup="filterAdminUsers()" style="width:100%; padding:12px; background:var(--input-bg); color:#fff; border:1px solid var(--accent); border-radius:8px; margin-bottom:15px;">
     <div id="adminUsersListContainer" style="max-height: 50vh; overflow-y: auto;"></div>
   </div>
@@ -525,31 +547,13 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     </div>
 
     <div style="background:var(--input-bg);padding:12px;border-radius:10px;margin:10px 0">
-      <div style="color:var(--accent);font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">📅 ویرایش محتوای روزها</div>
-      <div class="editor-day-nav" id="dayNavSingle">
-        <button onclick="prevEditorDay()" id="prevDayBtn">◀ قبل</button>
-        <span id="editorDayLabel">روز 1</span>
-        <button onclick="nextEditorDay()" id="nextDayBtn">بعد ▶</button>
-      </div>
-      <div id="dayEditorContainer"></div>
-    </div>
-
-    <div style="background:rgba(231,76,60,.08);padding:12px;border-radius:10px;margin:10px 0;border:2px solid rgba(231,76,60,.3)">
-      <div style="color:#e74c3c;font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">⚡ اعمال محتوای بالا روی:</div>
-      <div style="display:grid;grid-template-columns:1fr;gap:8px">
-        <button onclick="applyToDays('all')" style="padding:12px;background:linear-gradient(135deg,#27ae60,#1e8449);color:#fff;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:.9em;font-family:var(--font-family)">📌 کل روزها</button>
-        <button onclick="applyToDays('odd')" style="padding:12px;background:linear-gradient(135deg,#6b8e23,#4a6618);color:#fff;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:.9em;font-family:var(--font-family)">🔵 روزهای فرد</button>
-        <button onclick="applyToDays('even')" style="padding:12px;background:linear-gradient(135deg,#e8b923,#b8941f);color:#0d1f12;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:.9em;font-family:var(--font-family)">🔴 روزهای زوج</button>
-      </div>
-    </div>
-
-    <div style="background:var(--input-bg);padding:12px;border-radius:10px;margin:10px 0;border:2px solid var(--accent)">
-      <div style="color:var(--accent);font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">👁️ پیش‌نمایش جدول</div>
-      <button onclick="togglePreview()" id="previewToggleBtn" style="width:100%;padding:10px;background:var(--btn-primary);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:.9em;margin-bottom:8px;font-family:var(--font-family)">نمایش جدول</button>
+      <div style="color:var(--accent);font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">📅 ویرایش محتوای روزها (مستقیم در جدول)</div>
+      <button onclick="togglePreview()" id="previewToggleBtn" style="width:100%;padding:10px;background:var(--btn-primary);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:.9em;margin-bottom:8px;font-family:var(--font-family)">نمایش جدول برای ویرایش</button>
       <div id="previewContainer" style="display:none">
         <div class="preview-scroll">
           <table class="preview-table" id="previewTable"><thead id="previewTableHead"></thead><tbody id="previewTableBody"></tbody></table>
         </div>
+        <div style="font-size:0.75em;color:var(--accent2);text-align:center;margin-top:8px;">💡 برای ویرایش، روی هر خانه کلیک کنید و متن جدید را تایپ کنید.</div>
       </div>
     </div>
 
@@ -707,7 +711,6 @@ async function previewRegAvatar(event) {
     var reader = new FileReader();
     reader.onload = async function(e) {
       var originalSrc = e.target.result;
-      // فشرده‌سازی خودکار
       var compressed = await compressImage(originalSrc, 400, 400, 0.7);
       document.getElementById('regAvatarPreview').src = compressed;
     };
@@ -729,7 +732,6 @@ async function submitProfile() {
     var record = await getUserRecord(userId) || {};
     record.profile = { name: fullName, avatar: avatarSrc, registeredAt: Date.now() };
     
-    // ذخیره در دیتابیس
     var ok = await saveUserRecord(userId, record);
     
     if(ok) {
@@ -753,7 +755,6 @@ function updateProfileUI() {
     document.getElementById('displayCode').textContent = 'کد: ' + userId;
     if(userProfile.avatar) document.getElementById('displayAvatar').src = userProfile.avatar;
     
-    // خوش آمدگویی
     var wm = document.getElementById('welcomeMessage');
     wm.style.display = 'block';
     wm.innerHTML = '🌿 ' + userProfile.name + ' خوش آمدی 🌿';
@@ -795,6 +796,14 @@ async function saveUserRecord(code, data) {
     console.error('Save error:', e);
     return false; 
   }
+}
+async function deleteUserRecord(code) {
+  if (!code) return false;
+  try {
+    const { error } = await supabaseClient.from('users_list').delete().eq('code', code.toUpperCase());
+    if (error) throw error;
+    return true;
+  } catch(e) { return false; }
 }
 async function getGlobalData() {
   try {
@@ -946,8 +955,9 @@ function renderAdminUsersList(users) {
     html += '<div class="admin-user-code">کد: ' + escapeHtml(u.code) + '</div>';
     html += '</div>';
     html += '<div class="admin-user-actions">';
-    html += '<button class="btn-small" style="background:var(--btn-primary);color:#fff;" onclick="editUserName(\''+u.code+'\', \''+escapeHtml(name).replace(/'/g,"\\'")+'\')">✏️ ویرایش نام</button>';
-    html += '<button class="btn-small" style="background:var(--purple, #6b8e23);color:#fff;" onclick="impersonateUser(\''+u.code+'\')">👁️ ورود به پنل</button>';
+    html += '<button class="btn-small" style="background:var(--btn-primary);color:#fff;" onclick="editUserName(\''+u.code+'\', \''+escapeHtml(name).replace(/'/g,"\\'")+'\')">✏️ نام</button>';
+    html += '<button class="btn-small" style="background:var(--purple, #6b8e23);color:#fff;" onclick="impersonateUser(\''+u.code+'\')">👁️ پنل</button>';
+    html += '<button class="btn-small" style="background:var(--btn-danger);color:#fff;" onclick="deleteUser(\''+u.code+'\')">🗑️ حذف</button>';
     html += '</div></div>';
   });
   container.innerHTML = html;
@@ -975,6 +985,17 @@ async function editUserName(code, currentName) {
         loadUsersListForAdmin(); 
       } else showToast('❌ خطا در ویرایش', 'error');
     }
+  }
+}
+
+async function deleteUser(code) {
+  if(!confirm('⚠️ آیا مطمئن هستید که می‌خواهید کاربر ' + code + ' را کاملاً حذف کنید؟ این عمل غیرقابل بازگشت است.')) return;
+  var ok = await deleteUserRecord(code);
+  if(ok) {
+    showToast('✅ کاربر حذف شد');
+    loadUsersListForAdmin();
+  } else {
+    showToast('❌ خطا در حذف کاربر', 'error');
   }
 }
 
@@ -1101,16 +1122,19 @@ function receiveAll(silent){
           fortyDayData.forEach(function(day){
             tableColumns.forEach(function(col){ if(day[col]===undefined)day[col]=''; });
           });
-          saveAll();renderTable();updateTodayShowcase();
-          safeSetLS('tableReceived','true');
           
           if(data.tableData.sentAt) {
              var sentDate = new Date(data.tableData.sentAt);
              safeSetLS('healthStartDateGregorian', sentDate.toISOString());
-             updateDateConversionInfo();
-             updateDayDisplay();
-             renderTable(); 
           }
+          
+          saveAll();
+          renderTable();
+          updateTodayShowcase();
+          updateDateConversionInfo();
+          updateDayDisplay();
+          
+          safeSetLS('tableReceived','true');
           gotSomething=true;
         }
       }
@@ -1212,7 +1236,6 @@ function buildAdminEditor(){
   adminTotalDays = totalDays;
   adminFortyDayData = JSON.parse(JSON.stringify(fortyDayData.length ? fortyDayData : generateDefaultTableData()));
   renderAdminTableEditor(); 
-  renderAdminDayEditor();
 }
 function generateDefaultTableData() {
   var arr = [];
@@ -1236,34 +1259,7 @@ function updateAdminColName(i,val){ var col = adminTableColumns[i]; adminTableCo
 function updateAdminColTime(i,val){ var col = adminTableColumns[i]; adminCurrentTimes[col] = val; }
 function addTableColumnEditor(){
   if(adminTableColumns.length>=8){showToast('حداکثر ۸ وعده','warning');return;}
-  var newCol='c_'+Date.now();adminTableColumns.push(newCol);adminTableColumnNames[newCol]='وعده '+adminTableColumns.length;adminCurrentTimes[newCol]='08:00';adminFortyDayData.forEach(function(day){day[newCol]='';});renderAdminTableEditor(); renderAdminDayEditor();
-}
-function renderAdminDayEditor(){
-  var container=document.getElementById('dayEditorContainer');if(!container)return;if(currentEditorDay>=adminTotalDays)currentEditorDay=0;
-  document.getElementById('editorDayLabel').textContent='روز '+(currentEditorDay+1);
-  document.getElementById('prevDayBtn').disabled = currentEditorDay <= 0;
-  document.getElementById('nextDayBtn').disabled = currentEditorDay >= adminTotalDays-1;
-  var dayData = adminFortyDayData[currentEditorDay] || {};var html='';
-  adminTableColumns.forEach(function(col){
-    var label = adminTableColumnNames[col] || col;var value = dayData[col] || '';
-    html+='<div class="day-input-box"><label>'+escapeHtml(label)+':</label><input type="text" data-col="'+escapeHtml(col)+'" value="'+escapeHtml(value)+'" onchange="updateAdminDayField(this.getAttribute(\'data-col\'),this.value)"></div>';
-  });
-  container.innerHTML=html;
-}
-function updateAdminDayField(col,value){ if(!adminFortyDayData[currentEditorDay])adminFortyDayData[currentEditorDay]={}; adminFortyDayData[currentEditorDay][col]=value; showToast('✅ ذخیره شد','success',1000); }
-function prevEditorDay(){if(currentEditorDay>0){currentEditorDay--;renderAdminDayEditor();}}
-function nextEditorDay(){if(currentEditorDay<adminTotalDays-1){currentEditorDay++;renderAdminDayEditor();}}
-function applyToDays(type){
-  var form = {}, hasValue = false;var inputs = document.querySelectorAll('#dayEditorContainer input[data-col]');
-  for(var i=0;i<inputs.length;i++){var col = inputs[i].getAttribute('data-col');form[col] = inputs[i].value;if(inputs[i].value && inputs[i].value.trim() !== '') hasValue = true;}
-  if(!hasValue){ alert('❌ ابتدا فرم روز جاری را پر کنید!'); return; }
-  var targets=[], typeName='';
-  if(type==='all'){for(var i=0;i<adminTotalDays;i++)targets.push(i);typeName='همه روزها';}
-  else if(type==='odd'){for(var j=0;j<adminTotalDays;j+=2)targets.push(j);typeName='روزهای فرد';}
-  else if(type==='even'){for(var k=1;k<adminTotalDays;k+=2)targets.push(k);typeName='روزهای زوج';}
-  if(!confirm('محتوا روی '+targets.length+' '+typeName+' اعمال شود؟'))return;
-  targets.forEach(function(idx){if(!adminFortyDayData[idx]) adminFortyDayData[idx]={};adminTableColumns.forEach(function(col){ adminFortyDayData[idx][col] = form[col] || ''; });});
-  showToast('✅ اعمال شد');
+  var newCol='c_'+Date.now();adminTableColumns.push(newCol);adminTableColumnNames[newCol]='وعده '+adminTableColumns.length;adminCurrentTimes[newCol]='08:00';adminFortyDayData.forEach(function(day){day[newCol]='';});renderAdminTableEditor();
 }
 
 async function sendTableToUser(){
@@ -1310,12 +1306,27 @@ async function sendTableToAll(){
   loadAdminRecent();
 }
 
-function togglePreview(){ previewVisible=!previewVisible; var c=document.getElementById('previewContainer'),b=document.getElementById('previewToggleBtn'); if(previewVisible){c.style.display='block';b.textContent='🔽 مخفی کردن';updatePreview();} else{c.style.display='none';b.textContent='👁️ نمایش جدول';} }
+function togglePreview(){ previewVisible=!previewVisible; var c=document.getElementById('previewContainer'),b=document.getElementById('previewToggleBtn'); if(previewVisible){c.style.display='block';b.textContent='🔽 مخفی کردن';updatePreview();} else{c.style.display='none';b.textContent='👁️ نمایش جدول برای ویرایش';} }
 function updatePreview(){
   var thead=document.getElementById('previewTableHead'), tbody=document.getElementById('previewTableBody');var hh='<tr><th>روز</th>';
   adminTableColumns.forEach(function(c){hh+='<th>'+escapeHtml(adminTableColumnNames[c]||c)+'</th>';});hh+='</tr>'; thead.innerHTML=hh;
-  var html='';for(var i=0;i<adminTotalDays;i++){var d=adminFortyDayData[i]||{};html+='<tr><td style="color:var(--accent);font-weight:700">'+(i+1)+'</td>';adminTableColumns.forEach(function(col){html+='<td>'+escapeHtml(d[col]||'-')+'</td>';});html+='</tr>';}
-  tbody.innerHTML=html;document.getElementById('previewCount').textContent=adminTotalDays;document.getElementById('previewCols').textContent=adminTableColumns.length;
+  
+  var html='';
+  for(var i=0;i<adminTotalDays;i++){
+    var d=adminFortyDayData[i]||{};
+    html+='<tr><td style="color:var(--accent);font-weight:700">'+(i+1)+'</td>';
+    adminTableColumns.forEach(function(col){
+      var val = d[col] || '';
+      html+='<td><input type="text" class="preview-edit-input" value="'+escapeHtml(val)+'" onchange="updateAdminCell('+i+',\''+col+'\',this.value)"></td>';
+    });
+    html+='</tr>';
+  }
+  tbody.innerHTML=html;
+}
+function updateAdminCell(rowIndex, col, value) {
+  if(!adminFortyDayData[rowIndex]) adminFortyDayData[rowIndex] = {};
+  adminFortyDayData[rowIndex][col] = value;
+  showToast('✅ ذخیره شد', 'success', 1000);
 }
 
 async function loadDashboard(showAlert){
