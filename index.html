@@ -31,10 +31,8 @@ body{font-family:var(--font-family);background:var(--bg-primary);
   min-height:100vh;font-size:var(--font-size)}
 .container{max-width:750px;margin:0 auto;padding:10px}
 
-/* استایل پنل کاربر و بازگشت ادمین */
 .admin-return-bar { background: #c0392b; color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 1em; border-radius: 10px; margin-bottom: 15px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
 
-/* ویترین برنامه امروز */
 .today-showcase { background: linear-gradient(135deg, #1e3c26, #0d1f12); border: 2px solid var(--accent); border-radius: 20px; padding: 15px; margin-bottom: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.4), inset 0 0 20px rgba(244,208,63,0.1); position: relative; overflow: hidden; }
 .today-showcase::before { content: '✨'; position: absolute; top: -10px; left: -10px; font-size: 5em; opacity: 0.05; transform: rotate(20deg); }
 .showcase-title { font-family: 'Lalezar', cursive; color: var(--accent); font-size: 1.5em; text-align: center; margin-bottom: 15px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
@@ -45,14 +43,12 @@ body{font-family:var(--font-family);background:var(--bg-primary);
 .showcase-card-value { font-size: 0.9em; font-weight: bold; color: #fff; }
 .showcase-card-time { font-size: 0.7em; color: var(--accent2); margin-top: 4px; }
 
-/* پروفایل کاربر */
 .welcome-message { text-align: center; font-family: 'Lalezar', cursive; font-size: 1.6em; color: var(--accent); margin-bottom: 10px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
 .profile-header { display: flex; align-items: center; gap: 15px; background: linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary)); padding: 15px; border-radius: 16px; margin-bottom: 15px; border: 1px solid var(--border-color); cursor: pointer; }
 .profile-avatar { width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent); background: #000; }
 .profile-info h3 { color: #fff; font-size: 1.15em; margin-bottom: 4px; }
 .profile-info p { font-size: 0.8em; color: var(--text-muted); font-family: monospace; }
 
-/* دکمه رشد گرافیکی */
 .growth-btn {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   margin: 25px auto 10px; padding: 14px 35px;
@@ -101,7 +97,6 @@ body{font-family:var(--font-family);background:var(--bg-primary);
 .settings-row input,.settings-row select,.settings-row textarea{background:var(--input-bg);color:var(--text-primary);border:1px solid #3d5a45;padding:9px;border-radius:8px;flex:1;min-width:60px;font-family:var(--font-family);font-size:.9em}
 textarea{resize:vertical;min-height:100px;line-height:1.8}
 
-/* جدول‌ها */
 .table-wrapper{overflow-x:auto;margin-top:10px;border-radius:12px}
 table{width:100%;border-collapse:collapse;background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border-radius:12px;overflow:hidden;font-size:.85em}
 th{padding:10px 6px;background:linear-gradient(180deg,#2b5738,#21452c);color:var(--accent);text-align:center;font-size:.85em;border-bottom:2px solid rgba(244,208,63,.3)}
@@ -184,7 +179,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 .alarm-row .toggle-btn.active{background:var(--btn-success)}
 .alarm-row .toggle-btn.active::after{right:calc(100% - 24px);background:#fff}
 
-/* استایل جدول پیش‌نمایش قابل ویرایش */
 .preview-table{width:100%;border-collapse:collapse;background:var(--bg-primary);border-radius:8px;overflow:hidden;font-size:.75em;margin-top:8px}
 .preview-table th{padding:6px 4px;background:#2b5738;color:var(--accent);font-size:.75em;border-bottom:1px solid rgba(244,208,63,.3)}
 .preview-table td{padding:5px 4px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1);font-size:.75em}
@@ -211,7 +205,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 .save-password-box input[type="checkbox"]{width:22px;height:22px;accent-color:#f4d03f;cursor:pointer;flex-shrink:0}
 .save-password-box label{font-size:.9em;color:#e8f0e3;cursor:pointer;flex:1;user-select:none;text-align:right}
 
-/* استایل لیست کشویی جستجو */
 .custom-dropdown { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-tertiary); border: 1px solid var(--accent); border-radius: 8px; max-height: 250px; overflow-y: auto; z-index: 1000; box-shadow: 0 10px 25px rgba(0,0,0,0.8); margin-top: 5px; }
 .custom-dropdown.active { display: block; }
 .dropdown-item { padding: 10px; border-bottom: 1px solid rgba(244,208,63,0.1); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
@@ -220,7 +213,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 .dropdown-item-code { font-family: monospace; color: var(--accent); font-size: 0.8em; }
 .search-container { position: relative; flex: 1; }
 
-/* لیست کاربران در پنل ادمین */
 .admin-user-row { background: var(--bg-secondary); border-radius: 10px; padding: 12px; margin-bottom: 8px; border-right: 4px solid var(--accent); display: flex; gap: 10px; align-items: center; }
 .admin-user-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); background: #000; }
 .admin-user-info { flex: 1; }
@@ -270,7 +262,7 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     <p style="font-size:0.8em;color:var(--accent);margin-top:15px;">📌 کد اختصاصی شما:</p>
     <div class="code-display" id="welcomeCode" style="font-size:1.5em; margin:5px 0;">...</div>
     
-    <button class="btn btn-green" onclick="submitProfile()" style="margin-top:15px; font-size:1em;">✅ ثبت و ورود به برنامه</button>
+    <button class="btn btn-green" onclick="submitProfile()" id="submitProfileBtn" style="margin-top:15px; font-size:1em;">✅ ثبت و ورود به برنامه</button>
     <button class="btn btn-gray" id="closeRegModalBtn" onclick="document.getElementById('registerModal').classList.remove('active')" style="display:none; margin-top:5px;">انصراف</button>
   </div>
 </div>
@@ -318,10 +310,8 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 
 <div class="page active" id="pageMenu">
   
-  <!-- خوش آمدگویی -->
   <div class="welcome-message" id="welcomeMessage" style="display:none;"></div>
 
-  <!-- ویترین امروز -->
   <div class="today-showcase" id="todayShowcase">
     <div class="showcase-title">امروز چی بخوریم؟</div>
     <div class="showcase-grid" id="showcaseGrid">
@@ -329,7 +319,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     </div>
   </div>
 
-  <!-- پروفایل کاربر -->
   <div class="profile-header" onclick="openProfileEdit()" id="userProfileHeader" style="display:none;">
     <img id="displayAvatar" class="profile-avatar" src="" alt="پروفایل">
     <div class="profile-info">
@@ -482,7 +471,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     <div class="admin-tab" onclick="switchAdminTab('banner',this)">🖼️ بنر</div>
   </div>
 
-  <!-- تب داشبورد -->
   <div class="admin-panel" id="adminTabDashboard">
     <h3>📊 داشبورد گزارش</h3>
     <div class="dashboard-stats">
@@ -497,7 +485,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     </div>
   </div>
 
-  <!-- تب کاربران -->
   <div class="admin-panel" id="adminTabUsers" style="display:none;">
     <h3>👥 مدیریت کاربران</h3>
     <div class="admin-warning">💡 در این بخش می‌توانید نام کاربران را ویرایش یا آن‌ها را حذف کنید</div>
@@ -505,7 +492,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     <div id="adminUsersListContainer" style="max-height: 50vh; overflow-y: auto;"></div>
   </div>
 
-  <!-- تب نسخه -->
   <div class="admin-panel" id="adminTabPrescription" style="display:none">
     <h3>📤 ارسال نسخه رژیم درمانی</h3>
     <div class="settings-row" style="margin-bottom:10px; position:relative;">
@@ -527,7 +513,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     </div>
   </div>
 
-  <!-- تب جدول -->
   <div class="admin-panel" id="adminTabTable" style="display:none">
     <h3>📋 ویرایش جدول هوشمند</h3>
     
@@ -566,7 +551,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     </div>
   </div>
 
-  <!-- تب پیام -->
   <div class="admin-panel" id="adminTabMessage" style="display:none">
     <h3>📢 ارسال پیام</h3>
     <div class="settings-row"><label>عنوان:</label><input type="text" id="messageTitle" placeholder="مثلاً: یادآوری مهم"></div>
@@ -588,7 +572,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     </div>
   </div>
 
-  <!-- تب بنر -->
   <div class="admin-panel" id="adminTabBanner" style="display:none">
     <h3>🖼️ مدیریت بنر اپلیکیشن</h3>
     <div class="settings-row">
@@ -653,7 +636,7 @@ function safeGetLS(key,def){try{var v=localStorage.getItem(key);return v==null?d
 function safeParseJSON(str,def){if(!str)return def;try{return JSON.parse(str);}catch(e){return def;}}
 
 /* ============================================================
-   ثبت‌نام و پروفایل
+   ثبت‌نام و پروفایل (حل اساسی مشکل)
    ============================================================ */
 function generateFallbackUserId(){
   var chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',code='';
@@ -704,9 +687,8 @@ function compressImage(base64Str, maxWidth, maxHeight, quality) {
 async function previewRegAvatar(event) {
   var file = event.target.files[0];
   if (file) {
-    if (file.size > 2000 * 1024) { 
-      showToast('حجم عکس بسیار زیاد است. لطفاً عکس کمتری انتخاب کنید.', 'error');
-      return;
+    if (file.size > 500 * 1024) { 
+      showToast('حجم عکس بیشتر از ۵۰۰ کیلوبایت است. در حال فشرده‌سازی...', 'warning');
     }
     var reader = new FileReader();
     reader.onload = async function(e) {
@@ -722,11 +704,13 @@ async function submitProfile() {
   var firstName = document.getElementById('regFirstName').value.trim();
   var lastName = document.getElementById('regLastName').value.trim();
   var avatarSrc = document.getElementById('regAvatarPreview').src;
+  var btn = document.getElementById('submitProfileBtn');
   
   if(!firstName || !lastName) { showToast('نام و نام خانوادگی را وارد کنید', 'error'); return; }
   
   var fullName = firstName + ' ' + lastName;
   showToast('⏳ در حال ثبت...', 'warning');
+  if(btn) { btn.disabled = true; btn.textContent = 'در حال ارسال...'; }
   
   try {
     var record = await getUserRecord(userId) || {};
@@ -745,6 +729,8 @@ async function submitProfile() {
     }
   } catch(e) {
     showToast('❌ خطای غیرمنتظره: ' + e.message, 'error', 5000);
+  } finally {
+    if(btn) { btn.disabled = false; btn.textContent = '✅ ثبت و ورود به برنامه'; }
   }
 }
 
@@ -776,7 +762,7 @@ function openProfileEdit() {
 }
 
 /* ============================================================
-   Supabase Data
+   Supabase Data (اصلاح شده برای جلوگیری از خطای دیتابیس)
    ============================================================ */
 async function getUserRecord(code) {
   if (!code) return null;
@@ -784,16 +770,24 @@ async function getUserRecord(code) {
     const { data, error } = await supabaseClient.from('users_list').select('data').eq('code', code.toUpperCase()).maybeSingle();
     if (error) throw error;
     return data ? data.data : null;
-  } catch(e) { return null; }
+  } catch(e) { 
+    console.error('getUserRecord error:', e);
+    return null; 
+  }
 }
 async function saveUserRecord(code, data) {
   if (!code) return false;
   try {
-    const { error } = await supabaseClient.from('users_list').upsert({ code: code.toUpperCase(), data: data, updated_at: new Date().toISOString() });
+    // فقط فیلدهای موجود را ارسال می‌کنیم. نام در فیلد data ذخیره می‌شود نه ستون جداگانه
+    const { error } = await supabaseClient.from('users_list').upsert({ 
+      code: code.toUpperCase(), 
+      data: data, 
+      updated_at: new Date().toISOString() 
+    });
     if (error) throw error;
     return true;
   } catch(e) { 
-    console.error('Save error:', e);
+    console.error('saveUserRecord error:', e);
     return false; 
   }
 }
@@ -873,7 +867,7 @@ function exitImpersonation() {
 }
 
 /* ============================================================
-   جستجوی کاربر (Dropdown)
+   جستجوی کاربر
    ============================================================ */
 function showUserDropdown(searchInputId, hiddenInputId) {
   var searchVal = document.getElementById(searchInputId).value.toLowerCase().trim();
