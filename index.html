@@ -1734,6 +1734,9 @@ function renderAdminTableEditor(){
     html+='<input type="text" value="'+escapeHtml(name)+'" onchange="updateAdminColName('+i+',this.value)" style="background:var(--bg-primary);color:var(--text-primary);border:1px solid #3d5a45;padding:8px;border-radius:6px;font-family:var(--font-family);font-size:.9em;width:100%">';
     html+='<input type="time" value="'+escapeHtml(time)+'" onchange="updateAdminColTime('+i+',this.value)" style="width:90px;background:var(--bg-primary);color:var(--accent);border:1px solid var(--accent);padding:6px;border-radius:6px;font-family:var(--font-family)">';
     html+='</div>';
+    if(adminTableColumns.length > 1) {
+      html += '<button onclick="removeTableColumnEditor('+i+')" style="width:100%;padding:6px;background:var(--btn-danger);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:.7em;font-weight:700;margin-bottom:8px;font-family:var(--font-family)">🗑️ حذف وعده "' + escapeHtml(name) + '"</button>';
+    }
   });
   container.innerHTML=html;
 }
@@ -1742,6 +1745,30 @@ function updateAdminColTime(i,val){ var col = adminTableColumns[i]; adminCurrent
 function addTableColumnEditor(){
   if(adminTableColumns.length>=8){showToast('حداکثر ۸ وعده','warning');return;}
   var newCol='c_'+Date.now();adminTableColumns.push(newCol);adminTableColumnNames[newCol]='وعده '+adminTableColumns.length;adminCurrentTimes[newCol]='08:00';adminFortyDayData.forEach(function(day){day[newCol]='';});renderAdminTableEditor(); renderAdminDayEditor();
+}
+
+// تابع جدید برای حذف وعده
+function removeTableColumnEditor(i) {
+  if(adminTableColumns.length <= 1) { showToast('حداقل یک وعده باید باقی بماند', 'error'); return; }
+  var colName = adminTableColumnNames[adminTableColumns[i]] || adminTableColumns[i];
+  if(!confirm('⚠️ آیا مطمئن هستید که می‌خواهید وعده "' + colName + '" را حذف کنید؟ این عمل تمام اطلاعات مربوط به این وعده را در تمام روزها پاک می‌کند.')) return;
+  
+  var colToRemove = adminTableColumns[i];
+  
+  // حذف از لیست ستون‌های ادمین
+  adminTableColumns.splice(i, 1);
+  delete adminTableColumnNames[colToRemove];
+  delete adminCurrentTimes[colToRemove];
+  
+  // حذف از تمام روزهای ادمین
+  adminFortyDayData.forEach(function(day) {
+    delete day[colToRemove];
+  });
+  
+  // بروزرسانی رابط کاربری ادمین
+  renderAdminTableEditor();
+  renderAdminDayEditor();
+  showToast('✅ وعده حذف شد. برای اعمال نهایی، جدول را برای کاربر ارسال کنید.');
 }
 
 function renderAdminDayEditor(){
