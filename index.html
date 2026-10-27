@@ -31,7 +31,20 @@ body{font-family:var(--font-family);background:var(--bg-primary);
   min-height:100vh;font-size:var(--font-size)}
 .container{max-width:750px;margin:0 auto;padding:10px}
 
-.admin-return-bar { background: #c0392b; color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 1em; border-radius: 10px; margin-bottom: 15px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+.admin-return-bar { background: #c0392b; color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 1em; border-radius: 10px; margin-bottom: 15px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); position: sticky; top: 0; z-index: 999; }
+
+.top-bar { display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary)); padding: 10px 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--border-color); }
+.top-bar-info { display: flex; align-items: center; gap: 10px; }
+.top-bar-actions { display: flex; gap: 8px; }
+.icon-btn { background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 5px; transition: 0.2s; }
+.icon-btn:active { transform: scale(0.9); }
+
+.login-box { background: linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary)); border: 2px solid var(--accent); border-radius: 20px; padding: 25px; margin: 50px auto; max-width: 400px; text-align: center; }
+.login-box h2 { color: var(--accent); margin-bottom: 20px; font-family: 'Lalezar', cursive; font-size: 1.8em;}
+.login-input { width: 100%; padding: 12px; margin-bottom: 15px; background: var(--input-bg); color: #fff; border: 1px solid var(--accent); border-radius: 8px; font-family: inherit; text-align: center; font-size: 1.1em; }
+.saved-profiles-list { margin-top: 15px; border-top: 1px dashed var(--border-color); padding-top: 15px; text-align: right; }
+.saved-profile-item { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border-color); cursor: pointer;}
+.saved-profile-item:hover { border-color: var(--accent); }
 
 .today-showcase { background: linear-gradient(135deg, #1e3c26, #0d1f12); border: 2px solid var(--accent); border-radius: 20px; padding: 15px; margin-bottom: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.4), inset 0 0 20px rgba(244,208,63,0.1); position: relative; overflow: hidden; }
 .today-showcase::before { content: '✨'; position: absolute; top: -10px; left: -10px; font-size: 5em; opacity: 0.05; transform: rotate(20deg); }
@@ -44,10 +57,6 @@ body{font-family:var(--font-family);background:var(--bg-primary);
 .showcase-card-time { font-size: 0.7em; color: var(--accent2); margin-top: 4px; }
 
 .welcome-message { text-align: center; font-family: 'Lalezar', cursive; font-size: 1.6em; color: var(--accent); margin-bottom: 10px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-.profile-header { display: flex; align-items: center; gap: 15px; background: linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary)); padding: 15px; border-radius: 16px; margin-bottom: 15px; border: 1px solid var(--border-color); cursor: pointer; }
-.profile-avatar { width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent); background: #000; }
-.profile-info h3 { color: #fff; font-size: 1.15em; margin-bottom: 4px; }
-.profile-info p { font-size: 0.8em; color: var(--text-muted); font-family: monospace; }
 
 .growth-btn {
   display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -108,7 +117,7 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:99998;justify-content:center;align-items:center;padding:20px}
 .modal-overlay.active{display:flex}
-.modal-content{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border:2px solid var(--accent);border-radius:20px;padding:25px;max-width:380px;width:100%;text-align:center;position:relative}
+.modal-content{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border:2px solid var(--accent);border-radius:20px;padding:25px;max-width:400px;width:100%;text-align:center;position:relative; max-height: 90vh; overflow-y: auto;}
 .modal-content h2{color:var(--accent);margin-bottom:15px}
 .modal-content p{color:var(--text-secondary);margin-bottom:15px;line-height:1.8;font-size:.9em}
 .code-display{background:var(--input-bg);padding:15px;border-radius:12px;font-size:2em;font-weight:700;color:var(--accent);letter-spacing:5px;margin:15px 0;border:2px dashed var(--accent);font-family:monospace;direction:ltr}
@@ -154,8 +163,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 .history-item.active-history{border-right-color:#2ecc71}
 .history-item-title{color:var(--accent);font-weight:700;font-size:.95em;}
 .history-item-date{font-size:.72em;color:var(--text-muted);}
-.history-item-preview{font-size:.8em;color:var(--text-secondary);opacity:.85;max-height:40px;overflow:hidden;line-height:1.6}
-.history-badge{display:inline-block;background:#2ecc71;color:#fff;font-size:.65em;padding:2px 8px;border-radius:10px;margin-right:5px}
 .history-actions{display:flex; gap:8px; margin-top:5px;}
 .btn-hist-edit{background:var(--btn-primary); color:#fff; padding:6px 12px; font-size:0.75em; border:none; border-radius:6px; cursor:pointer; flex:1; font-family:inherit;}
 .btn-hist-del{background:var(--btn-danger); color:#fff; padding:6px 12px; font-size:0.75em; border:none; border-radius:6px; cursor:pointer; flex:1; font-family:inherit;}
@@ -173,19 +180,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 .alarm-row .toggle-btn::after{content:'';position:absolute;top:2px;right:2px;width:22px;height:22px;border-radius:50%;background:#888;transition:.2s}
 .alarm-row .toggle-btn.active{background:var(--btn-success)}
 .alarm-row .toggle-btn.active::after{right:calc(100% - 24px);background:#fff}
-
-.preview-table{width:100%;border-collapse:collapse;background:var(--bg-primary);border-radius:8px;overflow:hidden;font-size:.75em;margin-top:8px}
-.preview-table th{padding:6px 4px;background:#2b5738;color:var(--accent);font-size:.75em;border-bottom:1px solid rgba(244,208,63,.3)}
-.preview-table td{padding:5px 4px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1);font-size:.75em}
-.preview-table tr:nth-child(even) td{background:rgba(0,0,0,.15)}
-.preview-scroll{max-height:350px;overflow-y:auto;border-radius:10px;border:1px solid var(--border-color)}
-
-.preview-edit-input {
-  width: 100%; background: transparent; border: 1px solid transparent;
-  color: var(--text-primary); text-align: center; font-family: inherit; font-size: inherit;
-  padding: 4px; border-radius: 4px; cursor: text;
-}
-.preview-edit-input:focus { border-color: var(--accent); background: rgba(0,0,0,0.5); outline: none; }
 
 .day-input-box{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;background:var(--bg-primary);padding:10px;border-radius:8px;margin-bottom:8px}
 .day-input-box label{font-size:.75em;color:var(--accent);font-weight:700;white-space:nowrap}
@@ -231,28 +225,70 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   <button class="alarm-snooze-btn" onclick="snoozeAlarm()">💤 چرت ۱۰ دقیقه</button>
 </div>
 
-<div class="modal-overlay" id="registerModal" style="z-index: 100000;">
-  <div class="modal-content" style="max-width:450px; border-color:var(--accent);">
+<!-- صفحه لاگین و ثبت‌نام -->
+<div class="modal-overlay active" id="loginPage" style="z-index: 100000; background: var(--bg-primary);">
+  <div class="login-box">
     <h2>🌿 خوش آمدید</h2>
-    <p>لطفاً برای شروع، پروفایل خود را تکمیل کنید.</p>
-    <p style="font-size:0.75em; color:var(--accent); background:rgba(244,208,63,0.1); padding:8px; border-radius:8px;">💡 اگر مدیر از شما کد خواسته، کد زیر را کپی کرده و برای او در پیام‌رسان بفرستید.</p>
-    <div class="code-display" id="welcomeCode" style="font-size:1.5em; margin:5px 0;">...</div>
-
-    <div style="text-align:center; margin: 15px 0;">
-      <label for="regAvatar" style="cursor:pointer; display:inline-block; position:relative;">
-        <img id="regAvatarPreview" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23222'/><text x='50' y='55' font-size='40' text-anchor='middle' fill='%23aaa'>📷</text></svg>" style="width:100px;height:100px;border-radius:50%;border:3px solid var(--accent);object-fit:cover;background:#000;">
-        <div style="position:absolute; bottom:0; right:0; background:var(--btn-success); border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center; border:2px solid #fff; font-size:1.2em;">➕</div>
-      </label>
-      <input type="file" id="regAvatar" accept="image/*" style="display:none;" onchange="previewRegAvatar(event)">
-      <div style="font-size:0.7em; color:var(--text-muted); margin-top:8px;">حداکثر حجم عکس: ۵۰۰ کیلوبایت</div>
+    <p style="color:var(--text-secondary); margin-bottom:15px;">برای ورود نام کاربری و رمز خود را وارد کنید.</p>
+    
+    <input type="text" id="loginUsername" class="login-input" placeholder="نام و نام خانوادگی (مثلاً: علی محمدی)">
+    <input type="password" id="loginPassword" class="login-input" placeholder="رمز عبور ۴ رقمی" maxlength="4" inputmode="numeric">
+    
+    <div style="text-align:right; margin-bottom:15px; display:flex; align-items:center;">
+      <input type="checkbox" id="rememberMe" style="width:20px; height:20px; margin-left:8px; accent-color:var(--accent);">
+      <label for="rememberMe" style="font-size:0.9em; color:var(--text-secondary); cursor:pointer;">مرا به خاطر بسپار</label>
     </div>
-    <div class="settings-row"><label style="min-width:80px;">نام:</label><input type="text" id="regFirstName" placeholder="مثلاً: علی" required></div>
-    <div class="settings-row"><label style="min-width:80px;">نام خانوادگی:</label><input type="text" id="regLastName" placeholder="مثلاً: محمدی" required></div>
-    <button class="btn btn-green" onclick="submitProfile()" id="submitProfileBtn" style="margin-top:15px; font-size:1em;">✅ ثبت و ورود به برنامه</button>
-    <button class="btn btn-gray" id="closeRegModalBtn" onclick="document.getElementById('registerModal').classList.remove('active')" style="display:none; margin-top:5px;">انصراف</button>
+
+    <button class="btn btn-green" onclick="doLogin()">🔐 ورود به برنامه</button>
+    <button class="btn btn-orange" onclick="showRegisterForm()" style="margin-top:10px;">📝 ثبت نام جدید</button>
+    
+    <button class="btn btn-gray" style="margin-top:10px; font-size:0.8em; background:transparent; border:1px solid var(--border-color);" onclick="alert('لطفاً کد اختصاصی خود (در صفحه ثبت نام نمایش داده می‌شود) را به مدیر ارسال کنید تا رمز شما را از پنل کاربری مشاهده کند.')">رمز عبورم را فراموش کرده‌ام</button>
+
+    <div class="saved-profiles-list" id="savedProfilesContainer" style="display:none;">
+      <p style="font-size:0.8em; color:var(--accent); margin-bottom:8px;">پروفایل‌های ذخیره شده روی این گوشی:</p>
+      <div id="savedProfilesList"></div>
+    </div>
   </div>
 </div>
 
+<!-- مودال ثبت‌نام جدید -->
+<div class="modal-overlay" id="registerModal" style="z-index: 100001;">
+  <div class="modal-content" style="max-width:450px; border-color:var(--accent);">
+    <h2>🌿 ثبت نام</h2>
+    <p style="font-size:0.75em; color:var(--accent); background:rgba(244,208,63,0.1); padding:8px; border-radius:8px;">📌 کد اختصاصی شما (برای پشتیبانی به مدیر بدهید):</p>
+    <div class="code-display" id="registerCode" style="font-size:1.5em; margin:5px 0;">...</div>
+
+    <div style="text-align:center; margin: 15px 0;">
+      <label for="regAvatar" style="cursor:pointer; display:inline-block; position:relative;">
+        <img id="regAvatarPreview" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23222'/><text x='50' y='55' font-size='40' text-anchor='middle' fill='%23aaa'>📷</text></svg>" style="width:90px;height:90px;border-radius:50%;border:3px solid var(--accent);object-fit:cover;background:#000;">
+        <div style="position:absolute; bottom:0; right:0; background:var(--btn-success); border-radius:50%; width:28px; height:28px; display:flex; align-items:center; justify-content:center; border:2px solid #fff; font-size:1.1em;">➕</div>
+      </label>
+      <input type="file" id="regAvatar" accept="image/*" style="display:none;" onchange="previewRegAvatar(event)">
+    </div>
+
+    <div class="settings-row"><label>نام و نام خانوادگی:</label><input type="text" id="regFullName" placeholder="مثلاً: علی محمدی" required></div>
+    <div class="settings-row"><label>سن:</label><input type="number" id="regAge" placeholder="مثلاً: ۳۵" required></div>
+    <div class="settings-row"><label>مشکل / بیماری:</label><input type="text" id="regProblem" placeholder="مثلاً: دیابت، چاقی" required></div>
+    <div class="settings-row"><label>رمز عبور ۴ رقمی:</label><input type="password" id="regPassword" placeholder="۴ رقم" maxlength="4" inputmode="numeric" required></div>
+
+    <button class="btn btn-green" onclick="doRegister()" id="submitProfileBtn" style="margin-top:15px; font-size:1em;">✅ تکمیل ثبت‌نام</button>
+    <button class="btn btn-gray" onclick="document.getElementById('registerModal').classList.remove('active')" style="margin-top:5px;">انصراف</button>
+  </div>
+</div>
+
+<!-- مودال ویرایش پروفایل -->
+<div class="modal-overlay" id="editProfileModal" style="z-index: 100001;">
+  <div class="modal-content" style="max-width:450px; border-color:var(--accent);">
+    <h2>⚙️ ویرایش پروفایل</h2>
+    <div class="settings-row"><label>نام و نام خانوادگی:</label><input type="text" id="editFullName" required></div>
+    <div class="settings-row"><label>سن:</label><input type="number" id="editAge" required></div>
+    <div class="settings-row"><label>مشکل / بیماری:</label><input type="text" id="editProblem" required></div>
+    <button class="btn btn-green" onclick="saveProfileEdit()" style="margin-top:15px;">💾 ذخیره تغییرات</button>
+    <button class="btn btn-gray" onclick="document.getElementById('editProfileModal').classList.remove('active')" style="margin-top:5px;">انصراف</button>
+  </div>
+</div>
+
+<!-- مودال ورود ادمین -->
 <div class="modal-overlay" id="adminLoginModal">
   <div class="modal-content">
     <h2>🔐 پنل مدیریت</h2>
@@ -281,20 +317,31 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 
 <button id="pwaInstallBtn" onclick="installPWA()" style="display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff;border:none;border-radius:50px;padding:14px 30px;font-size:1em;font-weight:700;cursor:pointer;box-shadow:0 5px 20px rgba(46,204,113,.5);z-index:9998;font-family:var(--font-family);align-items:center;gap:8px">📲 نصب اپلیکیشن</button>
 
-<div class="container">
+<div class="container" id="mainAppContainer" style="display:none;">
 
 <div id="adminReturnBar" class="admin-return-bar" style="display:none;" onclick="exitImpersonation()">⬅️ بازگشت به پنل مدیریت (شما در حال مشاهده پنل کاربر هستید)</div>
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="top-bar-info">
+    <img id="displayAvatar" class="profile-avatar" src="" style="width:40px; height:40px;" alt="پروفایل">
+    <div>
+      <h3 id="displayName" style="color:var(--accent); font-size:1em;">نام کاربر</h3>
+      <p id="displayCode" style="font-size:0.7em; color:var(--text-muted); font-family:monospace;">کد: ----</p>
+    </div>
+  </div>
+  <div class="top-bar-actions">
+    <button class="icon-btn" onclick="openEditProfileModal()" title="ویرایش پروفایل">⚙️</button>
+    <button class="icon-btn" onclick="deleteMyAccount()" title="حذف حساب کاربری">🗑️</button>
+    <button class="icon-btn" onclick="doLogout()" title="خروج از حساب">🚪</button>
+  </div>
+</div>
 
 <div class="page active" id="pageMenu">
   <div class="welcome-message" id="welcomeMessage" style="display:none;"></div>
   <div class="today-showcase" id="todayShowcase">
     <div class="showcase-title">امروز چی بخوریم؟</div>
     <div class="showcase-grid" id="showcaseGrid"><p style="text-align:center;color:var(--text-muted);grid-column:1/-1;font-size:0.9em;">در حال بارگذاری...</p></div>
-  </div>
-  <div class="profile-header" onclick="openProfileEdit()" id="userProfileHeader" style="display:none;">
-    <img id="displayAvatar" class="profile-avatar" src="" alt="پروفایل">
-    <div class="profile-info"><h3 id="displayName">نام کاربر</h3><p id="displayCode">کد: ----</p></div>
-    <div style="margin-right:auto; color:var(--accent);">✏️</div>
   </div>
   <div class="main-header"><h1>🌿 سفیر سلامت حامی</h1><h2>🍽️ برنامه هوشمند اصلاح مزاج</h2><div class="supervisor-box">تحت نظارت کارشناس مزاج‌شناسی و زبان‌شناسی<br>با مدرک بین‌المللی<strong>✨ مریم حمیدیان ✨</strong></div></div>
   <div class="menu-card" onclick="showPage('pageDaily')"><div class="menu-card-icon">🍵</div><div class="menu-card-title">🍵 برنامه روزانه سلامت</div><div class="menu-card-desc">دمنوش‌ها و وعده‌های روزانه</div></div>
@@ -370,7 +417,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   <div class="main-header"><h1>⚙️ تنظیمات</h1><h2>مدیریت برنامه</h2></div>
   <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
   
-  <!-- بخش به‌روزرسانی و نصب (منتقل شده به تنظیمات) -->
   <div class="section-box" style="border:2px solid var(--accent);">
     <h3>🔄 به‌روزرسانی و نصب</h3>
     <button class="btn btn-orange" onclick="clearCacheAndReload()" style="margin-bottom:8px;">🔄 به‌روزرسانی برنامه (پاک‌سازی کش)</button>
@@ -420,6 +466,7 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
       <p style="font-size:0.75em; color:var(--text-muted); margin-bottom:10px; text-align:center;">کاربر کد خود را از تنظیمات برای شما می‌فرستد. کد را وارد کرده و پروفایل او را بسازید.</p>
       <div class="settings-row"><label>کد کاربر:</label><input type="text" id="newUserCode" placeholder="مثلاً: A3B5C7" maxlength="10" style="text-align:center; direction:ltr;"></div>
       <div class="settings-row"><label>نام و نام خانوادگی:</label><input type="text" id="newUserName" placeholder="مثلاً: علی محمدی"></div>
+      <div class="settings-row"><label>رمز ۴ رقمی:</label><input type="text" id="newUserPassword" placeholder="مثلاً: ۱۲۳۴" maxlength="4"></div>
       <div class="settings-row" style="justify-content:center; margin-top:10px;">
         <label for="newUserAvatar" style="cursor:pointer; display:inline-block; position:relative;">
           <img id="newUserAvatarPreview" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23222'/><text x='50' y='55' font-size='40' text-anchor='middle' fill='%23aaa'>📷</text></svg>" style="width:60px;height:60px;border-radius:50%;border:2px solid var(--accent);object-fit:cover;background:#000;">
@@ -565,61 +612,128 @@ function safeGetLS(key,def){try{var v=localStorage.getItem(key);return v==null?d
 function safeParseJSON(str,def){if(!str)return def;try{return JSON.parse(str);}catch(e){return def;}}
 
 /* ============================================================
-   به روز رسانی (فقط کش مرورگر، بدون پاک کردن LocalStorage)
+   LOGIN & REGISTRATION SYSTEM
    ============================================================ */
-async function clearCacheAndReload() {
-  showToast('⏳ در حال به‌روزرسانی و پاکسازی کش (اطلاعات شما محفوظ است)...', 'warning', 5000);
-  
-  // فقط کش‌های مرورگر را پاک می‌کنیم تا کدهای جدید لود شوند
-  if ('caches' in window) {
-    try {
-      const cacheNames = await caches.keys();
-      for(let name of cacheNames) {
-        await caches.delete(name);
-      }
-    } catch(e) { console.log('Cache clear error:', e); }
+var currentDeviceCode = safeGetLS('userId', null);
+var profilesList = safeParseJSON(safeGetLS('profilesList', '[]'), []);
+
+function initAuth() {
+  if(!currentDeviceCode) {
+    currentDeviceCode = generateFallbackUserId();
+    safeSetLS('userId', currentDeviceCode);
   }
+  document.getElementById('registerCode').textContent = currentDeviceCode;
   
-  // حذف Service Worker برای اجبار به آپدیت
-  if ('serviceWorker' in navigator) {
-    try {
-      const registrations = await navigator.serviceWorker.getRegistrations();
-      for(let registration of registrations) {
-        await registration.unregister();
-      }
-    } catch(e) { console.log('SW unregister error:', e); }
+  var currentSession = safeGetLS('currentSessionUser', null);
+  
+  if(currentSession && currentSession !== "") {
+    userId = currentSession;
+    userProfile = safeParseJSON(safeGetLS('userProfile','null'), null);
+    document.getElementById('loginPage').classList.remove('active');
+    document.getElementById('mainAppContainer').style.display = 'block';
+    updateProfileUI();
+    initData(); // بارگذاری اطلاعات محلی
+    renderTable(); renderAlarmSettings(); updateTodayShowcase();
+  } else {
+    document.getElementById('loginPage').classList.add('active');
+    document.getElementById('mainAppContainer').style.display = 'none';
+    renderSavedProfiles();
   }
-  
-  // نکته بسیار مهم: LocalStorage به هیچ وجه دست نمی‌خورد تا کاربران و پروفایل‌ها پاک نشوند.
-  
-  setTimeout(() => {
-    window.location.reload(true);
-  }, 1000);
 }
 
-/* ============================================================
-   ثبت‌نام و پروفایل
-   ============================================================ */
-function generateFallbackUserId(){
-  var chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',code='';
-  for(var i=0;i<6;i++)code+=chars.charAt(Math.floor(Math.random()*chars.length));
-  return code;
-}
-function initUserId(){
-  var saved=safeGetLS('userId',null);
-  if(!saved){
-    saved=generateFallbackUserId();
-    safeSetLS('userId',saved);
-  }
-  userId=saved;
-  document.getElementById('welcomeCode').textContent=userId;
-  
-  userProfile = safeParseJSON(safeGetLS('userProfile','null'), null);
-  if(!userProfile) {
-    document.getElementById('registerModal').classList.add('active');
+function renderSavedProfiles() {
+  var container = document.getElementById('savedProfilesContainer');
+  var list = document.getElementById('savedProfilesList');
+  if(profilesList.length > 0) {
+    container.style.display = 'block';
+    var html = '';
+    profilesList.forEach(function(p) {
+      html += '<div class="saved-profile-item" onclick="quickLogin(\''+p.username+'\')">';
+      html += '<div><div style="font-weight:bold; color:var(--accent);">'+escapeHtml(p.username)+'</div><div style="font-size:0.7em; color:var(--text-muted);">'+escapeHtml(p.code)+'</div></div>';
+      html += '<div>👈</div></div>';
+    });
+    list.innerHTML = html;
   } else {
-    document.getElementById('registerModal').classList.remove('active');
-    updateProfileUI();
+    container.style.display = 'none';
+  }
+}
+
+function quickLogin(username) {
+  document.getElementById('loginUsername').value = username;
+  document.getElementById('loginPassword').focus();
+}
+
+async function doLogin() {
+  var username = document.getElementById('loginUsername').value.trim();
+  var pass = document.getElementById('loginPassword').value.trim();
+  var remember = document.getElementById('rememberMe').checked;
+
+  if(!username || !pass) { showToast('نام کاربری و رمز را وارد کنید', 'error'); return; }
+
+  showToast('⏳ در حال ورود...', 'warning');
+  
+  var profile = profilesList.find(function(p) { return p.username === username && p.password === pass; });
+  
+  if(!profile) {
+    showToast('نام کاربری یا رمز عبور اشتباه است.', 'error');
+    return;
+  }
+
+  userId = profile.code; // استفاده از کد ذخیره شده برای این پروفایل
+  userProfile = profile.data;
+  
+  safeSetLS('currentSessionUser', userId);
+  safeSetLS('userId', userId);
+  if(remember) {
+    safeSetLS('userProfile', JSON.stringify(userProfile));
+  } else {
+    localStorage.removeItem('userProfile');
+  }
+
+  document.getElementById('loginPage').classList.remove('active');
+  document.getElementById('mainAppContainer').style.display = 'block';
+  
+  updateProfileUI();
+  initData(); // بارگذاری مجدد اطلاعات پس از لاگین
+  renderTable(); renderAlarmSettings(); updateTodayShowcase();
+  showToast('✅ خوش آمدید');
+}
+
+function doLogout() {
+  if(!confirm('از حساب کاربری خارج می‌شوید؟')) return;
+  localStorage.removeItem('currentSessionUser');
+  localStorage.removeItem('userProfile');
+  
+  // اگر در حالت مشاهده ادمین بودیم، برگردیم
+  if(isImpersonating) {
+    isImpersonating = false;
+    userId = originalAdminCode;
+  }
+  
+  document.getElementById('mainAppContainer').style.display = 'none';
+  document.getElementById('loginPage').classList.add('active');
+  document.getElementById('loginPassword').value = '';
+  renderSavedProfiles();
+}
+
+function showRegisterForm() {
+  if(profilesList.length >= 3) {
+    showToast('⚠️ در این گوشی حداکثر ۳ پروفایل می‌توانید بسازید.', 'warning', 5000);
+    return;
+  }
+  document.getElementById('registerModal').classList.add('active');
+}
+
+function previewRegAvatar(event) {
+  var file = event.target.files[0];
+  if (file) {
+    var reader = new FileReader();
+    reader.onload = async function(e) {
+      var originalSrc = e.target.result;
+      var compressed = await compressImage(originalSrc, 300, 300, 0.6); // فشرده سازی قوی‌تر
+      document.getElementById('regAvatarPreview').src = compressed;
+    };
+    reader.readAsDataURL(file);
   }
 }
 
@@ -645,83 +759,136 @@ function compressImage(base64Str, maxWidth, maxHeight, quality) {
     });
 }
 
-async function previewRegAvatar(event) {
-  var file = event.target.files[0];
-  if (file) {
-    if (file.size > 500 * 1024) { showToast('در حال فشرده‌سازی...', 'warning'); }
-    var reader = new FileReader();
-    reader.onload = async function(e) {
-      var originalSrc = e.target.result;
-      var compressed = await compressImage(originalSrc, 400, 400, 0.7);
-      document.getElementById('regAvatarPreview').src = compressed;
-    };
-    reader.readAsDataURL(file);
+async function doRegister() {
+  var fullName = document.getElementById('regFullName').value.trim();
+  var age = document.getElementById('regAge').value.trim();
+  var problem = document.getElementById('regProblem').value.trim();
+  var password = document.getElementById('regPassword').value.trim();
+  var avatar = document.getElementById('regAvatarPreview').src;
+
+  if(!fullName || !age || !problem || !password) {
+    showToast('لطفاً همه فیلدها را پر کنید.', 'error'); return;
+  }
+  if(password.length !== 4) { showToast('رمز عبور باید ۴ رقم باشد.', 'error'); return; }
+
+  // بررسی اینکه آیا این نام کاربری در لیست لوکال تکراری است یا خیر
+  if(profilesList.some(function(p) { return p.username === fullName; })) {
+    showToast('این نام کاربری قبلاً در این گوشی ثبت شده است.', 'error'); return;
+  }
+
+  showToast('⏳ در حال ثبت نام...', 'warning');
+
+  var profileData = { name: fullName, age: age, problem: problem, avatar: avatar };
+  var uniqueKey = currentDeviceCode + "_" + Date.now(); // برای اینکه ۳ برنامه در دیتابیس تداخل نکنند
+
+  // بررسی اینکه در دیتابیس با این نام و پسورد وجود دارد یا نه (اگر از گوشی دیگری وارد می‌کند)
+  try {
+    var remoteData = await getUserRecord(uniqueKey) || {};
+    remoteData.profile = profileData;
+    remoteData.auth = { username: fullName, password: password };
+    
+    var ok = await saveUserRecord(uniqueKey, remoteData);
+    if(!ok) { showToast('❌ خطا در ثبت نام در سرور', 'error'); return; }
+    
+    // ذخیره در لیست محلی
+    profilesList.push({
+      username: fullName,
+      password: password,
+      code: uniqueKey,
+      data: profileData
+    });
+    safeSetLS('profilesList', JSON.stringify(profilesList));
+    
+    showToast('✅ ثبت نام با موفقیت انجام شد. حالا وارد شوید.');
+    document.getElementById('registerModal').classList.remove('active');
+    
+    // پر کردن فرم لاگین برای راحتی
+    document.getElementById('loginUsername').value = fullName;
+    document.getElementById('loginPassword').value = password;
+    
+  } catch(e) {
+    showToast('❌ خطای شبکه: ' + e.message, 'error');
   }
 }
 
-async function submitProfile() {
-  var firstName = document.getElementById('regFirstName').value.trim();
-  var lastName = document.getElementById('regLastName').value.trim();
-  var avatarSrc = document.getElementById('regAvatarPreview').src;
-  var btn = document.getElementById('submitProfileBtn');
-  
-  if(!firstName || !lastName) { showToast('نام و نام خانوادگی را وارد کنید', 'error'); return; }
-  
-  var fullName = firstName + ' ' + lastName;
-  showToast('⏳ در حال ثبت...', 'warning');
-  if(btn) { btn.disabled = true; btn.textContent = 'در حال ارسال...'; }
-  
-  try {
-    let timeoutId = setTimeout(() => {
-      if(btn) { btn.disabled = false; btn.textContent = '✅ ثبت و ورود به برنامه'; }
-      showToast('❌ اتصال به سرور طول کشید. اینترنت خود را بررسی کنید.', 'error', 7000);
-    }, 12000);
+function openEditProfileModal() {
+  document.getElementById('editFullName').value = userProfile.name;
+  document.getElementById('editAge').value = userProfile.age || '';
+  document.getElementById('editProblem').value = userProfile.problem || '';
+  document.getElementById('editProfileModal').classList.add('active');
+}
 
-    var record = await getUserRecord(userId) || {};
-    record.profile = { name: fullName, avatar: avatarSrc, registeredAt: Date.now() };
-    var ok = await saveUserRecord(userId, record);
-    clearTimeout(timeoutId);
+async function saveProfileEdit() {
+  var name = document.getElementById('editFullName').value.trim();
+  var age = document.getElementById('editAge').value.trim();
+  var problem = document.getElementById('editProblem').value.trim();
+  
+  if(!name) { showToast('نام نمی‌تواند خالی باشد.', 'error'); return; }
+  
+  showToast('⏳ در حال ذخیره...', 'warning');
+  var data = await getUserRecord(userId) || {};
+  if(!data.profile) data.profile = {};
+  data.profile.name = name;
+  data.profile.age = age;
+  data.profile.problem = problem;
+  
+  var ok = await saveUserRecord(userId, data);
+  if(ok) {
+    userProfile.name = name; userProfile.age = age; userProfile.problem = problem;
+    safeSetLS('userProfile', JSON.stringify(userProfile));
     
-    if(ok) {
-      userProfile = record.profile;
-      safeSetLS('userProfile', JSON.stringify(userProfile));
-      document.getElementById('registerModal').classList.remove('active');
-      updateProfileUI();
-      showToast('✅ ثبت‌نام با موفقیت انجام شد');
-    } else {
-      showToast('❌ خطا در ثبت نام.', 'error', 6000);
+    // آپدیت لیست لوکال
+    var pIdx = profilesList.findIndex(function(p) { return p.code === userId; });
+    if(pIdx > -1) {
+      profilesList[pIdx].username = name;
+      profilesList[pIdx].data = userProfile;
+      safeSetLS('profilesList', JSON.stringify(profilesList));
     }
-  } catch(e) {
-    showToast('❌ خطای غیرمنتظره: ' + e.message, 'error', 6000);
-  } finally {
-    if(btn) { btn.disabled = false; btn.textContent = '✅ ثبت و ورود به برنامه'; }
+    
+    updateProfileUI();
+    document.getElementById('editProfileModal').classList.remove('active');
+    showToast('✅ پروفایل ویرایش شد.');
+  } else {
+    showToast('❌ خطا در ویرایش.', 'error');
   }
+}
+
+async function deleteMyAccount() {
+  if(!confirm('⚠️ آیا مطمئن هستید که می‌خواهید کل حساب کاربری و برنامه‌های خود را حذف کنید؟ این عمل غیرقابل بازگشت است.')) return;
+  
+  showToast('⏳ در حال حذف...', 'warning');
+  var ok = await deleteUserRecord(userId);
+  if(ok) {
+    // حذف از لیست لوکال
+    profilesList = profilesList.filter(function(p) { return p.code !== userId; });
+    safeSetLS('profilesList', JSON.stringify(profilesList));
+    localStorage.removeItem('currentSessionUser');
+    localStorage.removeItem('userProfile');
+    localStorage.removeItem('health40Data'); // پاک کردن جدول محلی این کاربر
+    
+    showToast('✅ حساب کاربری حذف شد.');
+    doLogout();
+  } else {
+    showToast('❌ خطا در حذف.', 'error');
+  }
+}
+
+function generateFallbackUserId(){
+  var chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',code='';
+  for(var i=0;i<6;i++)code+=chars.charAt(Math.floor(Math.random()*chars.length));
+  return code;
 }
 
 function updateProfileUI() {
   if(userProfile) {
-    document.getElementById('userProfileHeader').style.display = 'flex';
     document.getElementById('displayName').textContent = userProfile.name;
     document.getElementById('displayCode').textContent = 'کد: ' + userId;
     if(userProfile.avatar) document.getElementById('displayAvatar').src = userProfile.avatar;
     var wm = document.getElementById('welcomeMessage');
     wm.style.display = 'block';
     wm.innerHTML = '🌿 ' + userProfile.name + ' خوش آمدی 🌿';
-  } else {
-    document.getElementById('userProfileHeader').style.display = 'none';
-    document.getElementById('welcomeMessage').style.display = 'none';
   }
   document.getElementById('myCodeDisplay').textContent = userId;
-}
-
-function openProfileEdit() {
-  if(!userProfile) return;
-  document.getElementById('regFirstName').value = userProfile.name.split(' ')[0] || '';
-  document.getElementById('regLastName').value = userProfile.name.split(' ').slice(1).join(' ') || '';
-  document.getElementById('regAvatarPreview').src = userProfile.avatar || "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23222'/><text x='50' y='55' font-size='40' text-anchor='middle' fill='%23aaa'>📷</text></svg>";
-  document.getElementById('welcomeCode').textContent = userId;
-  document.getElementById('closeRegModalBtn').style.display = 'block';
-  document.getElementById('registerModal').classList.add('active');
 }
 
 /* ============================================================
@@ -773,7 +940,7 @@ async function getAllUsersFromDB() {
 }
 
 /* ============================================================
-   Admin Create User
+   Admin Functions
    ============================================================ */
 async function previewNewUserAvatar(event) {
   var file = event.target.files[0];
@@ -781,7 +948,7 @@ async function previewNewUserAvatar(event) {
     var reader = new FileReader();
     reader.onload = async function(e) {
       var originalSrc = e.target.result;
-      var compressed = await compressImage(originalSrc, 400, 400, 0.7);
+      var compressed = await compressImage(originalSrc, 300, 300, 0.6);
       var img = document.getElementById('newUserAvatarPreview');
       img.src = compressed;
       img.style.display = 'inline-block';
@@ -793,10 +960,12 @@ async function previewNewUserAvatar(event) {
 async function createUserByAdmin() {
   var code = document.getElementById('newUserCode').value.trim().toUpperCase();
   var name = document.getElementById('newUserName').value.trim();
+  var password = document.getElementById('newUserPassword').value.trim();
   var avatar = document.getElementById('newUserAvatarPreview').src;
 
   if(!code || code.length < 3) { showToast('کد کاربر معتبر نیست (حداقل ۳ حرف)', 'error'); return; }
   if(!name) { showToast('نام کاربر را وارد کنید', 'error'); return; }
+  if(password.length !== 4) { showToast('رمز باید ۴ رقم باشد.', 'error'); return; }
 
   showToast('⏳ در حال بررسی...', 'warning');
   var existing = await getUserRecord(code);
@@ -812,12 +981,14 @@ async function createUserByAdmin() {
     data.profile.avatar = avatar;
   }
   data.profile.registeredAt = data.profile.registeredAt || Date.now();
+  data.auth = { username: name, password: password };
 
   var ok = await saveUserRecord(code, data);
   if(ok) {
     showToast('✅ کاربر با موفقیت ایجاد/ویرایش شد');
     document.getElementById('newUserCode').value = '';
     document.getElementById('newUserName').value = '';
+    document.getElementById('newUserPassword').value = '';
     document.getElementById('newUserAvatarPreview').src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23222'/><text x='50' y='55' font-size='40' text-anchor='middle' fill='%23aaa'>📷</text></svg>";
     document.getElementById('newUserAvatar').value = '';
     loadUsersListForAdmin();
@@ -826,25 +997,28 @@ async function createUserByAdmin() {
   }
 }
 
-/* ============================================================
-   Impersonation
-   ============================================================ */
 async function impersonateUser(targetCode) {
   if(!confirm('ورود به پنل کاربر ' + targetCode + '؟')) return;
   originalAdminCode = userId;
   isImpersonating = true;
+  
   var userData = await getUserRecord(targetCode);
   if(!userData) { showToast('اطلاعات کاربر یافت نشد', 'error'); return; }
+  
   userId = targetCode;
   userProfile = userData.profile || null;
+  
   safeSetLS('userId', userId);
   if(userProfile) safeSetLS('userProfile', JSON.stringify(userProfile));
   else localStorage.removeItem('userProfile');
+  
   updateProfileUI();
   document.getElementById('adminReturnBar').style.display = 'block';
   showPage('pageMenu');
+  
   receiveAll(true).catch(function(){});
   loadMyMessages();
+  
   showToast('👤 شما وارد پنل ' + targetCode + ' شدید');
 }
 
@@ -852,20 +1026,20 @@ function exitImpersonation() {
   isImpersonating = false;
   userId = originalAdminCode;
   safeSetLS('userId', userId);
+  
   localStorage.removeItem('userProfile');
   userProfile = safeParseJSON(safeGetLS('adminProfile','null'), null);
   if(userProfile) safeSetLS('userProfile', JSON.stringify(userProfile));
+  
   localStorage.removeItem('tableReceived');
   localStorage.removeItem('lastPrescription');
+  
   document.getElementById('adminReturnBar').style.display = 'none';
   updateProfileUI();
   showPage('pageAdmin');
   showToast('🔙 به پنل مدیریت بازگشتید');
 }
 
-/* ============================================================
-   User Dropdown
-   ============================================================ */
 function showUserDropdown(searchInputId, hiddenInputId) {
   var searchVal = document.getElementById(searchInputId).value.toLowerCase().trim();
   var dropdown = document.getElementById(searchInputId + 'Dropdown');
@@ -1143,7 +1317,7 @@ function switchAdminTab(tab,el){
 }
 
 /* ============================================================
-   کاربر: ویرایش دستی جدول
+   USER EDIT
    ============================================================ */
 var userEditMode = false;
 function toggleUserEditMode() {
@@ -1231,7 +1405,7 @@ async function saveUserEditedTableToDB() {
 }
 
 /* ============================================================
-   ادمین: ارسال‌ها
+   ADMIN SENDS
    ============================================================ */
 async function sendPrescription(){
   var code = document.getElementById('targetUserCode').value || document.getElementById('prescriptionUserSearch').value;
@@ -1287,7 +1461,7 @@ function clearMessageForm(){var t=document.getElementById('messageTitle'),c=docu
 function clearAdminForm(){var t=document.getElementById('prescriptionTitle'),c=document.getElementById('prescriptionContent');if(t)t.value='';if(c)c.value='';document.getElementById('prescriptionUserSearch').value='';document.getElementById('targetUserCode').value='';}
 
 /* ============================================================
-   ادمین: ساخت و ویرایش جدول
+   ADMIN EDITOR
    ============================================================ */
 function buildAdminEditor(){
   adminTableColumns = [].concat(tableColumns);
@@ -1295,9 +1469,7 @@ function buildAdminEditor(){
   adminCurrentTimes = Object.assign({}, currentTimes);
   adminTotalDays = totalDays;
   adminFortyDayData = JSON.parse(JSON.stringify(fortyDayData.length ? fortyDayData : generateDefaultTableData()));
-  
   adminCurrentEditorDay = 0;
-  
   renderAdminTableEditor(); 
   renderAdminDayEditor(); 
 }
@@ -1329,20 +1501,15 @@ function addTableColumnEditor(){
 function renderAdminDayEditor(){
   var container=document.getElementById('adminDayEditorContainer');if(!container)return;
   if(adminCurrentEditorDay >= adminTotalDays) adminCurrentEditorDay=0;
-  
   document.getElementById('adminEditorDayLabel').textContent='روز '+(adminCurrentEditorDay+1);
   document.getElementById('adminPrevDayBtn').disabled = adminCurrentEditorDay <= 0;
   document.getElementById('adminNextDayBtn').disabled = adminCurrentEditorDay >= adminTotalDays-1;
-  
   var dayData = adminFortyDayData[adminCurrentEditorDay] || {};
   var html='';
   adminTableColumns.forEach(function(col){
     var label = adminTableColumnNames[col] || col;
     var value = dayData[col] || '';
-    html+='<div class="day-input-box">';
-    html+='<label>'+escapeHtml(label)+':</label>';
-    html+='<input type="text" data-col="'+escapeHtml(col)+'" value="'+escapeHtml(value)+'" onchange="updateAdminDayField(this.getAttribute(\'data-col\'),this.value)">';
-    html+='</div>';
+    html+='<div class="day-input-box"><label>'+escapeHtml(label)+':</label><input type="text" data-col="'+escapeHtml(col)+'" value="'+escapeHtml(value)+'" onchange="updateAdminDayField(this.getAttribute(\'data-col\'),this.value)"></div>';
   });
   container.innerHTML=html;
 }
@@ -1358,12 +1525,10 @@ function applyToAdminDays(type){
   var form = {};
   var inputs = document.querySelectorAll('#adminDayEditorContainer input[data-col]');
   for(var i=0;i<inputs.length;i++){ form[inputs[i].getAttribute('data-col')] = inputs[i].value; }
-  
   var targets=[], typeName='';
   if(type==='all'){for(var i=0;i<adminTotalDays;i++)targets.push(i);typeName='کل روزها';}
   else if(type==='odd'){for(var j=0;j<adminTotalDays;j+=2)targets.push(j);typeName='روزهای فرد';}
   else if(type==='even'){for(var k=1;k<adminTotalDays;k+=2)targets.push(k);typeName='روزهای زوج';}
-  
   if(!confirm('محتوا روی '+targets.length+' '+typeName+' اعمال شود؟'))return;
   targets.forEach(function(idx){
     if(!adminFortyDayData[idx]) adminFortyDayData[idx]={};
@@ -1642,8 +1807,10 @@ function showInstallGuide(){var ua=navigator.userAgent.toLowerCase();var isIOS=/
 
 /* INIT */
 function init(){
-  initUserId(); initData(); applyTheme(); applySettings();
-  renderTable(); renderAlarmSettings(); updateTodayShowcase();
+  initAuth();
+  
+  applyTheme(); applySettings();
+  
   var sdp=document.getElementById('startDatePicker'); if(sdp)sdp.value=toDateInputValue(getStartDateGregorian());
   updateDateConversionInfo();updateDayDisplay();
   var vm=document.getElementById('viewMode');if(vm)vm.value=viewMode;
