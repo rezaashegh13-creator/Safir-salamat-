@@ -180,7 +180,7 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 .alarm-row .toggle-btn.active{background:var(--btn-success)}
 .alarm-row .toggle-btn.active::after{right:calc(100% - 24px);background:#fff}
 
-.preview-table{width:100%;border-collapse:collapse;background:var(--bg-primary);border-radius:8px;overflow:hidden;font-size:.65em;margin-top:8px} /* ریزتر شدن */
+.preview-table{width:100%;border-collapse:collapse;background:var(--bg-primary);border-radius:8px;overflow:hidden;font-size:.65em;margin-top:8px} 
 .preview-table th{padding:4px 2px;background:#2b5738;color:var(--accent);font-size:.7em;border-bottom:1px solid rgba(244,208,63,.3)}
 .preview-table td{padding:3px 2px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1);font-size:.7em}
 .preview-table tr:nth-child(even) td{background:rgba(0,0,0,.15)}
@@ -650,45 +650,42 @@ function safeGetLS(key,def){try{var v=localStorage.getItem(key);return v==null?d
 function safeParseJSON(str,def){if(!str)return def;try{return JSON.parse(str);}catch(e){return def;}}
 
 /* ============================================================
-   AUTH SYSTEM (با حفظ پایدار جلسه)
+   AUTH SYSTEM (رفع کامل مشکل رفرش و لاگین چند دستگاهی)
    ============================================================ */
-var currentDeviceCode = safeGetLS('userId', null);
 var profilesList = safeParseJSON(safeGetLS('profilesList', '[]'), []);
+var activeUserCode = safeGetLS('activeUserCode', null);
 
 function initAuth() {
-  if(!currentDeviceCode) {
-    currentDeviceCode = generateFallbackUserId();
-    safeSetLS('userId', currentDeviceCode);
+  if(!activeUserCode) {
+    // اگر activeUserCode نداریم، ببینیم آیا پروفایلی هست که بشه بهش سوییچ کرد
+    if(profilesList.length > 0) {
+      activeUserCode = profilesList[profilesList.length - 1].code;
+      safeSetLS('activeUserCode', activeUserCode);
+    }
   }
-  document.getElementById('registerCode').textContent = currentDeviceCode;
   
-  var currentSession = safeGetLS('currentSessionUser', null);
-  
-  if(currentSession && currentSession !== "") {
-    // کاربر قبلاً لاگین کرده است
-    userId = currentSession;
-    userProfile = safeParseJSON(safeGetLS('userProfile','null'), null);
+  if(activeUserCode) {
+    userId = activeUserCode;
+    var profile = profilesList.find(function(p){ return p.code === userId; });
+    if(profile) userProfile = profile.data;
+    else userProfile = safeParseJSON(safeGetLS('userProfile','null'), null);
+    
     document.getElementById('loginPage').classList.remove('active');
     document.getElementById('mainAppContainer').style.display = 'block';
     updateProfileUI();
     
-    // --- 1. لود فوری از حافظه محلی (رفع مشکل رفرش) ---
-    var hasLocalData = safeGetLS('health40Data', null);
-    if(hasLocalData) {
-      initData(); 
-      renderTable(); 
-      renderAlarmSettings(); 
-      updateTodayShowcase(); 
-      checkRegimeReceive();
-    }
+    // 1. لود فوری اطلاعات از حافظه (حتی اگر سرور قطع باشد)
+    initData(); 
+    renderTable(); 
+    renderAlarmSettings(); 
+    updateTodayShowcase(); 
+    checkRegimeReceive();
     
-    // --- 2. چک کردن سرور در پس‌زمینه (بدون خالی کردن صفحه) ---
+    // 2. سینک با سرور در پس‌زمینه (برای دریافت آپدیت ادمین)
     receiveAll(true).then(function(){
        renderTable(); updateTodayShowcase(); checkRegimeReceive();
     }).catch(function(e){ 
-       if(!hasLocalData) { // فقط اگر لوکال خالی بود و سرور هم خطا داد
-          initData(); renderTable(); renderAlarmSettings(); updateTodayShowcase(); 
-       }
+       // خطای سرور نباید صفحه را خراب کند، چون اطلاعات لوکال لود شده‌اند
     });
   } else {
     document.getElementById('loginPage').classList.add('active');
@@ -730,10 +727,37 @@ async function doLogin() {
 
   if(!username || !pass) { showToast('نام کاربری و رمز را وارد کنید', 'error'); return; }
 
-  showToast('⏳ در حال ورود...', 'warning');
+  showToast('⏳ در حال بررسی...', 'warning');
   
+  // 1. جستجو در پروفایل‌های لوکال
   var profile = profilesList.find(function(p) { return p.username === username && p.password === pass; });
   
+  // 2. اگر در لوکال نبود، جستجو در دیتابیس (برای ورود از گوشی دیگر)
+  if(!profile) {
+    try {
+      const { data, error } = await supabaseClient
+        .from('users_list')
+        .select('code, data')
+        .eq('data->auth->>username', username)
+        .eq('data->auth->>password', pass)
+        .maybeSingle();
+        
+      if(data && data.code) {
+        profile = {
+          username: username,
+          password: pass,
+          code: data.code,
+          data: data.data.profile
+        };
+        // ذخیره در حافظه لوکال برای بارهای بعدی
+        profilesList.push(profile);
+        safeSetLS('profilesList', JSON.stringify(profilesList));
+      }
+    } catch(e) {
+      console.error('DB Login Error:', e);
+    }
+  }
+
   if(!profile) {
     showToast('نام کاربری یا رمز عبور اشتباه است.', 'error');
     return;
@@ -742,8 +766,9 @@ async function doLogin() {
   userId = profile.code; 
   userProfile = profile.data;
   
-  safeSetLS('currentSessionUser', userId);
+  safeSetLS('activeUserCode', userId); // ذخیره کلید جلسه اصلی
   safeSetLS('userId', userId);
+  
   if(remember) {
     safeSetLS('userProfile', JSON.stringify(userProfile));
   } else {
@@ -755,25 +780,22 @@ async function doLogin() {
   
   updateProfileUI();
   
-  var hasLocalData = safeGetLS('health40Data', null);
-  if(hasLocalData) {
-    initData(); 
-    renderTable(); 
-    renderAlarmSettings(); 
-    updateTodayShowcase(); 
-    checkRegimeReceive();
-  }
+  initData(); 
+  renderTable(); 
+  renderAlarmSettings(); 
+  updateTodayShowcase(); 
+  checkRegimeReceive();
   
   receiveAll(true).then(function(){
      renderTable(); updateTodayShowcase(); checkRegimeReceive();
-  }).catch(function(e){ 
-     if(!hasLocalData) { initData(); renderTable(); renderAlarmSettings(); updateTodayShowcase(); }
-  });
+  }).catch(function(e){});
+  
   showToast('✅ خوش آمدید');
 }
 
 function doLogout() {
   if(!confirm('از حساب کاربری خارج می‌شوید؟')) return;
+  localStorage.removeItem('activeUserCode');
   localStorage.removeItem('currentSessionUser');
   localStorage.removeItem('userProfile');
   
@@ -782,6 +804,7 @@ function doLogout() {
     userId = originalAdminCode;
   }
   
+  activeUserCode = null;
   document.getElementById('mainAppContainer').style.display = 'none';
   document.getElementById('loginPage').classList.add('active');
   document.getElementById('loginPassword').value = '';
@@ -843,7 +866,6 @@ async function doRegister() {
   if(!fullName || !age || !problem || !password) {
     showToast('لطفاً همه فیلدها را پر کنید.', 'error'); return;
   }
-  // چک کردن اینکه عکس آپلود شده است یا نه
   if(avatar.indexOf('data:image/svg+xml') > -1) {
     showToast('⚠️ لطفاً یک عکس برای پروفایل خود آپلود کنید.', 'error', 4000); return;
   }
@@ -857,30 +879,27 @@ async function doRegister() {
   if(btn) { btn.disabled = true; btn.textContent = 'در حال ارسال...'; }
 
   var profileData = { name: fullName, age: age, problem: problem, avatar: avatar };
-  // استفاده از کد ۶ رقمی دستگاه به عنوان کد کاربر، بدون اضافه کردن Date.now()
-  var uniqueKey = currentDeviceCode; 
+  var newUserCode = generateFallbackUserId(); 
 
   try {
-    // ایجاد تایم اوت ۱۰ ثانیه‌ای برای جلوگیری از گیر کردن
     let timeoutId = setTimeout(() => {
       if(btn) { btn.disabled = false; btn.textContent = '✅ تکمیل ثبت‌نام'; }
       showToast('❌ اتصال به سرور طول کشید. اینترنت خود را بررسی کنید.', 'error', 7000);
     }, 10000);
 
-    var remoteData = await getUserRecord(uniqueKey) || {};
+    var remoteData = {};
     remoteData.profile = profileData;
     remoteData.auth = { username: fullName, password: password };
     
-    var ok = await saveUserRecord(uniqueKey, remoteData);
+    var ok = await saveUserRecord(newUserCode, remoteData);
     clearTimeout(timeoutId);
     
     if(!ok) { showToast('❌ خطا در ثبت نام در سرور', 'error'); return; }
     
-    // ذخیره در لیست لوکال
     profilesList.push({
       username: fullName,
       password: password,
-      code: uniqueKey,
+      code: newUserCode,
       data: profileData
     });
     safeSetLS('profilesList', JSON.stringify(profilesList));
@@ -964,23 +983,16 @@ async function deleteMyAccount() {
   showToast('⏳ در حال حذف...', 'warning');
   
   try {
-    // بررسی اینکه آیا کاربر در دیتابیس وجود دارد یا خیر
     const { data, error } = await supabaseClient.from('users_list').delete().eq('code', userId.toUpperCase()).select();
     
     if (error) {
-      console.error('Delete Error:', error);
       showToast('❌ خطا در حذف از سرور: ' + error.message, 'error', 6000);
       return;
     }
-    
-    // اگر دیتای برگشتی خالی بود، یعنی حذفی انجام نشده (مثلا پیدا نشده)
-    if (!data || data.length === 0) {
-       console.warn('No user found to delete with code:', userId);
-    }
 
-    // حتی اگر در سرور نبود، از لیست لوکال پاک شود
     profilesList = profilesList.filter(function(p) { return p.code !== userId; });
     safeSetLS('profilesList', JSON.stringify(profilesList));
+    localStorage.removeItem('activeUserCode');
     localStorage.removeItem('currentSessionUser');
     localStorage.removeItem('userProfile');
     localStorage.removeItem('health40Data'); 
