@@ -671,6 +671,8 @@ function initAuth() {
     document.getElementById('mainAppContainer').style.display = 'block';
     updateProfileUI();
     
+    // --- راه حل اساسی مشکل رفرش ---
+    // 1. ابتدا از حافظه محلی (سریع) لود می‌کنیم تا صفحه خالی نماند
     var hasLocalData = safeGetLS('health40Data', null);
     if(hasLocalData) {
       initData(); 
@@ -678,13 +680,16 @@ function initAuth() {
       renderAlarmSettings(); 
       updateTodayShowcase(); 
       checkRegimeReceive();
-    } else {
-      receiveAll(true).then(function(){
-         renderTable(); renderAlarmSettings(); updateTodayShowcase(); checkRegimeReceive();
-      }).catch(function(){ 
-         initData(); renderTable(); renderAlarmSettings(); updateTodayShowcase(); 
-      });
     }
+    
+    // 2. سپس در پس‌زمینه با دیتابیس چک می‌کنیم (تا اگر ادمین چیزی فرستاده، آپدیت شود)
+    receiveAll(true).then(function(){
+       renderTable(); updateTodayShowcase(); checkRegimeReceive();
+    }).catch(function(e){ 
+       if(!hasLocalData) { // اگر لوکال خالی بود و سرور هم خطا داد، پیش‌فرض رو بساز
+          initData(); renderTable(); renderAlarmSettings(); updateTodayShowcase(); 
+       }
+    });
   } else {
     document.getElementById('loginPage').classList.add('active');
     document.getElementById('mainAppContainer').style.display = 'none';
@@ -757,13 +762,13 @@ async function doLogin() {
     renderAlarmSettings(); 
     updateTodayShowcase(); 
     checkRegimeReceive();
-  } else {
-    receiveAll(true).then(function(){
-       renderTable(); renderAlarmSettings(); updateTodayShowcase(); checkRegimeReceive();
-    }).catch(function(){ 
-       initData(); renderTable(); renderAlarmSettings(); updateTodayShowcase(); 
-    });
   }
+  
+  receiveAll(true).then(function(){
+     renderTable(); updateTodayShowcase(); checkRegimeReceive();
+  }).catch(function(e){ 
+     if(!hasLocalData) { initData(); renderTable(); renderAlarmSettings(); updateTodayShowcase(); }
+  });
   showToast('✅ خوش آمدید');
 }
 
