@@ -35,9 +35,6 @@ body{font-family:var(--font-family);background:var(--bg-primary);
 
 .top-bar { display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary)); padding: 10px 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--border-color); }
 .top-bar-info { display: flex; align-items: center; gap: 10px; }
-.top-bar-actions { display: flex; gap: 8px; }
-.icon-btn { background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 5px; transition: 0.2s; }
-.icon-btn:active { transform: scale(0.9); }
 
 .login-box { background: linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary)); border: 2px solid var(--accent); border-radius: 20px; padding: 25px; margin: 50px auto; max-width: 400px; text-align: center; }
 .login-box h2 { color: var(--accent); margin-bottom: 20px; font-family: 'Lalezar', cursive; font-size: 1.8em;}
@@ -365,7 +362,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
       <p id="displayCode" style="font-size:0.7em; color:var(--text-muted); font-family:monospace;">کد: ----</p>
     </div>
   </div>
-  <!-- حذف دکمه‌های بالای صفحه و انتقال به تنظیمات -->
 </div>
 
 <div class="page active" id="pageMenu">
@@ -448,7 +444,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   <div class="main-header"><h1>⚙️ تنظیمات</h1><h2>مدیریت برنامه</h2></div>
   <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
   
-  <!-- انتقال دکمه‌های حساب کاربری به اینجا -->
   <div class="section-box" style="border:2px solid var(--btn-danger);">
     <h3>👤 حساب کاربری من</h3>
     <div class="btn-row" style="flex-direction:column;">
@@ -479,7 +474,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   <div class="main-header"><h1>🔐 پنل مدیریت</h1><h2>مخصوص اپراتور</h2></div>
   <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
   
-  <!-- حذف تب کاربران از اینجا -->
   <div class="admin-tabs">
     <div class="admin-tab active" onclick="switchAdminTab('dashboard',this)">📊 داشبورد</div>
     <div class="admin-tab" onclick="switchAdminTab('prescription',this)">💊 نسخه</div>
@@ -491,7 +485,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   <div class="admin-panel" id="adminTabDashboard">
     <h3>📊 داشبورد گزارش</h3>
     <div class="dashboard-stats">
-      <!-- کارت کاربران حالا کلیک‌پذیر است -->
       <div class="stat-card" onclick="switchAdminTab('users', document.querySelectorAll('.admin-tab')[0])">
         <div class="stat-number" id="statUsers">-</div><div class="stat-label">👥 کاربران (کلیک کنید)</div>
       </div>
@@ -502,7 +495,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     <div class="btn-row"><button class="btn btn-blue" onclick="loadDashboard(true)">🔄 بروزرسانی</button><button class="btn btn-green" onclick="exportDashboard()">📥 دانلود گزارش</button></div>
   </div>
 
-  <!-- تب کاربران که حالا مخفی است و از طریق داشبورد باز می‌شود -->
   <div class="admin-panel" id="adminTabUsers" style="display:none;">
     <button class="btn btn-gray" onclick="switchAdminTab('dashboard', document.querySelectorAll('.admin-tab')[0])" style="margin-bottom:10px;">◀ بازگشت به داشبورد</button>
     <h3>👥 مدیریت کاربران</h3>
@@ -679,11 +671,16 @@ function initAuth() {
     document.getElementById('mainAppContainer').style.display = 'block';
     updateProfileUI();
     
-    // باگ رفرش: اگر اطلاعات در لوکال هست، از آن استفاده کن، در غیر این صورت از سرور بگیر
+    // نکته بسیار مهم: اگر اطلاعات در لوکال هست، همون رو لود کن
     var hasLocalData = safeGetLS('health40Data', null);
     if(hasLocalData) {
-      initData(); renderTable(); renderAlarmSettings(); updateTodayShowcase(); checkRegimeReceive();
+      initData(); 
+      renderTable(); 
+      renderAlarmSettings(); 
+      updateTodayShowcase(); 
+      checkRegimeReceive();
     } else {
+      // اگر اطلاعات در لوکال نبود، از سرور بگیر
       receiveAll(true).then(function(){
          renderTable(); renderAlarmSettings(); updateTodayShowcase(); checkRegimeReceive();
       }).catch(function(){ 
@@ -754,12 +751,21 @@ async function doLogin() {
   document.getElementById('mainAppContainer').style.display = 'block';
   
   updateProfileUI();
-  // لود مجدد داده‌ها از سرور در صورت ورود
-  receiveAll(true).then(function(){
-     renderTable(); renderAlarmSettings(); updateTodayShowcase(); checkRegimeReceive();
-  }).catch(function(){ 
-     initData(); renderTable(); renderAlarmSettings(); updateTodayShowcase(); 
-  });
+  
+  var hasLocalData = safeGetLS('health40Data', null);
+  if(hasLocalData) {
+    initData(); 
+    renderTable(); 
+    renderAlarmSettings(); 
+    updateTodayShowcase(); 
+    checkRegimeReceive();
+  } else {
+    receiveAll(true).then(function(){
+       renderTable(); renderAlarmSettings(); updateTodayShowcase(); checkRegimeReceive();
+    }).catch(function(){ 
+       initData(); renderTable(); renderAlarmSettings(); updateTodayShowcase(); 
+    });
+  }
   showToast('✅ خوش آمدید');
 }
 
@@ -1094,9 +1100,8 @@ async function impersonateUser(targetCode) {
   else localStorage.removeItem('userProfile');
   
   updateProfileUI();
-  document.getElementById('adminReturnBar').style.display = 'block'; // نمایش نوار بازگشت
+  document.getElementById('adminReturnBar').style.display = 'block'; 
   
-  // ریست کردن کش صفحه قبل از ورود
   localStorage.removeItem('tableReceived');
   localStorage.removeItem('lastPrescription');
   
@@ -1254,7 +1259,6 @@ function showPage(pageId){
   if(pageId==='pageRegime')checkRegimeReceive();
   if(pageId==='pageMessages')loadMyMessages();
   if(pageId==='pageAdmin'){
-    // همیشه در حالت داشبورد باز شود
     var tabs = document.querySelectorAll('.admin-tab');
     if(tabs.length > 0) { switchAdminTab('dashboard', tabs[0]); }
   }
