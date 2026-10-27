@@ -668,7 +668,7 @@ function safeGetLS(key,def){try{var v=localStorage.getItem(key);return v==null?d
 function safeParseJSON(str,def){if(!str)return def;try{return JSON.parse(str);}catch(e){return def;}}
 
 /* ============================================================
-   پشتیبان گیری و بازیابی آفلاین (سیستم جدید)
+   پشتیبان گیری و بازیابی آفلاین
    ============================================================ */
 function saveOfflineBackup() {
   if(!userId) { showToast('ابتدا وارد حساب شوید', 'error'); return; }
@@ -709,7 +709,6 @@ function restoreOfflineBackup() {
   try {
     var backup = JSON.parse(backupStr);
     
-    // بازگردانی اطلاعات جدول
     if(backup.fortyDayData) {
       fortyDayData = backup.fortyDayData;
       saveAll();
@@ -719,11 +718,9 @@ function restoreOfflineBackup() {
     if(backup.currentTimes) currentTimes = backup.currentTimes;
     if(backup.totalDays) totalDays = backup.totalDays;
     
-    // بازگردانی نسخه
     if(backup.lastPrescription) safeSetLS('lastPrescription', backup.lastPrescription);
     if(backup.healthStartDateGregorian) safeSetLS('healthStartDateGregorian', backup.healthStartDateGregorian);
     
-    // بازگردانی پروفایل
     if(backup.userProfile) {
       userProfile = backup.userProfile;
       safeSetLS('userProfile', JSON.stringify(userProfile));
@@ -741,7 +738,7 @@ function restoreOfflineBackup() {
 }
 
 /* ============================================================
-   AUTH SYSTEM (رفع کامل مشکل رفرش و لاگین چند دستگاهی)
+   AUTH SYSTEM
    ============================================================ */
 var profilesList = safeParseJSON(safeGetLS('profilesList', '[]'), []);
 var activeUserCode = safeGetLS('activeUserCode', null);
@@ -764,19 +761,15 @@ function initAuth() {
     document.getElementById('mainAppContainer').style.display = 'block';
     updateProfileUI();
     
-    // 1. لود فوری اطلاعات از حافظه (حتی اگر سرور قطع باشد)
     initData(); 
     renderTable(); 
     renderAlarmSettings(); 
     updateTodayShowcase(); 
     checkRegimeReceive();
     
-    // 2. سینک با سرور در پس‌زمینه
     receiveAll(true).then(function(){
        renderTable(); updateTodayShowcase(); checkRegimeReceive();
-    }).catch(function(e){ 
-       // خطای سرور نباید صفحه را خراب کند
-    });
+    }).catch(function(e){ });
   } else {
     document.getElementById('loginPage').classList.add('active');
     document.getElementById('mainAppContainer').style.display = 'none';
@@ -1100,14 +1093,22 @@ function generateFallbackUserId(){
 
 function updateProfileUI() {
   if(userProfile) {
-    document.getElementById('displayName').textContent = userProfile.name;
-    document.getElementById('displayCode').textContent = 'کد: ' + userId;
-    if(userProfile.avatar) document.getElementById('displayAvatar').src = userProfile.avatar;
+    var dn = document.getElementById('displayName');
+    if(dn) dn.textContent = userProfile.name;
+    var dc = document.getElementById('displayCode');
+    if(dc) dc.textContent = 'کد: ' + userId;
+    if(userProfile.avatar) {
+      var da = document.getElementById('displayAvatar');
+      if(da) da.src = userProfile.avatar;
+    }
     var wm = document.getElementById('welcomeMessage');
-    wm.style.display = 'block';
-    wm.innerHTML = '🌿 ' + userProfile.name + ' خوش آمدی 🌿';
+    if(wm) {
+      wm.style.display = 'block';
+      wm.innerHTML = '🌿 ' + userProfile.name + ' خوش آمدی 🌿';
+    }
   }
-  document.getElementById('myCodeDisplay').textContent = userId;
+  var mcd = document.getElementById('myCodeDisplay');
+  if(mcd) mcd.textContent = userId;
 }
 
 /* ============================================================
@@ -1436,14 +1437,15 @@ function updateTodayShowcase() {
 
 function checkRegimeReceive(){
   var d=document.getElementById('regimeDisplay');
+  if(!d) return;
   var has=safeGetLS('lastPrescription',null);
   if(has){
     try{
       var info=JSON.parse(has);
-      if(d)d.innerHTML='<strong style="color:var(--accent)">'+escapeHtml(info.title||'نسخه اختصاصی')+'</strong>\n\n'+escapeHtml(info.content);
+      d.innerHTML='<strong style="color:var(--accent)">'+escapeHtml(info.title||'نسخه اختصاصی')+'</strong>\n\n'+escapeHtml(info.content);
     }catch(e){}
   } else {
-    if(d) d.innerHTML = 'هنوز نسخه‌ای دریافت نشده است. لطفا دکمه بالا را بزنید.';
+    d.innerHTML = 'هنوز نسخه‌ای دریافت نشده است. لطفا دکمه بالا را بزنید.';
   }
 }
 
@@ -1583,9 +1585,12 @@ function toggleUserEditMode() {
 
 function renderUserDayEditor() {
   if(currentEditorDay >= totalDays) currentEditorDay = 0;
-  document.getElementById('editorDayLabel').textContent = 'روز ' + (currentEditorDay + 1);
-  document.getElementById('prevDayBtn').disabled = currentEditorDay <= 0;
-  document.getElementById('nextDayBtn').disabled = currentEditorDay >= totalDays - 1;
+  var lbl = document.getElementById('editorDayLabel');
+  var pBtn = document.getElementById('prevDayBtn');
+  var nBtn = document.getElementById('nextDayBtn');
+  if(lbl) lbl.textContent = 'روز ' + (currentEditorDay + 1);
+  if(pBtn) pBtn.disabled = currentEditorDay <= 0;
+  if(nBtn) nBtn.disabled = currentEditorDay >= totalDays - 1;
   
   var dayData = fortyDayData[currentEditorDay] || {};
   var html = '';
@@ -1597,7 +1602,8 @@ function renderUserDayEditor() {
     html += '<input type="text" data-col="'+escapeHtml(col)+'" value="'+escapeHtml(val)+'" onchange="updateUserDayField(this.getAttribute(\'data-col\'), this.value)">';
     html += '</div>';
   });
-  document.getElementById('dayEditorContainer').innerHTML = html;
+  var dec = document.getElementById('dayEditorContainer');
+  if(dec) dec.innerHTML = html;
 }
 
 function updateUserDayField(col, val) {
@@ -1741,9 +1747,13 @@ function addTableColumnEditor(){
 function renderAdminDayEditor(){
   var container=document.getElementById('adminDayEditorContainer');if(!container)return;
   if(adminCurrentEditorDay >= adminTotalDays) adminCurrentEditorDay=0;
-  document.getElementById('adminEditorDayLabel').textContent='روز '+(adminCurrentEditorDay+1);
-  document.getElementById('adminPrevDayBtn').disabled = adminCurrentEditorDay <= 0;
-  document.getElementById('adminNextDayBtn').disabled = adminCurrentEditorDay >= adminTotalDays-1;
+  var lbl=document.getElementById('adminEditorDayLabel');
+  var pBtn=document.getElementById('adminPrevDayBtn');
+  var nBtn=document.getElementById('adminNextDayBtn');
+  if(lbl)lbl.textContent='روز '+(adminCurrentEditorDay+1);
+  if(pBtn)pBtn.disabled = adminCurrentEditorDay <= 0;
+  if(nBtn)nBtn.disabled = adminCurrentEditorDay >= adminTotalDays-1;
+  
   var dayData = adminFortyDayData[adminCurrentEditorDay] || {};
   var html='';
   adminTableColumns.forEach(function(col){
@@ -1851,7 +1861,11 @@ async function loadDashboard(showAlert){
   var allUsers = await getAllUsersFromDB();var globalData = await getGlobalData();
   var usersWithP = 0, usersWithT = 0;
   allUsers.forEach(function(u){ if(u.data && u.data.prescription) usersWithP++; if(u.data && u.data.tableData) usersWithT++; });
-  document.getElementById('statUsers').textContent = allUsers.length;document.getElementById('statPrescriptions').textContent = usersWithP;document.getElementById('statTables').textContent = usersWithT;document.getElementById('statMessages').textContent = (globalData.messages||[]).length;
+  var el1=document.getElementById('statUsers'), el2=document.getElementById('statPrescriptions'), el3=document.getElementById('statTables'), el4=document.getElementById('statMessages');
+  if(el1) el1.textContent = allUsers.length;
+  if(el2) el2.textContent = usersWithP;
+  if(el3) el3.textContent = usersWithT;
+  if(el4) el4.textContent = (globalData.messages||[]).length;
   if(showAlert) showToast('✅ داشبورد بروز شد');
 }
 async function loadAdminRecent(){
@@ -1861,7 +1875,7 @@ async function loadAdminRecent(){
   if(recentP.length > 0) { html += '<div style="color:var(--accent);font-weight:700;margin-bottom:5px">💊 آخرین نسخه‌ها:</div>'; recentP.slice(0,3).forEach(function(p){ html += '📤 <strong>'+escapeHtml(p.code)+'</strong> - '+escapeHtml(p.title)+'<br>'; }); }
   var msgs = (globalData.messages||[]).slice(-3).reverse();
   if(msgs.length > 0) { html += '<div style="color:var(--accent);font-weight:700;margin:10px 0 5px">📢 آخرین پیام‌ها:</div>'; msgs.forEach(function(m){ html += '📨 <strong>'+escapeHtml(m.title)+'</strong><br>'; }); }
-  if(!html) html = 'هنوز ارسالی انجام نشده...';document.getElementById('adminRecentList').innerHTML = html;
+  if(!html) html = 'هنوز ارسالی انجام نشده...';var el=document.getElementById('adminRecentList'); if(el) el.innerHTML = html;
 }
 function exportDashboard(){
   try{
@@ -1902,7 +1916,7 @@ function loadMyMessages(showAlert){
   });
 }
 function deleteMessage(msgId){if(!confirm('این پیام حذف شود؟'))return;var hidden=safeParseJSON(safeGetLS('hiddenMsgIds','[]'),[]);if(hidden.indexOf(msgId)===-1)hidden.push(msgId);safeSetLS('hiddenMsgIds',JSON.stringify(hidden));var el=document.querySelector('[data-msg-id="'+msgId+'"]');if(el)el.remove();showToast('✅ پیام حذف شد');}
-function checkNewMessages(){getGlobalData().then(function(data){var messages=data.messages||[];var readIds=safeParseJSON(safeGetLS('readMsgIds','[]'),[]);var hiddenIds=safeParseJSON(safeGetLS('hiddenMsgIds','[]'),[]);var shownIds=safeParseJSON(safeGetLS('shownPopupIds','[]'),[]);var newMsg=messages.find(function(m){return(m.target==='all'||m.target===userId)&&readIds.indexOf(m.id)===-1&&hiddenIds.indexOf(m.id)===-1&&shownIds.indexOf(m.id)===-1;});if(newMsg){document.getElementById('msgPopupTitle').textContent='📢 '+newMsg.title;document.getElementById('msgPopupText').textContent=newMsg.content;document.getElementById('msgPopupOverlay').classList.add('active');safeSetLS('currentMsgId',newMsg.id);}loadMyMessages();});}
+function checkNewMessages(){getGlobalData().then(function(data){var messages=data.messages||[];var readIds=safeParseJSON(safeGetLS('readMsgIds','[]'),[]);var hiddenIds=safeParseJSON(safeGetLS('hiddenMsgIds','[]'),[]);var shownIds=safeParseJSON(safeGetLS('shownPopupIds','[]'),[]);var newMsg=messages.find(function(m){return(m.target==='all'||m.target===userId)&&readIds.indexOf(m.id)===-1&&hiddenIds.indexOf(m.id)===-1&&shownIds.indexOf(m.id)===-1;});if(newMsg){var pt=document.getElementById('msgPopupTitle'), ptx=document.getElementById('msgPopupText'), ov=document.getElementById('msgPopupOverlay');if(pt)pt.textContent='📢 '+newMsg.title;if(ptx)ptx.textContent=newMsg.content;if(ov)ov.classList.add('active');safeSetLS('currentMsgId',newMsg.id);}loadMyMessages();});}
 function closeMsgPopup(){document.getElementById('msgPopupOverlay').classList.remove('active');var msgId=safeGetLS('currentMsgId',null);if(msgId){var shown=safeParseJSON(safeGetLS('shownPopupIds','[]'),[]);if(shown.indexOf(msgId)===-1)shown.push(msgId);safeSetLS('shownPopupIds',JSON.stringify(shown));}}
 
 function showHistory(type){
@@ -1948,7 +1962,7 @@ function editMyRegime(){var el=document.getElementById('regimeDisplay');if(el.co
    Alarm
    ============================================================ */
 function renderAlarmSettings(){
-  var container=document.getElementById('alarmSettingsContainer');var html='';
+  var container=document.getElementById('alarmSettingsContainer');if(!container)return;var html='';
   tableColumns.forEach(function(col){var name=tableColumnNames[col]||col, time=currentTimes[col]||'08:00', enabled=alarmEnabled[col]!==false;
   html+='<div class="alarm-row"><label>'+escapeHtml(name)+'</label><input type="time" value="'+escapeHtml(time)+'" onchange="updateAlarmTime(\''+escapeHtml(col)+'\',this.value)"><button class="toggle-btn '+(enabled?'active':'')+'" onclick="toggleAlarmFor(\''+escapeHtml(col)+'\',this)"></button></div>';});
   container.innerHTML=html;
@@ -1961,7 +1975,7 @@ function clearTimers(){alarmTimers.forEach(function(t){clearTimeout(t);});alarmT
 function msUntil(t){var p=t.split(':'),h=parseInt(p[0]),m=parseInt(p[1]),now=new Date(),target=new Date(now);target.setHours(h,m,0,0);if(target<=now)target.setDate(target.getDate()+1);return target.getTime()-now.getTime();}
 function unlockAudio(){if(audioUnlocked)return true;try{audioContext=new(window.AudioContext||window.webkitAudioContext)();if(audioContext.state==='suspended')audioContext.resume();var osc=audioContext.createOscillator(),g=audioContext.createGain();osc.connect(g);g.connect(audioContext.destination);g.gain.setValueAtTime(0,audioContext.currentTime);osc.start(audioContext.currentTime);osc.stop(audioContext.currentTime+.1);audioUnlocked=true;return true;}catch(e){return false;}}
 function scheduleAlarms(){clearTimers();if(!alarmActive)return;var td=fortyDayData[getCurrentDayAuto()]||{};tableColumns.forEach(function(col){if(alarmEnabled[col]===false)return;var time=currentTimes[col],name=td[col]||'';if(time&&name&&name!=='❌'){var ms=msUntil(time);if(ms>0&&ms<86400000){alarmTimers.push(setTimeout(function(){triggerAlarm({name:name,type:tableColumnNames[col]});setTimeout(scheduleAlarms,60000);},ms));}}});}
-function triggerAlarm(a){document.getElementById('alarmMessage').textContent='⏰ '+a.type+': '+a.name;document.getElementById('alarmOverlay').classList.add('active');playAlarmSound();if(navigator.vibrate)navigator.vibrate([500,200,500,200,500]);}
+function triggerAlarm(a){var el=document.getElementById('alarmMessage');if(el)el.textContent='⏰ '+a.type+': '+a.name;var ov=document.getElementById('alarmOverlay');if(ov)ov.classList.add('active');playAlarmSound();if(navigator.vibrate)navigator.vibrate([500,200,500,200,500]);}
 function playAlarmSound(){stopAlarmSound();if(!audioUnlocked)unlockAudio();try{if(!audioContext||audioContext.state==='suspended'){audioContext=new(window.AudioContext||window.webkitAudioContext)();if(audioContext.state==='suspended')audioContext.resume();}function beep(){if(!audioContext||audioContext.state!=='running')return;var o=audioContext.createOscillator(),g=audioContext.createGain();o.connect(g);g.connect(audioContext.destination);o.type='sine';o.frequency.setValueAtTime(880,audioContext.currentTime);g.gain.setValueAtTime(0,audioContext.currentTime);g.gain.linearRampToValueAtTime(.5,audioContext.currentTime+.05);g.gain.linearRampToValueAtTime(0,audioContext.currentTime+.5);o.start(audioContext.currentTime);o.stop(audioContext.currentTime+.5);}beep();alarmSoundInterval=setInterval(beep,700);}catch(e){}}
 function stopAlarmSound(){if(alarmSoundInterval){clearInterval(alarmSoundInterval);alarmSoundInterval=null;}if(audioContext){try{if(audioContext.state!=='closed')audioContext.close();}catch(e){}audioContext=null;audioUnlocked=false;}}
 function stopAlarm(){document.getElementById('alarmOverlay').classList.remove('active');stopAlarmSound();if(navigator.vibrate)navigator.vibrate(0);}
@@ -2030,8 +2044,8 @@ function renderTable(){
 }
 
 function onStartDateChanged(){var gDate=new Date(document.getElementById('startDatePicker').value+'T00:00:00');if(isNaN(gDate.getTime()))return;setStartDateGregorian(gDate);updateDateConversionInfo();updateDayDisplay();renderTable();updateTodayShowcase();saveAll();}
-function updateDateConversionInfo(){var sd=getStartDateGregorian(),j=gregorianToJalali(sd);document.getElementById('jalaliDate').textContent=formatJalaliFull(j);}
-function updateDayDisplay(){document.getElementById('dayBadge').textContent='روز '+(getCurrentDayAuto()+1)+' از '+totalDays;}
+function updateDateConversionInfo(){var sd=getStartDateGregorian(),j=gregorianToJalali(sd);var el=document.getElementById('jalaliDate');if(el)el.textContent=formatJalaliFull(j);}
+function updateDayDisplay(){var el=document.getElementById('dayBadge');if(el)el.textContent='روز '+(getCurrentDayAuto()+1)+' از '+totalDays;}
 function changeViewMode(){viewMode=document.getElementById('viewMode').value;saveAll();renderTable();}
 function changeFontSize(){fontSize=document.getElementById('fontSize').value;applySettings();saveAll();}
 function toggleShowDate(){showDate=document.getElementById('showDate').checked;saveAll();renderTable();}
@@ -2067,7 +2081,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 else init();
 
 window.addEventListener('online',function(){loadRemoteBanner();});
-window.addEventListener('offline',function(){document.getElementById('topBanner').classList.remove('active');});
+window.addEventListener('offline',function(){var tb=document.getElementById('topBanner');if(tb)tb.classList.remove('active');});
 
 if('serviceWorker'in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/Safir-salamat-/sw.js').then(function(r){console.log('SW:',r.scope);}).catch(function(e){console.log(e);});});}
 if(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone){var b=document.getElementById('pwaInstallBtn');if(b)b.style.display='none';}
