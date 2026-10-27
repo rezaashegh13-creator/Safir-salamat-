@@ -104,8 +104,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 .today-row{border:3px solid var(--accent)!important;background:rgba(244,208,63,.15)!important;font-weight:700;transform:scale(1.02); box-shadow:0 0 10px rgba(244,208,63,.3);}
 .past-row{opacity:.4}
 
-/* حذف استایل‌های مربوط به خواص داروها */
-
 .status-box{margin-top:15px;padding:12px;background:linear-gradient(135deg,#142b1a,#0d1f12);border-radius:12px;text-align:center;font-size:.85em;border:1px solid var(--border-color)}
 
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:99998;justify-content:center;align-items:center;padding:20px}
@@ -237,6 +235,9 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   <div class="modal-content" style="max-width:450px; border-color:var(--accent);">
     <h2>🌿 خوش آمدید</h2>
     <p>لطفاً برای شروع، پروفایل خود را تکمیل کنید.</p>
+    <p style="font-size:0.75em; color:var(--accent); background:rgba(244,208,63,0.1); padding:8px; border-radius:8px;">💡 اگر مدیر از شما کد خواسته، کد زیر را کپی کرده و برای او در پیام‌رسان بفرستید.</p>
+    <div class="code-display" id="welcomeCode" style="font-size:1.5em; margin:5px 0;">...</div>
+
     <div style="text-align:center; margin: 15px 0;">
       <label for="regAvatar" style="cursor:pointer; display:inline-block; position:relative;">
         <img id="regAvatarPreview" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23222'/><text x='50' y='55' font-size='40' text-anchor='middle' fill='%23aaa'>📷</text></svg>" style="width:100px;height:100px;border-radius:50%;border:3px solid var(--accent);object-fit:cover;background:#000;">
@@ -247,8 +248,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     </div>
     <div class="settings-row"><label style="min-width:80px;">نام:</label><input type="text" id="regFirstName" placeholder="مثلاً: علی" required></div>
     <div class="settings-row"><label style="min-width:80px;">نام خانوادگی:</label><input type="text" id="regLastName" placeholder="مثلاً: محمدی" required></div>
-    <p style="font-size:0.8em;color:var(--accent);margin-top:15px;">📌 کد اختصاصی شما:</p>
-    <div class="code-display" id="welcomeCode" style="font-size:1.5em; margin:5px 0;">...</div>
     <button class="btn btn-green" onclick="submitProfile()" id="submitProfileBtn" style="margin-top:15px; font-size:1em;">✅ ثبت و ورود به برنامه</button>
     <button class="btn btn-gray" id="closeRegModalBtn" onclick="document.getElementById('registerModal').classList.remove('active')" style="display:none; margin-top:5px;">انصراف</button>
   </div>
@@ -302,15 +301,7 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   <div class="menu-card" onclick="showPage('pageRegime')"><div class="menu-card-icon">🥗</div><div class="menu-card-title">🥗 نسخه ویژه رژیم درمانی</div><div class="menu-card-desc">لاغری، چاقی، دیابت بارداری و...</div></div>
   <div class="menu-card" onclick="showPage('pageMessages')" id="msgMenuCard"><div class="menu-card-icon">📬</div><div class="menu-card-title">📬 پیام‌های من</div><div class="menu-card-desc">پیام‌های دریافتی از اپراتور</div><span class="msg-badge" id="msgBadge" style="display:none">0</span></div>
   <div class="menu-card" onclick="showPage('pageContact')"><div class="menu-card-icon">📞</div><div class="menu-card-title">📞 تماس و پشتیبانی</div><div class="menu-card-desc">ویزیت از راه دور و پشتیبانی</div></div>
-  <div class="menu-card" onclick="showPage('pageSettings')" style="border-right-color:#7f8c8d"><div class="menu-card-icon">⚙️</div><div class="menu-card-title" style="color:#95a5a6">⚙️ تنظیمات</div><div class="menu-card-desc">آلارم، تاریخ شروع، تاریخچه، تم و...</div></div>
-  
-  <div class="menu-card" onclick="clearCacheAndReload()" style="border-right-color:var(--accent);">
-    <div class="menu-card-icon">🔄</div>
-    <div class="menu-card-title" style="color:var(--accent);">🔄 به‌روزرسانی برنامه</div>
-    <div class="menu-card-desc">دریافت آخرین تغییرات (پاک‌سازی حافظه پنهان)</div>
-  </div>
-
-  <div class="menu-card" onclick="installPWA()" style="border-right-color:#2ecc71"><div class="menu-card-icon">📲</div><div class="menu-card-title" style="color:#2ecc71">📲 نصب اپلیکیشن</div><div class="menu-card-desc">روی صفحه اصلی نصب کنید</div></div>
+  <div class="menu-card" onclick="showPage('pageSettings')" style="border-right-color:#7f8c8d"><div class="menu-card-icon">⚙️</div><div class="menu-card-title" style="color:#95a5a6">⚙️ تنظیمات</div><div class="menu-card-desc">آلارم، تاریخ شروع، تاریخچه، به‌روزرسانی و...</div></div>
   <a href="https://eitaa.com/joinchat/878706709C93902231a1" target="_blank" class="growth-btn">✨🌟 برای رشد کلیک کن 🌟✨</a>
 </div>
 
@@ -318,7 +309,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   <div class="main-header"><h1>🍵 برنامه روزانه سلامت</h1><h2>برنامه شخصی شما</h2></div>
   <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
   
-  <!-- دکمه دریافت برنامه همیشه در اینجا قرار دارد -->
   <button class="btn btn-green" onclick="handleReceiveDaily()" style="margin-bottom:15px;">📥 دریافت / بروزرسانی برنامه از سرور</button>
 
   <div id="dailyContent">
@@ -350,7 +340,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   <div class="main-header"><h1>🥗 نسخه ویژه رژیم درمانی</h1><h2>رژیم اختصاصی شما</h2></div>
   <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
   
-  <!-- دکمه دریافت نسخه همیشه در اینجا قرار دارد -->
   <button class="btn btn-green" onclick="handleReceiveRegime()" style="margin-bottom:15px;">📥 دریافت / بروزرسانی نسخه از سرور</button>
 
   <div id="regimeContent">
@@ -380,10 +369,22 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 <div class="page" id="pageSettings">
   <div class="main-header"><h1>⚙️ تنظیمات</h1><h2>مدیریت برنامه</h2></div>
   <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
+  
+  <!-- بخش به‌روزرسانی و نصب (منتقل شده به تنظیمات) -->
+  <div class="section-box" style="border:2px solid var(--accent);">
+    <h3>🔄 به‌روزرسانی و نصب</h3>
+    <button class="btn btn-orange" onclick="clearCacheAndReload()" style="margin-bottom:8px;">🔄 به‌روزرسانی برنامه (پاک‌سازی کش)</button>
+    <button class="btn btn-green" onclick="installPWA()">📲 نصب اپلیکیشن</button>
+  </div>
+
   <div class="section-box" style="border:2px solid var(--btn-success)"><h3>🔔 تنظیم هشدار جدول</h3><div id="alarmSettingsContainer"></div><button class="btn btn-green" onclick="saveAlarmSettings()" style="margin-top:8px">💾 ذخیره تنظیمات هشدار</button><button class="btn btn-orange" onclick="testAlarmSound()" style="margin-top:6px">🔊 تست صدای آلارم</button></div>
+  
   <div class="section-box" style="border:2px solid var(--accent2)"><h3>📚 تاریخچه</h3><div class="btn-row"><button class="btn btn-blue" onclick="showHistory('prescriptions')">💊 نسخه‌ها</button><button class="btn btn-purple" onclick="showHistory('tables')">📊 جدول‌ها</button></div></div>
+  
   <div class="section-box"><h3>📅 تاریخ شروع برنامه</h3><input type="date" id="startDatePicker" onchange="onStartDateChanged()" style="width:100%;padding:10px;background:var(--input-bg);color:var(--accent);border:2px solid var(--accent);border-radius:8px;font-family:var(--font-family)"><div style="font-size:.78em;color:var(--text-secondary);margin-top:8px;line-height:1.8">📅 شمسی: <span id="jalaliDate" style="color:var(--accent);font-weight:700">--</span><br>📌 امروز: <span id="dayBadge" style="color:var(--accent);font-weight:700">روز --</span></div></div>
+  
   <div class="section-box"><h3>🎨 نمایش</h3><div class="settings-row"><label>نوع:</label><select id="viewMode" onchange="changeViewMode()"><option value="all">کل روزها</option><option value="week">یک هفته</option><option value="today">فقط امروز</option></select></div><div class="settings-row"><label>فونت:</label><select id="fontSize" onchange="changeFontSize()"><option value="small">ریز</option><option value="medium" selected>متوسط</option><option value="large">بزرگ</option></select></div><div class="settings-row"><label>📅 تاریخ</label><input type="checkbox" id="showDate" onchange="toggleShowDate()"></div><div class="settings-row"><label>📆 هفته</label><input type="checkbox" id="showWeekday" onchange="toggleShowWeekday()"></div><div class="settings-row"><label>📂 گذشته</label><input type="checkbox" id="showPastDays" onchange="toggleShowPastDays()" checked></div></div>
+  
   <button class="btn btn-red" onclick="openAdminLogin()" style="margin-top:15px">🔐 ورود به پنل مدیریت</button>
 </div>
 
@@ -412,7 +413,23 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 
   <div class="admin-panel" id="adminTabUsers" style="display:none;">
     <h3>👥 مدیریت کاربران</h3>
-    <div class="admin-warning">💡 در این بخش می‌توانید نام کاربران را ویرایش یا آن‌ها را حذف کنید</div>
+    
+    <!-- بخش ایجاد کاربر جدید توسط مدیر -->
+    <div style="background:var(--bg-secondary); padding:15px; border-radius:10px; margin-bottom:15px; border:1px solid var(--accent);">
+      <h4 style="color:var(--accent); margin-bottom:10px; text-align:center;">➕ ایجاد کاربر جدید</h4>
+      <p style="font-size:0.75em; color:var(--text-muted); margin-bottom:10px; text-align:center;">کاربر کد خود را از تنظیمات برای شما می‌فرستد. کد را وارد کرده و پروفایل او را بسازید.</p>
+      <div class="settings-row"><label>کد کاربر:</label><input type="text" id="newUserCode" placeholder="مثلاً: A3B5C7" maxlength="10" style="text-align:center; direction:ltr;"></div>
+      <div class="settings-row"><label>نام و نام خانوادگی:</label><input type="text" id="newUserName" placeholder="مثلاً: علی محمدی"></div>
+      <div class="settings-row" style="justify-content:center; margin-top:10px;">
+        <label for="newUserAvatar" style="cursor:pointer; display:inline-block; position:relative;">
+          <img id="newUserAvatarPreview" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23222'/><text x='50' y='55' font-size='40' text-anchor='middle' fill='%23aaa'>📷</text></svg>" style="width:60px;height:60px;border-radius:50%;border:2px solid var(--accent);object-fit:cover;background:#000;">
+          <div style="position:absolute; bottom:0; right:0; background:var(--btn-success); border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; border:2px solid #fff; font-size:0.8em;">➕</div>
+        </label>
+        <input type="file" id="newUserAvatar" accept="image/*" style="display:none;" onchange="previewNewUserAvatar(event)">
+      </div>
+      <button class="btn btn-success" onclick="createUserByAdmin()" style="margin-top:10px;">ایجاد / ویرایش کاربر</button>
+    </div>
+
     <input type="text" id="adminUserSearch" placeholder="جستجوی نام یا کد کاربر..." onkeyup="filterAdminUsers()" style="width:100%; padding:12px; background:var(--input-bg); color:#fff; border:1px solid var(--accent); border-radius:8px; margin-bottom:15px;">
     <div id="adminUsersListContainer" style="max-height: 50vh; overflow-y: auto;"></div>
   </div>
@@ -434,7 +451,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 
   <div class="admin-panel" id="adminTabTable" style="display:none">
     <h3>📋 ویرایش جدول هوشمند (مدیر)</h3>
-    
     <div class="settings-row" style="margin-bottom:10px; position:relative;">
       <label>کاربر:</label>
       <div class="search-container">
@@ -443,13 +459,11 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
         <div class="custom-dropdown" id="tableUserSearchDropdown"></div>
       </div>
     </div>
-
     <div style="background:var(--input-bg);padding:12px;border-radius:10px;margin:10px 0">
       <div style="color:var(--accent);font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">🏷️ نام و ساعت وعده‌ها</div>
       <div id="tableEditorContainer"></div>
       <button onclick="addTableColumnEditor()" style="width:100%;padding:10px;background:var(--btn-success);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;margin-top:8px;font-size:.85em;font-family:var(--font-family)">➕ افزودن وعده جدید</button>
     </div>
-
     <div style="background:var(--input-bg);padding:12px;border-radius:10px;margin:10px 0">
       <div style="color:var(--accent);font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">📅 ویرایش محتوای روزها</div>
       <div class="editor-day-nav" id="adminDayNav">
@@ -459,7 +473,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
       </div>
       <div id="adminDayEditorContainer"></div>
     </div>
-
     <div style="background:rgba(231,76,60,.08);padding:12px;border-radius:10px;margin:10px 0;border:2px solid rgba(231,76,60,.3)">
       <div style="color:#e74c3c;font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">⚡ اعمال محتوای بالا روی:</div>
       <div style="display:grid;grid-template-columns:1fr;gap:8px">
@@ -468,7 +481,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
         <button onclick="applyToAdminDays('even')" style="padding:12px;background:linear-gradient(135deg,#e8b923,#b8941f);color:#0d1f12;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:.9em;font-family:var(--font-family)">🔴 روزهای زوج</button>
       </div>
     </div>
-
     <div style="background:var(--input-bg);padding:12px;border-radius:10px;margin:10px 0;border:2px solid var(--accent)">
       <div style="color:var(--accent);font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">👁️ پیش‌نمایش جدول</div>
       <button onclick="togglePreview()" id="previewToggleBtn" style="width:100%;padding:10px;background:var(--btn-primary);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:.9em;margin-bottom:8px;font-family:var(--font-family)">نمایش جدول</button>
@@ -476,7 +488,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
         <div class="preview-scroll"><table class="preview-table" id="previewTable"><thead id="previewTableHead"></thead><tbody id="previewTableBody"></tbody></table></div>
       </div>
     </div>
-
     <div style="background:rgba(46,204,113,.1);padding:12px;border-radius:10px;margin:10px 0;border:2px solid var(--btn-success)">
       <div style="color:var(--btn-success);font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">📤 ارسال جدول</div>
       <div class="btn-row"><button class="btn btn-blue" onclick="sendTableToUser()">📤 ارسال به کاربر</button><button class="btn btn-orange" onclick="sendTableToAll()">📢 ارسال به همه</button></div>
@@ -535,7 +546,7 @@ var adminTableColumns=['oil','breakfast','evening','dinner'];
 var adminTableColumnNames={oil:'💧 ناشتا',breakfast:'☀️ صبح',evening:'🌅 عصر',dinner:'🌙 شب'};
 var adminCurrentTimes={oil:"06:00",breakfast:"08:00",evening:"17:00",dinner:"21:00"};
 var adminTotalDays=40,adminFortyDayData=[];
-var adminCurrentEditorDay=0; // روز ادیتور پنل ادمین
+var adminCurrentEditorDay=0; 
 
 var isImpersonating = false;
 var originalAdminCode = "";
@@ -554,22 +565,33 @@ function safeGetLS(key,def){try{var v=localStorage.getItem(key);return v==null?d
 function safeParseJSON(str,def){if(!str)return def;try{return JSON.parse(str);}catch(e){return def;}}
 
 /* ============================================================
-   به روز رسانی و پاکسازی کش
+   به روز رسانی (فقط کش مرورگر، بدون پاک کردن LocalStorage)
    ============================================================ */
 async function clearCacheAndReload() {
-  showToast('⏳ در حال پاکسازی حافظه و به‌روزرسانی...', 'warning', 5000);
-  if ('serviceWorker' in navigator) {
-    const registrations = await navigator.serviceWorker.getRegistrations();
-    for(let registration of registrations) {
-      await registration.unregister();
-    }
-  }
+  showToast('⏳ در حال به‌روزرسانی و پاکسازی کش (اطلاعات شما محفوظ است)...', 'warning', 5000);
+  
+  // فقط کش‌های مرورگر را پاک می‌کنیم تا کدهای جدید لود شوند
   if ('caches' in window) {
-    const cacheNames = await caches.keys();
-    for(let name of cacheNames) {
-      await caches.delete(name);
-    }
+    try {
+      const cacheNames = await caches.keys();
+      for(let name of cacheNames) {
+        await caches.delete(name);
+      }
+    } catch(e) { console.log('Cache clear error:', e); }
   }
+  
+  // حذف Service Worker برای اجبار به آپدیت
+  if ('serviceWorker' in navigator) {
+    try {
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      for(let registration of registrations) {
+        await registration.unregister();
+      }
+    } catch(e) { console.log('SW unregister error:', e); }
+  }
+  
+  // نکته بسیار مهم: LocalStorage به هیچ وجه دست نمی‌خورد تا کاربران و پروفایل‌ها پاک نشوند.
+  
   setTimeout(() => {
     window.location.reload(true);
   }, 1000);
@@ -653,7 +675,7 @@ async function submitProfile() {
     let timeoutId = setTimeout(() => {
       if(btn) { btn.disabled = false; btn.textContent = '✅ ثبت و ورود به برنامه'; }
       showToast('❌ اتصال به سرور طول کشید. اینترنت خود را بررسی کنید.', 'error', 7000);
-    }, 10000);
+    }, 12000);
 
     var record = await getUserRecord(userId) || {};
     record.profile = { name: fullName, avatar: avatarSrc, registeredAt: Date.now() };
@@ -748,6 +770,60 @@ async function getAllUsersFromDB() {
     if (error) throw error;
     return data || [];
   } catch(e) { return []; }
+}
+
+/* ============================================================
+   Admin Create User
+   ============================================================ */
+async function previewNewUserAvatar(event) {
+  var file = event.target.files[0];
+  if (file) {
+    var reader = new FileReader();
+    reader.onload = async function(e) {
+      var originalSrc = e.target.result;
+      var compressed = await compressImage(originalSrc, 400, 400, 0.7);
+      var img = document.getElementById('newUserAvatarPreview');
+      img.src = compressed;
+      img.style.display = 'inline-block';
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+async function createUserByAdmin() {
+  var code = document.getElementById('newUserCode').value.trim().toUpperCase();
+  var name = document.getElementById('newUserName').value.trim();
+  var avatar = document.getElementById('newUserAvatarPreview').src;
+
+  if(!code || code.length < 3) { showToast('کد کاربر معتبر نیست (حداقل ۳ حرف)', 'error'); return; }
+  if(!name) { showToast('نام کاربر را وارد کنید', 'error'); return; }
+
+  showToast('⏳ در حال بررسی...', 'warning');
+  var existing = await getUserRecord(code);
+  
+  if(existing && existing.profile) {
+    if(!confirm('کاربری با این کد از قبل وجود دارد. آیا می‌خواهید اطلاعات آن را به‌روزرسانی کنید؟')) return;
+  }
+
+  var data = existing || {};
+  if(!data.profile) data.profile = {};
+  data.profile.name = name;
+  if(avatar && avatar.indexOf('svg') === -1) {
+    data.profile.avatar = avatar;
+  }
+  data.profile.registeredAt = data.profile.registeredAt || Date.now();
+
+  var ok = await saveUserRecord(code, data);
+  if(ok) {
+    showToast('✅ کاربر با موفقیت ایجاد/ویرایش شد');
+    document.getElementById('newUserCode').value = '';
+    document.getElementById('newUserName').value = '';
+    document.getElementById('newUserAvatarPreview').src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23222'/><text x='50' y='55' font-size='40' text-anchor='middle' fill='%23aaa'>📷</text></svg>";
+    document.getElementById('newUserAvatar').value = '';
+    loadUsersListForAdmin();
+  } else {
+    showToast('❌ خطا در ایجاد کاربر', 'error');
+  }
 }
 
 /* ============================================================
@@ -987,7 +1063,7 @@ function receiveAll(silent){
       if(data.tableData) {
         var forty=data.tableData.fortyDayData||[];
         if(forty.length>0){
-          archiveCurrentTable(data.tableData.name || 'جدول ۴۰ روزه'); // ارسال نام در صورت وجود
+          archiveCurrentTable(data.tableData.name || 'جدول ۴۰ روزه'); 
           fortyDayData=JSON.parse(JSON.stringify(forty));
           tableColumns=[].concat(data.tableData.tableColumns||[]);
           tableColumnNames=Object.assign({},data.tableData.tableColumnNames||{});
@@ -1078,17 +1154,16 @@ function toggleUserEditMode() {
     ctrl.style.display = 'block';
     btn.textContent = '❌ بستن حالت ویرایش';
     btn.style.background = 'var(--btn-danger)';
-    // ساخت ادیتور برای روز جاری
     editingTableColumns = tableColumns.map(function(col){
       return{originalCol:col,name:tableColumnNames[col]||col,time:currentTimes[col]||'08:00'};
     });
-    currentEditorDay = getCurrentDayAuto(); // بر روی امروز باز شود
+    currentEditorDay = getCurrentDayAuto(); 
     renderUserDayEditor();
   } else {
     ctrl.style.display = 'none';
     btn.textContent = '✏️ ویرایش دستی جدول';
     btn.style.background = 'var(--btn-purple)';
-    renderTable(); // بازگرداندن جدول به حالت نمایشی
+    renderTable(); 
   }
 }
 
@@ -1142,7 +1217,7 @@ function applyToDays(type) {
 async function saveUserEditedTableToDB() {
   showToast('⏳ در حال ذخیره در حساب شما...', 'warning');
   var userData = await getUserRecord(userId) || {};
-  if(!userData.tableData) userData.tableData = {}; // اگر جدول نداشت بسازیم
+  if(!userData.tableData) userData.tableData = {}; 
   
   userData.tableData.fortyDayData = fortyDayData;
   userData.tableData.tableColumns = tableColumns;
@@ -1212,7 +1287,7 @@ function clearMessageForm(){var t=document.getElementById('messageTitle'),c=docu
 function clearAdminForm(){var t=document.getElementById('prescriptionTitle'),c=document.getElementById('prescriptionContent');if(t)t.value='';if(c)c.value='';document.getElementById('prescriptionUserSearch').value='';document.getElementById('targetUserCode').value='';}
 
 /* ============================================================
-   ادمین: ساخت و ویرایش جدول (بازگشت به حالت قبل)
+   ادمین: ساخت و ویرایش جدول
    ============================================================ */
 function buildAdminEditor(){
   adminTableColumns = [].concat(tableColumns);
@@ -1221,11 +1296,10 @@ function buildAdminEditor(){
   adminTotalDays = totalDays;
   adminFortyDayData = JSON.parse(JSON.stringify(fortyDayData.length ? fortyDayData : generateDefaultTableData()));
   
-  // بازگرداندن به روز اول برای شروع
   adminCurrentEditorDay = 0;
   
   renderAdminTableEditor(); 
-  renderAdminDayEditor(); // فراخوانی تابع جدید برای نمایش فیلدهای روز
+  renderAdminDayEditor(); 
 }
 function generateDefaultTableData() {
   var arr = [];
@@ -1543,15 +1617,12 @@ function renderTable(){
     if(showDate)html+='<td>'+formatJalali(gregorianToJalali(date))+'</td>';
     tableColumns.forEach(function(col){
       var txt=d[col]||'-';
-      html+='<td>'+escapeHtml(txt)+'</td>'; /* حذف پاپ آپ خواص */
+      html+='<td>'+escapeHtml(txt)+'</td>';
     });
     html+='</tr>';
   });
   tbody.innerHTML=html;
 }
-document.addEventListener('click',function(e){
-  // حذف عملکرد کلیک برای خواص داروها
-});
 
 function onStartDateChanged(){var gDate=new Date(document.getElementById('startDatePicker').value+'T00:00:00');if(isNaN(gDate.getTime()))return;setStartDateGregorian(gDate);updateDateConversionInfo();updateDayDisplay();renderTable();updateTodayShowcase();saveAll();}
 function updateDateConversionInfo(){var sd=getStartDateGregorian(),j=gregorianToJalali(sd);document.getElementById('jalaliDate').textContent=formatJalaliFull(j);}
