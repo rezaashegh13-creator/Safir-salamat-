@@ -36,6 +36,15 @@ body{font-family:var(--font-family);background:var(--bg-primary);
 .top-bar { display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary)); padding: 10px 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--border-color); }
 .top-bar-info { display: flex; align-items: center; gap: 10px; }
 
+/* پشتیبان‌گیری شناور */
+.backup-fab { position: fixed; bottom: 80px; left: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+.backup-fab .main-btn { width: 50px; height: 50px; border-radius: 50%; background: var(--accent); color: #0d1f12; border: none; font-size: 1.5em; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
+.backup-fab .sub-btns { display: none; flex-direction: column; gap: 8px; }
+.backup-fab.open .sub-btns { display: flex; }
+.backup-fab .sub-btn { padding: 10px 15px; border-radius: 20px; border: none; font-family: inherit; font-weight: bold; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.3); font-size: 0.8em; display: flex; align-items: center; gap: 5px; }
+.btn-save-offline { background: var(--btn-success); color: #fff; }
+.btn-restore-offline { background: var(--btn-primary); color: #fff; }
+
 .login-box { background: linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary)); border: 2px solid var(--accent); border-radius: 20px; padding: 25px; margin: 50px auto; max-width: 400px; text-align: center; }
 .login-box h2 { color: var(--accent); margin-bottom: 20px; font-family: 'Lalezar', cursive; font-size: 1.8em;}
 .login-input { width: 100%; padding: 12px; margin-bottom: 15px; background: var(--input-bg); color: #fff; border: 1px solid var(--accent); border-radius: 8px; font-family: inherit; text-align: center; font-size: 1.1em; }
@@ -227,6 +236,15 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 <body>
 
 <div class="toast" id="toast"></div>
+
+<!-- سیستم پشتیبان‌گیری شناور -->
+<div class="backup-fab" id="backupFab">
+  <div class="sub-btns" id="backupSubBtns">
+    <button class="sub-btn btn-save-offline" onclick="saveOfflineBackup()">💾 ذخیره آفلاین</button>
+    <button class="sub-btn btn-restore-offline" onclick="restoreOfflineBackup()">♻️ بازیابی آفلاین</button>
+  </div>
+  <button class="main-btn" onclick="document.getElementById('backupFab').classList.toggle('open')">💾</button>
+</div>
 
 <div id="topBanner">
   <img id="topBannerImg" style="display:none" onload="bannerLoaded()" onerror="bannerError()" alt="">
@@ -650,6 +668,79 @@ function safeGetLS(key,def){try{var v=localStorage.getItem(key);return v==null?d
 function safeParseJSON(str,def){if(!str)return def;try{return JSON.parse(str);}catch(e){return def;}}
 
 /* ============================================================
+   پشتیبان گیری و بازیابی آفلاین (سیستم جدید)
+   ============================================================ */
+function saveOfflineBackup() {
+  if(!userId) { showToast('ابتدا وارد حساب شوید', 'error'); return; }
+  
+  var backupData = {
+    userId: userId,
+    userProfile: userProfile,
+    fortyDayData: fortyDayData,
+    tableColumns: tableColumns,
+    tableColumnNames: tableColumnNames,
+    currentTimes: currentTimes,
+    totalDays: totalDays,
+    lastPrescription: safeGetLS('lastPrescription', null),
+    healthStartDateGregorian: safeGetLS('healthStartDateGregorian', null),
+    timestamp: new Date().toISOString()
+  };
+  
+  try {
+    localStorage.setItem('offlineBackup_' + userId, JSON.stringify(backupData));
+    showToast('✅ نسخه پشتیبان با موفقیت در گوشی ذخیره شد.');
+    document.getElementById('backupFab').classList.remove('open');
+  } catch(e) {
+    showToast('❌ خطا در ذخیره پشتیبان: ' + e.message, 'error');
+  }
+}
+
+function restoreOfflineBackup() {
+  if(!userId) { showToast('ابتدا وارد حساب شوید', 'error'); return; }
+  
+  var backupStr = safeGetLS('offlineBackup_' + userId, null);
+  if(!backupStr) {
+    showToast('⚠️ هیچ نسخه پشتیبانی برای این حساب پیدا نشد.', 'warning');
+    return;
+  }
+  
+  if(!confirm('آیا مطمئن هستید؟ اطلاعات فعلی با اطلاعات نسخه پشتیبان جایگزین می‌شود.')) return;
+  
+  try {
+    var backup = JSON.parse(backupStr);
+    
+    // بازگردانی اطلاعات جدول
+    if(backup.fortyDayData) {
+      fortyDayData = backup.fortyDayData;
+      saveAll();
+    }
+    if(backup.tableColumns) tableColumns = backup.tableColumns;
+    if(backup.tableColumnNames) tableColumnNames = backup.tableColumnNames;
+    if(backup.currentTimes) currentTimes = backup.currentTimes;
+    if(backup.totalDays) totalDays = backup.totalDays;
+    
+    // بازگردانی نسخه
+    if(backup.lastPrescription) safeSetLS('lastPrescription', backup.lastPrescription);
+    if(backup.healthStartDateGregorian) safeSetLS('healthStartDateGregorian', backup.healthStartDateGregorian);
+    
+    // بازگردانی پروفایل
+    if(backup.userProfile) {
+      userProfile = backup.userProfile;
+      safeSetLS('userProfile', JSON.stringify(userProfile));
+      updateProfileUI();
+    }
+    
+    showToast('✅ اطلاعات با موفقیت بازیابی شد. صفحه در حال بارگذاری مجدد...');
+    setTimeout(function() {
+      window.location.reload();
+    }, 1500);
+    
+  } catch(e) {
+    showToast('❌ خطا در بازیابی: ' + e.message, 'error');
+  }
+}
+
+/* ============================================================
    AUTH SYSTEM (رفع کامل مشکل رفرش و لاگین چند دستگاهی)
    ============================================================ */
 var profilesList = safeParseJSON(safeGetLS('profilesList', '[]'), []);
@@ -657,7 +748,6 @@ var activeUserCode = safeGetLS('activeUserCode', null);
 
 function initAuth() {
   if(!activeUserCode) {
-    // اگر activeUserCode نداریم، ببینیم آیا پروفایلی هست که بشه بهش سوییچ کرد
     if(profilesList.length > 0) {
       activeUserCode = profilesList[profilesList.length - 1].code;
       safeSetLS('activeUserCode', activeUserCode);
@@ -681,11 +771,11 @@ function initAuth() {
     updateTodayShowcase(); 
     checkRegimeReceive();
     
-    // 2. سینک با سرور در پس‌زمینه (برای دریافت آپدیت ادمین)
+    // 2. سینک با سرور در پس‌زمینه
     receiveAll(true).then(function(){
        renderTable(); updateTodayShowcase(); checkRegimeReceive();
     }).catch(function(e){ 
-       // خطای سرور نباید صفحه را خراب کند، چون اطلاعات لوکال لود شده‌اند
+       // خطای سرور نباید صفحه را خراب کند
     });
   } else {
     document.getElementById('loginPage').classList.add('active');
@@ -729,10 +819,8 @@ async function doLogin() {
 
   showToast('⏳ در حال بررسی...', 'warning');
   
-  // 1. جستجو در پروفایل‌های لوکال
   var profile = profilesList.find(function(p) { return p.username === username && p.password === pass; });
   
-  // 2. اگر در لوکال نبود، جستجو در دیتابیس (برای ورود از گوشی دیگر)
   if(!profile) {
     try {
       const { data, error } = await supabaseClient
@@ -749,7 +837,6 @@ async function doLogin() {
           code: data.code,
           data: data.data.profile
         };
-        // ذخیره در حافظه لوکال برای بارهای بعدی
         profilesList.push(profile);
         safeSetLS('profilesList', JSON.stringify(profilesList));
       }
@@ -766,7 +853,7 @@ async function doLogin() {
   userId = profile.code; 
   userProfile = profile.data;
   
-  safeSetLS('activeUserCode', userId); // ذخیره کلید جلسه اصلی
+  safeSetLS('activeUserCode', userId);
   safeSetLS('userId', userId);
   
   if(remember) {
