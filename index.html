@@ -650,7 +650,7 @@ function safeGetLS(key,def){try{var v=localStorage.getItem(key);return v==null?d
 function safeParseJSON(str,def){if(!str)return def;try{return JSON.parse(str);}catch(e){return def;}}
 
 /* ============================================================
-   AUTH SYSTEM
+   AUTH SYSTEM (با حفظ پایدار جلسه)
    ============================================================ */
 var currentDeviceCode = safeGetLS('userId', null);
 var profilesList = safeParseJSON(safeGetLS('profilesList', '[]'), []);
@@ -665,14 +665,14 @@ function initAuth() {
   var currentSession = safeGetLS('currentSessionUser', null);
   
   if(currentSession && currentSession !== "") {
+    // کاربر قبلاً لاگین کرده است
     userId = currentSession;
     userProfile = safeParseJSON(safeGetLS('userProfile','null'), null);
     document.getElementById('loginPage').classList.remove('active');
     document.getElementById('mainAppContainer').style.display = 'block';
     updateProfileUI();
     
-    // --- راه حل اساسی مشکل رفرش ---
-    // 1. ابتدا از حافظه محلی (سریع) لود می‌کنیم تا صفحه خالی نماند
+    // --- 1. لود فوری از حافظه محلی (رفع مشکل رفرش) ---
     var hasLocalData = safeGetLS('health40Data', null);
     if(hasLocalData) {
       initData(); 
@@ -682,11 +682,11 @@ function initAuth() {
       checkRegimeReceive();
     }
     
-    // 2. سپس در پس‌زمینه با دیتابیس چک می‌کنیم (تا اگر ادمین چیزی فرستاده، آپدیت شود)
+    // --- 2. چک کردن سرور در پس‌زمینه (بدون خالی کردن صفحه) ---
     receiveAll(true).then(function(){
        renderTable(); updateTodayShowcase(); checkRegimeReceive();
     }).catch(function(e){ 
-       if(!hasLocalData) { // اگر لوکال خالی بود و سرور هم خطا داد، پیش‌فرض رو بساز
+       if(!hasLocalData) { // فقط اگر لوکال خالی بود و سرور هم خطا داد
           initData(); renderTable(); renderAlarmSettings(); updateTodayShowcase(); 
        }
     });
