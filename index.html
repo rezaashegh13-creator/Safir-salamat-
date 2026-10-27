@@ -671,7 +671,6 @@ function initAuth() {
     document.getElementById('mainAppContainer').style.display = 'block';
     updateProfileUI();
     
-    // نکته بسیار مهم: اگر اطلاعات در لوکال هست، همون رو لود کن
     var hasLocalData = safeGetLS('health40Data', null);
     if(hasLocalData) {
       initData(); 
@@ -680,7 +679,6 @@ function initAuth() {
       updateTodayShowcase(); 
       checkRegimeReceive();
     } else {
-      // اگر اطلاعات در لوکال نبود، از سرور بگیر
       receiveAll(true).then(function(){
          renderTable(); renderAlarmSettings(); updateTodayShowcase(); checkRegimeReceive();
       }).catch(function(){ 
@@ -835,6 +833,7 @@ async function doRegister() {
   var problem = document.getElementById('regProblem').value.trim();
   var password = document.getElementById('regPassword').value.trim();
   var avatar = document.getElementById('regAvatarPreview').src;
+  var btn = document.getElementById('submitProfileBtn');
 
   if(!fullName || !age || !problem || !password) {
     showToast('لطفاً همه فیلدها را پر کنید.', 'error'); return;
@@ -850,18 +849,29 @@ async function doRegister() {
   }
 
   showToast('⏳ در حال ثبت نام...', 'warning');
+  if(btn) { btn.disabled = true; btn.textContent = 'در حال ارسال...'; }
 
   var profileData = { name: fullName, age: age, problem: problem, avatar: avatar };
-  var uniqueKey = currentDeviceCode + "_" + Date.now(); 
+  // استفاده از کد ۶ رقمی دستگاه به عنوان کد کاربر، بدون اضافه کردن Date.now()
+  var uniqueKey = currentDeviceCode; 
 
   try {
+    // ایجاد تایم اوت ۱۰ ثانیه‌ای برای جلوگیری از گیر کردن
+    let timeoutId = setTimeout(() => {
+      if(btn) { btn.disabled = false; btn.textContent = '✅ تکمیل ثبت‌نام'; }
+      showToast('❌ اتصال به سرور طول کشید. اینترنت خود را بررسی کنید.', 'error', 7000);
+    }, 10000);
+
     var remoteData = await getUserRecord(uniqueKey) || {};
     remoteData.profile = profileData;
     remoteData.auth = { username: fullName, password: password };
     
     var ok = await saveUserRecord(uniqueKey, remoteData);
+    clearTimeout(timeoutId);
+    
     if(!ok) { showToast('❌ خطا در ثبت نام در سرور', 'error'); return; }
     
+    // ذخیره در لیست لوکال
     profilesList.push({
       username: fullName,
       password: password,
@@ -878,6 +888,8 @@ async function doRegister() {
     
   } catch(e) {
     showToast('❌ خطای شبکه: ' + e.message, 'error');
+  } finally {
+    if(btn) { btn.disabled = false; btn.textContent = '✅ تکمیل ثبت‌نام'; }
   }
 }
 
@@ -945,8 +957,23 @@ async function deleteMyAccount() {
   if(!confirm('⚠️ آیا مطمئن هستید که می‌خواهید کل حساب کاربری و برنامه‌های خود را حذف کنید؟ این عمل غیرقابل بازگشت است.')) return;
   
   showToast('⏳ در حال حذف...', 'warning');
-  var ok = await deleteUserRecord(userId);
-  if(ok) {
+  
+  try {
+    // بررسی اینکه آیا کاربر در دیتابیس وجود دارد یا خیر
+    const { data, error } = await supabaseClient.from('users_list').delete().eq('code', userId.toUpperCase()).select();
+    
+    if (error) {
+      console.error('Delete Error:', error);
+      showToast('❌ خطا در حذف از سرور: ' + error.message, 'error', 6000);
+      return;
+    }
+    
+    // اگر دیتای برگشتی خالی بود، یعنی حذفی انجام نشده (مثلا پیدا نشده)
+    if (!data || data.length === 0) {
+       console.warn('No user found to delete with code:', userId);
+    }
+
+    // حتی اگر در سرور نبود، از لیست لوکال پاک شود
     profilesList = profilesList.filter(function(p) { return p.code !== userId; });
     safeSetLS('profilesList', JSON.stringify(profilesList));
     localStorage.removeItem('currentSessionUser');
@@ -955,8 +982,9 @@ async function deleteMyAccount() {
     
     showToast('✅ حساب کاربری حذف شد.');
     doLogout();
-  } else {
-    showToast('❌ خطا در حذف.', 'error');
+    
+  } catch(e) {
+    showToast('❌ خطای شبکه در حذف: ' + e.message, 'error', 6000);
   }
 }
 
