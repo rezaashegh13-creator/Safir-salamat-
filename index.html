@@ -15,7 +15,6 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 <style>
-/* ... (همان استایل‌های قبلی بدون تغییر) ... */
 :root{
   --bg-primary:#0d1f12;--bg-secondary:#1a3322;--bg-tertiary:#21452c;
   --text-primary:#fff;--text-secondary:#e8f0e3;--text-muted:#a8bfa8;
@@ -25,9 +24,15 @@
   --font-family:'Vazirmatn',Tahoma,sans-serif;--font-size:14px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font-family);background:var(--bg-primary);background-image:radial-gradient(circle at 20% 30%,rgba(46,204,113,.08) 0,transparent 40%),radial-gradient(circle at 80% 70%,rgba(244,208,63,.05) 0,transparent 40%);background-attachment:fixed;color:var(--text-primary);padding:0 0 20px;min-height:100vh;font-size:var(--font-size)}
+body{font-family:var(--font-family);background:var(--bg-primary);
+  background-image:radial-gradient(circle at 20% 30%,rgba(46,204,113,.08) 0,transparent 40%),
+  radial-gradient(circle at 80% 70%,rgba(244,208,63,.05) 0,transparent 40%);
+  background-attachment:fixed;color:var(--text-primary);padding:0 0 20px;
+  min-height:100vh;font-size:var(--font-size)}
 .container{max-width:750px;margin:0 auto;padding:10px}
+
 .admin-return-bar { background: #c0392b; color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 1em; border-radius: 10px; margin-bottom: 15px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+
 .today-showcase { background: linear-gradient(135deg, #1e3c26, #0d1f12); border: 2px solid var(--accent); border-radius: 20px; padding: 15px; margin-bottom: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.4), inset 0 0 20px rgba(244,208,63,0.1); position: relative; overflow: hidden; }
 .today-showcase::before { content: '✨'; position: absolute; top: -10px; left: -10px; font-size: 5em; opacity: 0.05; transform: rotate(20deg); }
 .showcase-title { font-family: 'Lalezar', cursive; color: var(--accent); font-size: 1.5em; text-align: center; margin-bottom: 15px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
@@ -37,95 +42,132 @@ body{font-family:var(--font-family);background:var(--bg-primary);background-imag
 .showcase-card-label { font-size: 0.75em; color: var(--text-muted); margin-bottom: 4px; }
 .showcase-card-value { font-size: 0.9em; font-weight: bold; color: #fff; }
 .showcase-card-time { font-size: 0.7em; color: var(--accent2); margin-top: 4px; }
+
 .welcome-message { text-align: center; font-family: 'Lalezar', cursive; font-size: 1.6em; color: var(--accent); margin-bottom: 10px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
 .profile-header { display: flex; align-items: center; gap: 15px; background: linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary)); padding: 15px; border-radius: 16px; margin-bottom: 15px; border: 1px solid var(--border-color); cursor: pointer; }
 .profile-avatar { width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent); background: #000; }
 .profile-info h3 { color: #fff; font-size: 1.15em; margin-bottom: 4px; }
 .profile-info p { font-size: 0.8em; color: var(--text-muted); font-family: monospace; }
-.growth-btn { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 25px auto 10px; padding: 14px 35px; background: linear-gradient(90deg, #e8b923, #fff8b0, #f4d03f, #e8b923); background-size: 300% 100%; color: #0d1f12; text-decoration: none; border-radius: 30px; font-family: 'Lalezar', cursive; font-size: 1.1em; font-weight: bold; width: fit-content; box-shadow: 0 0 20px rgba(244,208,63,0.6); animation: shine 3s infinite linear; border: 2px solid #fff; text-shadow: 1px 1px 0px rgba(255,255,255,0.5); }
+
+.growth-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin: 25px auto 10px; padding: 14px 35px;
+  background: linear-gradient(90deg, #e8b923, #fff8b0, #f4d03f, #e8b923);
+  background-size: 300% 100%;
+  color: #0d1f12; text-decoration: none; border-radius: 30px;
+  font-family: 'Lalezar', cursive; font-size: 1.1em; font-weight: bold;
+  width: fit-content; box-shadow: 0 0 20px rgba(244,208,63,0.6);
+  animation: shine 3s infinite linear; border: 2px solid #fff;
+  text-shadow: 1px 1px 0px rgba(255,255,255,0.5);
+}
 @keyframes shine { 0% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
 #topBanner{display:none;width:100%;background:var(--bg-secondary);border-bottom:3px solid var(--accent);overflow:hidden}
 #topBanner.active{display:block}
 #topBanner img{width:100%;height:auto;max-height:220px;object-fit:cover;display:block}
+
 .main-header{text-align:center;margin-bottom:15px;padding:20px 15px;background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border-radius:20px;border:1px solid rgba(244,208,63,.3);position:relative;overflow:hidden}
 .main-header::before{content:'🌿';position:absolute;font-size:8em;opacity:.03;top:-30px;left:-20px;transform:rotate(-15deg)}
 .main-header h1{color:var(--accent);font-size:1.6em;margin-bottom:5px}
 .main-header h2{color:var(--text-secondary);font-size:1em;margin-bottom:12px}
+
 .page{display:none}.page.active{display:block}
 .menu-card{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border-radius:16px;padding:18px;margin-bottom:12px;cursor:pointer;border:1px solid rgba(244,208,63,.2);border-right:5px solid var(--accent);position:relative;overflow:hidden}
 .menu-card:active{transform:scale(.98)}
 .menu-card-title{font-size:1.15em;font-weight:700;color:var(--accent);margin-bottom:5px}
 .menu-card-desc{font-size:.8em;color:var(--text-secondary);opacity:.85}
 .menu-card-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:2.5em;opacity:.1}
+
 .back-btn{display:inline-block;padding:8px 16px;background:var(--bg-tertiary);color:var(--text-primary);border:1px solid var(--border-color);border-radius:10px;cursor:pointer;font-size:.85em;font-weight:700;margin-bottom:12px}
+
 .btn{padding:11px 15px;border:none;border-radius:10px;font-size:.85em;cursor:pointer;font-weight:700;text-align:center;width:100%;margin:5px 0;font-family:var(--font-family)}
-.btn-green{background:var(--btn-success);color:#fff}.btn-blue{background:var(--btn-primary);color:#fff}.btn-purple{background:var(--btn-purple);color:#fff}.btn-red{background:var(--btn-danger);color:#fff}.btn-orange{background:var(--accent2);color:#0d1f12}.btn-gray{background:#4a5a4e;color:#fff}
-.btn-row{display:flex;gap:8px;flex-wrap:wrap}.btn-row .btn{flex:1;min-width:100px;width:auto}
+.btn-green{background:var(--btn-success);color:#fff}
+.btn-blue{background:var(--btn-primary);color:#fff}
+.btn-purple{background:var(--btn-purple);color:#fff}
+.btn-red{background:var(--btn-danger);color:#fff}
+.btn-orange{background:var(--accent2);color:#0d1f12}
+.btn-gray{background:#4a5a4e;color:#fff}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.btn-row .btn{flex:1;min-width:100px;width:auto}
+
 .section-box{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));padding:14px;border-radius:14px;margin:12px 0;border:1px solid var(--border-color)}
 .section-box h3{color:var(--accent);text-align:center;margin-bottom:12px;font-size:.95em;padding-bottom:8px;border-bottom:1px dashed rgba(244,208,63,.2)}
 .settings-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
 .settings-row label{font-size:.82em;color:var(--text-secondary);min-width:55px}
 .settings-row input,.settings-row select,.settings-row textarea{background:var(--input-bg);color:var(--text-primary);border:1px solid #3d5a45;padding:9px;border-radius:8px;flex:1;min-width:60px;font-family:var(--font-family);font-size:.9em}
 textarea{resize:vertical;min-height:100px;line-height:1.8}
+
 .table-wrapper{overflow-x:auto;margin-top:10px;border-radius:12px}
 table{width:100%;border-collapse:collapse;background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border-radius:12px;overflow:hidden;font-size:.85em}
 th{padding:10px 6px;background:linear-gradient(180deg,#2b5738,#21452c);color:var(--accent);text-align:center;font-size:.85em;border-bottom:2px solid rgba(244,208,63,.3)}
 td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1);position:relative;word-break:break-word}
 .today-row{border:3px solid var(--accent)!important;background:rgba(244,208,63,.15)!important;font-weight:700;transform:scale(1.02); box-shadow:0 0 10px rgba(244,208,63,.3);}
 .past-row{opacity:.4}
-.drug-name{cursor:pointer;font-weight:600;padding:3px 6px;border-radius:5px}
-.drug-name.active-drug{color:#0d1f12;background:var(--accent);padding:3px 7px}
-.property-popup{display:none;position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:#142b1a;border:2px solid var(--accent);border-radius:12px;padding:12px;min-width:180px;z-index:100;line-height:1.7;color:var(--accent);font-size:.8em;margin-bottom:5px}
-.property-popup.active{display:block}
+
+/* حذف استایل‌های مربوط به خواص داروها */
+
 .status-box{margin-top:15px;padding:12px;background:linear-gradient(135deg,#142b1a,#0d1f12);border-radius:12px;text-align:center;font-size:.85em;border:1px solid var(--border-color)}
-.receive-prompt{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border-radius:20px;border:2px dashed var(--accent);margin:20px 0;text-align:center}
-.receive-prompt .receive-icon{font-size:4em;margin-bottom:15px}
-.receive-prompt .receive-btn{padding:16px 40px;background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff;border:none;border-radius:50px;font-size:1.1em;font-weight:700;cursor:pointer;margin:15px 0;box-shadow:0 5px 20px rgba(46,204,113,.4);font-family:var(--font-family)}
-.receive-prompt .receive-note{font-size:.85em;color:var(--text-muted);margin-top:10px;line-height:1.8}
+
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:99998;justify-content:center;align-items:center;padding:20px}
 .modal-overlay.active{display:flex}
 .modal-content{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border:2px solid var(--accent);border-radius:20px;padding:25px;max-width:380px;width:100%;text-align:center;position:relative}
 .modal-content h2{color:var(--accent);margin-bottom:15px}
 .modal-content p{color:var(--text-secondary);margin-bottom:15px;line-height:1.8;font-size:.9em}
 .code-display{background:var(--input-bg);padding:15px;border-radius:12px;font-size:2em;font-weight:700;color:var(--accent);letter-spacing:5px;margin:15px 0;border:2px dashed var(--accent);font-family:monospace;direction:ltr}
+
 .alarm-overlay{display:none;position:fixed;inset:0;background:radial-gradient(circle,rgba(192,57,43,.95),rgba(0,0,0,.98));z-index:99999;flex-direction:column;justify-content:center;align-items:center;padding:20px}
 .alarm-overlay.active{display:flex}
 .alarm-stop-btn{background:var(--btn-danger);color:#fff;font-size:1.6em;font-weight:700;padding:20px 50px;border:4px solid #fff;border-radius:18px;cursor:pointer}
 .alarm-snooze-btn{background:var(--accent2);color:#0d1f12;font-size:1em;padding:12px 30px;border:2px solid #fff;border-radius:18px;cursor:pointer;margin-top:15px;font-weight:700}
 .alarm-message{color:var(--accent);font-size:1.5em;margin-bottom:25px;text-align:center;font-weight:700}
+
 .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#2ecc71;color:#fff;padding:12px 25px;border-radius:25px;font-weight:700;z-index:99999;display:none;max-width:90%;text-align:center}
-.toast.error{background:#e74c3c}.toast.warning{background:#f39c12;color:#0d1f12}
+.toast.error{background:#e74c3c}
+.toast.warning{background:#f39c12;color:#0d1f12}
+
 .regime-content{background:var(--input-bg);border-radius:12px;padding:15px;line-height:2;min-height:150px;white-space:pre-wrap;word-wrap:break-word;font-size:.9em;color:var(--text-primary);border:1px solid rgba(244,208,63,.2)}
+
 .admin-panel{background:linear-gradient(135deg,#2a1a1a,#3d2020);border:2px solid var(--accent2);border-radius:15px;padding:15px;margin:10px 0}
 .admin-panel h3{color:var(--accent);text-align:center;margin-bottom:10px}
 .admin-warning{background:rgba(244,208,63,.1);padding:8px;border-radius:8px;font-size:.75em;color:var(--accent);text-align:center;margin-bottom:10px;border:1px solid rgba(244,208,63,.3)}
+
 .msg-badge{position:absolute;top:-8px;right:-8px;background:#e74c3c;color:#fff;border-radius:50%;width:24px;height:24px;font-size:.7em;display:flex;align-items:center;justify-content:center;font-weight:700}
 .menu-card{position:relative}
+
 .msg-item{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border-radius:12px;padding:14px;margin-bottom:10px;border-right:4px solid var(--accent);position:relative}
 .msg-item.unread{border-right-color:#e74c3c}
 .msg-item-title{font-weight:700;color:var(--accent);font-size:.95em;margin-bottom:5px}
 .msg-item-date{font-size:.7em;color:var(--text-muted);margin-bottom:8px}
 .msg-item-content{font-size:.85em;line-height:1.8;color:var(--text-secondary);white-space:pre-wrap}
 .msg-close{position:absolute;top:8px;left:8px;background:#e74c3c;color:#fff;border:none;border-radius:50%;width:26px;height:26px;cursor:pointer;font-size:.8em;font-weight:700}
+
 .msg-popup-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:99997;justify-content:center;align-items:center;padding:20px}
 .msg-popup-overlay.active{display:flex}
 .msg-popup-content{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border:3px solid var(--accent);border-radius:22px;padding:25px;max-width:400px;width:100%;text-align:center}
 .msg-popup-content h2{color:var(--accent);margin-bottom:15px;font-size:1.3em}
 .msg-popup-text{background:var(--input-bg);padding:15px;border-radius:12px;line-height:2;color:var(--text-primary);font-size:.95em;margin:15px 0;text-align:right;white-space:pre-wrap;max-height:300px;overflow-y:auto}
 .msg-popup-close{background:var(--btn-danger);color:#fff;border:none;padding:12px 40px;border-radius:25px;font-weight:700;font-size:.95em;cursor:pointer;margin-top:10px}
+
 .admin-tabs{display:flex;gap:5px;margin-bottom:15px;background:var(--input-bg);padding:5px;border-radius:12px;flex-wrap:wrap}
 .admin-tab{flex:1;padding:10px 8px;text-align:center;cursor:pointer;border-radius:8px;font-size:.75em;font-weight:700;color:var(--text-muted);user-select:none;min-width:60px}
 .admin-tab.active{background:linear-gradient(135deg,#e74c3c,#c0392b);color:#fff}
-.history-item{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border:1px solid var(--border-color);border-radius:12px;padding:12px;margin-bottom:10px;cursor:pointer;border-right:4px solid var(--accent)}
+
+.history-item{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border:1px solid var(--border-color);border-radius:12px;padding:12px;margin-bottom:10px;border-right:4px solid var(--accent);display:flex;flex-direction:column;gap:8px}
 .history-item.active-history{border-right-color:#2ecc71}
-.history-item-title{color:var(--accent);font-weight:700;font-size:.95em;margin-bottom:5px}
-.history-item-date{font-size:.72em;color:var(--text-muted);margin-bottom:5px}
+.history-item-title{color:var(--accent);font-weight:700;font-size:.95em;}
+.history-item-date{font-size:.72em;color:var(--text-muted);}
 .history-item-preview{font-size:.8em;color:var(--text-secondary);opacity:.85;max-height:40px;overflow:hidden;line-height:1.6}
 .history-badge{display:inline-block;background:#2ecc71;color:#fff;font-size:.65em;padding:2px 8px;border-radius:10px;margin-right:5px}
+.history-actions{display:flex; gap:8px; margin-top:5px;}
+.btn-hist-edit{background:var(--btn-primary); color:#fff; padding:6px 12px; font-size:0.75em; border:none; border-radius:6px; cursor:pointer; flex:1; font-family:inherit;}
+.btn-hist-del{background:var(--btn-danger); color:#fff; padding:6px 12px; font-size:0.75em; border:none; border-radius:6px; cursor:pointer; flex:1; font-family:inherit;}
+.btn-hist-restore{background:var(--accent); color:#0d1f12; padding:6px 12px; font-size:0.75em; border:none; border-radius:6px; cursor:pointer; flex:1; font-family:inherit;}
+
 .dashboard-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:15px}
 .stat-card{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border-radius:12px;padding:15px;text-align:center;border:1px solid var(--border-color)}
 .stat-number{font-size:2em;font-weight:700;color:var(--accent);margin-bottom:5px}
 .stat-label{font-size:.75em;color:var(--text-secondary)}
+
 .alarm-row{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;background:rgba(0,0,0,.2);padding:8px;border-radius:8px;margin-bottom:8px}
 .alarm-row label{font-size:.8em;color:var(--accent);font-weight:700;white-space:nowrap;min-width:60px}
 .alarm-row input[type="time"]{background:var(--input-bg);color:var(--accent);border:1px solid var(--accent);padding:6px 8px;border-radius:6px;font-family:var(--font-family);font-size:.9em;width:100%}
@@ -133,23 +175,33 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 .alarm-row .toggle-btn::after{content:'';position:absolute;top:2px;right:2px;width:22px;height:22px;border-radius:50%;background:#888;transition:.2s}
 .alarm-row .toggle-btn.active{background:var(--btn-success)}
 .alarm-row .toggle-btn.active::after{right:calc(100% - 24px);background:#fff}
+
 .preview-table{width:100%;border-collapse:collapse;background:var(--bg-primary);border-radius:8px;overflow:hidden;font-size:.75em;margin-top:8px}
 .preview-table th{padding:6px 4px;background:#2b5738;color:var(--accent);font-size:.75em;border-bottom:1px solid rgba(244,208,63,.3)}
 .preview-table td{padding:5px 4px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1);font-size:.75em}
 .preview-table tr:nth-child(even) td{background:rgba(0,0,0,.15)}
 .preview-scroll{max-height:350px;overflow-y:auto;border-radius:10px;border:1px solid var(--border-color)}
-.preview-edit-input {width: 100%; background: transparent; border: 1px solid transparent; color: var(--text-primary); text-align: center; font-family: inherit; font-size: inherit; padding: 4px; border-radius: 4px; cursor: text;}
+
+.preview-edit-input {
+  width: 100%; background: transparent; border: 1px solid transparent;
+  color: var(--text-primary); text-align: center; font-family: inherit; font-size: inherit;
+  padding: 4px; border-radius: 4px; cursor: text;
+}
 .preview-edit-input:focus { border-color: var(--accent); background: rgba(0,0,0,0.5); outline: none; }
+
 .day-input-box{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;background:var(--bg-primary);padding:10px;border-radius:8px;margin-bottom:8px}
 .day-input-box label{font-size:.75em;color:var(--accent);font-weight:700;white-space:nowrap}
 .day-input-box input{background:var(--bg-primary);color:var(--text-primary);border:1px solid #3d5a45;padding:8px;border-radius:6px;font-family:var(--font-family);font-size:.9em;width:100%}
+
 .editor-day-nav{display:flex;gap:8px;align-items:center;justify-content:center;margin-bottom:12px;background:var(--input-bg);padding:8px;border-radius:10px}
 .editor-day-nav button{background:var(--btn-primary);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:.9em;font-weight:700;cursor:pointer;font-family:var(--font-family)}
 .editor-day-nav button:disabled{background:#444;cursor:not-allowed;opacity:.5}
 .editor-day-nav span{color:var(--accent);font-weight:700;font-size:.95em;min-width:80px;text-align:center}
+
 .save-password-box{display:flex;align-items:center;gap:10px;margin-top:15px;padding:12px;background:rgba(0,0,0,.3);border-radius:10px;border:1px solid rgba(244,208,63,.3)}
 .save-password-box input[type="checkbox"]{width:22px;height:22px;accent-color:#f4d03f;cursor:pointer;flex-shrink:0}
 .save-password-box label{font-size:.9em;color:#e8f0e3;cursor:pointer;flex:1;user-select:none;text-align:right}
+
 .custom-dropdown { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-tertiary); border: 1px solid var(--accent); border-radius: 8px; max-height: 250px; overflow-y: auto; z-index: 1000; box-shadow: 0 10px 25px rgba(0,0,0,0.8); margin-top: 5px; }
 .custom-dropdown.active { display: block; }
 .dropdown-item { padding: 10px; border-bottom: 1px solid rgba(244,208,63,0.1); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
@@ -157,6 +209,7 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 .dropdown-item-name { font-weight: bold; color: #fff; font-size: 0.95em; }
 .dropdown-item-code { font-family: monospace; color: var(--accent); font-size: 0.8em; }
 .search-container { position: relative; flex: 1; }
+
 .admin-user-row { background: var(--bg-secondary); border-radius: 10px; padding: 12px; margin-bottom: 8px; border-right: 4px solid var(--accent); display: flex; gap: 10px; align-items: center; }
 .admin-user-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); background: #000; }
 .admin-user-info { flex: 1; }
@@ -169,7 +222,10 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 <body>
 
 <div class="toast" id="toast"></div>
-<div id="topBanner"><img id="topBannerImg" style="display:none" onload="bannerLoaded()" onerror="bannerError()" alt=""></div>
+
+<div id="topBanner">
+  <img id="topBannerImg" style="display:none" onload="bannerLoaded()" onerror="bannerError()" alt="">
+</div>
 
 <div class="alarm-overlay" id="alarmOverlay">
   <div class="alarm-message" id="alarmMessage">⏰ وقت دارو</div>
@@ -246,7 +302,14 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   <div class="menu-card" onclick="showPage('pageRegime')"><div class="menu-card-icon">🥗</div><div class="menu-card-title">🥗 نسخه ویژه رژیم درمانی</div><div class="menu-card-desc">لاغری، چاقی، دیابت بارداری و...</div></div>
   <div class="menu-card" onclick="showPage('pageMessages')" id="msgMenuCard"><div class="menu-card-icon">📬</div><div class="menu-card-title">📬 پیام‌های من</div><div class="menu-card-desc">پیام‌های دریافتی از اپراتور</div><span class="msg-badge" id="msgBadge" style="display:none">0</span></div>
   <div class="menu-card" onclick="showPage('pageContact')"><div class="menu-card-icon">📞</div><div class="menu-card-title">📞 تماس و پشتیبانی</div><div class="menu-card-desc">ویزیت از راه دور و پشتیبانی</div></div>
-  <div class="menu-card" onclick="showPage('pageSettings')" style="border-right-color:#7f8c8d"><div class="menu-card-icon">⚙️</div><div class="menu-card-title" style="color:#95a5a6">⚙️ تنظیمات</div><div class="menu-card-desc">آلارم، دریافت نسخه، تاریخ شروع، تاریخچه، تم و...</div></div>
+  <div class="menu-card" onclick="showPage('pageSettings')" style="border-right-color:#7f8c8d"><div class="menu-card-icon">⚙️</div><div class="menu-card-title" style="color:#95a5a6">⚙️ تنظیمات</div><div class="menu-card-desc">آلارم، تاریخ شروع، تاریخچه، تم و...</div></div>
+  
+  <div class="menu-card" onclick="clearCacheAndReload()" style="border-right-color:var(--accent);">
+    <div class="menu-card-icon">🔄</div>
+    <div class="menu-card-title" style="color:var(--accent);">🔄 به‌روزرسانی برنامه</div>
+    <div class="menu-card-desc">دریافت آخرین تغییرات (پاک‌سازی حافظه پنهان)</div>
+  </div>
+
   <div class="menu-card" onclick="installPWA()" style="border-right-color:#2ecc71"><div class="menu-card-icon">📲</div><div class="menu-card-title" style="color:#2ecc71">📲 نصب اپلیکیشن</div><div class="menu-card-desc">روی صفحه اصلی نصب کنید</div></div>
   <a href="https://eitaa.com/joinchat/878706709C93902231a1" target="_blank" class="growth-btn">✨🌟 برای رشد کلیک کن 🌟✨</a>
 </div>
@@ -254,9 +317,30 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 <div class="page" id="pageDaily">
   <div class="main-header"><h1>🍵 برنامه روزانه سلامت</h1><h2>برنامه شخصی شما</h2></div>
   <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
-  <div id="dailyReceivePrompt"></div>
-  <div id="dailyContent" style="display:none">
-    <button class="btn btn-green" onclick="activateAlarms()" id="alarmMainBtn">🔔 فعال‌سازی آلارم‌ها</button>
+  
+  <!-- دکمه دریافت برنامه همیشه در اینجا قرار دارد -->
+  <button class="btn btn-green" onclick="handleReceiveDaily()" style="margin-bottom:15px;">📥 دریافت / بروزرسانی برنامه از سرور</button>
+
+  <div id="dailyContent">
+    <button class="btn btn-purple" onclick="toggleUserEditMode()" style="margin-bottom:10px;" id="userEditTableBtn">✏️ ویرایش دستی جدول</button>
+    
+    <div id="userEditControls" style="display:none; background:var(--bg-secondary); padding:10px; border-radius:10px; margin-bottom:10px; border:1px solid var(--accent);">
+      <p style="font-size:0.8em; color:var(--accent); margin-bottom:8px;">برای ویرایش، مقادیر روز انتخاب شده را تغییر دهید و اعمال کنید.</p>
+      <div class="editor-day-nav" id="dayNavSingle" style="justify-content:space-between;">
+        <button onclick="prevEditorDay()" id="prevDayBtn">◀ قبل</button>
+        <span id="editorDayLabel">روز 1</span>
+        <button onclick="nextEditorDay()" id="nextDayBtn">بعد ▶</button>
+      </div>
+      <div id="dayEditorContainer"></div>
+      <div style="display:grid; grid-template-columns:1fr; gap:8px; margin-top:10px;">
+        <button onclick="applyToDays('all')" style="padding:10px;background:linear-gradient(135deg,#27ae60,#1e8449);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;">📌 اعمال بر کل روزها</button>
+        <button onclick="applyToDays('odd')" style="padding:10px;background:linear-gradient(135deg,#6b8e23,#4a6618);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;">🔵 اعمال بر روزهای فرد</button>
+        <button onclick="applyToDays('even')" style="padding:10px;background:linear-gradient(135deg,#e8b923,#b8941f);color:#0d1f12;border:none;border-radius:8px;cursor:pointer;font-weight:700;">🔴 اعمال بر روزهای زوج</button>
+        <button onclick="saveUserEditedTableToDB()" style="padding:10px;background:var(--btn-primary);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700; margin-top:5px;">💾 ذخیره نهایی تغییرات در حساب من</button>
+      </div>
+    </div>
+
+    <button class="btn btn-orange" onclick="activateAlarms()" id="alarmMainBtn">🔔 فعال‌سازی آلارم‌ها</button>
     <div class="table-wrapper"><table id="dietTable"><thead id="tableHead"></thead><tbody id="scheduleBody"></tbody></table></div>
     <div class="status-box"><div id="statusText" style="font-weight:700;color:var(--accent)">⏳ آماده</div><div style="margin:8px 0">⏰ <span id="clockDisplay">--:--:--</span></div></div>
   </div>
@@ -265,9 +349,15 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 <div class="page" id="pageRegime">
   <div class="main-header"><h1>🥗 نسخه ویژه رژیم درمانی</h1><h2>رژیم اختصاصی شما</h2></div>
   <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
-  <div id="regimeReceivePrompt"></div>
-  <div id="regimeContent" style="display:none">
-    <div class="section-box"><h3>📝 تدابیر و رژیم اختصاصی</h3><div class="regime-content" id="regimeDisplay"></div></div>
+  
+  <!-- دکمه دریافت نسخه همیشه در اینجا قرار دارد -->
+  <button class="btn btn-green" onclick="handleReceiveRegime()" style="margin-bottom:15px;">📥 دریافت / بروزرسانی نسخه از سرور</button>
+
+  <div id="regimeContent">
+    <div class="section-box">
+      <h3>📝 تدابیر و رژیم اختصاصی</h3>
+      <div class="regime-content" id="regimeDisplay">هنوز نسخه‌ای دریافت نشده است. لطفا دکمه بالا را بزنید.</div>
+    </div>
     <button class="btn btn-purple" onclick="editMyRegime()">✏️ ویرایش متن</button>
   </div>
 </div>
@@ -291,7 +381,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   <div class="main-header"><h1>⚙️ تنظیمات</h1><h2>مدیریت برنامه</h2></div>
   <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
   <div class="section-box" style="border:2px solid var(--btn-success)"><h3>🔔 تنظیم هشدار جدول</h3><div id="alarmSettingsContainer"></div><button class="btn btn-green" onclick="saveAlarmSettings()" style="margin-top:8px">💾 ذخیره تنظیمات هشدار</button><button class="btn btn-orange" onclick="testAlarmSound()" style="margin-top:6px">🔊 تست صدای آلارم</button></div>
-  <div class="section-box" style="border:2px solid var(--accent)"><h3>📥 دریافت از راه دور</h3><div class="code-display" id="myCodeDisplay" style="font-size:1.4em">------</div><button class="btn btn-green" onclick="receiveAll()">📥 دریافت نسخه و جدول</button></div>
   <div class="section-box" style="border:2px solid var(--accent2)"><h3>📚 تاریخچه</h3><div class="btn-row"><button class="btn btn-blue" onclick="showHistory('prescriptions')">💊 نسخه‌ها</button><button class="btn btn-purple" onclick="showHistory('tables')">📊 جدول‌ها</button></div></div>
   <div class="section-box"><h3>📅 تاریخ شروع برنامه</h3><input type="date" id="startDatePicker" onchange="onStartDateChanged()" style="width:100%;padding:10px;background:var(--input-bg);color:var(--accent);border:2px solid var(--accent);border-radius:8px;font-family:var(--font-family)"><div style="font-size:.78em;color:var(--text-secondary);margin-top:8px;line-height:1.8">📅 شمسی: <span id="jalaliDate" style="color:var(--accent);font-weight:700">--</span><br>📌 امروز: <span id="dayBadge" style="color:var(--accent);font-weight:700">روز --</span></div></div>
   <div class="section-box"><h3>🎨 نمایش</h3><div class="settings-row"><label>نوع:</label><select id="viewMode" onchange="changeViewMode()"><option value="all">کل روزها</option><option value="week">یک هفته</option><option value="today">فقط امروز</option></select></div><div class="settings-row"><label>فونت:</label><select id="fontSize" onchange="changeFontSize()"><option value="small">ریز</option><option value="medium" selected>متوسط</option><option value="large">بزرگ</option></select></div><div class="settings-row"><label>📅 تاریخ</label><input type="checkbox" id="showDate" onchange="toggleShowDate()"></div><div class="settings-row"><label>📆 هفته</label><input type="checkbox" id="showWeekday" onchange="toggleShowWeekday()"></div><div class="settings-row"><label>📂 گذشته</label><input type="checkbox" id="showPastDays" onchange="toggleShowPastDays()" checked></div></div>
@@ -344,7 +433,8 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   </div>
 
   <div class="admin-panel" id="adminTabTable" style="display:none">
-    <h3>📋 ویرایش جدول هوشمند</h3>
+    <h3>📋 ویرایش جدول هوشمند (مدیر)</h3>
+    
     <div class="settings-row" style="margin-bottom:10px; position:relative;">
       <label>کاربر:</label>
       <div class="search-container">
@@ -353,19 +443,40 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
         <div class="custom-dropdown" id="tableUserSearchDropdown"></div>
       </div>
     </div>
+
     <div style="background:var(--input-bg);padding:12px;border-radius:10px;margin:10px 0">
       <div style="color:var(--accent);font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">🏷️ نام و ساعت وعده‌ها</div>
       <div id="tableEditorContainer"></div>
       <button onclick="addTableColumnEditor()" style="width:100%;padding:10px;background:var(--btn-success);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;margin-top:8px;font-size:.85em;font-family:var(--font-family)">➕ افزودن وعده جدید</button>
     </div>
+
     <div style="background:var(--input-bg);padding:12px;border-radius:10px;margin:10px 0">
-      <div style="color:var(--accent);font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">📅 ویرایش محتوای روزها (مستقیم در جدول)</div>
-      <button onclick="togglePreview()" id="previewToggleBtn" style="width:100%;padding:10px;background:var(--btn-primary);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:.9em;margin-bottom:8px;font-family:var(--font-family)">نمایش جدول برای ویرایش</button>
-      <div id="previewContainer" style="display:none">
-        <div class="preview-scroll"><table class="preview-table" id="previewTable"><thead id="previewTableHead"></thead><tbody id="previewTableBody"></tbody></table></div>
-        <div style="font-size:0.75em;color:var(--accent2);text-align:center;margin-top:8px;">💡 برای ویرایش، روی هر خانه کلیک کنید و متن جدید را تایپ کنید.</div>
+      <div style="color:var(--accent);font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">📅 ویرایش محتوای روزها</div>
+      <div class="editor-day-nav" id="adminDayNav">
+        <button onclick="prevAdminEditorDay()" id="adminPrevDayBtn">◀ قبل</button>
+        <span id="adminEditorDayLabel">روز 1</span>
+        <button onclick="nextAdminEditorDay()" id="adminNextDayBtn">بعد ▶</button>
+      </div>
+      <div id="adminDayEditorContainer"></div>
+    </div>
+
+    <div style="background:rgba(231,76,60,.08);padding:12px;border-radius:10px;margin:10px 0;border:2px solid rgba(231,76,60,.3)">
+      <div style="color:#e74c3c;font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">⚡ اعمال محتوای بالا روی:</div>
+      <div style="display:grid;grid-template-columns:1fr;gap:8px">
+        <button onclick="applyToAdminDays('all')" style="padding:12px;background:linear-gradient(135deg,#27ae60,#1e8449);color:#fff;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:.9em;font-family:var(--font-family)">📌 کل روزها</button>
+        <button onclick="applyToAdminDays('odd')" style="padding:12px;background:linear-gradient(135deg,#6b8e23,#4a6618);color:#fff;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:.9em;font-family:var(--font-family)">🔵 روزهای فرد</button>
+        <button onclick="applyToAdminDays('even')" style="padding:12px;background:linear-gradient(135deg,#e8b923,#b8941f);color:#0d1f12;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:.9em;font-family:var(--font-family)">🔴 روزهای زوج</button>
       </div>
     </div>
+
+    <div style="background:var(--input-bg);padding:12px;border-radius:10px;margin:10px 0;border:2px solid var(--accent)">
+      <div style="color:var(--accent);font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">👁️ پیش‌نمایش جدول</div>
+      <button onclick="togglePreview()" id="previewToggleBtn" style="width:100%;padding:10px;background:var(--btn-primary);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:.9em;margin-bottom:8px;font-family:var(--font-family)">نمایش جدول</button>
+      <div id="previewContainer" style="display:none">
+        <div class="preview-scroll"><table class="preview-table" id="previewTable"><thead id="previewTableHead"></thead><tbody id="previewTableBody"></tbody></table></div>
+      </div>
+    </div>
+
     <div style="background:rgba(46,204,113,.1);padding:12px;border-radius:10px;margin:10px 0;border:2px solid var(--btn-success)">
       <div style="color:var(--btn-success);font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">📤 ارسال جدول</div>
       <div class="btn-row"><button class="btn btn-blue" onclick="sendTableToUser()">📤 ارسال به کاربر</button><button class="btn btn-orange" onclick="sendTableToAll()">📢 ارسال به همه</button></div>
@@ -417,13 +528,14 @@ var currentTheme="nature",nightMode=false,userId="",userProfile=null;
 var alarmTimers=[],alarmActive=false,audioContext=null,alarmSoundInterval=null;
 var editingTableColumns=[],currentEditorDay=0,alarmEnabled={};
 var audioUnlocked=false,dashboardData={users:{},tables:{},messages:[]};
-var activePopup=null,previewVisible=false;
+var previewVisible=false;
 var adminUsersCache = [];
 
 var adminTableColumns=['oil','breakfast','evening','dinner'];
 var adminTableColumnNames={oil:'💧 ناشتا',breakfast:'☀️ صبح',evening:'🌅 عصر',dinner:'🌙 شب'};
 var adminCurrentTimes={oil:"06:00",breakfast:"08:00",evening:"17:00",dinner:"21:00"};
 var adminTotalDays=40,adminFortyDayData=[];
+var adminCurrentEditorDay=0; // روز ادیتور پنل ادمین
 
 var isImpersonating = false;
 var originalAdminCode = "";
@@ -441,6 +553,31 @@ function safeSetLS(key,val){try{localStorage.setItem(key,val);return true;}catch
 function safeGetLS(key,def){try{var v=localStorage.getItem(key);return v==null?def:v;}catch(e){return def;}}
 function safeParseJSON(str,def){if(!str)return def;try{return JSON.parse(str);}catch(e){return def;}}
 
+/* ============================================================
+   به روز رسانی و پاکسازی کش
+   ============================================================ */
+async function clearCacheAndReload() {
+  showToast('⏳ در حال پاکسازی حافظه و به‌روزرسانی...', 'warning', 5000);
+  if ('serviceWorker' in navigator) {
+    const registrations = await navigator.serviceWorker.getRegistrations();
+    for(let registration of registrations) {
+      await registration.unregister();
+    }
+  }
+  if ('caches' in window) {
+    const cacheNames = await caches.keys();
+    for(let name of cacheNames) {
+      await caches.delete(name);
+    }
+  }
+  setTimeout(() => {
+    window.location.reload(true);
+  }, 1000);
+}
+
+/* ============================================================
+   ثبت‌نام و پروفایل
+   ============================================================ */
 function generateFallbackUserId(){
   var chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',code='';
   for(var i=0;i<6;i++)code+=chars.charAt(Math.floor(Math.random()*chars.length));
@@ -489,9 +626,7 @@ function compressImage(base64Str, maxWidth, maxHeight, quality) {
 async function previewRegAvatar(event) {
   var file = event.target.files[0];
   if (file) {
-    if (file.size > 500 * 1024) { 
-      showToast('حجم عکس بیشتر از ۵۰۰ کیلوبایت است. در حال فشرده‌سازی...', 'warning');
-    }
+    if (file.size > 500 * 1024) { showToast('در حال فشرده‌سازی...', 'warning'); }
     var reader = new FileReader();
     reader.onload = async function(e) {
       var originalSrc = e.target.result;
@@ -532,7 +667,7 @@ async function submitProfile() {
       updateProfileUI();
       showToast('✅ ثبت‌نام با موفقیت انجام شد');
     } else {
-      showToast('❌ خطا در ثبت نام. ممکن است دسترسی دیتابیس بسته باشد.', 'error', 6000);
+      showToast('❌ خطا در ثبت نام.', 'error', 6000);
     }
   } catch(e) {
     showToast('❌ خطای غیرمنتظره: ' + e.message, 'error', 6000);
@@ -547,7 +682,6 @@ function updateProfileUI() {
     document.getElementById('displayName').textContent = userProfile.name;
     document.getElementById('displayCode').textContent = 'کد: ' + userId;
     if(userProfile.avatar) document.getElementById('displayAvatar').src = userProfile.avatar;
-    
     var wm = document.getElementById('welcomeMessage');
     wm.style.display = 'block';
     wm.innerHTML = '🌿 ' + userProfile.name + ' خوش آمدی 🌿';
@@ -568,42 +702,32 @@ function openProfileEdit() {
   document.getElementById('registerModal').classList.add('active');
 }
 
+/* ============================================================
+   Supabase Data
+   ============================================================ */
 async function getUserRecord(code) {
   if (!code) return null;
   try {
     const { data, error } = await supabaseClient.from('users_list').select('data').eq('code', code.toUpperCase()).maybeSingle();
     if (error) throw error;
     return data ? data.data : null;
-  } catch(e) { 
-    console.error('getUserRecord error:', e);
-    return null; 
-  }
+  } catch(e) { return null; }
 }
 async function saveUserRecord(code, data) {
   if (!code) return false;
   try {
     const { error } = await supabaseClient.from('users_list').upsert({ code: code.toUpperCase(), data: data, updated_at: new Date().toISOString() });
-    if (error) { console.error('saveUserRecord error:', error); throw error; }
+    if (error) throw error;
     return true;
-  } catch(e) { 
-    console.error('saveUserRecord catch:', e);
-    return false; 
-  }
+  } catch(e) { return false; }
 }
 async function deleteUserRecord(code) {
   if (!code) return false;
   try {
-    // اصلاح شد: متغیر count بررسی می‌شود تا مطمئن شویم حذف انجام شده
-    const { error, count } = await supabaseClient.from('users_list').delete({ count: 'exact' }).eq('code', code.toUpperCase());
-    if (error) {
-      console.error('Delete error:', error);
-      throw error;
-    }
-    return true; 
-  } catch(e) { 
-    console.error('Delete catch:', e);
-    return false; 
-  }
+    const { error } = await supabaseClient.from('users_list').delete().eq('code', code.toUpperCase());
+    if (error) throw error;
+    return true;
+  } catch(e) { return false; }
 }
 async function getGlobalData() {
   try {
@@ -626,28 +750,25 @@ async function getAllUsersFromDB() {
   } catch(e) { return []; }
 }
 
+/* ============================================================
+   Impersonation
+   ============================================================ */
 async function impersonateUser(targetCode) {
   if(!confirm('ورود به پنل کاربر ' + targetCode + '؟')) return;
   originalAdminCode = userId;
   isImpersonating = true;
-  
   var userData = await getUserRecord(targetCode);
   if(!userData) { showToast('اطلاعات کاربر یافت نشد', 'error'); return; }
-  
   userId = targetCode;
   userProfile = userData.profile || null;
-  
   safeSetLS('userId', userId);
   if(userProfile) safeSetLS('userProfile', JSON.stringify(userProfile));
   else localStorage.removeItem('userProfile');
-  
   updateProfileUI();
   document.getElementById('adminReturnBar').style.display = 'block';
   showPage('pageMenu');
-  
   receiveAll(true).catch(function(){});
   loadMyMessages();
-  
   showToast('👤 شما وارد پنل ' + targetCode + ' شدید');
 }
 
@@ -655,46 +776,42 @@ function exitImpersonation() {
   isImpersonating = false;
   userId = originalAdminCode;
   safeSetLS('userId', userId);
-  
   localStorage.removeItem('userProfile');
   userProfile = safeParseJSON(safeGetLS('adminProfile','null'), null);
   if(userProfile) safeSetLS('userProfile', JSON.stringify(userProfile));
-  
   localStorage.removeItem('tableReceived');
   localStorage.removeItem('lastPrescription');
-  
   document.getElementById('adminReturnBar').style.display = 'none';
   updateProfileUI();
   showPage('pageAdmin');
   showToast('🔙 به پنل مدیریت بازگشتید');
 }
 
+/* ============================================================
+   User Dropdown
+   ============================================================ */
 function showUserDropdown(searchInputId, hiddenInputId) {
   var searchVal = document.getElementById(searchInputId).value.toLowerCase().trim();
   var dropdown = document.getElementById(searchInputId + 'Dropdown');
-  
   if(!adminUsersCache || adminUsersCache.length === 0) {
     dropdown.innerHTML = '<div style="padding:15px;text-align:center;color:var(--text-muted);">در حال بارگذاری لیست...</div>';
     dropdown.classList.add('active');
     loadUsersListForAdmin();
     return;
   }
-  
   var filtered = adminUsersCache.filter(function(u) {
     var name = (u.data && u.data.profile && u.data.profile.name) ? u.data.profile.name.toLowerCase() : '';
     var code = u.code.toLowerCase();
     return name.includes(searchVal) || code.includes(searchVal);
   });
-  
   if(filtered.length === 0) {
     dropdown.innerHTML = '<div style="padding:15px;text-align:center;color:var(--text-muted);">کاربری یافت نشد</div>';
   } else {
     var html = '';
     filtered.forEach(function(u) {
       var p = u.data ? u.data.profile : null;
-      var displayName = (p && p.name) ? p.name : 'بدون نام (هنوز ثبت‌نام نکرده)';
+      var displayName = (p && p.name) ? p.name : 'بدون نام';
       var avatarSrc = (p && p.avatar) ? p.avatar : 'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'50\' fill=\'%23333\'/><text x=\'50\' y=\'65\' font-size=\'50\' text-anchor=\'middle\' fill=\'%23fff\'>👤</text></svg>';
-      
       html += '<div class="dropdown-item" onclick="selectUserFromDropdown(\''+searchInputId+'\', \''+hiddenInputId+'\', \''+u.code+'\', \''+escapeHtml(displayName).replace(/'/g,"\\'")+'\')">';
       html += '<div style="display:flex;align-items:center;gap:10px;">';
       html += '<img src="'+avatarSrc+'" style="width:35px;height:35px;border-radius:50%;object-fit:cover;border:1px solid var(--accent);">';
@@ -709,39 +826,32 @@ function showUserDropdown(searchInputId, hiddenInputId) {
   }
   dropdown.classList.add('active');
 }
-
 function selectUserFromDropdown(searchInputId, hiddenInputId, code, name) {
   document.getElementById(searchInputId).value = name + ' (' + code + ')';
   document.getElementById(hiddenInputId).value = code;
   document.getElementById(searchInputId + 'Dropdown').classList.remove('active');
 }
-
 document.addEventListener('click', function(e){
   document.querySelectorAll('.custom-dropdown').forEach(function(d){ 
     if(!d.contains(e.target) && !d.previousElementSibling.contains(e.target)) d.classList.remove('active'); 
   });
 });
-
 async function loadUsersListForAdmin() {
   adminUsersCache = await getAllUsersFromDB();
   renderAdminUsersList(adminUsersCache);
 }
-
 function renderAdminUsersList(users) {
   var container = document.getElementById('adminUsersListContainer');
   if(!container) return;
-  
   if(users.length === 0) {
     container.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:20px;">هیچ کاربری ثبت‌نام نکرده است</p>';
     return;
   }
-  
   var html = '';
   users.forEach(function(u) {
     var p = u.data ? u.data.profile : null;
-    var name = (p && p.name) ? p.name : 'بدون نام (هنوز ثبت‌نام نکرده)';
+    var name = (p && p.name) ? p.name : 'بدون نام';
     var avatarSrc = (p && p.avatar) ? p.avatar : 'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'50\' fill=\'%23333\'/><text x=\'50\' y=\'65\' font-size=\'50\' text-anchor=\'middle\' fill=\'%23fff\'>👤</text></svg>';
-    
     html += '<div class="admin-user-row">';
     html += '<img src="'+avatarSrc+'" class="admin-user-avatar">';
     html += '<div class="admin-user-info">';
@@ -756,7 +866,6 @@ function renderAdminUsersList(users) {
   });
   container.innerHTML = html;
 }
-
 function filterAdminUsers() {
   var q = document.getElementById('adminUserSearch').value.toLowerCase().trim();
   var filtered = adminUsersCache.filter(function(u){
@@ -765,7 +874,6 @@ function filterAdminUsers() {
   });
   renderAdminUsersList(filtered);
 }
-
 async function editUserName(code, currentName) {
   var newName = prompt('نام جدید را وارد کنید:', currentName);
   if(newName && newName.trim() !== '' && newName !== currentName) {
@@ -774,24 +882,15 @@ async function editUserName(code, currentName) {
       if(!data.profile) data.profile = {};
       data.profile.name = newName.trim();
       var ok = await saveUserRecord(code, data);
-      if(ok) {
-        showToast('✅ نام ویرایش شد');
-        loadUsersListForAdmin(); 
-      } else showToast('❌ خطا در ویرایش', 'error');
+      if(ok) { showToast('✅ نام ویرایش شد'); loadUsersListForAdmin(); } else showToast('❌ خطا', 'error');
     }
   }
 }
-
 async function deleteUser(code) {
-  if(!confirm('⚠️ آیا مطمئن هستید که می‌خواهید کاربر ' + code + ' را کاملاً حذف کنید؟ این عمل غیرقابل بازگشت است.')) return;
+  if(!confirm('⚠️ آیا مطمئن هستید که می‌خواهید کاربر ' + code + ' را کاملاً حذف کنید؟')) return;
   showToast('⏳ در حال حذف...', 'warning');
   var ok = await deleteUserRecord(code);
-  if(ok) {
-    showToast('✅ کاربر حذف شد');
-    loadUsersListForAdmin();
-  } else {
-    showToast('❌ خطا در حذف کاربر. دسترسی DELETE در دیتابیس بسته است.', 'error', 5000);
-  }
+  if(ok) { showToast('✅ کاربر حذف شد'); loadUsersListForAdmin(); } else showToast('❌ خطا در حذف', 'error', 5000);
 }
 
 function showPage(pageId){
@@ -802,7 +901,7 @@ function showPage(pageId){
   window.scrollTo({top:0,behavior:'smooth'});
   
   if(pageId==='pageMenu') updateTodayShowcase();
-  if(pageId==='pageDaily')checkDailyReceive();
+  if(pageId==='pageDaily')renderTable();
   if(pageId==='pageRegime')checkRegimeReceive();
   if(pageId==='pageMessages')loadMyMessages();
   if(pageId==='pageAdmin'){
@@ -845,42 +944,28 @@ function updateTodayShowcase() {
   grid.innerHTML = html;
 }
 
-function checkDailyReceive(){
-  var p=document.getElementById('dailyReceivePrompt'),c=document.getElementById('dailyContent');
-  if(!p||!c)return;
-  if(safeGetLS('tableReceived',null)==='true'){
-    p.innerHTML='';c.style.display='block';renderTable();
-  }else{
-    c.style.display='none';
-    p.innerHTML='<div class="receive-prompt"><div class="receive-icon">🍵</div><button class="receive-btn" onclick="handleReceiveDaily()">📥 دریافت برنامه</button><div class="receive-note">📡 لطفاً از اتصال به اینترنت مطمئن شوید.</div></div>';
-  }
-}
 function checkRegimeReceive(){
-  var p=document.getElementById('regimeReceivePrompt'),c=document.getElementById('regimeContent'),d=document.getElementById('regimeDisplay');
-  if(!p||!c)return;
+  var d=document.getElementById('regimeDisplay');
   var has=safeGetLS('lastPrescription',null);
   if(has){
-    p.innerHTML='';c.style.display='block';
     try{
       var info=JSON.parse(has);
       if(d)d.innerHTML='<strong style="color:var(--accent)">'+escapeHtml(info.title||'نسخه اختصاصی')+'</strong>\n\n'+escapeHtml(info.content);
     }catch(e){}
-  }else{
-    c.style.display='none';
-    p.innerHTML='<div class="receive-prompt"><div class="receive-icon">🥗</div><button class="receive-btn" onclick="handleReceiveRegime()">📥 دریافت رژیم ویژه شما</button><div class="receive-note">📡 لطفاً از اتصال به اینترنت مطمئن شوید.</div></div>';
+  } else {
+    if(d) d.innerHTML = 'هنوز نسخه‌ای دریافت نشده است. لطفا دکمه بالا را بزنید.';
   }
 }
+
 function handleReceiveDaily(){
   if(!navigator.onLine){alert('❌ لطفاً از اتصال به اینترنت مطمئن شوید.');return;}
-  var c=document.getElementById('dailyReceivePrompt');
-  if(c)c.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--accent);font-size:1.1em">⏳ در حال دریافت...<br><br><span style="font-size:.8em;color:var(--text-muted)">لطفاً صبر کنید</span></div>';
-  receiveAll(true).then(function(){ safeSetLS('tableReceived','true');checkDailyReceive(); showToast('✅ برنامه شما دریافت شد'); }).catch(function(e){ alert('❌ خطا: '+e.message);checkDailyReceive(); });
+  showToast('⏳ در حال دریافت برنامه...','warning');
+  receiveAll(true).then(function(){ safeSetLS('tableReceived','true');renderTable(); showToast('✅ برنامه شما دریافت شد'); }).catch(function(e){ alert('❌ خطا: '+e.message); });
 }
 function handleReceiveRegime(){
   if(!navigator.onLine){alert('❌ لطفاً از اتصال به اینترنت مطمئن شوید.');return;}
-  var c=document.getElementById('regimeReceivePrompt');
-  if(c)c.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--accent);font-size:1.1em">⏳ در حال دریافت...<br><br><span style="font-size:.8em;color:var(--text-muted)">لطفاً صبر کنید</span></div>';
-  receiveAll(true).then(function(){ checkRegimeReceive();showToast('✅ رژیم شما دریافت شد'); }).catch(function(e){ alert('❌ خطا: '+e.message);checkRegimeReceive(); });
+  showToast('⏳ در حال دریافت نسخه...','warning');
+  receiveAll(true).then(function(){ checkRegimeReceive();showToast('✅ نسخه شما دریافت شد'); }).catch(function(e){ alert('❌ خطا: '+e.message); });
 }
 
 function receiveAll(silent){
@@ -902,7 +987,7 @@ function receiveAll(silent){
       if(data.tableData) {
         var forty=data.tableData.fortyDayData||[];
         if(forty.length>0){
-          archiveCurrentTable();
+          archiveCurrentTable(data.tableData.name || 'جدول ۴۰ روزه'); // ارسال نام در صورت وجود
           fortyDayData=JSON.parse(JSON.stringify(forty));
           tableColumns=[].concat(data.tableData.tableColumns||[]);
           tableColumnNames=Object.assign({},data.tableData.tableColumnNames||{});
@@ -941,9 +1026,22 @@ function archiveCurrentPrescription(){
   var current=safeGetLS('lastPrescription',null);if(!current)return;
   try{var info=JSON.parse(current);var archive=safeParseJSON(safeGetLS('prescriptionHistory','[]'),[]);if(archive.some(function(a){return a.content===info.content;}))return;archive.unshift({title:info.title||'بدون عنوان',content:info.content,archivedAt:Date.now()});if(archive.length>20)archive.length=20;safeSetLS('prescriptionHistory',JSON.stringify(archive));}catch(e){}
 }
-function archiveCurrentTable(){
+function archiveCurrentTable(tableName){
   if(!fortyDayData||fortyDayData.length===0)return;
-  try{var archive=safeParseJSON(safeGetLS('tableHistory','[]'),[]);archive.unshift({fortyDayData:JSON.parse(JSON.stringify(fortyDayData)),tableColumns:[].concat(tableColumns),tableColumnNames:Object.assign({},tableColumnNames),currentTimes:Object.assign({},currentTimes),totalDays:totalDays,archivedAt:Date.now()});if(archive.length>20)archive.length=20;safeSetLS('tableHistory',JSON.stringify(archive));}catch(e){}
+  try{
+    var archive=safeParseJSON(safeGetLS('tableHistory','[]'),[]);
+    archive.unshift({
+      name: tableName || 'جدول بدون نام',
+      fortyDayData:JSON.parse(JSON.stringify(fortyDayData)),
+      tableColumns:[].concat(tableColumns),
+      tableColumnNames:Object.assign({},tableColumnNames),
+      currentTimes:Object.assign({},currentTimes),
+      totalDays:totalDays,
+      archivedAt:Date.now()
+    });
+    if(archive.length>20)archive.length=20;
+    safeSetLS('tableHistory',JSON.stringify(archive));
+  }catch(e){}
 }
 
 function loadRemoteBanner(){
@@ -968,6 +1066,98 @@ function switchAdminTab(tab,el){
   if(tab==='users')loadUsersListForAdmin();
 }
 
+/* ============================================================
+   کاربر: ویرایش دستی جدول
+   ============================================================ */
+var userEditMode = false;
+function toggleUserEditMode() {
+  userEditMode = !userEditMode;
+  var ctrl = document.getElementById('userEditControls');
+  var btn = document.getElementById('userEditTableBtn');
+  if(userEditMode) {
+    ctrl.style.display = 'block';
+    btn.textContent = '❌ بستن حالت ویرایش';
+    btn.style.background = 'var(--btn-danger)';
+    // ساخت ادیتور برای روز جاری
+    editingTableColumns = tableColumns.map(function(col){
+      return{originalCol:col,name:tableColumnNames[col]||col,time:currentTimes[col]||'08:00'};
+    });
+    currentEditorDay = getCurrentDayAuto(); // بر روی امروز باز شود
+    renderUserDayEditor();
+  } else {
+    ctrl.style.display = 'none';
+    btn.textContent = '✏️ ویرایش دستی جدول';
+    btn.style.background = 'var(--btn-purple)';
+    renderTable(); // بازگرداندن جدول به حالت نمایشی
+  }
+}
+
+function renderUserDayEditor() {
+  if(currentEditorDay >= totalDays) currentEditorDay = 0;
+  document.getElementById('editorDayLabel').textContent = 'روز ' + (currentEditorDay + 1);
+  document.getElementById('prevDayBtn').disabled = currentEditorDay <= 0;
+  document.getElementById('nextDayBtn').disabled = currentEditorDay >= totalDays - 1;
+  
+  var dayData = fortyDayData[currentEditorDay] || {};
+  var html = '';
+  tableColumns.forEach(function(col) {
+    var label = tableColumnNames[col] || col;
+    var val = dayData[col] || '';
+    html += '<div class="day-input-box">';
+    html += '<label>'+escapeHtml(label)+':</label>';
+    html += '<input type="text" data-col="'+escapeHtml(col)+'" value="'+escapeHtml(val)+'" onchange="updateUserDayField(this.getAttribute(\'data-col\'), this.value)">';
+    html += '</div>';
+  });
+  document.getElementById('dayEditorContainer').innerHTML = html;
+}
+
+function updateUserDayField(col, val) {
+  if(!fortyDayData[currentEditorDay]) fortyDayData[currentEditorDay] = {};
+  fortyDayData[currentEditorDay][col] = val;
+}
+
+function prevEditorDay() { if(currentEditorDay > 0) { currentEditorDay--; renderUserDayEditor(); } }
+function nextEditorDay() { if(currentEditorDay < totalDays - 1) { currentEditorDay++; renderUserDayEditor(); } }
+
+function applyToDays(type) {
+  var form = {};
+  var inputs = document.querySelectorAll('#dayEditorContainer input[data-col]');
+  for(var i=0;i<inputs.length;i++){ form[inputs[i].getAttribute('data-col')] = inputs[i].value; }
+  
+  var targets=[], typeName='';
+  if(type==='all'){for(var i=0;i<totalDays;i++)targets.push(i);typeName='کل روزها';}
+  else if(type==='odd'){for(var j=0;j<totalDays;j+=2)targets.push(j);typeName='روزهای فرد';}
+  else if(type==='even'){for(var k=1;k<totalDays;k+=2)targets.push(k);typeName='روزهای زوج';}
+  
+  if(!confirm('محتوا روی '+targets.length+' '+typeName+' اعمال شود؟')) return;
+  targets.forEach(function(idx){
+    if(!fortyDayData[idx]) fortyDayData[idx]={};
+    tableColumns.forEach(function(col){ fortyDayData[idx][col] = form[col] || ''; });
+  });
+  renderTable();
+  updateTodayShowcase();
+  showToast('✅ اعمال شد. برای ذخیره دائم دکمه ذخیره را بزنید.');
+}
+
+async function saveUserEditedTableToDB() {
+  showToast('⏳ در حال ذخیره در حساب شما...', 'warning');
+  var userData = await getUserRecord(userId) || {};
+  if(!userData.tableData) userData.tableData = {}; // اگر جدول نداشت بسازیم
+  
+  userData.tableData.fortyDayData = fortyDayData;
+  userData.tableData.tableColumns = tableColumns;
+  userData.tableData.tableColumnNames = tableColumnNames;
+  userData.tableData.currentTimes = currentTimes;
+  userData.tableData.totalDays = totalDays;
+  
+  var ok = await saveUserRecord(userId, userData);
+  if(ok) showToast('✅ تغییرات شما در حساب کاربری ذخیره شد.');
+  else showToast('❌ خطا در ذخیره تغییرات.', 'error');
+}
+
+/* ============================================================
+   ادمین: ارسال‌ها
+   ============================================================ */
 async function sendPrescription(){
   var code = document.getElementById('targetUserCode').value || document.getElementById('prescriptionUserSearch').value;
   var te=document.getElementById('prescriptionTitle'), ce2=document.getElementById('prescriptionContent');
@@ -1021,13 +1211,21 @@ async function sendMessage(){
 function clearMessageForm(){var t=document.getElementById('messageTitle'),c=document.getElementById('messageContent'),g=document.getElementById('messageUserSearch');if(t)t.value='';if(c)c.value='';if(g)g.value='';document.getElementById('messageTarget').value='';}
 function clearAdminForm(){var t=document.getElementById('prescriptionTitle'),c=document.getElementById('prescriptionContent');if(t)t.value='';if(c)c.value='';document.getElementById('prescriptionUserSearch').value='';document.getElementById('targetUserCode').value='';}
 
+/* ============================================================
+   ادمین: ساخت و ویرایش جدول (بازگشت به حالت قبل)
+   ============================================================ */
 function buildAdminEditor(){
   adminTableColumns = [].concat(tableColumns);
   adminTableColumnNames = Object.assign({}, tableColumnNames);
   adminCurrentTimes = Object.assign({}, currentTimes);
   adminTotalDays = totalDays;
   adminFortyDayData = JSON.parse(JSON.stringify(fortyDayData.length ? fortyDayData : generateDefaultTableData()));
+  
+  // بازگرداندن به روز اول برای شروع
+  adminCurrentEditorDay = 0;
+  
   renderAdminTableEditor(); 
+  renderAdminDayEditor(); // فراخوانی تابع جدید برای نمایش فیلدهای روز
 }
 function generateDefaultTableData() {
   var arr = [];
@@ -1051,7 +1249,53 @@ function updateAdminColName(i,val){ var col = adminTableColumns[i]; adminTableCo
 function updateAdminColTime(i,val){ var col = adminTableColumns[i]; adminCurrentTimes[col] = val; }
 function addTableColumnEditor(){
   if(adminTableColumns.length>=8){showToast('حداکثر ۸ وعده','warning');return;}
-  var newCol='c_'+Date.now();adminTableColumns.push(newCol);adminTableColumnNames[newCol]='وعده '+adminTableColumns.length;adminCurrentTimes[newCol]='08:00';adminFortyDayData.forEach(function(day){day[newCol]='';});renderAdminTableEditor();
+  var newCol='c_'+Date.now();adminTableColumns.push(newCol);adminTableColumnNames[newCol]='وعده '+adminTableColumns.length;adminCurrentTimes[newCol]='08:00';adminFortyDayData.forEach(function(day){day[newCol]='';});renderAdminTableEditor(); renderAdminDayEditor();
+}
+
+function renderAdminDayEditor(){
+  var container=document.getElementById('adminDayEditorContainer');if(!container)return;
+  if(adminCurrentEditorDay >= adminTotalDays) adminCurrentEditorDay=0;
+  
+  document.getElementById('adminEditorDayLabel').textContent='روز '+(adminCurrentEditorDay+1);
+  document.getElementById('adminPrevDayBtn').disabled = adminCurrentEditorDay <= 0;
+  document.getElementById('adminNextDayBtn').disabled = adminCurrentEditorDay >= adminTotalDays-1;
+  
+  var dayData = adminFortyDayData[adminCurrentEditorDay] || {};
+  var html='';
+  adminTableColumns.forEach(function(col){
+    var label = adminTableColumnNames[col] || col;
+    var value = dayData[col] || '';
+    html+='<div class="day-input-box">';
+    html+='<label>'+escapeHtml(label)+':</label>';
+    html+='<input type="text" data-col="'+escapeHtml(col)+'" value="'+escapeHtml(value)+'" onchange="updateAdminDayField(this.getAttribute(\'data-col\'),this.value)">';
+    html+='</div>';
+  });
+  container.innerHTML=html;
+}
+function updateAdminDayField(col,value){
+  if(!adminFortyDayData[adminCurrentEditorDay])adminFortyDayData[adminCurrentEditorDay]={};
+  adminFortyDayData[adminCurrentEditorDay][col]=value;
+  showToast('✅ ذخیره شد','success',1000);
+}
+function prevAdminEditorDay(){ if(adminCurrentEditorDay > 0){ adminCurrentEditorDay--; renderAdminDayEditor(); } }
+function nextAdminEditorDay(){ if(adminCurrentEditorDay < adminTotalDays-1){ adminCurrentEditorDay++; renderAdminDayEditor(); } }
+
+function applyToAdminDays(type){
+  var form = {};
+  var inputs = document.querySelectorAll('#adminDayEditorContainer input[data-col]');
+  for(var i=0;i<inputs.length;i++){ form[inputs[i].getAttribute('data-col')] = inputs[i].value; }
+  
+  var targets=[], typeName='';
+  if(type==='all'){for(var i=0;i<adminTotalDays;i++)targets.push(i);typeName='کل روزها';}
+  else if(type==='odd'){for(var j=0;j<adminTotalDays;j+=2)targets.push(j);typeName='روزهای فرد';}
+  else if(type==='even'){for(var k=1;k<adminTotalDays;k+=2)targets.push(k);typeName='روزهای زوج';}
+  
+  if(!confirm('محتوا روی '+targets.length+' '+typeName+' اعمال شود؟'))return;
+  targets.forEach(function(idx){
+    if(!adminFortyDayData[idx]) adminFortyDayData[idx]={};
+    adminTableColumns.forEach(function(col){ adminFortyDayData[idx][col] = form[col] || ''; });
+  });
+  showToast('✅ اعمال شد');
 }
 
 async function sendTableToUser(){
@@ -1098,7 +1342,7 @@ async function sendTableToAll(){
   loadAdminRecent();
 }
 
-function togglePreview(){ previewVisible=!previewVisible; var c=document.getElementById('previewContainer'),b=document.getElementById('previewToggleBtn'); if(previewVisible){c.style.display='block';b.textContent='🔽 مخفی کردن';updatePreview();} else{c.style.display='none';b.textContent='👁️ نمایش جدول برای ویرایش';} }
+function togglePreview(){ previewVisible=!previewVisible; var c=document.getElementById('previewContainer'),b=document.getElementById('previewToggleBtn'); if(previewVisible){c.style.display='block';b.textContent='🔽 مخفی کردن';updatePreview();} else{c.style.display='none';b.textContent='👁️ نمایش جدول';} }
 function updatePreview(){
   var thead=document.getElementById('previewTableHead'), tbody=document.getElementById('previewTableBody');var hh='<tr><th>روز</th>';
   adminTableColumns.forEach(function(c){hh+='<th>'+escapeHtml(adminTableColumnNames[c]||c)+'</th>';});hh+='</tr>'; thead.innerHTML=hh;
@@ -1121,6 +1365,9 @@ function updateAdminCell(rowIndex, col, value) {
   showToast('✅ ذخیره شد', 'success', 1000);
 }
 
+/* ============================================================
+   Dashboard & Recent
+   ============================================================ */
 async function loadDashboard(showAlert){
   var allUsers = await getAllUsersFromDB();var globalData = await getGlobalData();
   var usersWithP = 0, usersWithT = 0;
@@ -1137,7 +1384,31 @@ async function loadAdminRecent(){
   if(msgs.length > 0) { html += '<div style="color:var(--accent);font-weight:700;margin:10px 0 5px">📢 آخرین پیام‌ها:</div>'; msgs.forEach(function(m){ html += '📨 <strong>'+escapeHtml(m.title)+'</strong><br>'; }); }
   if(!html) html = 'هنوز ارسالی انجام نشده...';document.getElementById('adminRecentList').innerHTML = html;
 }
+function exportDashboard(){
+  try{
+    var users=dashboardData.users||{},tables=dashboardData.tables||{};
+    var text='📊 گزارش اپ سفیر سلامت حامی\n📅 تاریخ: '+new Date().toLocaleString('fa-IR')+'\n\n';
+    var allCodes=Object.keys(users).concat(Object.keys(tables).filter(function(c){return!users[c];}));
+    text+='👥 کاربران: '+allCodes.length+'\n💊 نسخه‌ها: '+Object.keys(users).length+'\n📋 جدول‌ها: '+Object.keys(tables).length+'\n\n';
+    allCodes.forEach(function(code,i){
+      var presc=users[code],tbl=tables[code];
+      text+=(i+1)+'. کد: '+code+'\n';
+      if(presc)text+='   💊 '+(presc.title||'بدون عنوان')+'\n';
+      if(tbl)text+='   📋 '+((tbl.totalDays)||0)+' روز\n';
+      text+='\n';
+    });
+    var blob=new Blob([text],{type:'text/plain;charset=utf-8'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=url;a.download='report-'+Date.now()+'.txt';a.click();
+    URL.revokeObjectURL(url);
+    showToast('✅ گزارش دانلود شد');
+  }catch(e){showToast('❌ خطا در دانلود','error');}
+}
 
+/* ============================================================
+   Messages & History
+   ============================================================ */
 function loadMyMessages(showAlert){
   getGlobalData().then(function(data){
     var messages=data.messages||[];var readIds=safeParseJSON(safeGetLS('readMsgIds','[]'),[]);var hiddenIds=safeParseJSON(safeGetLS('hiddenMsgIds','[]'),[]);
@@ -1158,22 +1429,45 @@ function closeMsgPopup(){document.getElementById('msgPopupOverlay').classList.re
 function showHistory(type){
   var modal=document.getElementById('historyModal'),title=document.getElementById('historyTitle'),list=document.getElementById('historyList');
   if(type==='prescriptions'){
-    title.textContent='💊 تاریخچه نسخه‌ها';var archive=safeParseJSON(safeGetLS('prescriptionHistory','[]'),[]);var current=safeGetLS('lastPrescription',null);var html='';
+    title.textContent='💊 تاریخچه نسخه‌ها';
+    var archive=safeParseJSON(safeGetLS('prescriptionHistory','[]'),[]);
+    var current=safeGetLS('lastPrescription',null);
+    var html='';
     if(current){try{var info=JSON.parse(current);html+='<div class="history-item active-history"><div class="history-item-title"><span class="history-badge">فعال</span>'+escapeHtml(info.title||'نسخه فعلی')+'</div><div class="history-item-preview">'+escapeHtml((info.content||'').substring(0,100))+'</div></div>';}catch(e){}}
-    archive.forEach(function(item,i){html+='<div class="history-item" onclick="restorePrescription('+i+')"><div class="history-item-title">'+escapeHtml(item.title)+'</div><div class="history-item-preview">'+escapeHtml((item.content||'').substring(0,100))+'</div></div>';});
+    archive.forEach(function(item,i){html+='<div class="history-item"><div class="history-item-title">'+escapeHtml(item.title)+'</div><div class="history-item-date">📅 '+new Date(item.archivedAt).toLocaleString('fa-IR')+'</div><button class="btn-hist-restore" onclick="restorePrescription('+i+')">♻️ بازیابی</button></div>';});
     list.innerHTML=html || '<p style="text-align:center;padding:20px">خالی</p>';
-  }else{
-    title.textContent='📊 تاریخچه جدول‌ها';var archive2=safeParseJSON(safeGetLS('tableHistory','[]'),[]);var html2='<div class="history-item active-history"><div class="history-item-title"><span class="history-badge">فعال</span>جدول فعلی</div></div>';
-    archive2.forEach(function(item,i){html2+='<div class="history-item" onclick="restoreTable('+i+')"><div class="history-item-title">جدول '+item.totalDays+' روزه</div></div>';});
-    list.innerHTML=html2;
+  } else {
+    title.textContent='📊 تاریخچه جدول‌ها';
+    var archive2=safeParseJSON(safeGetLS('tableHistory','[]'),[]);
+    var html2='';
+    archive2.forEach(function(item,i){
+      var dateStr = new Date(item.archivedAt).toLocaleString('fa-IR');
+      html2+='<div class="history-item">';
+      html2+='<div style="display:flex; justify-content:space-between; align-items:center;">';
+      html2+='<div class="history-item-title">'+escapeHtml(item.name)+'</div>';
+      html2+='<div class="history-item-date">📅 '+dateStr+'</div>';
+      html2+='</div>';
+      html2+='<div class="history-actions">';
+      html2+='<button class="btn-hist-restore" onclick="restoreTable('+i+')">♻️ بازیابی</button>';
+      html2+='<button class="btn-hist-edit" onclick="renameHistoryTable('+i+')">📝 تغییر نام</button>';
+      html2+='<button class="btn-hist-del" onclick="deleteHistoryTable('+i+')">🗑️ حذف</button>';
+      html2+='</div></div>';
+    });
+    list.innerHTML=html2 || '<p style="text-align:center;padding:20px">هیچ جدولی در تاریخچه نیست</p>';
   }
   modal.classList.add('active');
 }
 function closeHistory(){document.getElementById('historyModal').classList.remove('active');}
 function restorePrescription(index){if(!confirm('این نسخه جایگزین شود؟'))return;var archive=safeParseJSON(safeGetLS('prescriptionHistory','[]'),[]);var item=archive[index];if(!item)return;safeSetLS('lastPrescription',JSON.stringify({title:item.title,content:item.content,sentAt:Date.now()}));archive.splice(index,1);safeSetLS('prescriptionHistory',JSON.stringify(archive));checkRegimeReceive();showPage('pageRegime');closeHistory();}
-function restoreTable(index){if(!confirm('این جدول جایگزین شود؟'))return;var archive=safeParseJSON(safeGetLS('tableHistory','[]'),[]);var item=archive[index];if(!item)return;fortyDayData=JSON.parse(JSON.stringify(item.fortyDayData));tableColumns=[].concat(item.tableColumns);tableColumnNames=Object.assign({},item.tableColumnNames);currentTimes=Object.assign({},item.currentTimes);totalDays=item.totalDays;saveAll();renderTable();updateTodayShowcase();archive.splice(index,1);safeSetLS('tableHistory',JSON.stringify(archive));closeHistory();}
+function restoreTable(index){if(!confirm('این جدول جایگزین شود؟'))return;var archive=safeParseJSON(safeGetLS('tableHistory','[]'),[]);var item=archive[index];if(!item)return;fortyDayData=JSON.parse(JSON.stringify(item.fortyDayData));tableColumns=[].concat(item.tableColumns);tableColumnNames=Object.assign({},item.tableColumnNames);currentTimes=Object.assign({},item.currentTimes);totalDays=item.totalDays;saveAll();renderTable();updateTodayShowcase();archive.splice(index,1);safeSetLS('tableHistory',JSON.stringify(archive));closeHistory(); showToast('✅ جدول بازیابی شد');}
+function renameHistoryTable(index){var archive=safeParseJSON(safeGetLS('tableHistory','[]'),[]);var item=archive[index];if(!item)return;var newName=prompt('نام جدید جدول:', item.name);if(newName && newName.trim()){item.name=newName.trim();safeSetLS('tableHistory',JSON.stringify(archive));showHistory('tables');showToast('✅ نام ویرایش شد');}}
+function deleteHistoryTable(index){if(!confirm('این جدول از تاریخچه حذف شود؟'))return;var archive=safeParseJSON(safeGetLS('tableHistory','[]'),[]);archive.splice(index,1);safeSetLS('tableHistory',JSON.stringify(archive));showHistory('tables');showToast('✅ جدول از تاریخچه حذف شد');}
+
 function editMyRegime(){var el=document.getElementById('regimeDisplay');if(el.contentEditable==='true'){el.contentEditable='false';el.style.border='1px solid rgba(244,208,63,.2)';showToast('✅ ذخیره شد');}else{el.contentEditable='true';el.style.border='2px solid var(--accent)';el.focus();showToast('✏️ ویرایش کنید','warning');}}
 
+/* ============================================================
+   Alarm
+   ============================================================ */
 function renderAlarmSettings(){
   var container=document.getElementById('alarmSettingsContainer');var html='';
   tableColumns.forEach(function(col){var name=tableColumnNames[col]||col, time=currentTimes[col]||'08:00', enabled=alarmEnabled[col]!==false;
@@ -1248,16 +1542,16 @@ function renderTable(){
     if(showWeekday)html+='<td>'+weekdays[(date.getDay()+1)%7]+'</td>';
     if(showDate)html+='<td>'+formatJalali(gregorianToJalali(date))+'</td>';
     tableColumns.forEach(function(col){
-      var txt=d[col]||'-',prop=getProperty(txt);
-      html+='<td><span class="drug-name" onclick="toggleProp(event,this)">'+escapeHtml(txt)+'</span><div class="property-popup">'+escapeHtml(prop)+'</div></td>';
+      var txt=d[col]||'-';
+      html+='<td>'+escapeHtml(txt)+'</td>'; /* حذف پاپ آپ خواص */
     });
     html+='</tr>';
   });
   tbody.innerHTML=html;
 }
-function getProperty(txt){for(var k in herbProperties)if(txt.indexOf(k)>-1)return herbProperties[k];return'خواص عمومی';}
-function toggleProp(e,el){e.stopPropagation();document.querySelectorAll('.drug-name.active-drug').forEach(function(x){x.classList.remove('active-drug');});el.classList.add('active-drug');var pop=el.nextElementSibling;if(activePopup&&activePopup!==pop)activePopup.classList.remove('active');pop.classList.toggle('active');activePopup=pop.classList.contains('active')?pop:null;}
-document.addEventListener('click',function(e){if(activePopup&&!e.target.classList.contains('drug-name')){activePopup.classList.remove('active');activePopup=null;document.querySelectorAll('.drug-name.active-drug').forEach(function(x){x.classList.remove('active-drug');});}});
+document.addEventListener('click',function(e){
+  // حذف عملکرد کلیک برای خواص داروها
+});
 
 function onStartDateChanged(){var gDate=new Date(document.getElementById('startDatePicker').value+'T00:00:00');if(isNaN(gDate.getTime()))return;setStartDateGregorian(gDate);updateDateConversionInfo();updateDayDisplay();renderTable();updateTodayShowcase();saveAll();}
 function updateDateConversionInfo(){var sd=getStartDateGregorian(),j=gregorianToJalali(sd);document.getElementById('jalaliDate').textContent=formatJalaliFull(j);}
