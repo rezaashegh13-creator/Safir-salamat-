@@ -369,7 +369,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   <div class="modal-content">
     <h2>🔑 فراموشی رمز عبور</h2>
     <p style="font-size:0.95em; line-height:2;">از مدیر اپلیکیشن درخواست کنید اطلاعات ورود شما را برایتان ارسال کند.</p>
-    <p style="font-size:0.8em; color:var(--accent); background:rgba(244,208,63,0.1); padding:10px; border-radius:8px; margin-top:10px;">💡 کد اختصاصی خود را به مدیر بدهید.</p>
     <button class="btn btn-gray" onclick="document.getElementById('forgotPassModal').classList.remove('active')" style="margin-top:15px;">متوجه شدم</button>
   </div>
 </div>
@@ -377,7 +376,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 <div class="modal-overlay" id="registerModal" style="z-index: 100001;">
   <div class="modal-content" style="max-width:450px; border-color:var(--accent);">
     <h2>🌿 ثبت نام</h2>
-    <p style="font-size:0.75em; color:var(--accent); background:rgba(244,208,63,0.1); padding:8px; border-radius:8px;">📌 کد اختصاصی شما:</p>
     <div class="code-display" id="registerCode" style="font-size:1.5em; margin:5px 0;">...</div>
     <div style="text-align:center; margin: 15px 0;">
       <label for="regAvatar" style="cursor:pointer; display:inline-block; position:relative;">
@@ -386,29 +384,28 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
       </label>
       <input type="file" id="regAvatar" accept="image/*" style="display:none;" onchange="previewRegAvatar(event)">
     </div>
-    <div class="settings-row"><label>نام و نام خانوادگی:</label><input type="text" id="regFullName" placeholder="مثلاً: علی محمدی" required></div>
-    <div class="settings-row"><label>سن:</label><input type="number" id="regAge" placeholder="مثلاً: ۳۵" required></div>
-    <div class="settings-row"><label>مشکل / بیماری:</label><input type="text" id="regProblem" placeholder="مثلاً: دیابت، چاقی" required></div>
-    <div class="settings-row"><label>رمز عبور ۴ رقمی:</label><input type="password" id="regPassword" placeholder="۴ رقم" maxlength="4" inputmode="numeric" required></div>
-    <button class="btn btn-green" onclick="doRegister()" id="submitProfileBtn" style="margin-top:15px; font-size:1em;">✅ تکمیل ثبت‌نام</button>
+    <div class="settings-row"><label>نام:</label><input type="text" id="regFullName" placeholder="نام و نام خانوادگی" required></div>
+    <div class="settings-row"><label>سن:</label><input type="number" id="regAge" placeholder="سن" required></div>
+    <div class="settings-row"><label>مشکل:</label><input type="text" id="regProblem" placeholder="بیماری" required></div>
+    <div class="settings-row"><label>رمز:</label><input type="password" id="regPassword" placeholder="۴ رقم" maxlength="4" inputmode="numeric" required></div>
+    <button class="btn btn-green" onclick="doRegister()" id="submitProfileBtn" style="margin-top:15px;">✅ تکمیل ثبت‌نام</button>
     <button class="btn btn-gray" onclick="document.getElementById('registerModal').classList.remove('active')" style="margin-top:5px;">انصراف</button>
   </div>
 </div>
 
 <div class="modal-overlay" id="editProfileModal" style="z-index: 100001;">
-  <div class="modal-content" style="max-width:450px; border-color:var(--accent);">
+  <div class="modal-content" style="max-width:450px;">
     <h2>⚙️ ویرایش پروفایل</h2>
     <div style="text-align:center; margin: 15px 0;">
       <label for="editAvatar" style="cursor:pointer; display:inline-block; position:relative;">
         <img id="editAvatarPreview" src="" style="width:90px;height:90px;border-radius:50%;border:3px solid var(--accent);object-fit:cover;background:#000;">
-        <div style="position:absolute; bottom:0; right:0; background:var(--btn-success); border-radius:50%; width:28px; height:28px; display:flex; align-items:center; justify-content:center; border:2px solid #fff; font-size:1.1em;">📷</div>
       </label>
       <input type="file" id="editAvatar" accept="image/*" style="display:none;" onchange="previewEditAvatar(event)">
     </div>
-    <div class="settings-row"><label>نام و نام خانوادگی:</label><input type="text" id="editFullName" required></div>
+    <div class="settings-row"><label>نام:</label><input type="text" id="editFullName" required></div>
     <div class="settings-row"><label>سن:</label><input type="number" id="editAge" required></div>
-    <div class="settings-row"><label>مشکل / بیماری:</label><input type="text" id="editProblem" required></div>
-    <button class="btn btn-green" onclick="saveProfileEdit()" style="margin-top:15px;">💾 ذخیره تغییرات</button>
+    <div class="settings-row"><label>مشکل:</label><input type="text" id="editProblem" required></div>
+    <button class="btn btn-green" onclick="saveProfileEdit()" style="margin-top:15px;">💾 ذخیره</button>
     <button class="btn btn-gray" onclick="document.getElementById('editProfileModal').classList.remove('active')" style="margin-top:5px;">انصراف</button>
   </div>
 </div>
@@ -434,11 +431,11 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 <div class="modal-overlay" id="archiveNameModal" style="z-index:100002;">
   <div class="modal-content">
     <h2 id="archiveNameTitle">📚 بایگانی</h2>
-    <p id="archiveNameDesc">یک نام برای این آیتم انتخاب کنید:</p>
-    <input type="text" id="archiveNameInput" placeholder="مثلاً: جدول لاغری یک" style="width:100%;padding:14px;background:var(--input-bg);color:var(--accent);border:2px solid var(--accent);border-radius:10px;font-family:var(--font-family);font-size:1.05em;text-align:center;margin:15px 0;">
+    <p id="archiveNameDesc">یک نام انتخاب کنید:</p>
+    <input type="text" id="archiveNameInput" placeholder="نام" style="width:100%;padding:14px;background:var(--input-bg);color:var(--accent);border:2px solid var(--accent);border-radius:10px;font-family:var(--font-family);font-size:1.05em;text-align:center;margin:15px 0;">
     <div class="btn-row">
       <button class="btn btn-gray" onclick="closeArchiveNameModal()">انصراف</button>
-      <button class="btn btn-green" onclick="confirmArchiveName()">💾 ذخیره در بایگانی</button>
+      <button class="btn btn-green" onclick="confirmArchiveName()">💾 ذخیره</button>
     </div>
   </div>
 </div>
@@ -455,7 +452,7 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 
 <div class="container" id="mainAppContainer" style="display:none;">
 
-<div id="adminReturnBar" class="admin-return-bar" style="display:none;" onclick="exitImpersonation()">⬅️ بازگشت به پنل مدیریت (شما در حال مشاهده پنل کاربر هستید)</div>
+<div id="adminReturnBar" class="admin-return-bar" style="display:none;" onclick="exitImpersonation()">⬅️ بازگشت به پنل مدیریت</div>
 
 <div class="top-bar">
   <div class="top-bar-info">
@@ -502,7 +499,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   <div id="dailyContent">
     <button class="btn btn-purple" onclick="toggleUserEditMode()" style="margin-bottom:10px;" id="userEditTableBtn">✏️ ویرایش دستی جدول</button>
     <div id="userEditControls" style="display:none; background:var(--bg-secondary); padding:10px; border-radius:10px; margin-bottom:10px; border:1px solid var(--accent);">
-      <p style="font-size:0.8em; color:var(--accent); margin-bottom:8px;">برای ویرایش، مقادیر روز انتخاب شده را تغییر دهید و اعمال کنید.</p>
       <div class="editor-day-nav" id="dayNavSingle" style="justify-content:space-between;">
         <button onclick="prevEditorDay()" id="prevDayBtn">◀ قبل</button>
         <span id="editorDayLabel">روز 1</span>
@@ -510,10 +506,10 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
       </div>
       <div id="dayEditorContainer"></div>
       <div style="display:grid; grid-template-columns:1fr; gap:8px; margin-top:10px;">
-        <button onclick="applyToDays('all')" style="padding:10px;background:linear-gradient(135deg,#27ae60,#1e8449);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;">📌 اعمال بر کل روزها</button>
-        <button onclick="applyToDays('odd')" style="padding:10px;background:linear-gradient(135deg,#6b8e23,#4a6618);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;">🔵 اعمال بر روزهای فرد</button>
-        <button onclick="applyToDays('even')" style="padding:10px;background:linear-gradient(135deg,#e8b923,#b8941f);color:#0d1f12;border:none;border-radius:8px;cursor:pointer;font-weight:700;">🔴 اعمال بر روزهای زوج</button>
-        <button onclick="saveUserEditedTableToDB()" style="padding:10px;background:var(--btn-primary);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700; margin-top:5px;">💾 ذخیره نهایی تغییرات در حساب من</button>
+        <button onclick="applyToDays('all')" style="padding:10px;background:linear-gradient(135deg,#27ae60,#1e8449);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;">📌 کل روزها</button>
+        <button onclick="applyToDays('odd')" style="padding:10px;background:linear-gradient(135deg,#6b8e23,#4a6618);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;">🔵 روزهای فرد</button>
+        <button onclick="applyToDays('even')" style="padding:10px;background:linear-gradient(135deg,#e8b923,#b8941f);color:#0d1f12;border:none;border-radius:8px;cursor:pointer;font-weight:700;">🔴 روزهای زوج</button>
+        <button onclick="saveUserEditedTableToDB()" style="padding:10px;background:var(--btn-primary);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700; margin-top:5px;">💾 ذخیره</button>
       </div>
     </div>
     <button class="btn btn-orange" onclick="activateAlarms()" id="alarmMainBtn">🔔 فعال‌سازی آلارم‌ها</button>
@@ -529,25 +525,25 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   <div id="regimeContent">
     <div class="section-box">
       <h3>📝 تدابیر و رژیم اختصاصی</h3>
-      <div class="regime-content" id="regimeDisplay">هنوز نسخه‌ای دریافت نشده است. لطفا دکمه بالا را بزنید.</div>
+      <div class="regime-content" id="regimeDisplay">هنوز نسخه‌ای دریافت نشده است.</div>
     </div>
     <button class="btn btn-purple" onclick="editMyRegime()">✏️ ویرایش متن</button>
   </div>
 </div>
 
 <div class="page" id="pageMessages">
-  <div class="main-header"><h1>📬 پیام‌های من</h1><h2>پیام‌های دریافتی از اپراتور</h2></div>
+  <div class="main-header"><h1>📬 پیام‌های من</h1><h2>پیام‌های دریافتی</h2></div>
   <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
   <button class="btn btn-blue" onclick="loadMyMessages(true)">🔄 دریافت پیام‌های جدید</button>
   <div id="messagesList" style="margin-top:12px"><p style="text-align:center;color:var(--text-muted);padding:20px">در حال بارگذاری...</p></div>
 </div>
 
 <div class="page" id="pageContact">
-  <div class="main-header"><h1>📞 تماس و پشتیبانی</h1><h2>با ما در ارتباط باشید</h2></div>
+  <div class="main-header"><h1>📞 تماس و پشتیبانی</h1></div>
   <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
-  <div class="menu-card" onclick="window.open('https://rubika.ir/Mhamidian313','_blank')" style="border-right-color:#2ecc71"><div class="menu-card-icon">🩺</div><div class="menu-card-title">🩺 ویزیت از راه دور</div><div class="menu-card-desc">فقط با کمترین هزینه ویزیت شو</div></div>
+  <div class="menu-card" onclick="window.open('https://rubika.ir/Mhamidian313','_blank')" style="border-right-color:#2ecc71"><div class="menu-card-icon">🩺</div><div class="menu-card-title">🩺 ویزیت از راه دور</div></div>
   <div class="menu-card" onclick="window.open('https://eitaa.com/Nabzezendegi133','_blank')" style="border-right-color:#e8b923"><div class="menu-card-icon">📢</div><div class="menu-card-title">📢 کانال ایتا</div><div class="menu-card-desc">@Nabzezendegi133</div></div>
-  <div class="menu-card" onclick="window.open('https://rubika.ir/joing/GEABAACJ0KMFSXWCVGPUPQJRBLKATZUF','_blank')" style="border-right-color:#8e44ad"><div class="menu-card-icon">💬</div><div class="menu-card-title">💬 گروه روبیکا</div><div class="menu-card-desc">عضویت در گروه پشتیبانی</div></div>
+  <div class="menu-card" onclick="window.open('https://rubika.ir/joing/GEABAACJ0KMFSXWCVGPUPQJRBLKATZUF','_blank')" style="border-right-color:#8e44ad"><div class="menu-card-icon">💬</div><div class="menu-card-title">💬 گروه روبیکا</div></div>
 </div>
 
 <div class="page" id="pageSettings">
@@ -563,40 +559,39 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   <div class="section-box" style="border:2px solid var(--btn-danger);">
     <h3>👤 حساب کاربری من</h3>
     <div class="btn-row" style="flex-direction:column;">
-      <button class="btn btn-blue" onclick="openEditProfileModal()">⚙️ ویرایش پروفایل و تصویر</button>
-      <button class="btn btn-gray" onclick="doLogout()">🚪 خروج از حساب</button>
-      <button class="btn btn-red" onclick="deleteMyAccount()">🗑️ حذف کامل حساب کاربری</button>
+      <button class="btn btn-blue" onclick="openEditProfileModal()">⚙️ ویرایش پروفایل</button>
+      <button class="btn btn-gray" onclick="doLogout()">🚪 خروج</button>
+      <button class="btn btn-red" onclick="deleteMyAccount()">🗑️ حذف حساب</button>
     </div>
   </div>
 
   <div class="section-box" style="border:2px solid var(--btn-success);">
     <h3>💾 پشتیبان‌گیری آفلاین</h3>
-    <p style="font-size:0.8em; color:var(--text-secondary); text-align:center; margin-bottom:10px;">در صورت پاک شدن اطلاعات، از این بخش استفاده کنید.</p>
     <div class="btn-row">
-      <button class="btn btn-green" onclick="saveOfflineBackup()">💾 ذخیره آفلاین</button>
-      <button class="btn btn-blue" onclick="restoreOfflineBackup()">♻️ بازیابی آفلاین</button>
+      <button class="btn btn-green" onclick="saveOfflineBackup()">💾 ذخیره</button>
+      <button class="btn btn-blue" onclick="restoreOfflineBackup()">♻️ بازیابی</button>
     </div>
   </div>
 
   <div class="section-box" style="border:2px solid var(--accent);">
     <h3>🔄 به‌روزرسانی و نصب</h3>
-    <button class="btn btn-orange" onclick="clearCacheAndReload()" style="margin-bottom:8px;">🔄 به‌روزرسانی برنامه (پاک‌سازی کش)</button>
+    <button class="btn btn-orange" onclick="clearCacheAndReload()" style="margin-bottom:8px;">🔄 پاک‌سازی کش</button>
     <button class="btn btn-green" onclick="installPWA()">📲 نصب اپلیکیشن</button>
   </div>
 
   <div class="section-box" style="border:2px solid var(--btn-success)">
     <h3>🔔 تنظیم هشدار جدول</h3>
     <div id="alarmSettingsContainer"></div>
-    <button class="btn btn-green" onclick="saveAlarmSettings()" style="margin-top:8px">💾 ذخیره تنظیمات هشدار</button>
-    <button class="btn btn-orange" onclick="testAlarmSound()" style="margin-top:6px">🔊 تست صدای آلارم</button>
+    <button class="btn btn-green" onclick="saveAlarmSettings()" style="margin-top:8px">💾 ذخیره</button>
+    <button class="btn btn-orange" onclick="testAlarmSound()" style="margin-top:6px">🔊 تست صدا و ویبره</button>
     
     <div class="notification-status-box" id="notificationStatusBox">
-      <p style="font-size:0.85em; margin-bottom:8px;">⚠️ نوتیفیکیشن اعلانات غیرفعال است</p>
-      <button class="btn btn-green" onclick="requestNotificationPermission()" style="font-size:0.8em; padding:8px;">🔔 فعال‌سازی نوتیفیکیشن در اعلانات بالای گوشی</button>
+      <p style="font-size:0.85em; margin-bottom:8px;">⚠️ نوتیفیکیشن غیرفعال</p>
+      <button class="btn btn-green" onclick="requestNotificationPermission()" style="font-size:0.8em; padding:8px;">🔔 فعال‌سازی نوتیفیکیشن</button>
     </div>
     
     <div class="alarm-sound-settings">
-      <h4>🔊 تنظیمات پیشرفته صدا</h4>
+      <h4>🔊 تنظیمات پیشرفته</h4>
       
       <div class="setting-toggle-row">
         <label>📳 فقط ویبره (بدون صدا)</label>
@@ -604,71 +599,56 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
       </div>
       
       <div class="volume-slider-row" id="volumeSliderRow">
-        <label>🔉 حجم صدا:</label>
+        <label>🔉 صدا:</label>
         <input type="range" id="alarmVolumeSlider" min="0" max="100" value="70" oninput="onVolumeChange(this.value)">
         <span class="volume-value" id="alarmVolumeValue">70%</span>
       </div>
       
       <div class="setting-toggle-row" id="gradualVolumeRow">
-        <label>📈 افزایش پله‌ای صدا (هر ۳ ثانیه بلندتر)</label>
+        <label>📈 افزایش پله‌ای</label>
         <button class="toggle-btn" id="gradualVolumeToggle" onclick="toggleGradualVolume(this)"></button>
-      </div>
-      
-      <div class="setting-toggle-row">
-        <label>🔇 پخش صدا در حالت بی‌صدا (Override)</label>
-        <button class="toggle-btn" id="silentModeToggle" onclick="toggleSilentMode(this)"></button>
       </div>
       
       <div class="setting-toggle-row">
         <label>📳 ویبره هنگام آلارم</label>
         <button class="toggle-btn" id="vibrateToggle" onclick="toggleVibrate(this)"></button>
       </div>
-      
-      <p style="font-size:0.7em; color:var(--text-muted); margin-top:8px; line-height:1.6; text-align:center;">
-        💡 وقتی «فقط ویبره» فعال باشد، هیچ صدایی پخش نمی‌شود و فقط گوشی می‌لرزد.
-      </p>
     </div>
     
     <div class="sound-upload-box" style="margin-top:12px;" id="soundUploadBox">
-      <p style="color:var(--accent); font-weight:700; font-size:0.9em; margin-bottom:8px;">🎵 آهنگ اختصاصی آلارم</p>
-      <p style="font-size:0.75em; color:var(--text-muted); margin-bottom:8px;">می‌توانید یک فایل صوتی از گوشی خود انتخاب کنید (MP3/WAV/M4A/OGG).</p>
+      <p style="color:var(--accent); font-weight:700; font-size:0.9em; margin-bottom:8px;">🎵 آهنگ اختصاصی</p>
       <input type="file" id="customAlarmSound" accept="audio/*" style="display:none;" onchange="uploadCustomAlarmSound(event)">
       <div class="sound-btn-row">
-        <button class="btn btn-blue" type="button" onclick="openSoundFilePicker()">📁 آپلود فایل صوتی</button>
-        <button class="btn btn-red" type="button" onclick="removeCustomAlarmSound()">🗑️ حذف آهنگ فعال</button>
+        <button class="btn btn-blue" type="button" onclick="openSoundFilePicker()">📁 آپلود</button>
+        <button class="btn btn-red" type="button" onclick="removeCustomAlarmSound()">🗑️ حذف</button>
       </div>
       <div id="customSoundStatus" style="font-size:0.75em; color:var(--text-muted); margin-top:8px;">
-        آهنگ پیش‌فرض (بیپ بیپ) استفاده می‌شود
+        آهنگ پیش‌فرض
       </div>
-      <audio id="customSoundPreview" class="sound-preview" controls style="display:none;"></audio>
-      
       <div style="margin-top:14px; padding-top:10px; border-top:1px dashed rgba(244,208,63,0.3);">
-        <p style="color:var(--accent); font-weight:700; font-size:0.85em; margin-bottom:8px;">📚 سابقه آهنگ‌های اخیر (۳ آهنگ آخر)</p>
+        <p style="color:var(--accent); font-weight:700; font-size:0.85em; margin-bottom:8px;">📚 سابقه (۳ آهنگ آخر)</p>
         <div id="soundHistoryList"></div>
       </div>
     </div>
     
     <div class="save-password-box" style="margin-top:12px; border-color:var(--accent2);">
       <input type="checkbox" id="autoReactivateCheck" onchange="toggleAutoReactivate()">
-      <label for="autoReactivateCheck">🔄 فعال‌سازی خودکار آلارم‌ها هر ۳۰ دقیقه</label>
+      <label for="autoReactivateCheck">🔄 فعال‌سازی خودکار هر ۳۰ دقیقه</label>
     </div>
     
     <div class="save-password-box" style="margin-top:12px; border-color:var(--btn-primary);">
       <input type="checkbox" id="backgroundAlarmCheck" onchange="toggleBackgroundAlarm()">
-      <label for="backgroundAlarmCheck">🌙 فعال بودن آلارم حتی وقتی اپ بسته است</label>
+      <label for="backgroundAlarmCheck">🌙 آلارم در پس‌زمینه</label>
     </div>
-    <p style="font-size:0.7em; color:var(--text-muted); margin-top:5px; line-height:1.7;">
-      💡 توجه: برای اجرای کامل آلارم در پس‌زمینه، اپلیکیشن باید به صفحه اصلی (Home Screen) اضافه شده باشد.
-    </p>
   </div>
   
   <div class="section-box" style="border:2px solid var(--accent2)"><h3>📚 تاریخچه</h3><div class="btn-row"><button class="btn btn-blue" onclick="showHistory('prescriptions')">💊 نسخه‌ها</button><button class="btn btn-purple" onclick="showHistory('tables')">📊 جدول‌ها</button></div></div>
   
   <div class="section-box">
-    <h3>📅 تاریخ شروع برنامه</h3>
+    <h3>📅 تاریخ شروع</h3>
     <input type="date" id="startDatePicker" onchange="onStartDateChanged()" style="width:100%;padding:10px;background:var(--input-bg);color:var(--accent);border:2px solid var(--accent);border-radius:8px;font-family:var(--font-family)">
-    <button class="btn btn-success" onclick="saveStartDatePermanently()" style="margin-top:8px;">💾 ذخیره دائم تاریخ شروع</button>
-    <div style="font-size:.78em;color:var(--text-secondary);margin-top:8px;line-height:1.8">
+    <button class="btn btn-success" onclick="saveStartDatePermanently()" style="margin-top:8px;">💾 ذخیره</button>
+    <div style="font-size:.78em;color:var(--text-secondary);margin-top:8px;">
       📅 شمسی: <span id="jalaliDate" style="color:var(--accent);font-weight:700">--</span><br>
       📌 امروز: <span id="dayBadge" style="color:var(--accent);font-weight:700">روز --</span>
     </div>
@@ -693,11 +673,11 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     </div>
   </div>
   
-  <div class="section-box"><h3>🎨 نمایش</h3><div class="settings-row"><label>نوع:</label><select id="viewMode" onchange="changeViewMode()"><option value="all">کل روزها</option><option value="week">یک هفته</option><option value="today">فقط امروز</option></select></div><div class="settings-row"><label>فونت:</label><select id="fontSize" onchange="changeFontSize()"><option value="small">ریز</option><option value="medium" selected>متوسط</option><option value="large">بزرگ</option></select></div><div class="settings-row"><label>📅 تاریخ</label><input type="checkbox" id="showDate" onchange="toggleShowDate()"></div><div class="settings-row"><label>📆 هفته</label><input type="checkbox" id="showWeekday" onchange="toggleShowWeekday()"></div><div class="settings-row"><label>📂 گذشته</label><input type="checkbox" id="showPastDays" onchange="toggleShowPastDays()" checked></div></div>
+  <div class="section-box"><h3>🎨 نمایش</h3><div class="settings-row"><label>نوع:</label><select id="viewMode" onchange="changeViewMode()"><option value="all">کل روزها</option><option value="week">یک هفته</option><option value="today">فقط امروز</option></select></div><div class="settings-row"><label>فونت:</label><select id="fontSize" onchange="changeFontSize()"><option value="small">ریز</option><option value="medium" selected>متوسط</option><option value="large">بزرگ</option></select></div></div>
 </div>
 
 <div class="page" id="pageAdmin">
-  <div class="main-header"><h1>🔐 پنل مدیریت</h1><h2>مخصوص اپراتور</h2></div>
+  <div class="main-header"><h1>🔐 پنل مدیریت</h1></div>
   <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
   
   <div class="admin-tabs">
@@ -710,75 +690,67 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   </div>
 
   <div class="admin-panel" id="adminTabDashboard">
-    <h3>📊 داشبورد گزارش</h3>
+    <h3>📊 داشبورد</h3>
     <div class="dashboard-stats">
       <div class="stat-card" onclick="switchAdminTab('users', document.querySelectorAll('.admin-tab')[0])">
-        <div class="stat-number" id="statUsers">-</div><div class="stat-label">👥 کاربران (کلیک کنید)</div>
+        <div class="stat-number" id="statUsers">-</div><div class="stat-label">👥 کاربران</div>
       </div>
       <div class="stat-card"><div class="stat-number" id="statPrescriptions">-</div><div class="stat-label">💊 نسخه‌ها</div></div>
       <div class="stat-card"><div class="stat-number" id="statTables">-</div><div class="stat-label">📋 جدول‌ها</div></div>
       <div class="stat-card"><div class="stat-number" id="statMessages">-</div><div class="stat-label">📢 پیام‌ها</div></div>
     </div>
-    <div class="btn-row"><button class="btn btn-blue" onclick="loadDashboard(true)">🔄 بروزرسانی</button><button class="btn btn-green" onclick="exportDashboard()">📥 دانلود گزارش</button></div>
+    <div class="btn-row"><button class="btn btn-blue" onclick="loadDashboard(true)">🔄 بروزرسانی</button><button class="btn btn-green" onclick="exportDashboard()">📥 دانلود</button></div>
   </div>
 
   <div class="admin-panel" id="adminTabUsers" style="display:none;">
-    <button class="btn btn-gray" onclick="switchAdminTab('dashboard', document.querySelectorAll('.admin-tab')[0])" style="margin-bottom:10px;">◀ بازگشت به داشبورد</button>
+    <button class="btn btn-gray" onclick="switchAdminTab('dashboard', document.querySelectorAll('.admin-tab')[0])" style="margin-bottom:10px;">◀ بازگشت</button>
     <h3>👥 مدیریت کاربران</h3>
     <div style="background:var(--bg-secondary); padding:15px; border-radius:10px; margin-bottom:15px; border:1px solid var(--accent);">
-      <h4 style="color:var(--accent); margin-bottom:10px; text-align:center;">➕ ایجاد کاربر جدید</h4>
-      <div class="settings-row"><label>کد کاربر:</label><input type="text" id="newUserCode" placeholder="مثلاً: A3B5C7" maxlength="10" style="text-align:center; direction:ltr;"></div>
-      <div class="settings-row"><label>نام و نام خانوادگی:</label><input type="text" id="newUserName" placeholder="مثلاً: علی محمدی"></div>
-      <div class="settings-row"><label>رمز ۴ رقمی:</label><input type="text" id="newUserPassword" placeholder="مثلاً: ۱۲۳۴" maxlength="4"></div>
-      <div class="settings-row" style="justify-content:center; margin-top:10px;">
-        <label for="newUserAvatar" style="cursor:pointer; display:inline-block; position:relative;">
-          <img id="newUserAvatarPreview" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23222'/><text x='50' y='55' font-size='40' text-anchor='middle' fill='%23aaa'>📷</text></svg>" style="width:60px;height:60px;border-radius:50%;border:2px solid var(--accent);object-fit:cover;background:#000;">
-          <div style="position:absolute; bottom:0; right:0; background:var(--btn-success); border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; border:2px solid #fff; font-size:0.8em;">➕</div>
-        </label>
-        <input type="file" id="newUserAvatar" accept="image/*" style="display:none;" onchange="previewNewUserAvatar(event)">
-      </div>
-      <button class="btn btn-success" onclick="createUserByAdmin()" style="margin-top:10px;">ایجاد / ویرایش کاربر</button>
+      <h4 style="color:var(--accent); margin-bottom:10px; text-align:center;">➕ ایجاد کاربر</h4>
+      <div class="settings-row"><label>کد:</label><input type="text" id="newUserCode" placeholder="A3B5C7" maxlength="10" style="text-align:center; direction:ltr;"></div>
+      <div class="settings-row"><label>نام:</label><input type="text" id="newUserName" placeholder="نام"></div>
+      <div class="settings-row"><label>رمز:</label><input type="text" id="newUserPassword" placeholder="۱۲۳۴" maxlength="4"></div>
+      <button class="btn btn-success" onclick="createUserByAdmin()" style="margin-top:10px;">ایجاد / ویرایش</button>
     </div>
-    <input type="text" id="adminUserSearch" placeholder="جستجوی نام یا کد کاربر..." onkeyup="filterAdminUsers()" style="width:100%; padding:12px; background:var(--input-bg); color:#fff; border:1px solid var(--accent); border-radius:8px; margin-bottom:15px;">
+    <input type="text" id="adminUserSearch" placeholder="جستجو..." onkeyup="filterAdminUsers()" style="width:100%; padding:12px; background:var(--input-bg); color:#fff; border:1px solid var(--accent); border-radius:8px; margin-bottom:15px;">
     <div id="adminUsersListContainer" style="max-height: 50vh; overflow-y: auto;"></div>
   </div>
 
   <div class="admin-panel" id="adminTabPrescription" style="display:none">
-    <h3>📤 ارسال نسخه رژیم درمانی</h3>
+    <h3>📤 ارسال نسخه</h3>
     <div class="settings-row" style="margin-bottom:10px; position:relative;">
       <label>کاربر:</label>
       <div class="search-container">
-        <input type="text" id="prescriptionUserSearch" placeholder="تایپ کنید..." oninput="showUserDropdown('prescriptionUserSearch', 'targetUserCode')" onfocus="showUserDropdown('prescriptionUserSearch', 'targetUserCode')" style="width:100%;">
+        <input type="text" id="prescriptionUserSearch" placeholder="جستجو..." oninput="showUserDropdown('prescriptionUserSearch', 'targetUserCode')" onfocus="showUserDropdown('prescriptionUserSearch', 'targetUserCode')" style="width:100%;">
         <input type="hidden" id="targetUserCode">
         <div class="custom-dropdown" id="prescriptionUserSearchDropdown"></div>
       </div>
     </div>
-    <div class="settings-row"><label>عنوان:</label><input type="text" id="prescriptionTitle" placeholder="مثلاً: رژیم لاغری"></div>
-    <textarea id="prescriptionContent" placeholder="متن رژیم..." style="min-height:150px"></textarea>
+    <div class="settings-row"><label>عنوان:</label><input type="text" id="prescriptionTitle" placeholder="عنوان"></div>
+    <textarea id="prescriptionContent" placeholder="متن..." style="min-height:150px"></textarea>
     <div class="btn-row" style="margin-top:10px">
       <button class="btn btn-green" onclick="sendPrescription()">📤 ارسال</button>
-      <button class="btn btn-purple" onclick="askArchivePrescription()">📚 بایگانی کن</button>
+      <button class="btn btn-purple" onclick="askArchivePrescription()">📚 بایگانی</button>
       <button class="btn btn-gray" onclick="clearAdminForm()">🗑️ پاک</button>
     </div>
   </div>
 
   <div class="admin-panel" id="adminTabTable" style="display:none">
-    <h3>📋 ویرایش جدول هوشمند (مدیر)</h3>
+    <h3>📋 ویرایش جدول</h3>
     <div class="settings-row" style="margin-bottom:10px; position:relative;">
       <label>کاربر:</label>
       <div class="search-container">
-        <input type="text" id="tableUserSearch" placeholder="تایپ کنید..." oninput="showUserDropdown('tableUserSearch', 'targetUserCodeTable')" onfocus="showUserDropdown('tableUserSearch', 'targetUserCodeTable')" style="width:100%;">
+        <input type="text" id="tableUserSearch" placeholder="جستجو..." oninput="showUserDropdown('tableUserSearch', 'targetUserCodeTable')" onfocus="showUserDropdown('tableUserSearch', 'targetUserCodeTable')" style="width:100%;">
         <input type="hidden" id="targetUserCodeTable">
         <div class="custom-dropdown" id="tableUserSearchDropdown"></div>
       </div>
     </div>
     <div style="background:var(--input-bg);padding:12px;border-radius:10px;margin:10px 0">
-      <div style="color:var(--accent);font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">🏷️ نام و ساعت وعده‌ها</div>
+      <div style="color:var(--accent);font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">🏷️ وعده‌ها</div>
       <div id="tableEditorContainer"></div>
-      <button onclick="addTableColumnEditor()" style="width:100%;padding:10px;background:var(--btn-success);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;margin-top:8px;font-size:.85em;font-family:var(--font-family)">➕ افزودن وعده جدید</button>
+      <button onclick="addTableColumnEditor()" style="width:100%;padding:10px;background:var(--btn-success);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;margin-top:8px;">➕ افزودن وعده</button>
     </div>
     <div style="background:var(--input-bg);padding:12px;border-radius:10px;margin:10px 0">
-      <div style="color:var(--accent);font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">📅 ویرایش محتوای روزها</div>
       <div class="editor-day-nav" id="adminDayNav">
         <button onclick="prevAdminEditorDay()" id="adminPrevDayBtn">◀ قبل</button>
         <span id="adminEditorDayLabel">روز 1</span>
@@ -786,62 +758,42 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
       </div>
       <div id="adminDayEditorContainer"></div>
     </div>
-    <div style="background:rgba(231,76,60,.08);padding:12px;border-radius:10px;margin:10px 0;border:2px solid rgba(231,76,60,.3)">
-      <div style="color:#e74c3c;font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">⚡ اعمال محتوای بالا روی:</div>
-      <div style="display:grid;grid-template-columns:1fr;gap:8px">
-        <button onclick="applyToAdminDays('all')" style="padding:12px;background:linear-gradient(135deg,#27ae60,#1e8449);color:#fff;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:.9em;font-family:var(--font-family)">📌 کل روزها</button>
-        <button onclick="applyToAdminDays('odd')" style="padding:12px;background:linear-gradient(135deg,#6b8e23,#4a6618);color:#fff;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:.9em;font-family:var(--font-family)">🔵 روزهای فرد</button>
-        <button onclick="applyToAdminDays('even')" style="padding:12px;background:linear-gradient(135deg,#e8b923,#b8941f);color:#0d1f12;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:.9em;font-family:var(--font-family)">🔴 روزهای زوج</button>
-      </div>
-    </div>
-    <div style="background:var(--input-bg);padding:12px;border-radius:10px;margin:10px 0;border:2px solid var(--accent)">
-      <div style="color:var(--accent);font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">👁️ پیش‌نمایش جدول</div>
-      <button onclick="togglePreview()" id="previewToggleBtn" style="width:100%;padding:10px;background:var(--btn-primary);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:.9em;margin-bottom:8px;font-family:var(--font-family)">نمایش جدول (ریز)</button>
-      <div id="previewContainer" style="display:none">
-        <div class="preview-scroll"><table class="preview-table" id="previewTable"><thead id="previewTableHead"></thead><tbody id="previewTableBody"></tbody></table></div>
-      </div>
-    </div>
-    <div style="background:rgba(46,204,113,.1);padding:12px;border-radius:10px;margin:10px 0;border:2px solid var(--btn-success)">
-      <div style="color:var(--btn-success);font-weight:700;font-size:.9em;margin-bottom:10px;text-align:center">📤 ارسال جدول</div>
-      <div class="btn-row">
-        <button class="btn btn-blue" onclick="sendTableToUser()">📤 ارسال به کاربر</button>
-        <button class="btn btn-orange" onclick="sendTableToAll()">📢 ارسال به همه</button>
-        <button class="btn btn-purple" onclick="askArchiveTable()">📚 بایگانی کن</button>
-      </div>
+    <div class="btn-row">
+      <button class="btn btn-blue" onclick="sendTableToUser()">📤 ارسال به کاربر</button>
+      <button class="btn btn-orange" onclick="sendTableToAll()">📢 ارسال به همه</button>
+      <button class="btn btn-purple" onclick="askArchiveTable()">📚 بایگانی</button>
     </div>
   </div>
 
   <div class="admin-panel" id="adminTabArchive" style="display:none">
-    <h3>📚 قفسه کتاب آرشیو</h3>
-    <p style="text-align:center; font-size:0.8em; color:var(--text-muted); margin-bottom:12px;">نسخه‌ها و جدول‌های بایگانی شده — با کلیک روی هر کتاب، آن نسخه/جدول فعال می‌شود.</p>
-    <input type="text" id="archiveSearchInput" class="archive-search-box" placeholder="🔍 جستجوی نام در آرشیو..." onkeyup="renderArchiveShelves()">
-    <div class="archive-shelf-title">💊 قفسه نسخه‌ها</div>
+    <h3>📚 آرشیو</h3>
+    <input type="text" id="archiveSearchInput" class="archive-search-box" placeholder="🔍 جستجو..." onkeyup="renderArchiveShelves()">
+    <div class="archive-shelf-title">💊 نسخه‌ها</div>
     <div class="archive-grid" id="archivePrescriptionsGrid"></div>
-    <div class="archive-shelf-title">📋 قفسه جدول‌ها</div>
+    <div class="archive-shelf-title">📋 جدول‌ها</div>
     <div class="archive-grid" id="archiveTablesGrid"></div>
   </div>
 
   <div class="admin-panel" id="adminTabMessage" style="display:none">
     <h3>📢 ارسال پیام</h3>
-    <div class="settings-row"><label>عنوان:</label><input type="text" id="messageTitle" placeholder="مثلاً: یادآوری مهم"></div>
-    <textarea id="messageContent" placeholder="متن پیام..." style="min-height:120px"></textarea>
+    <div class="settings-row"><label>عنوان:</label><input type="text" id="messageTitle" placeholder="عنوان"></div>
+    <textarea id="messageContent" placeholder="متن..." style="min-height:120px"></textarea>
     <div class="settings-row" style="margin-top:8px; position:relative;">
       <label>گیرنده:</label>
       <div class="search-container">
-        <input type="text" id="messageUserSearch" placeholder="خالی = همه کاربران" oninput="showUserDropdown('messageUserSearch', 'messageTarget')" onfocus="showUserDropdown('messageUserSearch', 'messageTarget')" style="width:100%;">
+        <input type="text" id="messageUserSearch" placeholder="خالی = همه" oninput="showUserDropdown('messageUserSearch', 'messageTarget')" onfocus="showUserDropdown('messageUserSearch', 'messageTarget')" style="width:100%;">
         <input type="hidden" id="messageTarget">
         <div class="custom-dropdown" id="messageUserSearchDropdown"></div>
       </div>
     </div>
-    <p style="font-size:.75em;color:var(--text-muted);margin-top:5px">💡 اگر کد خالی باشد، پیام برای همه کاربران ارسال می‌شود</p>
-    <div class="btn-row" style="margin-top:10px"><button class="btn btn-green" onclick="sendMessage()">📢 ارسال پیام</button><button class="btn btn-gray" onclick="clearMessageForm()">🗑️ پاک</button></div>
+    <div class="btn-row" style="margin-top:10px"><button class="btn btn-green" onclick="sendMessage()">📢 ارسال</button><button class="btn btn-gray" onclick="clearMessageForm()">🗑️ پاک</button></div>
   </div>
 
   <div class="admin-panel" id="adminTabBanner" style="display:none">
-    <h3>🖼️ مدیریت بنر اپلیکیشن</h3>
-    <div class="settings-row"><label>لینک عکس:</label><input type="text" id="bannerUrlInput" placeholder="https://example.com/banner.jpg" style="direction:ltr;text-align:left;font-size:.8em"></div>
-    <div class="btn-row"><button class="btn btn-green" onclick="saveBannerUrl()">💾 ذخیره بنر</button><button class="btn btn-red" onclick="disableBanner()">🚫 غیرفعال</button></div>
-    <div style="background:var(--input-bg);padding:10px;border-radius:8px;margin-top:12px"><div style="color:var(--accent);font-weight:700;font-size:.85em;margin-bottom:8px;text-align:center">👁️ پیش‌نمایش:</div><div id="bannerPreview" style="text-align:center"><p style="font-size:.8em;color:var(--text-muted)">هنوز تنظیم نشده</p></div></div>
+    <h3>🖼️ مدیریت بنر</h3>
+    <div class="settings-row"><label>لینک:</label><input type="text" id="bannerUrlInput" placeholder="https://..." style="direction:ltr;text-align:left;font-size:.8em"></div>
+    <div class="btn-row"><button class="btn btn-green" onclick="saveBannerUrl()">💾 ذخیره</button><button class="btn btn-red" onclick="disableBanner()">🚫 غیرفعال</button></div>
+    <div style="background:var(--input-bg);padding:10px;border-radius:8px;margin-top:12px"><div id="bannerPreview" style="text-align:center"><p style="font-size:.8em;color:var(--text-muted)">هنوز تنظیم نشده</p></div></div>
   </div>
 
   <div class="section-box"><h3>📋 آخرین ارسال‌ها</h3><div id="adminRecentList" style="font-size:.8em;line-height:1.8;color:var(--text-secondary)">هنوز ارسالی انجام نشده...</div></div>
@@ -889,7 +841,6 @@ var archivePendingAction = null;
 
 var alarmVolume = 70;
 var gradualVolume = true;
-var silentModeOverride = true;
 var vibrateEnabled = true;
 var vibrateOnlyMode = false;
 var gradualVolumeStep = 0;
@@ -898,9 +849,9 @@ var gradualVolumeInterval = null;
 var currentAlarmData = null;
 var activeNotification = null;
 
-/* === سنکرون با SW === */
+var audioBufferCache = {};
+var alarmKeepAliveTimer = null;
 var swRegistration = null;
-var alarmHeartbeatInterval = null;
 
 function userKey(base) {
   return base + '_' + (userId || 'guest');
@@ -920,32 +871,266 @@ function safeGetLS(key,def){try{var v=localStorage.getItem(key);return v==null?d
 function safeParseJSON(str,def){if(!str)return def;try{return JSON.parse(str);}catch(e){return def;}}
 
 /* ============================================================
-   نوتیفیکیشن
+   VIBRATION
+   ============================================================ */
+function vibrateAlarm(){
+  if(vibrateEnabled || vibrateOnlyMode) {
+    if(navigator.vibrate) {
+      try { 
+        var pattern = [800,200,800,200,800,200,800,200,800,200,800,200,800];
+        navigator.vibrate(pattern); 
+      } catch(e) { console.warn('Vibrate failed:', e); }
+    } else {
+      console.warn('Vibration API not supported');
+    }
+  }
+}
+
+/* ============================================================
+   WEB AUDIO - پخش آهنگ اختصاصی
+   ============================================================ */
+async function unlockAudio(){
+  if(audioUnlocked && audioContext && audioContext.state === 'running') return true;
+  
+  try {
+    if(!audioContext) {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if(audioContext.state === 'suspended') {
+      await audioContext.resume();
+    }
+    
+    var osc = audioContext.createOscillator();
+    var g = audioContext.createGain();
+    osc.connect(g);
+    g.connect(audioContext.destination);
+    g.gain.setValueAtTime(0.001, audioContext.currentTime);
+    osc.start(audioContext.currentTime);
+    osc.stop(audioContext.currentTime + 0.1);
+    
+    audioUnlocked = true;
+    return true;
+  } catch(e) {
+    console.warn('unlockAudio failed:', e);
+    return false;
+  }
+}
+
+async function playAlarmSound(){
+  stopAlarmSound(false);
+  gradualVolumeStep = 0;
+  
+  if(vibrateOnlyMode) {
+    console.log('Vibrate only mode - no sound');
+    return;
+  }
+  
+  if(!unlockAudio()) {
+    console.warn('Cannot unlock audio - falling back to vibrate');
+    vibrateAlarm();
+    return;
+  }
+  
+  // ✅ روش اصلی: Web Audio API با AudioBuffer
+  if(customAlarmSoundData) {
+    try {
+      if(!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if(audioContext.state === 'suspended') {
+        await audioContext.resume();
+      }
+      
+      var base64 = customAlarmSoundData.split(',')[1];
+      var binaryString = atob(base64);
+      var bytes = new Uint8Array(binaryString.length);
+      for(var i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      var arrayBuffer = bytes.buffer;
+      
+      var audioBuffer = await new Promise(function(resolve, reject) {
+        audioContext.decodeAudioData(arrayBuffer.slice(0), resolve, reject);
+      });
+      
+      audioBufferCache.current = audioBuffer;
+      
+      var playLoop = function() {
+        if(!audioContext || audioContext.state === 'closed') return;
+        if(!alarmActive) return;
+        
+        var source = audioContext.createBufferSource();
+        source.buffer = audioBuffer;
+        var gainNode = audioContext.createGain();
+        var initialVol = gradualVolume ? 0.05 : (alarmVolume / 100);
+        gainNode.gain.value = initialVol;
+        source.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        source.start(0);
+        source.onended = function() {
+          if(audioContext && audioContext.state === 'running' && alarmActive) {
+            try { playLoop(); } catch(e) { console.warn('Loop error:', e); }
+          }
+        };
+        audioBufferCache.currentSource = source;
+        audioBufferCache.currentGain = gainNode;
+      };
+      
+      playLoop();
+      
+      if(gradualVolume) {
+        startGradualVolumeIncrease(function(vol) {
+          if(audioBufferCache.currentGain) {
+            try {
+              audioBufferCache.currentGain.gain.linearRampToValueAtTime(
+                vol / 100, 
+                audioContext.currentTime + 0.3
+              );
+            } catch(e) {}
+          }
+        });
+      }
+      
+      console.log('✓ Custom audio playing via Web Audio');
+      return;
+      
+    } catch(err) {
+      console.error('Web Audio custom sound failed:', err);
+    }
+  }
+  
+  playBeepFallback();
+}
+
+function playBeepFallback() {
+  if(!audioUnlocked) unlockAudio();
+  
+  try {
+    if(!audioContext || audioContext.state === 'suspended') {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      if(audioContext.state === 'suspended') {
+        audioContext.resume().catch(function(){});
+      }
+    }
+    
+    var initialVolume = gradualVolume ? 0.05 : (alarmVolume / 100);
+    var currentVolume = initialVolume;
+    
+    function beep(volume) {
+      if(!audioContext || audioContext.state !== 'running') {
+        vibrateAlarm();
+        return;
+      }
+      if(!alarmActive) return;
+      
+      try {
+        var o = audioContext.createOscillator();
+        var g = audioContext.createGain();
+        o.connect(g);
+        g.connect(audioContext.destination);
+        o.type = 'sine';
+        o.frequency.setValueAtTime(880, audioContext.currentTime);
+        g.gain.setValueAtTime(0, audioContext.currentTime);
+        g.gain.linearRampToValueAtTime(volume, audioContext.currentTime + .05);
+        g.gain.linearRampToValueAtTime(0, audioContext.currentTime + .5);
+        o.start(audioContext.currentTime);
+        o.stop(audioContext.currentTime + .5);
+      } catch(e) {
+        console.warn('Beep failed:', e);
+      }
+    }
+    
+    beep(currentVolume);
+    
+    if(alarmSoundInterval) clearInterval(alarmSoundInterval);
+    alarmSoundInterval = setInterval(function() {
+      if(!alarmActive) {
+        clearInterval(alarmSoundInterval);
+        alarmSoundInterval = null;
+        return;
+      }
+      beep(currentVolume);
+    }, 900);
+    
+    if(gradualVolume) {
+      startGradualVolumeIncrease(function(vol) {
+        currentVolume = Math.min(1, vol / 100);
+      });
+    }
+    
+  } catch(e) { 
+    console.error('Beep fallback error:', e); 
+    vibrateAlarm();
+  }
+}
+
+function startGradualVolumeIncrease(callback) {
+  if(gradualVolumeInterval) clearInterval(gradualVolumeInterval);
+  gradualVolumeStep = 0;
+  gradualVolumeInterval = setInterval(function(){
+    gradualVolumeStep++;
+    var targetVolume = Math.min(alarmVolume, gradualVolumeStep * 20 + 10);
+    if(callback) callback(targetVolume);
+    if(targetVolume >= alarmVolume) {
+      clearInterval(gradualVolumeInterval);
+      gradualVolumeInterval = null;
+    }
+  }, 3000);
+}
+
+function stopAlarmSound(fullCleanup){
+  if(fullCleanup === undefined) fullCleanup = true;
+  
+  if(audioBufferCache.currentSource) {
+    try { audioBufferCache.currentSource.stop(); } catch(e) {}
+    audioBufferCache.currentSource = null;
+  }
+  if(audioBufferCache.currentGain) {
+    audioBufferCache.currentGain = null;
+  }
+  
+  if(alarmSoundInterval) {
+    clearInterval(alarmSoundInterval);
+    alarmSoundInterval = null;
+  }
+  if(gradualVolumeInterval) {
+    clearInterval(gradualVolumeInterval);
+    gradualVolumeInterval = null;
+  }
+  gradualVolumeStep = 0;
+  
+  if(customAlarmAudio) { 
+    try { customAlarmAudio.pause(); customAlarmAudio.currentTime = 0; } catch(e) {}
+  }
+}
+
+/* ============================================================
+   NOTIFICATIONS
    ============================================================ */
 async function requestNotificationPermission() {
   if(!('Notification' in window)) {
-    showToast('❌ مرورگر شما از نوتیفیکیشن پشتیبانی نمی‌کند', 'error', 5000);
+    showToast('❌ مرورگر پشتیبانی نمی‌کند', 'error', 5000);
     return;
   }
   if(Notification.permission === 'granted') {
-    showToast('✅ نوتیفیکیشن از قبل فعال است');
+    showToast('✅ نوتیفیکیشن فعال است');
     updateNotificationStatus();
     sendTestNotification();
     return;
   }
   if(Notification.permission === 'denied') {
-    showToast('⚠️ نوتیفیکیشن در تنظیمات مرورگر رد شده.', 'warning', 8000);
+    showToast('⚠️ نوتیفیکیشن رد شده', 'warning', 8000);
     updateNotificationStatus();
     return;
   }
   try {
     var perm = await Notification.requestPermission();
     if(perm === 'granted') {
-      showToast('✅ نوتیفیکیشن فعال شد!');
+      showToast('✅ نوتیفیکیشن فعال شد');
       updateNotificationStatus();
       sendTestNotification();
     } else {
-      showToast('❌ اجازه نوتیفیکیشن داده نشد', 'error', 5000);
+      showToast('❌ اجازه داده نشد', 'error');
       updateNotificationStatus();
     }
   } catch(e) { showToast('❌ خطا: ' + e.message, 'error'); }
@@ -954,21 +1139,20 @@ async function requestNotificationPermission() {
 async function sendTestNotification() {
   try {
     if(swRegistration && swRegistration.showNotification) {
-      await swRegistration.showNotification('🔔 نوتیفیکیشن فعال شد!', {
-        body: 'از این پس آلارم‌ها در اعلانات بالای گوشی نمایش داده می‌شوند.',
+      await swRegistration.showNotification('🔔 نوتیفیکیشن فعال شد', {
+        body: 'آلارم‌ها در اعلانات بالای گوشی نمایش داده می‌شوند',
         icon: '/Safir-salamat-/icon-192.png',
         badge: '/Safir-salamat-/icon-192.png',
-        tag: 'safir-test',
-        requireInteraction: false
+        tag: 'safir-test'
       });
     } else if('Notification' in window && Notification.permission === 'granted') {
-      new Notification('🔔 نوتیفیکیشن فعال شد!', {
-        body: 'از این پس آلارم‌ها در اعلانات بالای گوشی نمایش داده می‌شوند.',
+      new Notification('🔔 نوتیفیکیشن فعال شد', {
+        body: 'آلارم‌ها در اعلانات بالای گوشی',
         icon: '/Safir-salamat-/icon-192.png',
         tag: 'safir-test'
       });
     }
-  } catch(e) { console.log('Test notification error:', e); }
+  } catch(e) { console.log('Test notif error:', e); }
 }
 
 function updateNotificationStatus() {
@@ -976,37 +1160,35 @@ function updateNotificationStatus() {
   if(!box) return;
   if(!('Notification' in window)) {
     box.className = 'notification-status-box';
-    box.innerHTML = '<p style="font-size:0.85em; margin-bottom:8px;">❌ مرورگر شما از نوتیفیکیشن پشتیبانی نمی‌کند</p>';
+    box.innerHTML = '<p style="font-size:0.85em; margin-bottom:8px;">❌ مرورگر پشتیبانی نمی‌کند</p>';
     return;
   }
   if(Notification.permission === 'granted') {
     box.className = 'notification-status-box granted';
-    box.innerHTML = '<p style="font-size:0.85em; color:var(--btn-success); margin-bottom:8px;">✅ نوتیفیکیشن اعلانات فعال است</p><button class="btn btn-orange" onclick="sendTestNotification();showToast(\'🔔 تست ارسال شد\')" style="font-size:0.8em; padding:8px;">🔔 تست نوتیفیکیشن</button>';
+    box.innerHTML = '<p style="font-size:0.85em; color:var(--btn-success); margin-bottom:8px;">✅ نوتیفیکیشن فعال</p><button class="btn btn-orange" onclick="sendTestNotification();showToast(\'🔔 تست ارسال شد\')" style="font-size:0.8em; padding:8px;">🔔 تست</button>';
   } else if(Notification.permission === 'denied') {
     box.className = 'notification-status-box';
-    box.innerHTML = '<p style="font-size:0.85em; margin-bottom:8px;">⚠️ نوتیفیکیشن رد شده است. از تنظیمات مرورگر اجازه دهید.</p>';
+    box.innerHTML = '<p style="font-size:0.85em; margin-bottom:8px;">⚠️ نوتیفیکیشن رد شده</p>';
   } else {
     box.className = 'notification-status-box';
-    box.innerHTML = '<p style="font-size:0.85em; margin-bottom:8px;">⚠️ نوتیفیکیشن اعلانات غیرفعال است</p><button class="btn btn-green" onclick="requestNotificationPermission()" style="font-size:0.8em; padding:8px;">🔔 فعال‌سازی نوتیفیکیشن در اعلانات بالای گوشی</button>';
+    box.innerHTML = '<p style="font-size:0.85em; margin-bottom:8px;">⚠️ نوتیفیکیشن غیرفعال</p><button class="btn btn-green" onclick="requestNotificationPermission()" style="font-size:0.8em; padding:8px;">🔔 فعال‌سازی</button>';
   }
 }
 
 /* ============================================================
-   ذخیره/بازیابی تنظیمات مخصوص هر کاربر
+   ذخیره تنظیمات کاربر
    ============================================================ */
 function saveUserAlarmSettings() {
   if(!userId) return;
   var settings = {
     alarmVolume: alarmVolume,
     gradualVolume: gradualVolume,
-    silentModeOverride: silentModeOverride,
     vibrateEnabled: vibrateEnabled,
     vibrateOnlyMode: vibrateOnlyMode,
     autoReactivate: autoReactivateCheck,
     backgroundAlarm: backgroundAlarmEnabled,
     alarmEnabled: alarmEnabled,
-    currentTimes: currentTimes,
-    currentTimesUserOverride: true
+    currentTimes: currentTimes
   };
   safeSetLS(userKey('alarmSettings'), JSON.stringify(settings));
 }
@@ -1017,7 +1199,6 @@ function loadUserAlarmSettings() {
   if(saved) {
     alarmVolume = (typeof saved.alarmVolume === 'number' && saved.alarmVolume >= 0 && saved.alarmVolume <= 100) ? saved.alarmVolume : 70;
     gradualVolume = saved.gradualVolume !== false;
-    silentModeOverride = saved.silentModeOverride !== false;
     vibrateEnabled = saved.vibrateEnabled !== false;
     vibrateOnlyMode = saved.vibrateOnlyMode === true;
     autoReactivateCheck = saved.autoReactivate === true;
@@ -1025,26 +1206,25 @@ function loadUserAlarmSettings() {
     if(saved.alarmEnabled && typeof saved.alarmEnabled === 'object') {
       alarmEnabled = saved.alarmEnabled;
     }
-    // === مهم: بازیابی تایم‌های سفارشی کاربر ===
     if(saved.currentTimes && typeof saved.currentTimes === 'object') {
       var savedTimes = saved.currentTimes;
-      // فقط برای وعده‌هایی که هنوز کاربر تغییر نداده، از تایم ذخیره شده استفاده کن
       for(var k in savedTimes) {
-        if(currentTimes.hasOwnProperty(k) || true) {
-          currentTimes[k] = savedTimes[k];
-        }
+        currentTimes[k] = savedTimes[k];
       }
-      // ذخیره در currentTimes اصلی
       safeSetLS('health40Times', JSON.stringify(currentTimes));
     }
-  } else {
-    alarmVolume = 70;
-    gradualVolume = true;
-    silentModeOverride = true;
-    vibrateEnabled = true;
-    vibrateOnlyMode = false;
-    autoReactivateCheck = false;
-    backgroundAlarmEnabled = false;
+  }
+}
+
+function applyUserCustomTimes() {
+  if(!userId) return;
+  var saved = safeParseJSON(safeGetLS(userKey('alarmSettings'), 'null'), null);
+  if(saved && saved.currentTimes) {
+    for(var k in saved.currentTimes) {
+      currentTimes[k] = saved.currentTimes[k];
+    }
+    safeSetLS('health40Times', JSON.stringify(currentTimes));
+    renderAlarmSettings();
   }
 }
 
@@ -1057,11 +1237,9 @@ var activeUserCode = safeGetLS('activeUserCode', null);
 function initAuth() {
   var wasImpersonating = safeGetLS('isImpersonatingSession', 'false');
   
-  if(!activeUserCode) {
-    if(profilesList.length > 0) {
-      activeUserCode = profilesList[profilesList.length - 1].code;
-      safeSetLS('activeUserCode', activeUserCode);
-    }
+  if(!activeUserCode && profilesList.length > 0) {
+    activeUserCode = profilesList[profilesList.length - 1].code;
+    safeSetLS('activeUserCode', activeUserCode);
   }
   
   if(activeUserCode) {
@@ -1088,29 +1266,27 @@ function initAuth() {
     updateProfileUI();
     
     initData();
-    
-    try { loadUserAlarmSettings(); } catch(e) { console.warn('loadUserAlarmSettings:', e); }
+    try { loadUserAlarmSettings(); } catch(e) {}
     
     renderTable(); 
     renderAlarmSettings(); 
     updateTodayShowcase(); 
     checkRegimeReceive();
     
-    try { loadCustomAlarmSound(); } catch(e) { console.warn('loadCustomAlarmSound:', e); }
-    try { loadAlarmSoundSettings(); } catch(e) { console.warn('loadAlarmSoundSettings:', e); }
-    try { updateNotificationStatus(); } catch(e) { console.warn('updateNotificationStatus:', e); }
+    try { loadCustomAlarmSound(); } catch(e) {}
+    try { loadAlarmSoundSettings(); } catch(e) {}
+    try { updateNotificationStatus(); } catch(e) {}
     
     if(autoReactivateCheck) { try { startAutoReactivateInterval(); } catch(e) {} }
     if(backgroundAlarmEnabled) { try { setTimeout(setupBackgroundAlarm, 2000); } catch(e) {} }
     
     receiveAll(true).then(function(){
        try {
-         // بعد از دریافت، تایم‌های کاربر را دوباره اعمال کن
          applyUserCustomTimes();
          renderTable(); 
          updateTodayShowcase(); 
          checkRegimeReceive();
-       } catch(e) { console.warn('Post-receive:', e); }
+       } catch(e) {}
     }).catch(function(e){ });
     
     startAlarmHeartbeat();
@@ -1118,19 +1294,6 @@ function initAuth() {
     document.getElementById('loginPage').classList.add('active');
     document.getElementById('mainAppContainer').style.display = 'none';
     renderSavedProfiles();
-  }
-}
-
-/* === اعمال تایم‌های سفارشی کاربر بعد از هر receiveAll === */
-function applyUserCustomTimes() {
-  if(!userId) return;
-  var saved = safeParseJSON(safeGetLS(userKey('alarmSettings'), 'null'), null);
-  if(saved && saved.currentTimes && typeof saved.currentTimes === 'object') {
-    for(var k in saved.currentTimes) {
-      currentTimes[k] = saved.currentTimes[k];
-    }
-    safeSetLS('health40Times', JSON.stringify(currentTimes));
-    renderAlarmSettings();
   }
 }
 
@@ -1187,7 +1350,7 @@ async function doLogin() {
     } catch(e) { console.error('DB Login Error:', e); }
   }
   
-  if(!profile) { showToast('نام کاربری یا رمز عبور اشتباه است.', 'error'); return; }
+  if(!profile) { showToast('نام کاربری یا رمز اشتباه', 'error'); return; }
   
   userId = profile.code; 
   userProfile = profile.data;
@@ -1202,18 +1365,18 @@ async function doLogin() {
   updateProfileUI();
   
   initData();
-  try { loadUserAlarmSettings(); } catch(e) { console.warn('loadUserAlarmSettings:', e); }
+  try { loadUserAlarmSettings(); } catch(e) {}
   
   try {
     renderTable(); 
     renderAlarmSettings(); 
     updateTodayShowcase(); 
     checkRegimeReceive();
-  } catch(e) { console.error('Data init:', e); }
+  } catch(e) {}
   
-  try { loadCustomAlarmSound(); } catch(e) { console.warn('loadCustomAlarmSound:', e); }
-  try { loadAlarmSoundSettings(); } catch(e) { console.warn('loadAlarmSoundSettings:', e); }
-  try { updateNotificationStatus(); } catch(e) { console.warn('updateNotificationStatus:', e); }
+  try { loadCustomAlarmSound(); } catch(e) {}
+  try { loadAlarmSoundSettings(); } catch(e) {}
+  try { updateNotificationStatus(); } catch(e) {}
   
   if(autoReactivateCheck) { try { startAutoReactivateInterval(); } catch(e) {} }
   if(backgroundAlarmEnabled) { try { setTimeout(setupBackgroundAlarm, 2000); } catch(e) {} }
@@ -1224,7 +1387,7 @@ async function doLogin() {
        renderTable(); 
        updateTodayShowcase(); 
        checkRegimeReceive();
-     } catch(e) { console.warn('Post-receive:', e); }
+     } catch(e) {}
   }).catch(function(e){});
   
   startAlarmHeartbeat();
@@ -1232,7 +1395,7 @@ async function doLogin() {
 }
 
 function doLogout() {
-  if(!confirm('از حساب کاربری خارج می‌شوید؟')) return;
+  if(!confirm('از حساب خارج می‌شوید؟')) return;
   stopAlarm();
   stopAlarmHeartbeat();
   localStorage.removeItem('activeUserCode');
@@ -1253,7 +1416,7 @@ function doLogout() {
 }
 
 function showRegisterForm() {
-  if(profilesList.length >= 3) { showToast('⚠️ حداکثر ۳ پروفایل.', 'warning', 5000); return; }
+  if(profilesList.length >= 3) { showToast('⚠️ حداکثر ۳ پروفایل', 'warning', 5000); return; }
   document.getElementById('registerModal').classList.add('active');
 }
 
@@ -1264,7 +1427,6 @@ function previewRegAvatar(event) {
     reader.onload = async function(e) {
       var compressed = await compressImage(e.target.result, 300, 300, 0.6); 
       document.getElementById('regAvatarPreview').src = compressed;
-      document.getElementById('regAvatarPreview').setAttribute('data-uploaded', 'true');
     };
     reader.readAsDataURL(file);
   }
@@ -1294,33 +1456,33 @@ async function doRegister() {
   var password = document.getElementById('regPassword').value.trim();
   var avatar = document.getElementById('regAvatarPreview').src;
   var btn = document.getElementById('submitProfileBtn');
-  if(!fullName || !age || !problem || !password) { showToast('لطفاً همه فیلدها را پر کنید.', 'error'); return; }
-  if(avatar.indexOf('data:image/svg+xml') > -1) { showToast('⚠️ لطفاً عکس آپلود کنید.', 'error', 4000); return; }
-  if(password.length !== 4) { showToast('رمز باید ۴ رقم باشد.', 'error'); return; }
-  if(profilesList.some(function(p) { return p.username === fullName; })) { showToast('نام کاربری تکراری.', 'error'); return; }
-  showToast('⏳ در حال ثبت نام...', 'warning');
+  if(!fullName || !age || !problem || !password) { showToast('همه فیلدها را پر کنید', 'error'); return; }
+  if(avatar.indexOf('data:image/svg+xml') > -1) { showToast('⚠️ عکس آپلود کنید', 'error', 4000); return; }
+  if(password.length !== 4) { showToast('رمز ۴ رقم باشد', 'error'); return; }
+  if(profilesList.some(function(p) { return p.username === fullName; })) { showToast('نام کاربری تکراری', 'error'); return; }
+  showToast('⏳ در حال ثبت...', 'warning');
   if(btn) { btn.disabled = true; btn.textContent = 'در حال ارسال...'; }
   var profileData = { name: fullName, age: age, problem: problem, avatar: avatar };
   var newUserCode = generateFallbackUserId(); 
   try {
     let timeoutId = setTimeout(() => {
-      if(btn) { btn.disabled = false; btn.textContent = '✅ تکمیل ثبت‌نام'; }
-      showToast('❌ اتصال طولانی شد.', 'error', 7000);
+      if(btn) { btn.disabled = false; btn.textContent = '✅ تکمیل'; }
+      showToast('❌ اتصال طولانی', 'error', 7000);
     }, 10000);
     var remoteData = { profile: profileData, auth: { username: fullName, password: password } };
     var ok = await saveUserRecord(newUserCode, remoteData);
     clearTimeout(timeoutId);
-    if(!ok) { showToast('❌ خطا در ثبت نام', 'error'); return; }
+    if(!ok) { showToast('❌ خطا در ثبت', 'error'); return; }
     profilesList.push({ username: fullName, password: password, code: newUserCode, data: profileData });
     safeSetLS('profilesList', JSON.stringify(profilesList));
-    showToast('✅ ثبت نام انجام شد.');
+    showToast('✅ ثبت شد');
     document.getElementById('registerModal').classList.remove('active');
     document.getElementById('loginUsername').value = fullName;
     document.getElementById('loginPassword').value = password;
   } catch(e) {
     showToast('❌ خطا: ' + e.message, 'error');
   } finally {
-    if(btn) { btn.disabled = false; btn.textContent = '✅ تکمیل ثبت‌نام'; }
+    if(btn) { btn.disabled = false; btn.textContent = '✅ تکمیل'; }
   }
 }
 
@@ -1349,8 +1511,8 @@ async function saveProfileEdit() {
   var age = document.getElementById('editAge').value.trim();
   var problem = document.getElementById('editProblem').value.trim();
   var avatar = document.getElementById('editAvatarPreview').src;
-  if(!name) { showToast('نام خالی است.', 'error'); return; }
-  showToast('⏳ در حال ذخیره...', 'warning');
+  if(!name) { showToast('نام خالی', 'error'); return; }
+  showToast('⏳ ذخیره...', 'warning');
   var data = await getUserRecord(userId) || {};
   if(!data.profile) data.profile = {};
   data.profile.name = name;
@@ -1372,16 +1534,16 @@ async function saveProfileEdit() {
     }
     updateProfileUI();
     document.getElementById('editProfileModal').classList.remove('active');
-    showToast('✅ پروفایل ویرایش شد.');
-  } else { showToast('❌ خطا.', 'error'); }
+    showToast('✅ ویرایش شد');
+  } else { showToast('❌ خطا', 'error'); }
 }
 
 async function deleteMyAccount() {
   if(!confirm('⚠️ کل حساب حذف شود؟')) return;
-  showToast('⏳ در حال حذف...', 'warning');
+  showToast('⏳ حذف...', 'warning');
   try {
     const { error } = await supabaseClient.from('users_list').delete().eq('code', userId.toUpperCase());
-    if (error) { showToast('❌ خطا: ' + error.message, 'error', 6000); return; }
+    if (error) { showToast('❌ خطا', 'error', 6000); return; }
     profilesList = profilesList.filter(function(p) { return p.code !== userId; });
     safeSetLS('profilesList', JSON.stringify(profilesList));
     localStorage.removeItem('activeUserCode');
@@ -1390,14 +1552,13 @@ async function deleteMyAccount() {
     localStorage.removeItem('health40Data');
     localStorage.removeItem('lastPrescription');
     localStorage.removeItem('tableReceived');
-    localStorage.removeItem('offlineBackup_' + userId);
     activeUserCode = null; userId = ''; userProfile = null;
-    showToast('✅ حذف شد.');
+    showToast('✅ حذف شد');
     document.getElementById('mainAppContainer').style.display = 'none';
     document.getElementById('loginPage').classList.add('active');
     document.getElementById('loginPassword').value = '';
     renderSavedProfiles();
-  } catch(e) { showToast('❌ خطای شبکه: ' + e.message, 'error', 6000); }
+  } catch(e) { showToast('❌ خطا: ' + e.message, 'error', 6000); }
 }
 
 function generateFallbackUserId(){
@@ -1421,6 +1582,9 @@ function updateProfileUI() {
   }
 }
 
+/* ============================================================
+   DATA HELPERS
+   ============================================================ */
 async function getUserRecord(code) {
   if (!code) return null;
   try {
@@ -1466,49 +1630,9 @@ async function getAllUsersFromDB() {
   } catch(e) { return []; }
 }
 
-/* Admin helpers */
-async function previewNewUserAvatar(event) {
-  var file = event.target.files[0];
-  if (file) {
-    var reader = new FileReader();
-    reader.onload = async function(e) {
-      var compressed = await compressImage(e.target.result, 300, 300, 0.6);
-      document.getElementById('newUserAvatarPreview').src = compressed;
-    };
-    reader.readAsDataURL(file);
-  }
-}
-
-async function createUserByAdmin() {
-  var code = document.getElementById('newUserCode').value.trim().toUpperCase();
-  var name = document.getElementById('newUserName').value.trim();
-  var password = document.getElementById('newUserPassword').value.trim();
-  var avatar = document.getElementById('newUserAvatarPreview').src;
-  if(!code || code.length < 3) { showToast('کد معتبر نیست', 'error'); return; }
-  if(!name) { showToast('نام را وارد کنید', 'error'); return; }
-  if(password.length !== 4) { showToast('رمز ۴ رقم باشد.', 'error'); return; }
-  showToast('⏳ در حال بررسی...', 'warning');
-  var existing = await getUserRecord(code);
-  if(existing && existing.profile) {
-    if(!confirm('کاربر وجود دارد. به‌روزرسانی شود؟')) return;
-  }
-  var data = existing || {};
-  if(!data.profile) data.profile = {};
-  data.profile.name = name;
-  if(avatar && avatar.indexOf('svg') === -1) data.profile.avatar = avatar;
-  data.profile.registeredAt = data.profile.registeredAt || Date.now();
-  data.auth = { username: name, password: password };
-  var ok = await saveUserRecord(code, data);
-  if(ok) {
-    showToast('✅ کاربر ایجاد/ویرایش شد');
-    document.getElementById('newUserCode').value = '';
-    document.getElementById('newUserName').value = '';
-    document.getElementById('newUserPassword').value = '';
-    document.getElementById('newUserAvatarPreview').src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23222'/><text x='50' y='55' font-size='40' text-anchor='middle' fill='%23aaa'>📷</text></svg>";
-    loadUsersListForAdmin();
-  } else { showToast('❌ خطا', 'error'); }
-}
-
+/* ============================================================
+   IMPERSONATION
+   ============================================================ */
 async function impersonateUser(targetCode) {
   if(!confirm('ورود به پنل ' + targetCode + '؟')) return;
   
@@ -1530,7 +1654,7 @@ async function impersonateUser(targetCode) {
   
   var userData = await getUserRecord(targetCode);
   if(!userData) { 
-    showToast('اطلاعات کاربر یافت نشد', 'error'); 
+    showToast('اطلاعات یافت نشد', 'error'); 
     isImpersonating = false;
     userId = originalAdminCode;
     userProfile = originalAdminProfile;
@@ -1579,7 +1703,7 @@ async function impersonateUser(targetCode) {
 }
 
 function exitImpersonation() {
-  if(!confirm('از پنل این کاربر خارج شده و به پنل مدیریت بازمی‌گردید؟')) return;
+  if(!confirm('از پنل کاربر خارج و به پنل مدیریت برگردید؟')) return;
   
   var savedAdminCode = safeGetLS('adminOriginalCode', originalAdminCode);
   var savedAdminProfile = safeParseJSON(safeGetLS('adminOriginalProfile', null), originalAdminProfile);
@@ -1658,6 +1782,38 @@ function exitImpersonation() {
   showToast('🔙 بازگشت به پنل مدیریت');
 }
 
+/* ============================================================
+   ADMIN
+   ============================================================ */
+async function previewNewUserAvatar(event) {}
+
+async function createUserByAdmin() {
+  var code = document.getElementById('newUserCode').value.trim().toUpperCase();
+  var name = document.getElementById('newUserName').value.trim();
+  var password = document.getElementById('newUserPassword').value.trim();
+  if(!code || code.length < 3) { showToast('کد معتبر نیست', 'error'); return; }
+  if(!name) { showToast('نام را وارد کنید', 'error'); return; }
+  if(password.length !== 4) { showToast('رمز ۴ رقم', 'error'); return; }
+  showToast('⏳ بررسی...', 'warning');
+  var existing = await getUserRecord(code);
+  if(existing && existing.profile) {
+    if(!confirm('کاربر وجود دارد. به‌روزرسانی شود؟')) return;
+  }
+  var data = existing || {};
+  if(!data.profile) data.profile = {};
+  data.profile.name = name;
+  data.profile.registeredAt = data.profile.registeredAt || Date.now();
+  data.auth = { username: name, password: password };
+  var ok = await saveUserRecord(code, data);
+  if(ok) {
+    showToast('✅ کاربر ذخیره شد');
+    document.getElementById('newUserCode').value = '';
+    document.getElementById('newUserName').value = '';
+    document.getElementById('newUserPassword').value = '';
+    loadUsersListForAdmin();
+  } else showToast('❌ خطا', 'error');
+}
+
 function showUserDropdown(searchInputId, hiddenInputId) {
   var searchVal = document.getElementById(searchInputId).value.toLowerCase().trim();
   var dropdown = document.getElementById(searchInputId + 'Dropdown');
@@ -1679,13 +1835,10 @@ function showUserDropdown(searchInputId, hiddenInputId) {
     filtered.forEach(function(u) {
       var p = u.data ? u.data.profile : null;
       var displayName = (p && p.name) ? p.name : 'بدون نام';
-      var avatarSrc = (p && p.avatar) ? p.avatar : 'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'50\' fill=\'%23333\'/><text x=\'50\' y=\'65\' font-size=\'50\' text-anchor=\'middle\' fill=\'%23fff\'>👤</text></svg>';
       html += '<div class="dropdown-item" onclick="selectUserFromDropdown(\''+searchInputId+'\', \''+hiddenInputId+'\', \''+u.code+'\', \''+escapeHtml(displayName).replace(/'/g,"\\'")+'\')">';
-      html += '<div style="display:flex;align-items:center;gap:10px;">';
-      html += '<img src="'+avatarSrc+'" style="width:35px;height:35px;border-radius:50%;object-fit:cover;border:1px solid var(--accent);">';
       html += '<div style="display:flex;flex-direction:column;text-align:right;">';
       html += '<div class="dropdown-item-name">'+escapeHtml(displayName)+'</div>';
-      html += '<div class="dropdown-item-code">کد: '+escapeHtml(u.code)+'</div></div></div>';
+      html += '<div class="dropdown-item-code">کد: '+escapeHtml(u.code)+'</div></div>';
       html += '<div style="color:var(--accent);">➕</div></div>';
     });
     dropdown.innerHTML = html;
@@ -1718,17 +1871,15 @@ function renderAdminUsersList(users) {
     var age = (p && p.age) ? p.age : '---';
     var problem = (p && p.problem) ? p.problem : '---';
     var password = (auth && auth.password) ? auth.password : '---';
-    var avatarSrc = (p && p.avatar) ? p.avatar : 'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'50\' fill=\'%23333\'/><text x=\'50\' y=\'65\' font-size=\'50\' text-anchor=\'middle\' fill=\'%23fff\'>👤</text></svg>';
     html += '<div class="admin-user-row">';
-    html += '<img src="'+avatarSrc+'" class="admin-user-avatar">';
     html += '<div class="admin-user-info">';
     html += '<div class="admin-user-name">' + escapeHtml(name) + '</div>';
     html += '<div class="admin-user-code">کد: ' + escapeHtml(u.code) + '</div>';
-    html += '<div class="admin-user-details">🔑 رمز: <strong>' + escapeHtml(password) + '</strong><br>🎂 سن: ' + escapeHtml(age) + '<br>🩺 ' + escapeHtml(problem) + '</div></div>';
+    html += '<div class="admin-user-details">🔑 ' + escapeHtml(password) + '<br>🎂 ' + escapeHtml(age) + '<br>🩺 ' + escapeHtml(problem) + '</div></div>';
     html += '<div class="admin-user-actions">';
-    html += '<button class="btn-small" style="background:var(--btn-primary);color:#fff;" onclick="editUserName(\''+u.code+'\', \''+escapeHtml(name).replace(/'/g,"\\'")+'\')">✏️ نام</button>';
-    html += '<button class="btn-small" style="background:var(--purple, #6b8e23);color:#fff;" onclick="impersonateUser(\''+u.code+'\')">👁️ پنل</button>';
-    html += '<button class="btn-small" style="background:var(--btn-danger);color:#fff;" onclick="deleteUser(\''+u.code+'\')">🗑️ حذف</button>';
+    html += '<button class="btn-small" style="background:var(--btn-primary);color:#fff;" onclick="editUserName(\''+u.code+'\', \''+escapeHtml(name).replace(/'/g,"\\'")+'\')">✏️</button>';
+    html += '<button class="btn-small" style="background:var(--purple, #6b8e23);color:#fff;" onclick="impersonateUser(\''+u.code+'\')">👁️</button>';
+    html += '<button class="btn-small" style="background:var(--btn-danger);color:#fff;" onclick="deleteUser(\''+u.code+'\')">🗑️</button>';
     html += '</div></div>';
   });
   container.innerHTML = html;
@@ -1749,17 +1900,19 @@ async function editUserName(code, currentName) {
       if(!data.profile) data.profile = {};
       data.profile.name = newName.trim();
       var ok = await saveUserRecord(code, data);
-      if(ok) { showToast('✅ ویرایش شد'); loadUsersListForAdmin(); } else showToast('❌ خطا', 'error');
+      if(ok) { showToast('✅ شد'); loadUsersListForAdmin(); }
     }
   }
 }
 async function deleteUser(code) {
   if(!confirm('کاربر ' + code + ' حذف شود؟')) return;
-  showToast('⏳ در حال حذف...', 'warning');
   var ok = await deleteUserRecord(code);
-  if(ok) { showToast('✅ حذف شد'); loadUsersListForAdmin(); } else showToast('❌ خطا', 'error', 5000);
+  if(ok) { showToast('✅ حذف شد'); loadUsersListForAdmin(); }
 }
 
+/* ============================================================
+   PAGES
+   ============================================================ */
 function showPage(pageId){
   var pages=document.querySelectorAll('.page');
   for(var i=0;i<pages.length;i++)pages[i].classList.remove('active');
@@ -1791,7 +1944,7 @@ function updateTodayShowcase() {
   var infoMot = document.getElementById('infoMotivation');
   if (infoMot) infoMot.textContent = getMotivationalMessage(todayIdx + 1);
   if (fortyDayData.length === 0) {
-    grid.innerHTML = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;font-size:0.9em;">برنامه‌ای ثبت نشده است</p>';
+    grid.innerHTML = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;">برنامه‌ای نیست</p>';
     return;
   }
   var dayData = fortyDayData[todayIdx] || {};
@@ -1810,7 +1963,7 @@ function updateTodayShowcase() {
     if (time) html += '<div class="showcase-card-time">⏰ ' + time + '</div>';
     html += '</div>';
   });
-  if (!html) html = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;font-size:0.9em;">برنامه‌ای برای امروز ثبت نشده</p>';
+  if (!html) html = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;">برنامه‌ای امروز نیست</p>';
   grid.innerHTML = html;
 }
 
@@ -1821,49 +1974,49 @@ function toPersianNumber(num) {
 
 function getMotivationalMessage(dayNum) {
   var messages = [
-    "باریکلا، سفر سلامتت رو شروع کردی! 🌱",
-    "واوووو روز دومته و حس می‌کنم سلول‌هات دارن متحول می‌شن! ✨💫",
-    "آفرین سه روز پیش رفتی 🏆",
-    "بارکلا، تو می‌تونی سالم بشی، چهار روز شد 😍",
-    "دمت گرم، با قوت ادامه بده، روز پنجمته 🔥",
-    "ایول رفیق، روز ششم شد ⭐",
-    "تو شگفت‌انگیزی، روز هفتمه 🌟",
-    "تبریک می‌گم، ۸ روز گذشت از شروع طوفانیت 🌪️",
-    "ماشالله به پشتکارت، نهمین روز برنامته 💚",
-    "به به، ده روز گذشت از همراهیمون 🎉",
-    "بابا دستمریزاد، روز یازدهم شد و تو به هدفت نزدیکتر شدی 🎯",
-    "خداقوت پهلوان، دوازده روز بدنت چه بهتر شده 💪",
-    "سلطان چه کردی! روز سیزدهمته 👑",
-    "روز چهاردهمته، داری زیباتر از ماه شب چهارده میشی 🌕",
-    "مژده مژده، با چیزی که میخواستی فاصله‌ای نداری، شد روز پونردهمت 🎊",
-    "خدا پشت و پناهت، سلامت‌جوی تلاشگر، روز شونزدهمته 🛡️",
-    "باورت میشه امروز روز هفدهمته؟ ماشالله رفیق 🤩",
-    "شیر مادر و نان پدر حلالت قهرمان، روز هجدهمتمه 🦁",
-    "دست بزنید براش! روز نوزدهمت مبارک 👏",
-    "وااای به نیمه‌ی راه رسیدی دوست من، امروز نصف چله رو رد کردی، روز بیستمته مثل خودت که نمره‌ات بیسته... 💯",
-    "باریکلا به این اراده‌ات، رسیدی به روز بیست و یکم و داری می‌درخشی! ✨",
-    "چه افتخاری، بیست و دومین روز برنامه‌ته، بدنت داره جشن می‌گیره! 🎊",
-    "دمت گرم قهرمان، روز بیست و سومته و پشتکارت زبانزد شده! 🏅",
-    "ماشالله به این همتت، بیست و چهار روز پایداری یعنی یک دنیا افتخار! 🌟",
-    "خداقوت پهلوان، روز بیست و پنجمته و داری به قله نزدیک‌تر میشی! ⛰️",
-    "آفرین به خودت، بیست و ششمین روزته و سلامت داری برات می‌رقصه! 💃",
-    "به به چه پشتکاری، روز بیست و هفتمته و بدنت داره تشکر می‌کنه ازت! 🙏",
-    "ایول رفیق، روز بیست و هشتم شد و تو یک الگوی واقعی شدی! 🦸",
-    "مژده مژده، بیست و نهمین روزته و داری به خط پایان نزدیک میشی! 🎯",
-    "تبریک می‌گم، روز سی‌امته! یک ماه کامل پایداری، فوق‌العاده‌ای! 🎉",
-    "بابا دستمریزاد، روز سی و یکمته و قدرتت رو به همه ثابت کردی! 💥",
-    "خدا قوت، سی و دومین روزته و بدنت داره می‌درخشه! ✨",
-    "آفرین به این اراده، روز سی و سومته با همین قدرت ادامه بده! 🔥",
-    "ماشالله رفیق، سی و چهارمین روزته و یک قهرمان سلامت شدی! 🌱",
-    "دمت گرم قهرمان، روز سی و پنجمته، تقریباً رسیدی به قله! 🏔️",
-    "به به چه همتی، سی و ششمین روزته و بهت افتخار می‌کنم! 🥇",
-    "ایول به این پشتکار، روز سی و هفتمته و مثال‌زدنی شدی! 🌟",
-    "مژده، سی و هشتمین روزته، فقط دو روز تا جشن مونده! 🎊",
-    "تبریک، روز سی و نهمته، فردا روز جشنته رفیق! 🎉",
-    "باریکلا به خودت! چهل روز کامل شد و تو یک قهرمان واقعی هستی! 🏆🎉"
+    "باریکلا، سفر سلامتت شروع شد! 🌱",
+    "واوووو روز دومته و سلول‌هات متحول می‌شن! ✨💫",
+    "آفرین سه روز شد 🏆",
+    "بارکلا، چهار روز شد 😍",
+    "دمت گرم، روز پنجمته 🔥",
+    "ایول، روز ششم ⭐",
+    "شگفت‌انگیزی، روز هفتم 🌟",
+    "۸ روز طوفانی 🌪️",
+    "نهمین روز، پشتکارت 💚",
+    "ده روز گذشت 🎉",
+    "روز یازدهم، نزدیکتر 🎯",
+    "دوازده روز، بهتر 💪",
+    "روز سیزدهم، سلطان 👑",
+    "چهاردهم، زیبا 🌕",
+    "پونزدهم، فاصله نداریم 🎊",
+    "شونزدهم، خدا پناهت 🛡️",
+    "هفدهم، ماشالله 🤩",
+    "هجدهم، قهرمان 🦁",
+    "نوزدهم مبارک 👏",
+    "نصف چله، بیستم! 💯",
+    "بیست و یکم، درخشان ✨",
+    "بیست و دوم، جشن 🎊",
+    "بیست و سوم، زبانزد 🏅",
+    "بیست و چهارم، افتخار 🌟",
+    "بیست و پنجم، به قله ⛰️",
+    "بیست و ششم، می‌رقصه 💃",
+    "بیست و هفتم، تشکر 🙏",
+    "بیست و هشتم، الگو 🦸",
+    "بیست و نهم، خط پایان 🎯",
+    "سی‌ام، یک ماه! 🎉",
+    "سی و یکم، قدرت 💥",
+    "سی و دوم، می‌درخشی ✨",
+    "سی و سوم، با قدرت 🔥",
+    "سی و چهارم، قهرمان 🌱",
+    "سی و پنجم، نزدیک قله 🏔️",
+    "سی و ششم، افتخار 🥇",
+    "سی و هفتم، مثال‌زدنی 🌟",
+    "سی و هشتم، دو روز 🎊",
+    "سی و نهم، فردا جشن 🎉",
+    "چهل روز کامل! قهرمان واقعی 🏆🎉"
   ];
   if (dayNum >= 1 && dayNum <= 40) return messages[dayNum - 1];
-  return "ادامه بده، تو می‌تونی! 💪";
+  return "ادامه بده! 💪";
 }
 
 function checkRegimeReceive(){
@@ -1876,13 +2029,13 @@ function checkRegimeReceive(){
       d.innerHTML='<strong style="color:var(--accent)">'+escapeHtml(info.title||'نسخه اختصاصی')+'</strong>\n\n'+escapeHtml(info.content);
     }catch(e){}
   } else {
-    d.innerHTML = 'هنوز نسخه‌ای دریافت نشده است. لطفا دکمه بالا را بزنید.';
+    d.innerHTML = 'هنوز نسخه‌ای دریافت نشده.';
   }
 }
 
 function handleReceiveDaily(){
-  if(!navigator.onLine){alert('❌ اتصال به اینترنت را چک کنید.');return;}
-  showToast('⏳ در حال دریافت...','warning');
+  if(!navigator.onLine){alert('❌ اینترنت را چک کنید');return;}
+  showToast('⏳ دریافت...','warning');
   receiveAll(true).then(function(){ 
     safeSetLS('tableReceived','true');
     applyUserCustomTimes();
@@ -1891,22 +2044,20 @@ function handleReceiveDaily(){
   }).catch(function(e){ alert('❌ خطا: '+e.message); });
 }
 function handleReceiveRegime(){
-  if(!navigator.onLine){alert('❌ اتصال به اینترنت را چک کنید.');return;}
-  showToast('⏳ در حال دریافت...','warning');
+  if(!navigator.onLine){alert('❌ اینترنت را چک کنید');return;}
+  showToast('⏳ دریافت...','warning');
   receiveAll(true).then(function(){ checkRegimeReceive();showToast('✅ دریافت شد'); }).catch(function(e){ alert('❌ خطا: '+e.message); });
 }
 
-/* === receiveAll: اصلاح شده تا تایم‌های کاربر را دست نزند === */
 function receiveAll(silent){
   return new Promise(function(resolve,reject){
     var code=String(userId||'').toUpperCase().trim();
-    if(!code){reject(new Error('کد کاربری یافت نشد'));return;}
-    if(!silent)showToast('⏳ در حال دریافت...','warning');
+    if(!code){reject(new Error('کد یافت نشد'));return;}
+    if(!silent)showToast('⏳ دریافت...','warning');
     getUserRecord(code).then(function(data){
       var gotSomething=false;
-      if(!data) { reject(new Error('اطلاعاتی یافت نشد')); return; }
+      if(!data) { reject(new Error('اطلاعاتی نیست')); return; }
       
-      // قبل از هر تغییری، تایم‌های سفارشی کاربر را ذخیره کن
       var userCustomTimes = safeParseJSON(safeGetLS(userKey('alarmSettings'), 'null'), null);
       var savedCustomTimes = userCustomTimes && userCustomTimes.currentTimes ? userCustomTimes.currentTimes : null;
       
@@ -1923,10 +2074,8 @@ function receiveAll(silent){
           tableColumns=[].concat(data.tableData.tableColumns||[]);
           tableColumnNames=Object.assign({},data.tableData.tableColumnNames||{});
           
-          // === مهم: تایم‌های سرور را فقط اگر کاربر قبلاً تغییر نداده، اعمال کن ===
           var serverTimes = Object.assign({}, data.tableData.currentTimes||{});
           if(savedCustomTimes) {
-            // تایم‌های کاربر برنده هستند
             currentTimes = Object.assign({}, serverTimes, savedCustomTimes);
           } else {
             currentTimes = serverTimes;
@@ -1955,7 +2104,7 @@ function receiveAll(silent){
           gotSomething=true;
         }
       }
-      if(!gotSomething){ reject(new Error('دیتایی ثبت نشده')); return; }
+      if(!gotSomething){ reject(new Error('دیتایی نیست')); return; }
       resolve(true);
     }).catch(function(e){ reject(e); });
   });
@@ -1970,7 +2119,7 @@ function archiveCurrentTable(tableName){
   try{
     var archive=safeParseJSON(safeGetLS('tableHistory','[]'),[]);
     archive.unshift({
-      name: tableName || 'جدول بدون نام',
+      name: tableName || 'جدول',
       fortyDayData:JSON.parse(JSON.stringify(fortyDayData)),
       tableColumns:[].concat(tableColumns),
       tableColumnNames:Object.assign({},tableColumnNames),
@@ -1989,13 +2138,13 @@ function loadRemoteBanner(){
 }
 function bannerLoaded(){}
 function bannerError(){var tb=document.getElementById('topBanner'),img=document.getElementById('topBannerImg');if(img)img.style.display='none';if(tb)tb.classList.remove('active');}
-function loadBannerInAdmin(){getGlobalData().then(function(data){var bc=data.banner;var p=document.getElementById('bannerPreview'),inp=document.getElementById('bannerUrlInput');if(!p||!inp)return;if(bc&&bc.url){inp.value=bc.url;if(bc.active===false)p.innerHTML='<p style="color:#e74c3c;font-size:.85em">🚫 غیرفعال</p>';else p.innerHTML='<img src="'+escapeHtml(bc.url)+'" style="width:100%;max-width:500px;border-radius:10px;border:2px solid var(--accent)">';}else{p.innerHTML='<p style="font-size:.8em;color:var(--text-muted)">هنوز تنظیم نشده</p>';inp.value='';}}).catch(function(){});}
-function saveBannerUrl(){var url=document.getElementById('bannerUrlInput').value.trim();if(!url){showToast('لینک را وارد کنید','error');return;}if(!navigator.onLine){showToast('❌ اینترنت را چک کنید','error');return;}showToast('⏳ در حال ذخیره...','warning');getGlobalData().then(function(record){record.banner={url:url,active:true,updatedAt:Date.now()};return saveGlobalData(record);}).then(function(ok){if(ok){showToast('✅ ذخیره شد');loadBannerInAdmin();loadRemoteBanner();}else showToast('❌ خطا','error');});}
-function disableBanner(){if(!confirm('بنر غیرفعال شود؟'))return;getGlobalData().then(function(record){if(!record.banner)record.banner={url:'',active:false};record.banner.active=false;record.banner.updatedAt=Date.now();return saveGlobalData(record);}).then(function(ok){if(ok){showToast('✅ غیرفعال شد');loadBannerInAdmin();document.getElementById('topBanner').classList.remove('active');}else showToast('❌ خطا','error');});}
+function loadBannerInAdmin(){getGlobalData().then(function(data){var bc=data.banner;var p=document.getElementById('bannerPreview'),inp=document.getElementById('bannerUrlInput');if(!p||!inp)return;if(bc&&bc.url){inp.value=bc.url;if(bc.active===false)p.innerHTML='<p style="color:#e74c3c;">🚫 غیرفعال</p>';else p.innerHTML='<img src="'+escapeHtml(bc.url)+'" style="width:100%;max-width:500px;border-radius:10px;">';}else{p.innerHTML='<p style="font-size:.8em;color:var(--text-muted)">تنظیم نشده</p>';inp.value='';}}).catch(function(){});}
+function saveBannerUrl(){var url=document.getElementById('bannerUrlInput').value.trim();if(!url){showToast('لینک را وارد کنید','error');return;}showToast('⏳ ذخیره...','warning');getGlobalData().then(function(record){record.banner={url:url,active:true,updatedAt:Date.now()};return saveGlobalData(record);}).then(function(ok){if(ok){showToast('✅ شد');loadBannerInAdmin();loadRemoteBanner();}else showToast('❌ خطا','error');});}
+function disableBanner(){if(!confirm('غیرفعال شود؟'))return;getGlobalData().then(function(record){if(!record.banner)record.banner={url:'',active:false};record.banner.active=false;record.banner.updatedAt=Date.now();return saveGlobalData(record);}).then(function(ok){if(ok){showToast('✅ شد');loadBannerInAdmin();document.getElementById('topBanner').classList.remove('active');}});}
 
 function openAdminLogin(){var inp=document.getElementById('adminPasswordInput'),cb=document.getElementById('savePasswordCheck'),m=document.getElementById('adminLoginModal');if(inp){var saved=safeGetLS(SAVE_PASSWORD_KEY,null);if(saved){inp.value=saved;if(cb)cb.checked=true;}else{inp.value='';if(cb)cb.checked=false;}}if(m)m.classList.add('active');}
 function closeAdminLogin(){document.getElementById('adminLoginModal').classList.remove('active');}
-function checkAdminPassword(){var inp=document.getElementById('adminPasswordInput'),cb=document.getElementById('savePasswordCheck');var pass=inp?inp.value:'',shouldSave=cb?cb.checked:false;if(pass===ADMIN_PASSWORD){if(shouldSave)safeSetLS(SAVE_PASSWORD_KEY,pass);else try{localStorage.removeItem(SAVE_PASSWORD_KEY);}catch(e){}closeAdminLogin();showPage('pageAdmin');showToast('✅ ورود موفق');}else showToast('❌ رمز اشتباه','error');}
+function checkAdminPassword(){var inp=document.getElementById('adminPasswordInput'),cb=document.getElementById('savePasswordCheck');var pass=inp?inp.value:'',shouldSave=cb?cb.checked:false;if(pass===ADMIN_PASSWORD){if(shouldSave)safeSetLS(SAVE_PASSWORD_KEY,pass);closeAdminLogin();showPage('pageAdmin');showToast('✅ ورود موفق');}else showToast('❌ رمز اشتباه','error');}
 
 function switchAdminTab(tab,el){
   var tabs=document.querySelectorAll('.admin-tab');for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');if(el)el.classList.add('active');
@@ -2007,7 +2156,9 @@ function switchAdminTab(tab,el){
   if(tab==='archive')renderArchiveShelves();
 }
 
-/* USER EDIT */
+/* ============================================================
+   USER EDIT
+   ============================================================ */
 var userEditMode = false;
 function toggleUserEditMode() {
   userEditMode = !userEditMode;
@@ -2015,13 +2166,13 @@ function toggleUserEditMode() {
   var btn = document.getElementById('userEditTableBtn');
   if(userEditMode) {
     ctrl.style.display = 'block';
-    btn.textContent = '❌ بستن حالت ویرایش';
+    btn.textContent = '❌ بستن';
     btn.style.background = 'var(--btn-danger)';
     currentEditorDay = getCurrentDayAuto(); 
     renderUserDayEditor();
   } else {
     ctrl.style.display = 'none';
-    btn.textContent = '✏️ ویرایش دستی جدول';
+    btn.textContent = '✏️ ویرایش دستی';
     btn.style.background = 'var(--btn-purple)';
     renderTable(); 
   }
@@ -2060,19 +2211,19 @@ function applyToDays(type) {
   for(var i=0;i<inputs.length;i++){ form[inputs[i].getAttribute('data-col')] = inputs[i].value; }
   var targets=[], typeName='';
   if(type==='all'){for(var i=0;i<totalDays;i++)targets.push(i);typeName='کل روزها';}
-  else if(type==='odd'){for(var j=0;j<totalDays;j+=2)targets.push(j);typeName='روزهای فرد';}
-  else if(type==='even'){for(var k=1;k<totalDays;k+=2)targets.push(k);typeName='روزهای زوج';}
-  if(!confirm('محتوا روی '+targets.length+' '+typeName+' اعمال شود؟')) return;
+  else if(type==='odd'){for(var j=0;j<totalDays;j+=2)targets.push(j);typeName='فرد';}
+  else if(type==='even'){for(var k=1;k<totalDays;k+=2)targets.push(k);typeName='زوج';}
+  if(!confirm('اعمال؟')) return;
   targets.forEach(function(idx){
     if(!fortyDayData[idx]) fortyDayData[idx]={};
     tableColumns.forEach(function(col){ fortyDayData[idx][col] = form[col] || ''; });
   });
   renderTable(); updateTodayShowcase();
-  showToast('✅ اعمال شد.');
+  showToast('✅ اعمال شد');
 }
 
 async function saveUserEditedTableToDB() {
-  showToast('⏳ در حال ذخیره...', 'warning');
+  showToast('⏳ ذخیره...', 'warning');
   var userData = await getUserRecord(userId) || {};
   if(!userData.tableData) userData.tableData = {}; 
   userData.tableData.fortyDayData = fortyDayData;
@@ -2081,11 +2232,13 @@ async function saveUserEditedTableToDB() {
   userData.tableData.currentTimes = currentTimes;
   userData.tableData.totalDays = totalDays;
   var ok = await saveUserRecord(userId, userData);
-  if(ok) showToast('✅ ذخیره شد.');
-  else showToast('❌ خطا.', 'error');
+  if(ok) showToast('✅ ذخیره شد');
+  else showToast('❌ خطا', 'error');
 }
 
-/* ADMIN SENDS */
+/* ============================================================
+   ADMIN SENDS
+   ============================================================ */
 async function sendPrescription() {
   var code = document.getElementById('targetUserCode').value;
   if(!code) {
@@ -2099,13 +2252,13 @@ async function sendPrescription() {
   var ce2 = document.getElementById('prescriptionContent');
   var title = te.value.trim(), content = ce2.value.trim();
   if(!code || code.length < 3) { showToast('کاربر را انتخاب کنید', 'error'); return; }
-  if(!content) { showToast('متن نسخه را وارد کنید', 'error'); return; }
-  showToast('⏳ در حال ارسال...', 'warning');
+  if(!content) { showToast('متن خالی', 'error'); return; }
+  showToast('⏳ ارسال...', 'warning');
   var userData = await getUserRecord(code) || {};
   userData.prescription = { title: title || 'نسخه اختصاصی', content: content, sentAt: Date.now() };
   var ok = await saveUserRecord(code, userData);
   if(ok) {
-    showToast('✅ نسخه برای ' + code + ' ارسال شد');
+    showToast('✅ ارسال شد');
     document.getElementById('prescriptionUserSearch').value = '';
     document.getElementById('targetUserCode').value = '';
     te.value = ''; ce2.value = '';
@@ -2116,15 +2269,14 @@ async function sendPrescription() {
 async function askArchivePrescription() {
   var title = document.getElementById('prescriptionTitle').value.trim();
   var content = document.getElementById('prescriptionContent').value.trim();
-  if(!content) { showToast('متن خالی است', 'error'); return; }
-  if(!confirm('نسخه بایگانی شود؟')) return;
-  archivePendingAction = { type: 'prescription', data: { title: title || 'نسخه بدون عنوان', content: content, sentAt: Date.now() } };
+  if(!content) { showToast('متن خالی', 'error'); return; }
+  if(!confirm('بایگانی شود؟')) return;
+  archivePendingAction = { type: 'prescription', data: { title: title || 'نسخه', content: content, sentAt: Date.now() } };
   var modal = document.getElementById('archiveNameModal');
   var t = document.getElementById('archiveNameTitle');
   var d = document.getElementById('archiveNameDesc');
   var inp = document.getElementById('archiveNameInput');
   if(t) t.textContent = '📚 بایگانی نسخه';
-  if(d) d.textContent = 'یک نام انتخاب کنید:';
   if(inp) inp.value = title || 'نسخه عمومی';
   modal.classList.add('active');
   setTimeout(function(){ if(inp){inp.focus();inp.select();} }, 200);
@@ -2132,23 +2284,18 @@ async function askArchivePrescription() {
 
 async function askArchiveTable() {
   if(!confirm('جدول بایگانی شود؟')) return;
-  archivePendingAction = {
-    type: 'table',
-    data: {
-      fortyDayData: JSON.parse(JSON.stringify(adminFortyDayData)),
-      tableColumns: [].concat(adminTableColumns),
-      tableColumnNames: Object.assign({}, adminTableColumnNames),
-      currentTimes: Object.assign({}, adminCurrentTimes),
-      totalDays: adminTotalDays,
-      sentAt: Date.now()
-    }
-  };
+  archivePendingAction = { type: 'table', data: {
+    fortyDayData: JSON.parse(JSON.stringify(adminFortyDayData)),
+    tableColumns: [].concat(adminTableColumns),
+    tableColumnNames: Object.assign({}, adminTableColumnNames),
+    currentTimes: Object.assign({}, adminCurrentTimes),
+    totalDays: adminTotalDays,
+    sentAt: Date.now()
+  }};
   var modal = document.getElementById('archiveNameModal');
   var t = document.getElementById('archiveNameTitle');
-  var d = document.getElementById('archiveNameDesc');
   var inp = document.getElementById('archiveNameInput');
   if(t) t.textContent = '📚 بایگانی جدول';
-  if(d) d.textContent = 'یک نام انتخاب کنید:';
   if(inp) inp.value = 'جدول ' + new Date().toLocaleDateString('fa-IR');
   modal.classList.add('active');
   setTimeout(function(){ if(inp){inp.focus();inp.select();} }, 200);
@@ -2163,7 +2310,7 @@ async function confirmArchiveName() {
   var name = document.getElementById('archiveNameInput').value.trim();
   if(!name) { showToast('نام را وارد کنید', 'error'); return; }
   if(!archivePendingAction) { closeArchiveNameModal(); return; }
-  showToast('⏳ در حال بایگانی...', 'warning');
+  showToast('⏳ بایگانی...', 'warning');
   var globalData = await getGlobalData();
   if(!globalData.archives) globalData.archives = { prescriptions: [], tables: [] };
   if(!globalData.archives.prescriptions) globalData.archives.prescriptions = [];
@@ -2175,7 +2322,7 @@ async function confirmArchiveName() {
     globalData.archives.tables.unshift({ id: id, name: name, data: archivePendingAction.data, archivedAt: Date.now() });
   }
   var ok = await saveGlobalData(globalData);
-  if(ok) { showToast('✅ ذخیره شد: ' + name); closeArchiveNameModal(); renderArchiveShelves(); }
+  if(ok) { showToast('✅ ذخیره شد'); closeArchiveNameModal(); renderArchiveShelves(); }
   else showToast('❌ خطا', 'error');
 }
 
@@ -2190,18 +2337,18 @@ async function renderArchiveShelves() {
   var pres = archives.prescriptions || [];
   var tabs = archives.tables || [];
   if(search) {
-    pres = pres.filter(function(p){ return (p.name||'').toLowerCase().includes(search) || (p.title||'').toLowerCase().includes(search); });
+    pres = pres.filter(function(p){ return (p.name||'').toLowerCase().includes(search); });
     tabs = tabs.filter(function(t){ return (t.name||'').toLowerCase().includes(search); });
   }
   if(pres.length === 0) {
-    pGrid.innerHTML = '<div class="archive-empty" style="grid-column:1/-1;">📭 هنوز نسخه‌ای بایگانی نشده.</div>';
+    pGrid.innerHTML = '<div class="archive-empty" style="grid-column:1/-1;">📭 خالی</div>';
   } else {
     var html = '';
     pres.forEach(function(p) {
       var d = new Date(p.archivedAt).toLocaleDateString('fa-IR');
       html += '<div class="archive-book" onclick="activateArchivedPrescription(\''+p.id+'\')">';
       html += '<div class="archive-book-title">💊 ' + escapeHtml(p.name) + '</div>';
-      html += '<div class="archive-book-meta">' + escapeHtml(p.title || '') + '<br>📅 ' + d + '</div>';
+      html += '<div class="archive-book-meta">' + d + '</div>';
       html += '<div class="archive-book-actions" onclick="event.stopPropagation();">';
       html += '<button style="background:var(--btn-primary);color:#fff;" onclick="editArchivePrescription(\''+p.id+'\')">✏️</button>';
       html += '<button style="background:var(--btn-danger);color:#fff;" onclick="deleteArchivePrescription(\''+p.id+'\')">🗑️</button>';
@@ -2210,15 +2357,14 @@ async function renderArchiveShelves() {
     pGrid.innerHTML = html;
   }
   if(tabs.length === 0) {
-    tGrid.innerHTML = '<div class="archive-empty" style="grid-column:1/-1;">📭 هنوز جدولی بایگانی نشده.</div>';
+    tGrid.innerHTML = '<div class="archive-empty" style="grid-column:1/-1;">📭 خالی</div>';
   } else {
     var html2 = '';
     tabs.forEach(function(t) {
       var d = new Date(t.archivedAt).toLocaleDateString('fa-IR');
-      var days = (t.data && t.data.totalDays) || 40;
       html2 += '<div class="archive-book" onclick="activateArchivedTable(\''+t.id+'\')">';
       html2 += '<div class="archive-book-title">📋 ' + escapeHtml(t.name) + '</div>';
-      html2 += '<div class="archive-book-meta">' + toPersianNumber(days) + ' روز<br>📅 ' + d + '</div>';
+      html2 += '<div class="archive-book-meta">' + d + '</div>';
       html2 += '<div class="archive-book-actions" onclick="event.stopPropagation();">';
       html2 += '<button style="background:var(--btn-primary);color:#fff;" onclick="editArchiveTable(\''+t.id+'\')">✏️</button>';
       html2 += '<button style="background:var(--btn-danger);color:#fff;" onclick="deleteArchiveTable(\''+t.id+'\')">🗑️</button>';
@@ -2233,19 +2379,18 @@ async function activateArchivedPrescription(id) {
   var globalData = await getGlobalData();
   var archives = globalData.archives || { prescriptions: [] };
   var p = (archives.prescriptions || []).find(function(x){ return x.id === id; });
-  if(!p) { showToast('یافت نشد', 'error'); return; }
+  if(!p) return;
   document.getElementById('prescriptionTitle').value = p.title || '';
   document.getElementById('prescriptionContent').value = p.content || '';
-  showToast('✅ نسخه بارگذاری شد.');
+  showToast('✅ بارگذاری شد');
   switchAdminTab('prescription', document.querySelectorAll('.admin-tab')[1]);
 }
-
 async function activateArchivedTable(id) {
   if(!confirm('این جدول فعال شود؟')) return;
   var globalData = await getGlobalData();
   var archives = globalData.archives || { tables: [] };
   var t = (archives.tables || []).find(function(x){ return x.id === id; });
-  if(!t) { showToast('یافت نشد', 'error'); return; }
+  if(!t) return;
   adminTableColumns = [].concat(t.data.tableColumns);
   adminTableColumnNames = Object.assign({}, t.data.tableColumnNames);
   adminCurrentTimes = Object.assign({}, t.data.currentTimes);
@@ -2254,54 +2399,34 @@ async function activateArchivedTable(id) {
   adminCurrentEditorDay = 0;
   renderAdminTableEditor();
   renderAdminDayEditor();
-  showToast('✅ جدول بارگذاری شد.');
+  showToast('✅ بارگذاری شد');
   switchAdminTab('table', document.querySelectorAll('.admin-tab')[2]);
 }
-
 async function editArchivePrescription(id) {
-  var globalData = await getGlobalData();
-  var archives = globalData.archives || { prescriptions: [] };
-  var p = (archives.prescriptions || []).find(function(x){ return x.id === id; });
+  var g = await getGlobalData();
+  var p = (g.archives.prescriptions || []).find(function(x){ return x.id === id; });
   if(!p) return;
-  var newName = prompt('نام جدید:', p.name);
-  if(newName === null) return;
-  if(!newName.trim()) { showToast('خالی نیست', 'error'); return; }
-  p.name = newName.trim();
-  var ok = await saveGlobalData(globalData);
-  if(ok) { showToast('✅ ویرایش شد'); renderArchiveShelves(); }
+  var n = prompt('نام جدید:', p.name);
+  if(n && n.trim()) { p.name = n.trim(); await saveGlobalData(g); renderArchiveShelves(); }
 }
-
 async function deleteArchivePrescription(id) {
   if(!confirm('حذف شود؟')) return;
-  var globalData = await getGlobalData();
-  if(globalData.archives && globalData.archives.prescriptions) {
-    globalData.archives.prescriptions = globalData.archives.prescriptions.filter(function(x){ return x.id !== id; });
-  }
-  var ok = await saveGlobalData(globalData);
-  if(ok) { showToast('✅ حذف شد'); renderArchiveShelves(); }
+  var g = await getGlobalData();
+  if(g.archives && g.archives.prescriptions) g.archives.prescriptions = g.archives.prescriptions.filter(function(x){ return x.id !== id; });
+  await saveGlobalData(g); renderArchiveShelves();
 }
-
 async function editArchiveTable(id) {
-  var globalData = await getGlobalData();
-  var archives = globalData.archives || { tables: [] };
-  var t = (archives.tables || []).find(function(x){ return x.id === id; });
+  var g = await getGlobalData();
+  var t = (g.archives.tables || []).find(function(x){ return x.id === id; });
   if(!t) return;
-  var newName = prompt('نام جدید:', t.name);
-  if(newName === null) return;
-  if(!newName.trim()) return;
-  t.name = newName.trim();
-  var ok = await saveGlobalData(globalData);
-  if(ok) { showToast('✅ ویرایش شد'); renderArchiveShelves(); }
+  var n = prompt('نام جدید:', t.name);
+  if(n && n.trim()) { t.name = n.trim(); await saveGlobalData(g); renderArchiveShelves(); }
 }
-
 async function deleteArchiveTable(id) {
   if(!confirm('حذف شود؟')) return;
-  var globalData = await getGlobalData();
-  if(globalData.archives && globalData.archives.tables) {
-    globalData.archives.tables = globalData.archives.tables.filter(function(x){ return x.id !== id; });
-  }
-  var ok = await saveGlobalData(globalData);
-  if(ok) { showToast('✅ حذف شد'); renderArchiveShelves(); }
+  var g = await getGlobalData();
+  if(g.archives && g.archives.tables) g.archives.tables = g.archives.tables.filter(function(x){ return x.id !== id; });
+  await saveGlobalData(g); renderArchiveShelves();
 }
 
 async function sendMessage(){
@@ -2312,21 +2437,22 @@ async function sendMessage(){
   }
   var te=document.getElementById('messageTitle'), ce=document.getElementById('messageContent');
   var title=te.value.trim(), content=ce.value.trim();
-  if(!content){showToast('متن پیام را وارد کنید','error');return;}
-  showToast('⏳ در حال ارسال...','warning');
+  if(!content){showToast('متن خالی','error');return;}
+  showToast('⏳ ارسال...','warning');
   var globalData = await getGlobalData();
   if(!globalData.messages) globalData.messages = [];
   var id='m_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
-  globalData.messages.push({id:id,title:title||'پیام جدید',content:content,target:targetCode.toUpperCase()||'all',sentAt:Date.now()});
+  globalData.messages.push({id:id,title:title||'پیام',content:content,target:targetCode.toUpperCase()||'all',sentAt:Date.now()});
   if(globalData.messages.length>100) globalData.messages = globalData.messages.slice(-100);
   var ok = await saveGlobalData(globalData);
-  if(ok){ showToast('✅ ارسال شد'); clearMessageForm();loadAdminRecent(); }
-  else showToast('❌ خطا','error');
+  if(ok){ showToast('✅ شد'); clearMessageForm();loadAdminRecent(); }
 }
 function clearMessageForm(){var t=document.getElementById('messageTitle'),c=document.getElementById('messageContent'),g=document.getElementById('messageUserSearch');if(t)t.value='';if(c)c.value='';if(g)g.value='';document.getElementById('messageTarget').value='';}
 function clearAdminForm(){var t=document.getElementById('prescriptionTitle'),c=document.getElementById('prescriptionContent');if(t)t.value='';if(c)c.value='';document.getElementById('prescriptionUserSearch').value='';document.getElementById('targetUserCode').value='';}
 
-/* ADMIN EDITOR */
+/* ============================================================
+   ADMIN EDITOR
+   ============================================================ */
 function buildAdminEditor(){
   adminTableColumns = [].concat(tableColumns);
   adminTableColumnNames = Object.assign({}, tableColumnNames);
@@ -2347,35 +2473,18 @@ function renderAdminTableEditor(){
   adminTableColumns.forEach(function(col,i){
     var name = adminTableColumnNames[col] || col;
     var time = adminCurrentTimes[col] || '08:00';
-    html+='<div style="display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;background:var(--bg-primary);padding:10px;border-radius:8px;margin-bottom:8px">';
-    html+='<label style="font-size:.85em;color:var(--accent);font-weight:700">🏷️</label>';
-    html+='<input type="text" value="'+escapeHtml(name)+'" onchange="updateAdminColName('+i+',this.value)" style="background:var(--bg-primary);color:var(--text-primary);border:1px solid #3d5a45;padding:8px;border-radius:6px;font-family:var(--font-family);font-size:.9em;width:100%">';
+    html+='<div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;background:var(--bg-primary);padding:10px;border-radius:8px;margin-bottom:8px">';
+    html+='<input type="text" value="'+escapeHtml(name)+'" onchange="updateAdminColName('+i+',this.value)" style="background:var(--bg-primary);color:var(--text-primary);border:1px solid #3d5a45;padding:8px;border-radius:6px;font-family:var(--font-family);font-size:.9em;">';
     html+='<input type="time" value="'+escapeHtml(time)+'" onchange="updateAdminColTime('+i+',this.value)" style="width:90px;background:var(--bg-primary);color:var(--accent);border:1px solid var(--accent);padding:6px;border-radius:6px;font-family:var(--font-family)">';
     html+='</div>';
-    if(adminTableColumns.length > 1) {
-      html += '<button onclick="removeTableColumnEditor('+i+')" style="width:100%;padding:6px;background:var(--btn-danger);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:.7em;font-weight:700;margin-bottom:8px;font-family:var(--font-family)">🗑️ حذف وعده "' + escapeHtml(name) + '"</button>';
-    }
   });
   container.innerHTML=html;
 }
 function updateAdminColName(i,val){ var col = adminTableColumns[i]; adminTableColumnNames[col] = val; }
 function updateAdminColTime(i,val){ var col = adminTableColumns[i]; adminCurrentTimes[col] = val; }
 function addTableColumnEditor(){
-  if(adminTableColumns.length>=8){showToast('حداکثر ۸ وعده','warning');return;}
+  if(adminTableColumns.length>=8){showToast('حداکثر ۸','warning');return;}
   var newCol='c_'+Date.now();adminTableColumns.push(newCol);adminTableColumnNames[newCol]='وعده '+adminTableColumns.length;adminCurrentTimes[newCol]='08:00';adminFortyDayData.forEach(function(day){day[newCol]='';});renderAdminTableEditor(); renderAdminDayEditor();
-}
-function removeTableColumnEditor(i) {
-  if(adminTableColumns.length <= 1) { showToast('حداقل یک وعده', 'error'); return; }
-  var colName = adminTableColumnNames[adminTableColumns[i]] || adminTableColumns[i];
-  if(!confirm('وعده "' + colName + '" حذف شود؟')) return;
-  var colToRemove = adminTableColumns[i];
-  adminTableColumns.splice(i, 1);
-  delete adminTableColumnNames[colToRemove];
-  delete adminCurrentTimes[colToRemove];
-  adminFortyDayData.forEach(function(day) { delete day[colToRemove]; });
-  renderAdminTableEditor();
-  renderAdminDayEditor();
-  showToast('✅ وعده حذف شد');
 }
 function renderAdminDayEditor(){
   var container=document.getElementById('adminDayEditorContainer');if(!container)return;
@@ -2398,25 +2507,10 @@ function renderAdminDayEditor(){
 function updateAdminDayField(col,value){
   if(!adminFortyDayData[adminCurrentEditorDay])adminFortyDayData[adminCurrentEditorDay]={};
   adminFortyDayData[adminCurrentEditorDay][col]=value;
-  showToast('✅ ذخیره شد','success',1000);
 }
 function prevAdminEditorDay(){ if(adminCurrentEditorDay > 0){ adminCurrentEditorDay--; renderAdminDayEditor(); } }
 function nextAdminEditorDay(){ if(adminCurrentEditorDay < adminTotalDays-1){ adminCurrentEditorDay++; renderAdminDayEditor(); } }
-function applyToAdminDays(type){
-  var form = {};
-  var inputs = document.querySelectorAll('#adminDayEditorContainer input[data-col]');
-  for(var i=0;i<inputs.length;i++){ form[inputs[i].getAttribute('data-col')] = inputs[i].value; }
-  var targets=[], typeName='';
-  if(type==='all'){for(var i=0;i<adminTotalDays;i++)targets.push(i);typeName='کل روزها';}
-  else if(type==='odd'){for(var j=0;j<adminTotalDays;j+=2)targets.push(j);typeName='روزهای فرد';}
-  else if(type==='even'){for(var k=1;k<adminTotalDays;k+=2)targets.push(k);typeName='روزهای زوج';}
-  if(!confirm('محتوا روی '+targets.length+' '+typeName+' اعمال شود؟'))return;
-  targets.forEach(function(idx){
-    if(!adminFortyDayData[idx]) adminFortyDayData[idx]={};
-    adminTableColumns.forEach(function(col){ adminFortyDayData[idx][col] = form[col] || ''; });
-  });
-  showToast('✅ اعمال شد');
-}
+
 async function sendTableToUser() {
   var code = document.getElementById('targetUserCodeTable').value;
   if(!code) {
@@ -2426,8 +2520,8 @@ async function sendTableToUser() {
   }
   code = (code || '').trim().toUpperCase();
   if(!code || code.length < 3) { showToast('کاربر را انتخاب کنید', 'error'); return; }
-  if(!confirm('جدول برای ' + code + ' ارسال شود؟')) return;
-  showToast('⏳ در حال ارسال...', 'warning');
+  if(!confirm('جدول ارسال شود؟')) return;
+  showToast('⏳ ارسال...', 'warning');
   var snapshot = {
     fortyDayData: JSON.parse(JSON.stringify(adminFortyDayData)),
     tableColumns: [].concat(adminTableColumns),
@@ -2440,46 +2534,27 @@ async function sendTableToUser() {
   userData.tableData = snapshot;
   var ok = await saveUserRecord(code, userData);
   if(ok) {
-    showToast('✅ جدول ارسال شد');
+    showToast('✅ ارسال شد');
     document.getElementById('tableUserSearch').value = '';
     document.getElementById('targetUserCodeTable').value = '';
     loadAdminRecent(); loadDashboard(false);
   } else showToast('❌ خطا', 'error');
 }
 async function sendTableToAll(){
-  if(!confirm('⚠️ جدول برای همه؟'))return;
-  showToast('⏳ در حال ارسال...','warning');
+  if(!confirm('برای همه؟'))return;
+  showToast('⏳ ارسال...','warning');
   var snapshot = { fortyDayData: JSON.parse(JSON.stringify(adminFortyDayData)), tableColumns: [].concat(adminTableColumns), tableColumnNames: Object.assign({}, adminTableColumnNames), currentTimes: Object.assign({}, adminCurrentTimes), totalDays: adminTotalDays, sentAt: Date.now() };
   var allUsers = await getAllUsersFromDB();
   if(allUsers.length === 0) { showToast('کاربری نیست','error'); return; }
   var count = 0;
   for(var i=0; i<allUsers.length; i++) { var u = allUsers[i]; var data = u.data || {}; data.tableData = snapshot; var ok = await saveUserRecord(u.code, data); if(ok) count++; }
-  showToast('✅ برای '+count+' کاربر ارسال شد');
+  showToast('✅ برای '+count+' ارسال شد');
   loadAdminRecent();
 }
-function togglePreview(){ previewVisible=!previewVisible; var c=document.getElementById('previewContainer'),b=document.getElementById('previewToggleBtn'); if(previewVisible){c.style.display='block';b.textContent='🔽 مخفی';updatePreview();} else{c.style.display='none';b.textContent='👁️ نمایش';} }
-function updatePreview(){
-  var thead=document.getElementById('previewTableHead'), tbody=document.getElementById('previewTableBody');var hh='<tr><th>روز</th>';
-  adminTableColumns.forEach(function(c){hh+='<th>'+escapeHtml(adminTableColumnNames[c]||c)+'</th>';});hh+='</tr>'; thead.innerHTML=hh;
-  var html='';
-  for(var i=0;i<adminTotalDays;i++){
-    var d=adminFortyDayData[i]||{};
-    html+='<tr><td style="color:var(--accent);font-weight:700">'+(i+1)+'</td>';
-    adminTableColumns.forEach(function(col){
-      var val = d[col] || '';
-      html+='<td><input type="text" class="preview-edit-input" value="'+escapeHtml(val)+'" onchange="updateAdminCell('+i+',\''+col+'\',this.value)"></td>';
-    });
-    html+='</tr>';
-  }
-  tbody.innerHTML=html;
-}
-function updateAdminCell(rowIndex, col, value) {
-  if(!adminFortyDayData[rowIndex]) adminFortyDayData[rowIndex] = {};
-  adminFortyDayData[rowIndex][col] = value;
-  showToast('✅ ذخیره شد', 'success', 1000);
-}
 
-/* Dashboard */
+/* ============================================================
+   DASHBOARD & RECENT
+   ============================================================ */
 async function loadDashboard(showAlert){
   var allUsers = await getAllUsersFromDB();var globalData = await getGlobalData();
   var usersWithP = 0, usersWithT = 0;
@@ -2495,72 +2570,67 @@ async function loadAdminRecent(){
   var globalData = await getGlobalData();var allUsers = await getAllUsersFromDB();var html = '';
   var recentP = [];allUsers.forEach(function(u){ if(u.data && u.data.prescription) { recentP.push({code: u.code, title: u.data.prescription.title, time: u.data.prescription.sentAt}); } });
   recentP.sort(function(a,b){return b.time - a.time;});
-  if(recentP.length > 0) { html += '<div style="color:var(--accent);font-weight:700;margin-bottom:5px">💊 آخرین نسخه‌ها:</div>'; recentP.slice(0,3).forEach(function(p){ html += '📤 <strong>'+escapeHtml(p.code)+'</strong> - '+escapeHtml(p.title)+'<br>'; }); }
+  if(recentP.length > 0) { html += '<div style="color:var(--accent);font-weight:700;margin-bottom:5px">💊 آخرین:</div>'; recentP.slice(0,3).forEach(function(p){ html += '📤 <strong>'+escapeHtml(p.code)+'</strong> - '+escapeHtml(p.title)+'<br>'; }); }
   var msgs = (globalData.messages||[]).slice(-3).reverse();
-  if(msgs.length > 0) { html += '<div style="color:var(--accent);font-weight:700;margin:10px 0 5px">📢 آخرین پیام‌ها:</div>'; msgs.forEach(function(m){ html += '📨 <strong>'+escapeHtml(m.title)+'</strong><br>'; }); }
-  if(!html) html = 'هنوز ارسالی انجام نشده...';var el=document.getElementById('adminRecentList'); if(el) el.innerHTML = html;
+  if(msgs.length > 0) { html += '<div style="color:var(--accent);font-weight:700;margin:10px 0 5px">📢 پیام‌ها:</div>'; msgs.forEach(function(m){ html += '📨 <strong>'+escapeHtml(m.title)+'</strong><br>'; }); }
+  if(!html) html = 'هنوز ارسالی نیست...';
+  var el=document.getElementById('adminRecentList'); if(el) el.innerHTML = html;
 }
 function exportDashboard(){
   try{
     var users=dashboardData.users||{},tables=dashboardData.tables||{};
-    var text='📊 گزارش اپ سفیر سلامت حامی\n📅 تاریخ: '+new Date().toLocaleString('fa-IR')+'\n\n';
-    var allCodes=Object.keys(users).concat(Object.keys(tables).filter(function(c){return!users[c];}));
-    text+='👥 کاربران: '+allCodes.length+'\n💊 نسخه‌ها: '+Object.keys(users).length+'\n📋 جدول‌ها: '+Object.keys(tables).length+'\n\n';
-    allCodes.forEach(function(code,i){
-      var presc=users[code],tbl=tables[code];
-      text+=(i+1)+'. کد: '+code+'\n';
-      if(presc)text+='   💊 '+(presc.title||'بدون عنوان')+'\n';
-      if(tbl)text+='   📋 '+((tbl.totalDays)||0)+' روز\n';
-      text+='\n';
-    });
+    var text='📊 گزارش\n📅 '+new Date().toLocaleString('fa-IR')+'\n\n';
+    text+='👥 کاربران: '+(Object.keys(users).length)+'\n';
     var blob=new Blob([text],{type:'text/plain;charset=utf-8'});
     var url=URL.createObjectURL(blob);
-    var a=document.createElement('a');
-    a.href=url;a.download='report-'+Date.now()+'.txt';a.click();
+    var a=document.createElement('a');a.href=url;a.download='report-'+Date.now()+'.txt';a.click();
     URL.revokeObjectURL(url);
     showToast('✅ دانلود شد');
   }catch(e){showToast('❌ خطا','error');}
 }
 
-/* Messages */
+/* ============================================================
+   MESSAGES
+   ============================================================ */
 function loadMyMessages(showAlert){
   getGlobalData().then(function(data){
     var messages=data.messages||[];var readIds=safeParseJSON(safeGetLS('readMsgIds','[]'),[]);var hiddenIds=safeParseJSON(safeGetLS('hiddenMsgIds','[]'),[]);
     var myMessages=messages.filter(function(m){return(m.target==='all'||m.target===userId)&&hiddenIds.indexOf(m.id)===-1;}).reverse();
     var list=document.getElementById('messagesList');if(!list)return;
-    if(myMessages.length===0){list.innerHTML='<p style="text-align:center;color:var(--text-muted);padding:20px">هیچ پیامی نیست</p>';document.getElementById('msgBadge').style.display='none';return;}
+    if(myMessages.length===0){list.innerHTML='<p style="text-align:center;color:var(--text-muted);padding:20px">پیامی نیست</p>';document.getElementById('msgBadge').style.display='none';return;}
     var html='',unread=0;
-    myMessages.forEach(function(msg){var isRead=readIds.indexOf(msg.id)>-1;if(!isRead)unread++;var date=new Date(msg.sentAt).toLocaleString('fa-IR');html+='<div class="msg-item '+(isRead?'':'unread')+'" data-msg-id="'+escapeHtml(msg.id)+'"><button class="msg-close" onclick="deleteMessage(\''+escapeHtml(msg.id)+'\')">✕</button><div class="msg-item-title">'+escapeHtml(msg.title)+'</div><div class="msg-item-date">'+escapeHtml(date)+'</div><div class="msg-item-content">'+escapeHtml(msg.content)+'</div></div>';});
+    myMessages.forEach(function(msg){var isRead=readIds.indexOf(msg.id)>-1;if(!isRead)unread++;var date=new Date(msg.sentAt).toLocaleString('fa-IR');html+='<div class="msg-item '+(isRead?'':'unread')+'"><div class="msg-item-title">'+escapeHtml(msg.title)+'</div><div class="msg-item-date">'+escapeHtml(date)+'</div><div class="msg-item-content">'+escapeHtml(msg.content)+'</div></div>';});
     list.innerHTML=html;var b2=document.getElementById('msgBadge');if(unread>0){b2.style.display='flex';b2.textContent=unread;}else b2.style.display='none';
     var newRead=readIds.concat(myMessages.map(function(m){return m.id;}));safeSetLS('readMsgIds',JSON.stringify(newRead.filter(function(v,i,a){return a.indexOf(v)===i;})));
     if(showAlert)showToast('✅ بروز شد');
   });
 }
-function deleteMessage(msgId){if(!confirm('حذف شود؟'))return;var hidden=safeParseJSON(safeGetLS('hiddenMsgIds','[]'),[]);if(hidden.indexOf(msgId)===-1)hidden.push(msgId);safeSetLS('hiddenMsgIds',JSON.stringify(hidden));var el=document.querySelector('[data-msg-id="'+msgId+'"]');if(el)el.remove();showToast('✅ حذف شد');}
+function deleteMessage(msgId){var hidden=safeParseJSON(safeGetLS('hiddenMsgIds','[]'),[]);if(hidden.indexOf(msgId)===-1)hidden.push(msgId);safeSetLS('hiddenMsgIds',JSON.stringify(hidden));loadMyMessages();}
 function checkNewMessages(){getGlobalData().then(function(data){var messages=data.messages||[];var readIds=safeParseJSON(safeGetLS('readMsgIds','[]'),[]);var hiddenIds=safeParseJSON(safeGetLS('hiddenMsgIds','[]'),[]);var shownIds=safeParseJSON(safeGetLS('shownPopupIds','[]'),[]);var newMsg=messages.find(function(m){return(m.target==='all'||m.target===userId)&&readIds.indexOf(m.id)===-1&&hiddenIds.indexOf(m.id)===-1&&shownIds.indexOf(m.id)===-1;});if(newMsg){var pt=document.getElementById('msgPopupTitle'), ptx=document.getElementById('msgPopupText'), ov=document.getElementById('msgPopupOverlay');if(pt)pt.textContent='📢 '+newMsg.title;if(ptx)ptx.textContent=newMsg.content;if(ov)ov.classList.add('active');safeSetLS('currentMsgId',newMsg.id);}loadMyMessages();});}
 function closeMsgPopup(){document.getElementById('msgPopupOverlay').classList.remove('active');var msgId=safeGetLS('currentMsgId',null);if(msgId){var shown=safeParseJSON(safeGetLS('shownPopupIds','[]'),[]);if(shown.indexOf(msgId)===-1)shown.push(msgId);safeSetLS('shownPopupIds',JSON.stringify(shown));}}
 
+/* ============================================================
+   HISTORY
+   ============================================================ */
 function showHistory(type){
   var modal=document.getElementById('historyModal'),title=document.getElementById('historyTitle'),list=document.getElementById('historyList');
   if(type==='prescriptions'){
-    title.textContent='💊 تاریخچه نسخه‌ها';
+    title.textContent='💊 نسخه‌ها';
     var archive=safeParseJSON(safeGetLS('prescriptionHistory','[]'),[]);
     var current=safeGetLS('lastPrescription',null);
     var html='';
-    if(current){try{var info=JSON.parse(current);html+='<div class="history-item active-history"><div class="history-item-title">'+escapeHtml(info.title||'نسخه فعلی')+'</div><div class="history-item-preview">'+escapeHtml((info.content||'').substring(0,100))+'</div></div>';}catch(e){}}
-    archive.forEach(function(item,i){html+='<div class="history-item"><div class="history-item-title">'+escapeHtml(item.title)+'</div><div class="history-item-date">📅 '+new Date(item.archivedAt).toLocaleString('fa-IR')+'</div><button class="btn-hist-restore" onclick="restorePrescription('+i+')">♻️ بازیابی</button></div>';});
+    if(current){try{var info=JSON.parse(current);html+='<div class="history-item active-history"><div class="history-item-title">'+escapeHtml(info.title||'فعلی')+'</div></div>';}catch(e){}}
+    archive.forEach(function(item,i){html+='<div class="history-item"><div class="history-item-title">'+escapeHtml(item.title)+'</div><div class="history-item-date">'+new Date(item.archivedAt).toLocaleString('fa-IR')+'</div><button class="btn-hist-restore" onclick="restorePrescription('+i+')">♻️ بازیابی</button></div>';});
     list.innerHTML=html || '<p style="text-align:center;padding:20px">خالی</p>';
   } else {
-    title.textContent='📊 تاریخچه جدول‌ها';
+    title.textContent='📊 جدول‌ها';
     var archive2=safeParseJSON(safeGetLS('tableHistory','[]'),[]);
     var html2='';
     archive2.forEach(function(item,i){
-      var dateStr = new Date(item.archivedAt).toLocaleString('fa-IR');
-      html2+='<div class="history-item"><div style="display:flex; justify-content:space-between;"><div class="history-item-title">'+escapeHtml(item.name)+'</div><div class="history-item-date">📅 '+dateStr+'</div></div>';
+      html2+='<div class="history-item"><div class="history-item-title">'+escapeHtml(item.name)+'</div>';
       html2+='<div class="history-actions">';
-      html2+='<button class="btn-hist-restore" onclick="restoreTable('+i+')">♻️ بازیابی</button>';
-      html2+='<button class="btn-hist-edit" onclick="renameHistoryTable('+i+')">📝 تغییر نام</button>';
-      html2+='<button class="btn-hist-del" onclick="deleteHistoryTable('+i+')">🗑️ حذف</button>';
+      html2+='<button class="btn-hist-restore" onclick="restoreTable('+i+')">♻️</button>';
+      html2+='<button class="btn-hist-del" onclick="deleteHistoryTable('+i+')">🗑️</button>';
       html2+='</div></div>';
     });
     list.innerHTML=html2 || '<p style="text-align:center;padding:20px">خالی</p>';
@@ -2568,12 +2638,11 @@ function showHistory(type){
   modal.classList.add('active');
 }
 function closeHistory(){document.getElementById('historyModal').classList.remove('active');}
-function restorePrescription(index){if(!confirm('جایگزین شود؟'))return;var archive=safeParseJSON(safeGetLS('prescriptionHistory','[]'),[]);var item=archive[index];if(!item)return;safeSetLS('lastPrescription',JSON.stringify({title:item.title,content:item.content,sentAt:Date.now()}));archive.splice(index,1);safeSetLS('prescriptionHistory',JSON.stringify(archive));checkRegimeReceive();showPage('pageRegime');closeHistory();}
-function restoreTable(index){if(!confirm('جایگزین شود؟'))return;var archive=safeParseJSON(safeGetLS('tableHistory','[]'),[]);var item=archive[index];if(!item)return;fortyDayData=JSON.parse(JSON.stringify(item.fortyDayData));tableColumns=[].concat(item.tableColumns);tableColumnNames=Object.assign({},item.tableColumnNames);currentTimes=Object.assign({},item.currentTimes);totalDays=item.totalDays;saveAll();renderTable();updateTodayShowcase();archive.splice(index,1);safeSetLS('tableHistory',JSON.stringify(archive));closeHistory(); showToast('✅ بازیابی شد');}
-function renameHistoryTable(index){var archive=safeParseJSON(safeGetLS('tableHistory','[]'),[]);var item=archive[index];if(!item)return;var newName=prompt('نام جدید:', item.name);if(newName && newName.trim()){item.name=newName.trim();safeSetLS('tableHistory',JSON.stringify(archive));showHistory('tables');}}
-function deleteHistoryTable(index){if(!confirm('حذف شود؟'))return;var archive=safeParseJSON(safeGetLS('tableHistory','[]'),[]);archive.splice(index,1);safeSetLS('tableHistory',JSON.stringify(archive));showHistory('tables');showToast('✅ حذف شد');}
+function restorePrescription(index){var archive=safeParseJSON(safeGetLS('prescriptionHistory','[]'),[]);var item=archive[index];if(!item)return;safeSetLS('lastPrescription',JSON.stringify({title:item.title,content:item.content,sentAt:Date.now()}));checkRegimeReceive();showPage('pageRegime');closeHistory();showToast('✅ بازیابی شد');}
+function restoreTable(index){var archive=safeParseJSON(safeGetLS('tableHistory','[]'),[]);var item=archive[index];if(!item)return;fortyDayData=JSON.parse(JSON.stringify(item.fortyDayData));tableColumns=[].concat(item.tableColumns);tableColumnNames=Object.assign({},item.tableColumnNames);currentTimes=Object.assign({},item.currentTimes);totalDays=item.totalDays;saveAll();renderTable();updateTodayShowcase();closeHistory(); showToast('✅ بازیابی شد');}
+function deleteHistoryTable(index){var archive=safeParseJSON(safeGetLS('tableHistory','[]'),[]);archive.splice(index,1);safeSetLS('tableHistory',JSON.stringify(archive));showHistory('tables');}
 
-function editMyRegime(){var el=document.getElementById('regimeDisplay');if(el.contentEditable==='true'){el.contentEditable='false';el.style.border='1px solid rgba(244,208,63,.2)';showToast('✅ ذخیره شد');}else{el.contentEditable='true';el.style.border='2px solid var(--accent)';el.focus();showToast('✏️ ویرایش کنید','warning');}}
+function editMyRegime(){var el=document.getElementById('regimeDisplay');if(el.contentEditable==='true'){el.contentEditable='false';showToast('✅ ذخیره شد');}else{el.contentEditable='true';el.focus();showToast('✏️ ویرایش کنید','warning');}}
 
 /* ============================================================
    ALARM SETTINGS UI
@@ -2585,11 +2654,9 @@ function loadAlarmSoundSettings() {
   if(volVal) volVal.textContent = alarmVolume + '%';
   var vo = document.getElementById('vibrateOnlyToggle');
   var gt = document.getElementById('gradualVolumeToggle');
-  var st = document.getElementById('silentModeToggle');
   var vt = document.getElementById('vibrateToggle');
   if(vo) vo.classList.toggle('active', vibrateOnlyMode);
   if(gt) gt.classList.toggle('active', gradualVolume);
-  if(st) st.classList.toggle('active', silentModeOverride);
   if(vt) vt.classList.toggle('active', vibrateEnabled);
   var arb = document.getElementById('autoReactivateCheck');
   var bgc = document.getElementById('backgroundAlarmCheck');
@@ -2618,14 +2685,13 @@ function toggleVibrateOnly(btn) {
   btn.classList.toggle('active', vibrateOnlyMode);
   updateVibrateOnlyUI();
   saveUserAlarmSettings();
-  showToast(vibrateOnlyMode ? '✅ فقط ویبره فعال' : '✅ صدا + ویبره');
+  showToast(vibrateOnlyMode ? '✅ فقط ویبره' : '✅ صدا + ویبره');
 }
 
 function onVolumeChange(val) {
   alarmVolume = parseInt(val);
   var el = document.getElementById('alarmVolumeValue');
   if(el) el.textContent = alarmVolume + '%';
-  if(customAlarmAudio) customAlarmAudio.volume = alarmVolume / 100;
   saveUserAlarmSettings();
 }
 
@@ -2633,20 +2699,18 @@ function toggleGradualVolume(btn) {
   gradualVolume = !gradualVolume;
   btn.classList.toggle('active', gradualVolume);
   saveUserAlarmSettings();
-  showToast(gradualVolume ? '✅ افزایش پله‌ای' : '⏸ غیرفعال');
-}
-
-function toggleSilentMode(btn) {
-  silentModeOverride = !silentModeOverride;
-  btn.classList.toggle('active', silentModeOverride);
-  saveUserAlarmSettings();
-  showToast(silentModeOverride ? '✅ حالت بی‌صدا Override' : '⏸ غیرفعال');
 }
 
 function toggleVibrate(btn) {
   vibrateEnabled = !vibrateEnabled;
   btn.classList.toggle('active', vibrateEnabled);
   saveUserAlarmSettings();
+  if(vibrateEnabled) {
+    if(navigator.vibrate) navigator.vibrate([200, 100, 200]);
+    showToast('✅ ویبره فعال');
+  } else {
+    showToast('⏸ ویبره غیرفعال');
+  }
 }
 
 /* ============================================================
@@ -2659,18 +2723,15 @@ function renderAlarmSettings(){
   container.innerHTML=html;
 }
 
-/* === مهم: هنگام تغییر تایم توسط کاربر، در localStorage و alarmSettings هم ذخیره کن === */
 function updateAlarmTime(col,time){
   currentTimes[col]=time;
   saveAll();
-  // ذخیره در تنظیمات کاربر
   var saved = safeParseJSON(safeGetLS(userKey('alarmSettings'), '{}'), {});
   saved.currentTimes = Object.assign({}, saved.currentTimes || {}, currentTimes);
   saved.currentTimes[col] = time;
   safeSetLS(userKey('alarmSettings'), JSON.stringify(saved));
-  // ارسال به SW
   updateAlarmScheduleForSW();
-  showToast('✅ زمان ' + (tableColumnNames[col] || col) + ' ذخیره شد');
+  showToast('✅ زمان ذخیره شد');
 }
 
 function toggleAlarmFor(col,btn){
@@ -2693,49 +2754,16 @@ function testAlarmSound(){
   unlockAudio();
   if(vibrateOnlyMode) {
     if(navigator.vibrate) navigator.vibrate([500,200,500,200,500]);
-    showToast('📳 حالت فقط ویبره - لرزش تست');
+    showToast('📳 لرزش تست');
     return;
   }
-  
-  // تلاش برای پخش آهنگ اختصاصی
-  if(customAlarmAudio || customAlarmSoundData) {
-    try {
-      var testAudio = new Audio(customAlarmSoundData || customAlarmAudio.src);
-      testAudio.volume = alarmVolume / 100;
-      testAudio.play().then(function(){
-        showToast('🔊 آهنگ اختصاصی با صدای ' + alarmVolume + '%');
-      }).catch(function(err){
-        console.log('Test audio error:', err);
-        playAlarmSound();
-        setTimeout(function(){ stopAlarmSound(false); }, 3000);
-        showToast('🔊 تست (با بیپ)');
-      });
-      setTimeout(function(){ try{testAudio.pause();}catch(e){} }, 4000);
-      return;
-    } catch(e){}
-  }
-  
   playAlarmSound();
-  setTimeout(function(){ stopAlarmSound(false); }, 3000);
-  showToast('🔊 تست با بیپ');
+  setTimeout(function(){ stopAlarmSound(false); }, 5000);
+  showToast('🔊 در حال تست...');
 }
 
 function clearTimers(){alarmTimers.forEach(function(t){clearTimeout(t);});alarmTimers=[];}
 function msUntil(t){var p=t.split(':'),h=parseInt(p[0]),m=parseInt(p[1]),now=new Date(),target=new Date(now);target.setHours(h,m,0,0);if(target<=now)target.setDate(target.getDate()+1);return target.getTime()-now.getTime();}
-
-function unlockAudio(){
-  if(audioUnlocked)return true;
-  try{
-    audioContext=new(window.AudioContext||window.webkitAudioContext)();
-    if(audioContext.state==='suspended')audioContext.resume();
-    var osc=audioContext.createOscillator(),g=audioContext.createGain();
-    osc.connect(g);g.connect(audioContext.destination);
-    g.gain.setValueAtTime(0,audioContext.currentTime);
-    osc.start(audioContext.currentTime);osc.stop(audioContext.currentTime+.1);
-    audioUnlocked=true;
-    return true;
-  }catch(e){return false;}
-}
 
 function scheduleAlarms() {
   clearTimers();
@@ -2755,21 +2783,18 @@ function scheduleAlarms() {
       }
     }
   });
-  // ارسال به SW
   updateAlarmScheduleForSW();
 }
 
-/* === Heartbeat برای ارسال مجدد schedule به SW === */
 function startAlarmHeartbeat() {
   stopAlarmHeartbeat();
-  alarmHeartbeatInterval = setInterval(function() {
-    if(alarmActive) {
-      updateAlarmScheduleForSW();
-    }
-  }, 5 * 60 * 1000); // هر 5 دقیقه
+  var alarmHeartbeatInterval = setInterval(function() {
+    if(alarmActive) updateAlarmScheduleForSW();
+  }, 5 * 60 * 1000);
+  window._alarmHeartbeatInterval = alarmHeartbeatInterval;
 }
 function stopAlarmHeartbeat() {
-  if(alarmHeartbeatInterval) { clearInterval(alarmHeartbeatInterval); alarmHeartbeatInterval = null; }
+  if(window._alarmHeartbeatInterval) { clearInterval(window._alarmHeartbeatInterval); window._alarmHeartbeatInterval = null; }
 }
 
 function triggerAlarm(a){
@@ -2780,13 +2805,32 @@ function triggerAlarm(a){
   var ov=document.getElementById('alarmOverlay');
   if(ov)ov.classList.add('active');
   playAlarmSound();
-  if(vibrateEnabled || vibrateOnlyMode) vibrateAlarm();
+  vibrateAlarm();
   showInteractiveNotification(a.name, a.type);
+  startAlarmKeepAlive();
+  updateAlarmScheduleForSW();
 }
 
-function vibrateAlarm(){
-  if(navigator.vibrate) {
-    try { navigator.vibrate([500,200,500,200,500,200,500,200,500]); } catch(e) {}
+function startAlarmKeepAlive() {
+  stopAlarmKeepAlive();
+  alarmKeepAliveTimer = setInterval(function() {
+    if(!alarmActive || !currentAlarmData) {
+      stopAlarmKeepAlive();
+      return;
+    }
+    var ov = document.getElementById('alarmOverlay');
+    if(ov && !ov.classList.contains('active')) {
+      ov.classList.add('active');
+    }
+    if(!vibrateOnlyMode && !alarmSoundInterval && !audioBufferCache.currentSource) {
+      playAlarmSound();
+    }
+  }, 5000);
+}
+function stopAlarmKeepAlive() {
+  if(alarmKeepAliveTimer) {
+    clearInterval(alarmKeepAliveTimer);
+    alarmKeepAliveTimer = null;
   }
 }
 
@@ -2800,8 +2844,8 @@ async function showInteractiveNotification(name, type){
       } catch(e) { return; }
     } else return;
   }
-  var notifOptions = {
-    body: name + ' — برای قطع یا چرت روی نوتیفیکیشن کلیک کنید',
+  var opts = {
+    body: name + ' — کلیک برای قطع یا چرت',
     icon: '/Safir-salamat-/icon-192.png',
     badge: '/Safir-salamat-/icon-192.png',
     vibrate: (vibrateEnabled || vibrateOnlyMode) ? [500,200,500,200,500] : [],
@@ -2809,159 +2853,54 @@ async function showInteractiveNotification(name, type){
     requireInteraction: true,
     renotify: true,
     silent: false,
-    data: { alarmName: name, alarmType: type, action: 'open', url: location.href, userId: userId },
+    data: { alarmName: name, alarmType: type, isAlarm: true, action: 'open' },
     actions: [
-      { action: 'stop', title: '🔇 قطع آلارم' },
-      { action: 'snooze', title: '💤 چرت ۱۰ دقیقه' }
+      { action: 'stop', title: '🔇 قطع' },
+      { action: 'snooze', title: '💤 چرت' }
     ]
   };
-  
   try {
     if(swRegistration && swRegistration.showNotification) {
-      await swRegistration.showNotification('⏰ ' + type, notifOptions);
+      await swRegistration.showNotification('⏰ ' + type, opts);
       return;
     }
     if('serviceWorker' in navigator) {
       try {
         var reg = await navigator.serviceWorker.ready;
-        if(reg && typeof reg.showNotification === 'function') {
-          await reg.showNotification('⏰ ' + type, notifOptions);
+        if(reg && reg.showNotification) {
+          await reg.showNotification('⏰ ' + type, opts);
           return;
         }
-      } catch(swErr) {}
+      } catch(e) {}
     }
     if(activeNotification) { try { activeNotification.close(); } catch(e) {} }
-    activeNotification = new Notification('⏰ ' + type, notifOptions);
-    activeNotification.onclick = function(e) {
-      e.preventDefault();
-      // === مهم: قطع آلارم هنگام کلیک ===
-      stopAlarm();
-      window.focus();
-    };
-  } catch(e) { console.error('Notification error:', e); }
+    activeNotification = new Notification('⏰ ' + type, opts);
+    activeNotification.onclick = function(e) { e.preventDefault(); stopAlarm(); window.focus(); };
+  } catch(e) { console.error('Notif error:', e); }
 }
 
-/* === لیسنر پیام‌های SW برای قطع/چرت از نوتیفیکیشن === */
 if('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('message', function(event) {
     var data = event.data || {};
     if(data.type === 'ALARM_ACTION' || data.type === 'NOTIFICATION_CLICK') {
-      if(data.action === 'stop') {
-        stopAlarm();
-        if(userId) localStorage.removeItem('activeAlarm_' + userId);
-      } else if(data.action === 'snooze') {
-        snoozeAlarm();
-        if(userId) localStorage.removeItem('activeAlarm_' + userId);
-      } else if(data.action === 'open' || data.action === 'notificationclick') {
-        // قطع + باز کردن
-        stopAlarm();
-      }
+      if(data.action === 'stop') { stopAlarm(); }
+      else if(data.action === 'snooze') { snoozeAlarm(); }
+      else if(data.action === 'open' || data.action === 'notificationclick') { stopAlarm(); }
     }
     if(data.type === 'TRIGGER_ALARM_FROM_SW') {
-      // آلارم از سمت SW - در اپ هم نمایش بده
-      if(data.alarmData) {
-        triggerAlarm(data.alarmData);
-      }
+      if(data.alarmData) triggerAlarm(data.alarmData);
     }
   });
-}
-
-function playAlarmSound(){
-  stopAlarmSound(false);
-  gradualVolumeStep = 0;
-  if(vibrateOnlyMode) return;
-  
-  // اول تلاش برای پخش آهنگ اختصاصی
-  if(customAlarmSoundData) {
-    try {
-      var audio = new Audio(customAlarmSoundData);
-      audio.loop = true;
-      audio.volume = gradualVolume ? 0 : (alarmVolume / 100);
-      customAlarmAudio = audio;
-      
-      var playPromise = audio.play();
-      if(playPromise && playPromise.catch) {
-        playPromise.then(function(){
-          console.log('✓ Custom audio playing');
-        }).catch(function(err){
-          console.log('Custom audio failed:', err);
-          playBeepFallback();
-        });
-      }
-      
-      if(gradualVolume) {
-        startGradualVolumeIncrease(function(vol) {
-          if(customAlarmAudio) customAlarmAudio.volume = vol / 100;
-        });
-      }
-      return;
-    } catch(e) { 
-      console.log('Custom audio error:', e);
-    }
-  }
-  
-  playBeepFallback();
-}
-
-function playBeepFallback() {
-  if(!audioUnlocked) unlockAudio();
-  try{
-    if(!audioContext||audioContext.state==='suspended'){
-      audioContext=new(window.AudioContext||window.webkitAudioContext)();
-      if(audioContext.state==='suspended')audioContext.resume();
-    }
-    var initialVolume = gradualVolume ? 0.05 : (alarmVolume / 100);
-    function beep(volume) {
-      if(!audioContext||audioContext.state!=='running')return;
-      var o=audioContext.createOscillator(),g=audioContext.createGain();
-      o.connect(g);g.connect(audioContext.destination);
-      o.type='sine';o.frequency.setValueAtTime(880,audioContext.currentTime);
-      g.gain.setValueAtTime(0,audioContext.currentTime);
-      g.gain.linearRampToValueAtTime(volume,audioContext.currentTime+.05);
-      g.gain.linearRampToValueAtTime(0,audioContext.currentTime+.5);
-      o.start(audioContext.currentTime);o.stop(audioContext.currentTime+.5);
-    }
-    var currentVolume = initialVolume;
-    beep(currentVolume);
-    alarmSoundInterval = setInterval(function(){ beep(currentVolume); }, 700);
-    if(gradualVolume) startGradualVolumeIncrease(function(vol) { currentVolume = Math.min(1, vol / 100); });
-  }catch(e){}
-}
-
-function startGradualVolumeIncrease(callback) {
-  if(gradualVolumeInterval) clearInterval(gradualVolumeInterval);
-  gradualVolumeStep = 0;
-  gradualVolumeInterval = setInterval(function(){
-    gradualVolumeStep++;
-    var targetVolume = Math.min(alarmVolume, gradualVolumeStep * 20 + 10);
-    if(callback) callback(targetVolume);
-    if(targetVolume >= alarmVolume) {
-      clearInterval(gradualVolumeInterval);
-      gradualVolumeInterval = null;
-    }
-  }, 3000);
-}
-
-function stopAlarmSound(fullCleanup){
-  if(fullCleanup === undefined) fullCleanup = true;
-  if(alarmSoundInterval){clearInterval(alarmSoundInterval);alarmSoundInterval=null;}
-  if(gradualVolumeInterval){clearInterval(gradualVolumeInterval);gradualVolumeInterval=null;}
-  gradualVolumeStep = 0;
-  if(customAlarmAudio) { try{customAlarmAudio.pause();customAlarmAudio.currentTime=0;}catch(e){} customAlarmAudio = null; }
-  if(fullCleanup && audioContext){
-    try{if(audioContext.state!=='closed')audioContext.close();}catch(e){}
-    audioContext=null;audioUnlocked=false;
-  }
 }
 
 function stopAlarm(){
   document.getElementById('alarmOverlay').classList.remove('active');
   stopAlarmSound();
-  if(navigator.vibrate)navigator.vibrate(0);
+  stopAlarmKeepAlive();
+  if(navigator.vibrate) { try { navigator.vibrate(0); } catch(e) {} }
   if(activeNotification) { try { activeNotification.close(); } catch(e) {} activeNotification = null; }
   if(userId) localStorage.removeItem('activeAlarm_' + userId);
   currentAlarmData = null;
-  // ارسال دستور قطع به SW
   try {
     if(swRegistration && swRegistration.active) {
       swRegistration.active.postMessage({type: 'STOP_ALARM'});
@@ -2989,7 +2928,7 @@ function checkPendingAlarm() {
         var ov = document.getElementById('alarmOverlay');
         if(ov) ov.classList.add('active');
         playAlarmSound();
-        if(vibrateEnabled || vibrateOnlyMode) vibrateAlarm();
+        vibrateAlarm();
       } else {
         localStorage.removeItem('activeAlarm_' + userId);
       }
@@ -3003,8 +2942,7 @@ function activateAlarms(){
     try{Notification.requestPermission();}catch(e){}
   }
   if(alarmActive){ 
-    alarmActive=false;
-    clearTimers(); 
+    alarmActive=false;clearTimers(); 
     document.getElementById('statusText').textContent='⏸ غیرفعال'; 
     return; 
   }
@@ -3015,7 +2953,7 @@ function activateAlarms(){
 }
 
 /* ============================================================
-   آپلود آهنگ
+   UPLOAD SOUND
    ============================================================ */
 function openSoundFilePicker() {
   var inp = document.getElementById('customAlarmSound');
@@ -3032,55 +2970,41 @@ function openSoundFilePicker() {
   var opened = false;
   try { if(typeof inp.showPicker === 'function') { inp.showPicker(); opened = true; } } catch(e) { opened = false; }
   if(!opened) { try { inp.click(); opened = true; } catch(e) { opened = false; } }
-  if(!opened) {
-    try {
-      var lbl = document.createElement('label');
-      lbl.htmlFor = 'customAlarmSound';
-      lbl.style.display = 'none';
-      document.body.appendChild(lbl);
-      lbl.click();
-      setTimeout(function(){ lbl.remove(); }, 1000);
-      opened = true;
-    } catch(e) { opened = false; }
-  }
-  if(!opened) showToast('⚠️ مرورگر پشتیبانی نمی‌کند.', 'warning', 6000);
+  if(!opened) showToast('⚠️ مرورگر پشتیبانی نمی‌کند', 'warning', 6000);
 }
 
 function uploadCustomAlarmSound(event) {
   var file = event.target.files && event.target.files[0];
   if(!file) return;
   if(!file.type.startsWith('audio/') && !file.name.match(/\.(mp3|wav|m4a|ogg|aac|flac|opus|weba)$/i)) {
-    showToast('⚠️ لطفاً فایل صوتی انتخاب کنید.', 'warning', 5000);
+    showToast('⚠️ فایل صوتی انتخاب کنید', 'warning', 5000);
     return;
   }
-  showToast('⏳ در حال پردازش...', 'warning', 3000);
+  showToast('⏳ پردازش...', 'warning', 3000);
   var reader = new FileReader();
   reader.onload = function(e) {
     try {
       var base64 = e.target.result;
-      if(!base64 || base64.length < 100) { showToast('❌ فایل نامعتبر.', 'error'); return; }
+      if(!base64 || base64.length < 100) { showToast('❌ نامعتبر', 'error'); return; }
       saveSoundToHistory(base64, file.name);
       safeSetLS('customAlarmSound_' + userId, base64);
       customAlarmSoundData = base64;
       setupCustomAudio(base64);
-      // ارسال به SW
       sendSoundToSW(base64);
-      showToast('✅ آهنگ ذخیره شد.');
+      showToast('✅ ذخیره شد');
     } catch(err) {
-      if(err.name === 'QuotaExceededError' || (err.message && err.message.toLowerCase().includes('quota'))) {
-        showToast('❌ فضای پر است.', 'error', 6000);
-      } else showToast('❌ خطا: ' + err.message, 'error', 5000);
+      if(err.name === 'QuotaExceededError') showToast('❌ فضا پر است', 'error', 6000);
+      else showToast('❌ خطا: ' + err.message, 'error', 5000);
     }
   };
-  reader.onerror = function() { showToast('❌ خطا در خواندن فایل.', 'error'); };
+  reader.onerror = function() { showToast('❌ خطا در خواندن', 'error'); };
   reader.readAsDataURL(file);
 }
 
 function sendSoundToSW(base64) {
   if(!swRegistration || !swRegistration.active) return;
-  // برای حجم‌های بزرگ، فقط در صورت امکان
   try {
-    if(base64.length < 500000) { // کمتر از 500KB
+    if(base64.length < 500000) {
       swRegistration.active.postMessage({type: 'SET_SOUND', data: base64, userId: userId});
     }
   } catch(e) {}
@@ -3091,7 +3015,7 @@ function saveSoundToHistory(base64, fileName) {
     var key = 'soundHistory_' + userId;
     var history = safeParseJSON(safeGetLS(key, '[]'), []);
     if(history.some(function(h){ return h.data === base64; })) return;
-    history.unshift({ name: fileName || ('آهنگ ' + new Date().toLocaleDateString('fa-IR')), data: base64, addedAt: Date.now() });
+    history.unshift({ name: fileName || ('آهنگ'), data: base64, addedAt: Date.now() });
     if(history.length > 3) history = history.slice(0, 3);
     safeSetLS(key, JSON.stringify(history));
   } catch(e) {}
@@ -3102,14 +3026,14 @@ function renderSoundHistory() {
   if(!list) return;
   var history = safeParseJSON(safeGetLS('soundHistory_' + userId, '[]'), []);
   if(history.length === 0) {
-    list.innerHTML = '<p style="font-size:0.75em; color:var(--text-muted); text-align:center; padding:8px;">هنوز آهنگی آپلود نکرده‌اید.</p>';
+    list.innerHTML = '<p style="font-size:0.75em; color:var(--text-muted); text-align:center; padding:8px;">هنوز آهنگی نیست</p>';
     return;
   }
   var html = '';
   history.forEach(function(h, idx) {
     var date = new Date(h.addedAt).toLocaleDateString('fa-IR');
     html += '<div class="sound-history-item">';
-    html += '<div class="sound-history-name">🎵 ' + escapeHtml(h.name) + '<br><span style="font-size:0.85em; color:var(--text-muted);">' + date + '</span></div>';
+    html += '<div class="sound-history-name">🎵 ' + escapeHtml(h.name) + '<br><span style="font-size:0.85em;">' + date + '</span></div>';
     html += '<button class="btn-play" onclick="playHistorySound(' + idx + ')">▶️</button>';
     html += '<button class="btn-play" style="background:var(--btn-blue);" onclick="applyHistorySound(' + idx + ')">✅</button>';
     html += '<button class="btn-del" onclick="deleteHistorySound(' + idx + ')">🗑️</button>';
@@ -3127,7 +3051,7 @@ function playHistorySound(idx) {
     audio.volume = alarmVolume / 100;
     audio.play();
     setTimeout(function(){ try{audio.pause();}catch(e){} }, 5000);
-    showToast('🔊 در حال پخش...');
+    showToast('🔊 پخش...');
   } catch(e) { showToast('❌ خطا', 'error'); }
 }
 
@@ -3135,18 +3059,16 @@ function applyHistorySound(idx) {
   var history = safeParseJSON(safeGetLS('soundHistory_' + userId, '[]'), []);
   var h = history[idx];
   if(!h) return;
-  if(!confirm('آهنگ فعال شود؟')) return;
   safeSetLS('customAlarmSound_' + userId, h.data);
   customAlarmSoundData = h.data;
   setupCustomAudio(h.data);
   sendSoundToSW(h.data);
-  showToast('✅ آهنگ فعال شد');
+  showToast('✅ فعال شد');
 }
 
 function deleteHistorySound(idx) {
   var history = safeParseJSON(safeGetLS('soundHistory_' + userId, '[]'), []);
   if(!history[idx]) return;
-  if(!confirm('حذف شود؟')) return;
   var removed = history.splice(idx, 1)[0];
   safeSetLS('soundHistory_' + userId, JSON.stringify(history));
   var currentSound = safeGetLS('customAlarmSound_' + userId, null);
@@ -3159,10 +3081,9 @@ function removeCustomAlarmSoundSilent() {
   if(customAlarmAudio) { customAlarmAudio.pause(); customAlarmAudio = null; }
   customAlarmSoundData = null;
   var statusEl = document.getElementById('customSoundStatus');
-  if(statusEl) statusEl.textContent = 'آهنگ پیش‌فرض استفاده می‌شود';
+  if(statusEl) statusEl.textContent = 'آهنگ پیش‌فرض';
   var preview = document.getElementById('customSoundPreview');
   if(preview) { preview.src = ''; preview.style.display = 'none'; }
-  try { if(swRegistration && swRegistration.active) swRegistration.active.postMessage({type: 'SET_SOUND', data: null}); } catch(e) {}
 }
 
 function setupCustomAudio(base64) {
@@ -3173,10 +3094,8 @@ function setupCustomAudio(base64) {
     customAlarmAudio.loop = true;
     customAlarmAudio.volume = alarmVolume / 100;
     var statusEl = document.getElementById('customSoundStatus');
-    if(statusEl) statusEl.innerHTML = '<span style="color:var(--btn-success);">✅ آهنگ اختصاصی فعال</span>';
-    var preview = document.getElementById('customSoundPreview');
-    if(preview) { preview.src = base64; preview.style.display = 'block'; }
-  } catch(e) { showToast('❌ خطا در بارگذاری: ' + e.message, 'error'); }
+    if(statusEl) statusEl.innerHTML = '<span style="color:var(--btn-success);">✅ آهنگ فعال</span>';
+  } catch(e) { showToast('❌ خطا', 'error'); }
 }
 
 function loadCustomAlarmSound() {
@@ -3188,13 +3107,13 @@ function loadCustomAlarmSound() {
     sendSoundToSW(stored);
   } else {
     var statusEl = document.getElementById('customSoundStatus');
-    if(statusEl) statusEl.textContent = 'آهنگ پیش‌فرض استفاده می‌شود';
+    if(statusEl) statusEl.textContent = 'آهنگ پیش‌فرض';
   }
   renderSoundHistory();
 }
 
 function removeCustomAlarmSound() {
-  if(!confirm('آهنگ حذف شود؟')) return;
+  if(!confirm('حذف شود؟')) return;
   removeCustomAlarmSoundSilent();
   var fileInput = document.getElementById('customAlarmSound');
   if(fileInput) fileInput.value = '';
@@ -3214,12 +3133,12 @@ function toggleAutoReactivate() {
     if('Notification' in window && Notification.permission === 'default') {
       try { Notification.requestPermission(); } catch(e){}
     }
-    showToast('✅ فعال‌سازی خودکار فعال');
+    showToast('✅ فعال‌سازی خودکار');
     if(!alarmActive) activateAlarms();
   } else {
     stopAutoReactivateInterval();
     closeMiniAlarmToast();
-    showToast('⏸ غیرفعال شد');
+    showToast('⏸ غیرفعال');
   }
 }
 
@@ -3230,7 +3149,6 @@ function startAutoReactivateInterval() {
   autoReactivateInterval = setInterval(function() {
     if(autoReactivateCheck && !alarmActive) {
       activateAlarms();
-      showToast('🔄 آلارم‌ها فعال شدند', 'success', 2500);
     }
   }, 30 * 60 * 1000);
 }
@@ -3251,25 +3169,23 @@ function toggleBackgroundAlarm() {
   var cb = document.getElementById('backgroundAlarmCheck');
   backgroundAlarmEnabled = cb ? cb.checked : false;
   saveUserAlarmSettings();
-  if(backgroundAlarmEnabled) { setupBackgroundAlarm(); showToast('✅ آلارم پس‌زمینه فعال'); }
-  else { teardownBackgroundAlarm(); showToast('⏸ غیرفعال شد'); }
+  if(backgroundAlarmEnabled) { setupBackgroundAlarm(); showToast('✅ پس‌زمینه فعال'); }
+  else { teardownBackgroundAlarm(); showToast('⏸ غیرفعال'); }
 }
 
 function setupBackgroundAlarm() {
-  if(!('serviceWorker' in navigator)) { showToast('⚠️ SW پشتیبانی نمی‌شود', 'warning', 5000); return; }
+  if(!('serviceWorker' in navigator)) { showToast('⚠️ پشتیبانی نمی‌شود', 'warning', 5000); return; }
   navigator.serviceWorker.ready.then(function(registration) {
     swRegistration = registration;
-    // ثبت periodic sync اگر ممکن باشد
     if('periodicSync' in registration) {
       registration.periodicSync.register('safir-check-alarms', {
         minInterval: 15 * 60 * 1000
-      }).catch(function(e){ console.log('Periodic sync failed:', e); });
+      }).catch(function(e){});
     }
     if('sync' in registration) {
       registration.sync.register('safir-alarm-sync').catch(function(e){});
     }
     sendAlarmScheduleToSW();
-    // ارسال آهنگ اگر هست
     if(customAlarmSoundData) sendSoundToSW(customAlarmSoundData);
   });
   updateAlarmScheduleForSW();
@@ -3282,7 +3198,6 @@ function teardownBackgroundAlarm() {
   if(userId) localStorage.removeItem('swAlarmSchedule_' + userId);
 }
 
-/* === ارسال schedule به SW === */
 function updateAlarmScheduleForSW() {
   if(!userId) return;
   var td = fortyDayData[getCurrentDayAuto()] || {};
@@ -3308,10 +3223,7 @@ function updateAlarmScheduleForSW() {
     backgroundEnabled: backgroundAlarmEnabled
   };
   safeSetLS('swAlarmSchedule_' + userId, JSON.stringify(data));
-  
-  if(backgroundAlarmEnabled) {
-    sendAlarmScheduleToSW();
-  }
+  if(backgroundAlarmEnabled) sendAlarmScheduleToSW();
 }
 
 function sendAlarmScheduleToSW() {
@@ -3331,9 +3243,9 @@ function sendAlarmScheduleToSW() {
 /* ============================================================
    DATA
    ============================================================ */
-var defaultHerbProperties={"روغن بادام شیرین":"تقویت مغز و اعصاب","دمنوش کاسنی":"تصفیه خون","چای آلبالو":"ضد التهاب","هل":"ضد نفخ","دمنوش ۵ گیاه":"لاغری","چای سیاه و وانیل":"انرژی"};
+var defaultHerbProperties={};
 var herbProperties={},tableColumns=['oil','breakfast','evening','dinner'],tableColumnNames={oil:'💧 ناشتا',breakfast:'☀️ صبح',evening:'🌅 عصر',dinner:'🌙 شب'},currentTimes={oil:"06:00",breakfast:"08:00",evening:"17:00",dinner:"21:00"};
-var totalDays=40,fortyDayData=[],viewMode="all",fontSize="medium",fontFamily="Vazirmatn",showDate=false,showWeekday=false,showPast=true;
+var totalDays=40,fortyDayData=[],viewMode="all",fontSize="medium",fontFamily="Vazirmatn";
 var persianMonths=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'],weekdays=['شنبه','یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه'];
 
 function gregorianToJalali(gDate){var g=new Date(gDate),gy=g.getFullYear(),gm=g.getMonth()+1,gd=g.getDate();var gdm=[0,31,59,90,120,151,181,212,243,273,304,334],gy2=gm>2?gy+1:gy;var days=355666+365*gy+Math.floor((gy2+3)/4)-Math.floor((gy2+99)/100)+Math.floor((gy2+399)/400)+gd+gdm[gm-1];var jy=-1595+33*Math.floor(days/12053);days%=12053;jy+=4*Math.floor(days/1461);days%=1461;if(days>365){jy+=Math.floor((days-1)/365);days=(days-1)%365;}var jm=days<186?1+Math.floor(days/31):7+Math.floor((days-186)/30);var jd=days<186?1+days%31:1+(days-186)%30;return{y:jy,m:jm,d:jd};}
@@ -3365,16 +3277,16 @@ function getCurrentDayAuto() {
 function toDateInputValue(d){return d.toISOString().split('T')[0];}
 
 function initData(){
-  herbProperties=safeParseJSON(safeGetLS('herbProperties','null'),null)||JSON.parse(JSON.stringify(defaultHerbProperties));
+  herbProperties=safeParseJSON(safeGetLS('herbProperties','null'),null)||{};
   var sc=safeGetLS('tableColumns',null); if(sc){try{var p=JSON.parse(sc);tableColumns=p.columns||tableColumns;tableColumnNames=p.names||tableColumnNames;totalDays=p.totalDays||40;}catch(e){}}
-  viewMode=safeGetLS('viewMode','all');fontSize=safeGetLS('fontSize','medium');showDate=safeGetLS('showDate',null)==='true';showWeekday=safeGetLS('showWeekday',null)==='true';showPast=safeGetLS('showPastDays',null)!=='false';currentTheme=safeGetLS('theme','nature');nightMode=safeGetLS('nightMode',null)==='true';alarmEnabled=safeParseJSON(safeGetLS('alarmEnabled','{}'),{});
+  viewMode=safeGetLS('viewMode','all');fontSize=safeGetLS('fontSize','medium');currentTheme=safeGetLS('theme','nature');nightMode=safeGetLS('nightMode',null)==='true';alarmEnabled=safeParseJSON(safeGetLS('alarmEnabled','{}'),{});
   applyTheme();applySettings();
   var saved=safeGetLS('health40Data',null);
   if(saved){try{fortyDayData=JSON.parse(saved);if(fortyDayData.length===totalDays){var st=safeGetLS('health40Times',null);if(st)currentTimes=JSON.parse(st);return;}}catch(e){}}
   generateDefaultData();
 }
-function generateDefaultData(){fortyDayData=[];for(var i=1;i<=totalDays;i++){var d={};tableColumns.forEach(function(c){if(c==='oil')d[c]='روغن بادام شیرین';else if(c==='breakfast')d[c]=i%2?'دمنوش کاسنی':'چای سیاه و وانیل';else if(c==='evening')d[c]='چای آلبالو + هل';else if(c==='dinner')d[c]=i%2?'دمنوش ۵ گیاه':'شنبلیه، گزنه، گشنیز';else d[c]='';});fortyDayData.push(d);}saveAll();}
-function saveAll(){safeSetLS('health40Data',JSON.stringify(fortyDayData));safeSetLS('health40Times',JSON.stringify(currentTimes));safeSetLS('herbProperties',JSON.stringify(herbProperties));safeSetLS('tableColumns',JSON.stringify({columns:tableColumns,names:tableColumnNames,totalDays:totalDays}));safeSetLS('viewMode',viewMode);safeSetLS('fontSize',fontSize);safeSetLS('showDate',String(showDate));safeSetLS('showWeekday',String(showWeekday));safeSetLS('showPastDays',String(showPast));safeSetLS('theme',currentTheme);safeSetLS('nightMode',String(nightMode));safeSetLS('alarmEnabled',JSON.stringify(alarmEnabled));if(backgroundAlarmEnabled) updateAlarmScheduleForSW();}
+function generateDefaultData(){fortyDayData=[];for(var i=1;i<=totalDays;i++){var d={};tableColumns.forEach(function(c){if(c==='oil')d[c]='روغن بادام';else if(c==='breakfast')d[c]=i%2?'دمنوش کاسنی':'چای سیاه';else if(c==='evening')d[c]='چای آلبالو';else if(c==='dinner')d[c]=i%2?'دمنوش ۵ گیاه':'شنبلیه';else d[c]='';});fortyDayData.push(d);}saveAll();}
+function saveAll(){safeSetLS('health40Data',JSON.stringify(fortyDayData));safeSetLS('health40Times',JSON.stringify(currentTimes));safeSetLS('tableColumns',JSON.stringify({columns:tableColumns,names:tableColumnNames,totalDays:totalDays}));safeSetLS('viewMode',viewMode);safeSetLS('fontSize',fontSize);safeSetLS('theme',currentTheme);safeSetLS('nightMode',String(nightMode));safeSetLS('alarmEnabled',JSON.stringify(alarmEnabled));if(backgroundAlarmEnabled) updateAlarmScheduleForSW();}
 
 var themes={'nature':{'--bg-primary':'#0d1f12','--bg-secondary':'#1a3322','--bg-tertiary':'#21452c','--accent':'#f4d03f','--accent2':'#e8b923','--input-bg':'#142b1a','--text-primary':'#ffffff','--text-secondary':'#e8f0e3','--text-muted':'#a8bfa8'},'honey':{'--bg-primary':'#1a1200','--bg-secondary':'#3d2800','--bg-tertiary':'#5a3d00','--accent':'#f4d03f','--accent2':'#ffb700','--input-bg':'#3d2800','--text-primary':'#ffffff','--text-secondary':'#f0e5c8','--text-muted':'#bfa874'},'herbal':{'--bg-primary':'#1a0f00','--bg-secondary':'#2e1c08','--bg-tertiary':'#4a3010','--accent':'#d4a017','--accent2':'#b8860b','--input-bg':'#2e1c08','--text-primary':'#ffffff','--text-secondary':'#e8dcc8','--text-muted':'#a89468'},'mint':{'--bg-primary':'#0a2e2e','--bg-secondary':'#0f4444','--bg-tertiary':'#1a5c5c','--accent':'#7fffd4','--accent2':'#40e0d0','--input-bg':'#0f4444','--text-primary':'#ffffff','--text-secondary':'#d4f0f0','--text-muted':'#8fb5b5'},'dark':{'--bg-primary':'#0a0a0a','--bg-secondary':'#1a1a1a','--bg-tertiary':'#2a2a2a','--accent':'#ffd700','--accent2':'#ff8c00','--input-bg':'#1a1a1a','--text-primary':'#ffffff','--text-secondary':'#dddddd','--text-muted':'#888888'},'purple':{'--bg-primary':'#1a0a2e','--bg-secondary':'#251545','--bg-tertiary':'#301e50','--accent':'#f4d03f','--accent2':'#e056a0','--input-bg':'#251545','--text-primary':'#ffffff','--text-secondary':'#e8dcf0','--text-muted':'#a894bf'}};
 function applyTheme(){var t=themes[currentTheme];if(!t)return;for(var k in t)document.documentElement.style.setProperty(k,t[k]);document.body.style.filter=nightMode?'brightness(.7)':'none';}
@@ -3384,22 +3296,18 @@ function applySettings(){var s={small:'11px',medium:'14px',large:'18px'};documen
 
 function renderTable(){
   var thead=document.getElementById('tableHead'),hh='<tr><th>روز</th>';
-  if(showWeekday)hh+='<th>هفته</th>';if(showDate)hh+='<th>تاریخ</th>';
   tableColumns.forEach(function(c){hh+='<th>'+escapeHtml(tableColumnNames[c]||c)+'</th>';});hh+='</tr>';
   if(thead)thead.innerHTML=hh;
   var tbody=document.getElementById('scheduleBody');if(!tbody)return;
-  var today=getCurrentDayAuto(),sd=getStartDateGregorian(),days=[];
+  var today=getCurrentDayAuto(),days=[];
   if(viewMode==='today')days=[today];
   else if(viewMode==='week'){var ws=Math.max(0,Math.min(today-3,totalDays-7));for(var i=ws;i<Math.min(totalDays,ws+7);i++)days.push(i);}
-  else{for(var k=0;k<totalDays;k++)if(showPast||k>=today)days.push(k);}
+  else{for(var k=0;k<totalDays;k++)days.push(k);}
   var html='';
   days.forEach(function(i){
-    var d=fortyDayData[i]||{},isT=i===today,isP=i<today,cls=isT?'today-row':'';
-    if(isP&&!isT)cls+=' past-row';
-    var date=new Date(sd);date.setDate(date.getDate()+i);
+    var d=fortyDayData[i]||{},isT=i===today;
+    var cls=isT?'today-row':'';
     html+='<tr class="'+cls+'"><td>'+(isT?'🔵 ':'')+(i+1)+'</td>';
-    if(showWeekday)html+='<td>'+weekdays[(date.getDay()+1)%7]+'</td>';
-    if(showDate)html+='<td>'+formatJalali(gregorianToJalali(date))+'</td>';
     tableColumns.forEach(function(col){
       var txt=d[col]||'-';
       html+='<td>'+escapeHtml(txt)+'</td>';
@@ -3422,41 +3330,35 @@ function updateDateConversionInfo(){var sd=getStartDateGregorian(),j=gregorianTo
 function updateDayDisplay(){var el=document.getElementById('dayBadge');if(el) el.textContent='روز '+(getCurrentDayAuto()+1)+' از '+totalDays;}
 function changeViewMode(){viewMode=document.getElementById('viewMode').value;saveAll();renderTable();}
 function changeFontSize(){fontSize=document.getElementById('fontSize').value;applySettings();saveAll();}
-function toggleShowDate(){showDate=document.getElementById('showDate').checked;saveAll();renderTable();}
-function toggleShowWeekday(){showWeekday=document.getElementById('showWeekday').checked;saveAll();renderTable();}
-function toggleShowPastDays(){showPast=document.getElementById('showPastDays').checked;saveAll();renderTable();}
 function updateClock(){var el=document.getElementById('clockDisplay');if(el)el.textContent=new Date().toLocaleTimeString('fa-IR');}
 
 var deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;var b=document.getElementById('pwaInstallBtn');if(b)b.style.display='flex';});
-function installPWA(){if(!deferredPrompt){showInstallGuide();return;}deferredPrompt.prompt();deferredPrompt.userChoice.then(function(r){if(r.outcome==='accepted'){showToast('✅ نصب شد!');var b=document.getElementById('pwaInstallBtn');if(b)b.style.display='none';}deferredPrompt=null;});}
-function showInstallGuide(){var ua=navigator.userAgent.toLowerCase();var isIOS=/iphone|ipad|ipod/.test(ua);var isSafari=/safari/.test(ua)&&!/chrome/.test(ua);var isFirefox=/firefox/.test(ua);var isSamsung=/samsungbrowser/.test(ua);var msg='';if(isIOS||isSafari)msg='📱 نصب روی iPhone / Safari:\n\n۱. دکمه Share\n۲. Add to Home Screen\n۳. Add';else if(isFirefox)msg='📱 نصب روی Firefox:\n\n۱. منوی ۳ نقطه\n۲. Install';else if(isSamsung)msg='📱 نصب روی Samsung:\n\n۱. منوی ۳ خط\n۲. Add page to → Home screen';else msg='📱 نصب اپ:\n\n۱. منوی ۳ نقطه\n۲. Add to Home screen / Install App';alert(msg);}
+function installPWA(){if(!deferredPrompt){showInstallGuide();return;}deferredPrompt.prompt();deferredPrompt.userChoice.then(function(r){if(r.outcome==='accepted'){showToast('✅ نصب شد');var b=document.getElementById('pwaInstallBtn');if(b)b.style.display='none';}deferredPrompt=null;});}
+function showInstallGuide(){alert('نصب اپ:\nاز منوی مرورگر "Add to Home Screen" را بزنید');}
 
 function init(){
   try { initAuth(); } catch(e) { 
-    console.error('initAuth error:', e);
+    console.error('initAuth:', e);
     document.getElementById('loginPage').classList.add('active');
     document.getElementById('mainAppContainer').style.display = 'none';
     renderSavedProfiles();
   }
   
-  try { applyTheme(); applySettings(); } catch(e) { console.warn('theme:', e); }
+  try { applyTheme(); applySettings(); } catch(e) {}
   
   try {
     var sdp=document.getElementById('startDatePicker'); 
     if(sdp) sdp.value=toDateInputValue(getStartDateGregorian());
     updateDateConversionInfo();
     updateDayDisplay();
-  } catch(e) { console.warn('date init:', e); }
+  } catch(e) {}
   
   try {
     var vm=document.getElementById('viewMode');if(vm)vm.value=viewMode;
     var fs=document.getElementById('fontSize');if(fs)fs.value=fontSize;
-    var sd=document.getElementById('showDate');if(sd)sd.checked=showDate;
-    var sw=document.getElementById('showWeekday');if(sw)sw.checked=showWeekday;
-    var sp=document.getElementById('showPastDays');if(sp)sp.checked=showPast;
     var nm=document.getElementById('nightMode');if(nm)nm.checked=nightMode;
-  } catch(e) { console.warn('controls:', e); }
+  } catch(e) {}
   
   try {
     setInterval(updateClock,1000);
@@ -3480,13 +3382,12 @@ function init(){
       try { updateNotificationStatus(); } catch(e) {}
     }, 5000);
     
-    // بروزرسانی دائمی schedule به SW
     setInterval(function() {
       if(backgroundAlarmEnabled && userId) {
         try { updateAlarmScheduleForSW(); } catch(e) {}
       }
     }, 2 * 60 * 1000);
-  } catch(e) { console.warn('intervals:', e); }
+  } catch(e) {}
 }
 
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
@@ -3495,20 +3396,15 @@ else init();
 window.addEventListener('online',function(){loadRemoteBanner();});
 window.addEventListener('offline',function(){var tb=document.getElementById('topBanner');if(tb)tb.classList.remove('active');});
 
-if('serviceWorker'in navigator){
+if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
     navigator.serviceWorker.register('/Safir-salamat-/sw.js').then(function(r){
-      console.log('SW registered:',r.scope);
       swRegistration = r;
-      // ارسال آهنگ به SW
       if(customAlarmSoundData) sendSoundToSW(customAlarmSoundData);
-      // ارسال schedule
       if(backgroundAlarmEnabled) sendAlarmScheduleToSW();
-    }).catch(function(e){console.log('SW register failed:',e);});
+    }).catch(function(e){});
     
-    navigator.serviceWorker.ready.then(function(reg){
-      swRegistration = reg;
-    });
+    navigator.serviceWorker.ready.then(function(reg){ swRegistration = reg; });
   });
 }
 if(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone){var b=document.getElementById('pwaInstallBtn');if(b)b.style.display='none';}
@@ -3524,7 +3420,7 @@ function saveStartDatePermanently() {
   updateDateConversionInfo();updateDayDisplay();renderTable();updateTodayShowcase();
   if(alarmActive)scheduleAlarms();
   if(backgroundAlarmEnabled) updateAlarmScheduleForSW();
-  showToast('✅ ذخیره شد.');
+  showToast('✅ ذخیره شد');
 }
 
 function clearCacheAndReload(){
