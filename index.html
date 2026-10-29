@@ -36,15 +36,6 @@ body{font-family:var(--font-family);background:var(--bg-primary);
 .top-bar { display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary)); padding: 10px 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--border-color); }
 .top-bar-info { display: flex; align-items: center; gap: 10px; }
 
-/* پشتیبان‌گیری شناور */
-.backup-fab { position: fixed; bottom: 80px; left: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
-.backup-fab .main-btn { width: 50px; height: 50px; border-radius: 50%; background: var(--accent); color: #0d1f12; border: none; font-size: 1.5em; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
-.backup-fab .sub-btns { display: none; flex-direction: column; gap: 8px; }
-.backup-fab.open .sub-btns { display: flex; }
-.backup-fab .sub-btn { padding: 10px 15px; border-radius: 20px; border: none; font-family: inherit; font-weight: bold; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.3); font-size: 0.8em; display: flex; align-items: center; gap: 5px; }
-.btn-save-offline { background: var(--btn-success); color: #fff; }
-.btn-restore-offline { background: var(--btn-primary); color: #fff; }
-
 .login-box { background: linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary)); border: 2px solid var(--accent); border-radius: 20px; padding: 25px; margin: 50px auto; max-width: 400px; text-align: center; }
 .login-box h2 { color: var(--accent); margin-bottom: 20px; font-family: 'Lalezar', cursive; font-size: 1.8em;}
 .login-input { width: 100%; padding: 12px; margin-bottom: 15px; background: var(--input-bg); color: #fff; border: 1px solid var(--accent); border-radius: 8px; font-family: inherit; text-align: center; font-size: 1.1em; }
@@ -52,9 +43,14 @@ body{font-family:var(--font-family);background:var(--bg-primary);
 .saved-profile-item { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border-color); cursor: pointer;}
 .saved-profile-item:hover { border-color: var(--accent); }
 
+/* ویترین برنامه امروز */
 .today-showcase { background: linear-gradient(135deg, #1e3c26, #0d1f12); border: 2px solid var(--accent); border-radius: 20px; padding: 15px; margin-bottom: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.4), inset 0 0 20px rgba(244,208,63,0.1); position: relative; overflow: hidden; }
 .today-showcase::before { content: '✨'; position: absolute; top: -10px; left: -10px; font-size: 5em; opacity: 0.05; transform: rotate(20deg); }
-.showcase-title { font-family: 'Lalezar', cursive; color: var(--accent); font-size: 1.5em; text-align: center; margin-bottom: 15px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+.showcase-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 15px; border-bottom: 1px dashed rgba(244,208,63,0.3); padding-bottom: 10px; }
+.showcase-title { font-family: 'Lalezar', cursive; color: var(--accent); font-size: 1.5em; text-align: center; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+.showcase-date-box { display: flex; justify-content: center; gap: 15px; margin-top: 8px; font-size: 0.8em; color: var(--text-secondary); }
+.showcase-date-box span { background: rgba(0,0,0,0.4); padding: 4px 10px; border-radius: 10px; border: 1px solid rgba(244,208,63,0.2); }
+.showcase-day-badge { color: var(--accent) !important; font-weight: bold; border-color: var(--accent) !important; }
 .showcase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
 .showcase-card { background: rgba(0,0,0,0.3); border: 1px solid rgba(244,208,63,0.3); border-radius: 12px; padding: 10px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; }
 .showcase-card-icon { font-size: 1.8em; margin-bottom: 5px; }
@@ -237,15 +233,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 
 <div class="toast" id="toast"></div>
 
-<!-- سیستم پشتیبان‌گیری شناور -->
-<div class="backup-fab" id="backupFab">
-  <div class="sub-btns" id="backupSubBtns">
-    <button class="sub-btn btn-save-offline" onclick="saveOfflineBackup()">💾 ذخیره آفلاین</button>
-    <button class="sub-btn btn-restore-offline" onclick="restoreOfflineBackup()">♻️ بازیابی آفلاین</button>
-  </div>
-  <button class="main-btn" onclick="document.getElementById('backupFab').classList.toggle('open')">💾</button>
-</div>
-
 <div id="topBanner">
   <img id="topBannerImg" style="display:none" onload="bannerLoaded()" onerror="bannerError()" alt="">
 </div>
@@ -384,10 +371,19 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 
 <div class="page active" id="pageMenu">
   <div class="welcome-message" id="welcomeMessage" style="display:none;"></div>
+  
+  <!-- ویترین امروز -->
   <div class="today-showcase" id="todayShowcase">
-    <div class="showcase-title">امروز چی بخوریم؟</div>
+    <div class="showcase-header">
+      <div class="showcase-title">امروز چی بخوریم؟</div>
+      <div class="showcase-date-box">
+        <span id="showcaseJalaliDate">---</span>
+        <span id="showcaseDayNumber" class="showcase-day-badge">روز ---</span>
+      </div>
+    </div>
     <div class="showcase-grid" id="showcaseGrid"><p style="text-align:center;color:var(--text-muted);grid-column:1/-1;font-size:0.9em;">در حال بارگذاری...</p></div>
   </div>
+
   <div class="main-header"><h1>🌿 سفیر سلامت حامی</h1><h2>🍽️ برنامه هوشمند اصلاح مزاج</h2><div class="supervisor-box">تحت نظارت کارشناس مزاج‌شناسی و زبان‌شناسی<br>با مدرک بین‌المللی<strong>✨ مریم حمیدیان ✨</strong></div></div>
   <div class="menu-card" onclick="showPage('pageDaily')"><div class="menu-card-icon">🍵</div><div class="menu-card-title">🍵 برنامه روزانه سلامت</div><div class="menu-card-desc">دمنوش‌ها و وعده‌های روزانه</div></div>
   <div class="menu-card" onclick="showPage('pageRegime')"><div class="menu-card-icon">🥗</div><div class="menu-card-title">🥗 نسخه ویژه رژیم درمانی</div><div class="menu-card-desc">لاغری، چاقی، دیابت بارداری و...</div></div>
@@ -459,7 +455,12 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 </div>
 
 <div class="page" id="pageSettings">
-  <div class="main-header"><h1>⚙️ تنظیمات</h1><h2>مدیریت برنامه</h2></div>
+  <!-- هدر تنظیمات با دکمه پنل ادمین -->
+  <div class="main-header" style="position:relative;">
+    <h1>⚙️ تنظیمات</h1>
+    <h2>مدیریت برنامه</h2>
+    <button onclick="openAdminLogin()" style="position:absolute; top:15px; left:15px; width:40px; height:40px; border-radius:50%; background:var(--accent); color:#0d1f12; border:2px solid #fff; font-size:1.2em; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,0.4);" title="پنل مدیریت">🔐</button>
+  </div>
   <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
   
   <div class="section-box" style="border:2px solid var(--btn-danger);">
@@ -468,6 +469,16 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
       <button class="btn btn-blue" onclick="openEditProfileModal()">⚙️ ویرایش پروفایل و تصویر</button>
       <button class="btn btn-gray" onclick="doLogout()">🚪 خروج از حساب</button>
       <button class="btn btn-red" onclick="deleteMyAccount()">🗑️ حذف کامل حساب کاربری</button>
+    </div>
+  </div>
+
+  <!-- پشتیبان‌گیری آفلاین -->
+  <div class="section-box" style="border:2px solid var(--btn-success);">
+    <h3>💾 پشتیبان‌گیری آفلاین</h3>
+    <p style="font-size:0.8em; color:var(--text-secondary); text-align:center; margin-bottom:10px;">در صورت پاک شدن اطلاعات، از این بخش استفاده کنید.</p>
+    <div class="btn-row">
+      <button class="btn btn-green" onclick="saveOfflineBackup()">💾 ذخیره آفلاین</button>
+      <button class="btn btn-blue" onclick="restoreOfflineBackup()">♻️ بازیابی آفلاین</button>
     </div>
   </div>
 
@@ -481,11 +492,34 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   
   <div class="section-box" style="border:2px solid var(--accent2)"><h3>📚 تاریخچه</h3><div class="btn-row"><button class="btn btn-blue" onclick="showHistory('prescriptions')">💊 نسخه‌ها</button><button class="btn btn-purple" onclick="showHistory('tables')">📊 جدول‌ها</button></div></div>
   
-  <div class="section-box"><h3>📅 تاریخ شروع برنامه</h3><input type="date" id="startDatePicker" onchange="onStartDateChanged()" style="width:100%;padding:10px;background:var(--input-bg);color:var(--accent);border:2px solid var(--accent);border-radius:8px;font-family:var(--font-family)"><div style="font-size:.78em;color:var(--text-secondary);margin-top:8px;line-height:1.8">📅 شمسی: <span id="jalaliDate" style="color:var(--accent);font-weight:700">--</span><br>📌 امروز: <span id="dayBadge" style="color:var(--accent);font-weight:700">روز --</span></div></div>
+  <div class="section-box">
+    <h3>📅 تاریخ شروع برنامه</h3>
+    <input type="date" id="startDatePicker" onchange="onStartDateChanged()" style="width:100%;padding:10px;background:var(--input-bg);color:var(--accent);border:2px solid var(--accent);border-radius:8px;font-family:var(--font-family)">
+    <button class="btn btn-success" onclick="saveStartDatePermanently()" style="margin-top:8px;">💾 ذخیره دائم تاریخ شروع</button>
+    <div style="font-size:.78em;color:var(--text-secondary);margin-top:8px;line-height:1.8">📅 شمسی: <span id="jalaliDate" style="color:var(--accent);font-weight:700">--</span><br>📌 امروز: <span id="dayBadge" style="color:var(--accent);font-weight:700">روز --</span></div>
+  </div>
+  
+  <!-- بخش تم‌ها (بازگردانده شد) -->
+  <div class="section-box">
+    <h3>🎨 پوسته و تم</h3>
+    <div class="settings-row">
+      <label>تم:</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;flex:1;justify-content:center">
+        <span onclick="setTheme('nature')" style="width:35px;height:35px;border-radius:8px;cursor:pointer;background:linear-gradient(135deg,#0d1f12,#2b5738);border:2px solid var(--accent);"></span>
+        <span onclick="setTheme('honey')" style="width:35px;height:35px;border-radius:8px;cursor:pointer;background:linear-gradient(135deg,#3d2800,#8b6914);border:2px solid var(--border-color);"></span>
+        <span onclick="setTheme('herbal')" style="width:35px;height:35px;border-radius:8px;cursor:pointer;background:linear-gradient(135deg,#1a0f00,#4a3010);border:2px solid var(--border-color);"></span>
+        <span onclick="setTheme('mint')" style="width:35px;height:35px;border-radius:8px;cursor:pointer;background:linear-gradient(135deg,#0a2e2e,#1a4d4d);border:2px solid var(--border-color);"></span>
+        <span onclick="setTheme('dark')" style="width:35px;height:35px;border-radius:8px;cursor:pointer;background:linear-gradient(135deg,#111,#333);border:2px solid var(--border-color);"></span>
+        <span onclick="setTheme('purple')" style="width:35px;height:35px;border-radius:8px;cursor:pointer;background:linear-gradient(135deg,#1a0a2e,#3d2860);border:2px solid var(--border-color);"></span>
+      </div>
+    </div>
+    <div class="settings-row" style="margin-top:8px">
+      <label>🌙 حالت شب</label>
+      <input type="checkbox" id="nightMode" onchange="toggleNightMode()">
+    </div>
+  </div>
   
   <div class="section-box"><h3>🎨 نمایش</h3><div class="settings-row"><label>نوع:</label><select id="viewMode" onchange="changeViewMode()"><option value="all">کل روزها</option><option value="week">یک هفته</option><option value="today">فقط امروز</option></select></div><div class="settings-row"><label>فونت:</label><select id="fontSize" onchange="changeFontSize()"><option value="small">ریز</option><option value="medium" selected>متوسط</option><option value="large">بزرگ</option></select></div><div class="settings-row"><label>📅 تاریخ</label><input type="checkbox" id="showDate" onchange="toggleShowDate()"></div><div class="settings-row"><label>📆 هفته</label><input type="checkbox" id="showWeekday" onchange="toggleShowWeekday()"></div><div class="settings-row"><label>📂 گذشته</label><input type="checkbox" id="showPastDays" onchange="toggleShowPastDays()" checked></div></div>
-  
-  <button class="btn btn-red" onclick="openAdminLogin()" style="margin-top:15px">🔐 ورود به پنل مدیریت</button>
 </div>
 
 <div class="page" id="pageAdmin">
@@ -689,7 +723,6 @@ function saveOfflineBackup() {
   try {
     localStorage.setItem('offlineBackup_' + userId, JSON.stringify(backupData));
     showToast('✅ نسخه پشتیبان با موفقیت در گوشی ذخیره شد.');
-    document.getElementById('backupFab').classList.remove('open');
   } catch(e) {
     showToast('❌ خطا در ذخیره پشتیبان: ' + e.message, 'error');
   }
@@ -1407,11 +1440,21 @@ function updateTodayShowcase() {
     try { fortyDayData = JSON.parse(localData); } catch(e){}
   }
   
+  // بروزرسانی تاریخ و روز شمسی در ویترین
+  var todayIdx = getCurrentDayAuto();
+  var todayDate = new Date();
+  var jalali = gregorianToJalali(todayDate);
+  
+  var scDate = document.getElementById('showcaseJalaliDate');
+  if(scDate) scDate.textContent = '📅 ' + formatJalaliFull(jalali);
+  
+  var scDay = document.getElementById('showcaseDayNumber');
+  if(scDay) scDay.textContent = '📌 روز ' + (todayIdx + 1) + ' از ' + totalDays;
+
   if (fortyDayData.length === 0) {
     grid.innerHTML = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;font-size:0.9em;">برنامه‌ای ثبت نشده است</p>';
     return;
   }
-  var todayIdx = getCurrentDayAuto();
   var dayData = fortyDayData[todayIdx] || {};
   var html = '';
   tableColumns.forEach(function(col) {
@@ -2112,6 +2155,20 @@ window.addEventListener('offline',function(){var tb=document.getElementById('top
 
 if('serviceWorker'in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/Safir-salamat-/sw.js').then(function(r){console.log('SW:',r.scope);}).catch(function(e){console.log(e);});});}
 if(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone){var b=document.getElementById('pwaInstallBtn');if(b)b.style.display='none';}
+
+function saveStartDatePermanently() {
+  var val = document.getElementById('startDatePicker').value;
+  if(!val) { showToast('تاریخ را انتخاب کنید', 'error'); return; }
+  var d = new Date(val + 'T00:00:00');
+  if(isNaN(d.getTime())) return;
+  setStartDateGregorian(d);
+  saveAll();
+  updateDateConversionInfo();
+  updateDayDisplay();
+  renderTable();
+  updateTodayShowcase();
+  showToast('✅ تاریخ شروع برای همیشه ذخیره شد.');
+}
 </script>
 </body>
 </html>
