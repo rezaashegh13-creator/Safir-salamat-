@@ -48,9 +48,9 @@ body{font-family:var(--font-family);background:var(--bg-primary);
 .today-showcase::before { content: '✨'; position: absolute; top: -10px; left: -10px; font-size: 5em; opacity: 0.05; transform: rotate(20deg); }
 .showcase-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 15px; border-bottom: 1px dashed rgba(244,208,63,0.3); padding-bottom: 10px; }
 .showcase-title { font-family: 'Lalezar', cursive; color: var(--accent); font-size: 1.5em; text-align: center; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-.showcase-date-box { display: flex; justify-content: center; gap: 15px; margin-top: 8px; font-size: 0.8em; color: var(--text-secondary); }
+.showcase-motivation-box { text-align: center; margin-top: 8px; font-size: 0.95em; color: var(--accent); font-weight: bold; padding: 8px; background: rgba(244,208,63,0.08); border-radius: 10px; border: 1px dashed var(--accent2); line-height: 1.8; width: 100%; }
+.showcase-date-box { display: flex; justify-content: center; gap: 15px; margin-top: 10px; font-size: 0.8em; color: var(--text-secondary); flex-wrap: wrap;}
 .showcase-date-box span { background: rgba(0,0,0,0.4); padding: 4px 10px; border-radius: 10px; border: 1px solid rgba(244,208,63,0.2); }
-.showcase-day-badge { color: var(--accent) !important; font-weight: bold; border-color: var(--accent) !important; }
 .showcase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
 .showcase-card { background: rgba(0,0,0,0.3); border: 1px solid rgba(244,208,63,0.3); border-radius: 12px; padding: 10px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; }
 .showcase-card-icon { font-size: 1.8em; margin-bottom: 5px; }
@@ -376,6 +376,7 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   <div class="today-showcase" id="todayShowcase">
     <div class="showcase-header">
       <div class="showcase-title">امروز چی بخوریم؟</div>
+      <div class="showcase-motivation-box" id="motivationText">در حال بارگذاری...</div>
       <div class="showcase-date-box">
         <span id="showcaseJalaliDate">---</span>
         <span id="showcaseDayNumber" class="showcase-day-badge">روز ---</span>
@@ -1440,7 +1441,6 @@ function updateTodayShowcase() {
     try { fortyDayData = JSON.parse(localData); } catch(e){}
   }
   
-  // بروزرسانی تاریخ و روز شمسی در ویترین
   var todayIdx = getCurrentDayAuto();
   var todayDate = new Date();
   var jalali = gregorianToJalali(todayDate);
@@ -1448,8 +1448,14 @@ function updateTodayShowcase() {
   var scDate = document.getElementById('showcaseJalaliDate');
   if(scDate) scDate.textContent = '📅 ' + formatJalaliFull(jalali);
   
+  var dayNumFa = toPersianNumber(todayIdx + 1);
   var scDay = document.getElementById('showcaseDayNumber');
-  if(scDay) scDay.textContent = '📌 روز ' + (todayIdx + 1) + ' از ' + totalDays;
+  if(scDay) scDay.textContent = '📌 روز ' + dayNumFa + ' از ' + toPersianNumber(totalDays);
+  
+  // جملات انگیزشی
+  var motivations = getMotivationalMessage(todayIdx + 1);
+  var motEl = document.getElementById('motivationText');
+  if(motEl) motEl.textContent = motivations;
 
   if (fortyDayData.length === 0) {
     grid.innerHTML = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;font-size:0.9em;">برنامه‌ای ثبت نشده است</p>';
@@ -1476,6 +1482,62 @@ function updateTodayShowcase() {
   });
   if (!html) html = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;font-size:0.9em;">برنامه‌ای برای امروز ثبت نشده</p>';
   grid.innerHTML = html;
+}
+
+// تابع تبدیل اعداد به فارسی
+function toPersianNumber(num) {
+  var fa = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+  return String(num).replace(/\d/g, function(d) { return fa[parseInt(d)]; });
+}
+
+// جملات انگیزشی برای 40 روز
+function getMotivationalMessage(dayNum) {
+  var messages = [
+    "باریکلا، سفر سلامتت رو شروع کردی! 🌱",
+    "آفرین یک روز پیش رفتی 💪",
+    "آفرین سه روز پیش رفتی 🏆",
+    "بارکلا، تو می‌تونی سالم بشی، چهار روز شد 😍",
+    "دمت گرم، با قوت ادامه بده، روز پنجمته 🔥",
+    "ایول رفیق، روز ششم شد ⭐",
+    "تو شگفت‌انگیزی، روز هفتمه 🌟",
+    "تبریک می‌گم، ۸ روز گذشت از شروع طوفانیت 🌪️",
+    "ماشالله به پشتکارت، نهمین روز برنامته 💚",
+    "به به، ده روز گذشت از همراهیمون 🎉",
+    "بابا دستمریزاد، روز یازدهم شد و تو به هدفت نزدیکتر شدی 🎯",
+    "خداقوت پهلوان، دوازده روز بدنت چه بهتر شده 💪",
+    "سلطان چه کردی! روز سیزدهمته 👑",
+    "روز چهاردهمته، داری زیباتر از ماه شب چهارده میشی 🌕",
+    "مژده مژده، با چیزی که میخواستی فاصله‌ای نداری، شد روز پونردهمت 🎊",
+    "خدا پشت و پناهت، سلامت‌جوی تلاشگر، روز شونزدهمته 🛡️",
+    "باورت میشه امروز روز هفدهمته؟ ماشالله رفیق 🤩",
+    "شیر مادر و نان پدر حلالت قهرمان، روز هجدهمتمه 🦁",
+    "دست بزنید براش! روز نوزدهمت مبارک 👏",
+    "وااای به نیمه‌ی راه رسیدی دوست من، امروز نصف چله رو رد کردی، روز بیستمته مثل خودت که نمره‌ات بیسته... 💯",
+    "21 روز شد، تو یک الگوی واقعی هستی 🌟",
+    "22 روز پشتکار، 22 روز افتخار 🏅",
+    "23 روز شد و تو داری قوی‌تر از قبل میشی 💪",
+    "24 روز گذشت، بدنت داره تشکر میکنه ازت 🙏",
+    "روز بیست و پنجم، نیمی از مسیر رو با موفقیت طی کردی 🚀",
+    "26 روز شد، تو یک قهرمان واقعی هستی 🏆",
+    "27 روز پایداری، آفرین به این اراده 🌿",
+    "روز 28، داری به خط پایان نزدیک میشی 🎯",
+    "29 روز، یک قدم دیگه به رویاهات نزدیکتر 💫",
+    "سی روز شد! تو یک افسانه‌ای 🦸",
+    "31 روز، قدرتتو به همه ثابت کردی 💥",
+    "32 روز، بدنت داره میدرخشه ✨",
+    "33 روز، با همین قدرت ادامه بده 🔥",
+    "34 روز، یک الگوی سلامت شدی 🌱",
+    "روز 35، تقریباً رسیدی به قله کوه ⛰️",
+    "36 روز، افتخار میکنم بهت 🥇",
+    "37 روز، پشتکارت مثال زدنیه 🌟",
+    "38 روز، فقط 2 روز مونده به جشن 🎉",
+    "39 روز، فردا روز جشنته 🎊",
+    "تبریک! 40 روز کامل شد، تو یک قهرمان واقعی هستی 🏆🎉"
+  ];
+  if (dayNum >= 1 && dayNum <= 40) {
+    return messages[dayNum - 1];
+  }
+  return "ادامه بده، تو می‌تونی! 💪";
 }
 
 function checkRegimeReceive(){
@@ -1798,17 +1860,14 @@ function removeTableColumnEditor(i) {
   
   var colToRemove = adminTableColumns[i];
   
-  // حذف از لیست ستون‌های ادمین
   adminTableColumns.splice(i, 1);
   delete adminTableColumnNames[colToRemove];
   delete adminCurrentTimes[colToRemove];
   
-  // حذف از تمام روزهای ادمین
   adminFortyDayData.forEach(function(day) {
     delete day[colToRemove];
   });
   
-  // بروزرسانی رابط کاربری ادمین
   renderAdminTableEditor();
   renderAdminDayEditor();
   showToast('✅ وعده حذف شد. برای اعمال نهایی، جدول را برای کاربر ارسال کنید.');
@@ -2060,7 +2119,7 @@ var persianMonths=['فروردین','اردیبهشت','خرداد','تیر','م
 
 function gregorianToJalali(gDate){var g=new Date(gDate),gy=g.getFullYear(),gm=g.getMonth()+1,gd=g.getDate();var gdm=[0,31,59,90,120,151,181,212,243,273,304,334],gy2=gm>2?gy+1:gy;var days=355666+365*gy+Math.floor((gy2+3)/4)-Math.floor((gy2+99)/100)+Math.floor((gy2+399)/400)+gd+gdm[gm-1];var jy=-1595+33*Math.floor(days/12053);days%=12053;jy+=4*Math.floor(days/1461);days%=1461;if(days>365){jy+=Math.floor((days-1)/365);days=(days-1)%365;}var jm=days<186?1+Math.floor(days/31):7+Math.floor((days-186)/30);var jd=days<186?1+days%31:1+(days-186)%30;return{y:jy,m:jm,d:jd};}
 function formatJalali(j){return j.y+'/'+String(j.m).padStart(2,'0')+'/'+String(j.d).padStart(2,'0');}
-function formatJalaliFull(j){return j.d+' '+persianMonths[j.m-1]+' '+j.y;}
+function formatJalaliFull(j){return toPersianNumber(j.d)+' '+persianMonths[j.m-1]+' '+toPersianNumber(j.y);}
 function getStartDateGregorian(){return new Date(safeGetLS('healthStartDateGregorian','2026-08-04'));}
 function setStartDateGregorian(d){safeSetLS('healthStartDateGregorian',d.toISOString());}
 function getCurrentDayAuto(){return Math.max(0,Math.min(totalDays-1,Math.floor((Date.now()-getStartDateGregorian().getTime())/86400000)));}
