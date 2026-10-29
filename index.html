@@ -166,13 +166,13 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 .modal-content p{color:var(--text-secondary);margin-bottom:15px;line-height:1.8;font-size:.9em}
 .code-display{background:var(--input-bg);padding:15px;border-radius:12px;font-size:2em;font-weight:700;color:var(--accent);letter-spacing:5px;margin:15px 0;border:2px dashed var(--accent);font-family:monospace;direction:ltr}
 
-.alarm-overlay{display:none;position:fixed;inset:0;background:radial-gradient(circle,rgba(192,57,43,.95),rgba(0,0,0,.98));z-index:99999;flex-direction:column;justify-content:center;align-items:center;padding:20px}
+/* 🚨 صفحه آلارم (دکمه قطع صدا بسیار واضح) 🚨 */
+.alarm-overlay{display:none;position:fixed;inset:0;background:radial-gradient(circle,rgba(192,57,43,.98),rgba(0,0,0,1));z-index:999999;flex-direction:column;justify-content:center;align-items:center;padding:20px}
 .alarm-overlay.active{display:flex}
-.alarm-header { display:flex; justify-content: space-between; align-items: center; width: 100%; max-width: 350px; margin-bottom: 20px;}
-.alarm-close-btn { background: #fff; color: #c0392b; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 1.8em; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center;}
-.alarm-stop-btn{background:var(--btn-danger);color:#fff;font-size:1.4em;font-weight:700;padding:15px 30px;border:3px solid #fff;border-radius:15px;cursor:pointer; margin-bottom: 10px; width: 100%; max-width: 300px;}
-.alarm-snooze-btn{background:var(--accent2);color:#0d1f12;font-size:1em;padding:12px 30px;border:2px solid #fff;border-radius:15px;cursor:pointer;margin-top:10px;font-weight:700; width: 100%; max-width: 300px;}
-.alarm-message{color:var(--accent);font-size:1.5em;margin-bottom:25px;text-align:center;font-weight:700}
+.alarm-close-btn { position: absolute; top: 20px; right: 20px; background: #fff; color: #c0392b; border: none; border-radius: 50%; width: 65px; height: 65px; font-size: 2.2em; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center;}
+.alarm-stop-btn{background:#c0392b;color:#fff;font-size:1.8em;font-weight:700;padding:20px 40px;border:4px solid #fff;border-radius:20px;cursor:pointer; margin-bottom: 20px; width: 100%; max-width: 350px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);}
+.alarm-snooze-btn{background:#f4d03f;color:#0d1f12;font-size:1.2em;padding:15px 30px;border:3px solid #fff;border-radius:20px;cursor:pointer;font-weight:700; width: 100%; max-width: 350px;}
+.alarm-message{color:#f4d03f;font-size:1.6em;margin-bottom:30px;text-align:center;font-weight:700; margin-top: 50px;}
 
 .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#2ecc71;color:#fff;padding:12px 25px;border-radius:25px;font-weight:700;z-index:99999;display:none;max-width:90%;text-align:center}
 .toast.error{background:#e74c3c}
@@ -347,20 +347,17 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 
 <div class="toast" id="toast"></div>
 
+<!-- مینی آلارم برای یادآوری فعال‌سازی خودکار -->
 <div class="mini-alarm-toast" id="miniAlarmToast">
   <div style="flex: 1;">⏰ در حال فعال‌سازی خودکار آلارم‌ها...</div>
   <button onclick="closeMiniAlarmToast()" style="background: transparent; color: #fff; font-size: 1.2em;">✕</button>
 </div>
 
-<!-- صفحه آلارم با دکمه ضربدر -->
+<!-- 🚨 صفحه آلارم با دکمه قطع صدا بسیار واضح 🚨 -->
 <div class="alarm-overlay" id="alarmOverlay">
-  <div class="alarm-header">
-    <button class="alarm-close-btn" onclick="stopAlarm()" title="قطع کردن صدا">✕</button>
-    <div style="color: white; font-weight: bold; font-size: 1.2em;">سفیر سلامت</div>
-    <div style="width: 50px;"></div> <!-- برای توازن -->
-  </div>
+  <button class="alarm-close-btn" onclick="stopAlarm()" title="قطع صدا">✕</button>
   <div class="alarm-message" id="alarmMessage">⏰ وقت دارو</div>
-  <button class="alarm-stop-btn" onclick="stopAlarm()">🔇 قطع کامل آلارم</button>
+  <button class="alarm-stop-btn" onclick="stopAlarm()">🔇 قطع کامل صدا</button>
   <button class="alarm-snooze-btn" onclick="snoozeAlarm()">💤 چرت ۱۰ دقیقه</button>
 </div>
 
@@ -523,7 +520,7 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 
 <div class="top-bar">
   <div class="top-bar-info">
-    <img id="displayAvatar" class="profile-avatar" src="" style="width:40px; height:40px;" alt="پروفایل">
+    <img id="displayAvatar" class="profile-avatar" src="" style="width:40px; height:40px; border-radius:50%; object-fit:cover; border:2px solid var(--accent);" alt="پروفایل">
     <div>
       <h3 id="displayName" style="color:var(--accent); font-size:1em;">نام کاربر</h3>
       <p id="displayCode" style="font-size:0.7em; color:var(--text-muted); font-family:monospace;">کد: ----</p>
@@ -736,6 +733,7 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     </div>
   </div>
   
+  <!-- بخش نمایش -->
   <div class="section-box">
     <h3>🎨 نمایش</h3>
     <div class="settings-row">
@@ -1068,7 +1066,7 @@ function stopVibration(){
 }
 
 /* ============================================================
-   AUDIO
+   AUDIO - FIXED: فقط زمانی صدا پخش می‌شود که کادر قرمز باز باشد
    ============================================================ */
 async function unlockAudio(){
   if(audioUnlocked && audioContext && audioContext.state === 'running') return true;
@@ -1084,7 +1082,15 @@ async function unlockAudio(){
     return true;
   } catch(e) { return false; }
 }
+
 async function playAlarmSound(){
+  // 🚨 باگ‌گیری: اگر کادر قرمز باز نیست، صدا پخش نشود 🚨
+  var ov = document.getElementById('alarmOverlay');
+  if(!ov || !ov.classList.contains('active')) {
+    console.log('Alarm overlay is not visible - not playing sound');
+    return;
+  }
+
   stopAlarmSound(false);
   gradualVolumeStep = 0;
   if(vibrateOnlyMode) return;
@@ -1140,6 +1146,7 @@ async function playAlarmSound(){
   }
   playBeepFallback();
 }
+
 function playBeepFallback() {
   if(!audioUnlocked) unlockAudio();
   try {
@@ -1167,6 +1174,11 @@ function playBeepFallback() {
     if(alarmSoundInterval) clearInterval(alarmSoundInterval);
     alarmSoundInterval = setInterval(function() {
       if(!alarmActive) { clearInterval(alarmSoundInterval); alarmSoundInterval = null; return; }
+      // 🚨 باگ‌گیری: قطع صدا اگر کادر بسته شد 🚨
+      var ov = document.getElementById('alarmOverlay');
+      if(!ov || !ov.classList.contains('active')) {
+        clearInterval(alarmSoundInterval); alarmSoundInterval = null; return;
+      }
       beep(currentVolume);
     }, 900);
     if(gradualVolume) {
@@ -1174,6 +1186,7 @@ function playBeepFallback() {
     }
   } catch(e) { vibrateAlarm(); }
 }
+
 function startGradualVolumeIncrease(callback) {
   if(gradualVolumeInterval) clearInterval(gradualVolumeInterval);
   gradualVolumeStep = 0;
@@ -1187,6 +1200,7 @@ function startGradualVolumeIncrease(callback) {
     }
   }, 3000);
 }
+
 function stopAlarmSound(fullCleanup){
   if(fullCleanup === undefined) fullCleanup = true;
   if(audioBufferCache.currentSource) { try { audioBufferCache.currentSource.stop(); } catch(e) {} audioBufferCache.currentSource = null; }
@@ -1286,7 +1300,7 @@ async function applyUserCustomTimes() {
 }
 
 /* ============================================================
-   AUTH
+   AUTH - با عکس پروفایل کامل
    ============================================================ */
 var profilesList = safeParseJSON(safeGetLS('profilesList', '[]'), []);
 var activeUserCode = safeGetLS('activeUserCode', null);
@@ -1705,7 +1719,10 @@ function renderAdminUsersList(users) {
   users.forEach(function(u) {
     var p = u.data ? u.data.profile : null; var auth = u.data ? u.data.auth : null;
     var name = (p && p.name) ? p.name : 'بدون نام'; var age = (p && p.age) ? p.age : '---'; var problem = (p && p.problem) ? p.problem : '---'; var password = (auth && auth.password) ? auth.password : '---';
-    html += '<div class="admin-user-row"><div class="admin-user-info">';
+    var avatarSrc = (p && p.avatar) ? p.avatar : 'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'50\' fill=\'%23333\'/><text x=\'50\' y=\'65\' font-size=\'50\' text-anchor=\'middle\' fill=\'%23fff\'>👤</text></svg>';
+    html += '<div class="admin-user-row">';
+    html += '<img src="'+avatarSrc+'" class="admin-user-avatar">'; // 🚨 عکس پروفایل در پنل ادمین 🚨
+    html += '<div class="admin-user-info">';
     html += '<div class="admin-user-name">' + escapeHtml(name) + '</div><div class="admin-user-code">کد: ' + escapeHtml(u.code) + '</div>';
     html += '<div class="admin-user-details">🔑 ' + escapeHtml(password) + '<br>🎂 ' + escapeHtml(age) + '<br>🩺 ' + escapeHtml(problem) + '</div></div>';
     html += '<div class="admin-user-actions">';
@@ -2193,12 +2210,25 @@ function startAlarmHeartbeat() { stopAlarmHeartbeat(); window._alarmHeartbeatInt
 function stopAlarmHeartbeat() { if(window._alarmHeartbeatInterval) { clearInterval(window._alarmHeartbeatInterval); window._alarmHeartbeatInterval = null; } }
 
 function triggerAlarm(a){
+  // 🚨 اصلاح باگ: قبل از هر کاری، صداهای قبلی را قطع کن
   if (alarmSoundInterval) { clearInterval(alarmSoundInterval); alarmSoundInterval = null; }
   if (audioBufferCache.currentSource) { try { audioBufferCache.currentSource.stop(); } catch(e) {} }
-  currentAlarmData = a; safeSetLS('activeAlarm_' + userId, JSON.stringify({name: a.name, type: a.type, triggeredAt: Date.now(), read: false, userId: userId}));
-  var el=document.getElementById('alarmMessage'); if(el)el.textContent='⏰ '+a.type+': '+a.name;
-  var ov=document.getElementById('alarmOverlay'); if(ov)ov.classList.add('active');
-  vibrateAlarm(); playAlarmSound(); showInteractiveNotification(a.name, a.type); startAlarmKeepAlive(); updateAlarmScheduleForSW();
+  
+  currentAlarmData = a; 
+  safeSetLS('activeAlarm_' + userId, JSON.stringify({name: a.name, type: a.type, triggeredAt: Date.now(), read: false, userId: userId}));
+  
+  var el=document.getElementById('alarmMessage'); 
+  if(el)el.textContent='⏰ '+a.type+': '+a.name;
+  
+  // 🚨 نمایش اجباری کادر قرمز روی همه چیز
+  var ov=document.getElementById('alarmOverlay'); 
+  if(ov)ov.classList.add('active');
+  
+  vibrateAlarm(); 
+  playAlarmSound(); 
+  showInteractiveNotification(a.name, a.type); 
+  startAlarmKeepAlive(); 
+  updateAlarmScheduleForSW();
 }
 
 function startAlarmKeepAlive() {
@@ -2473,7 +2503,7 @@ function addAlarmsToDeviceCalendar() {
       var dd = String(currentDayDate.getDate()).padStart(2, '0');
       var dateFormatted = yyyy + mm + dd;
 
-      var uid = 'safir-' + dayIdx + '-' + col + '-' + Date.now() + '@safirsalamat';
+      var uid = 'safir-' + dayIdx + '-' + col + '-' + Date.now() + '@safsalamat';
 
       icsContent.push('BEGIN:VEVENT');
       icsContent.push('UID:' + uid);
