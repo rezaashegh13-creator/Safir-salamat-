@@ -898,35 +898,39 @@ var gradualVolumeInterval = null;
 var currentAlarmData = null;
 var activeNotification = null;
 
-/* ============================================================
-   کلیدهای localStorage مخصوص هر کاربر
-   ============================================================ */
 function userKey(base) {
   return base + '_' + (userId || 'guest');
 }
 
-/* ============================================================
-   ارسال نوتیفیکیشن در اعلانات بالای گوشی - بازنویسی شده
-   ============================================================ */
+function showToast(msg,type,duration){
+  type=type||"success";duration=duration||4000;
+  var t=document.getElementById('toast');if(!t)return;
+  t.textContent=msg;
+  t.className='toast'+(type==='error'?' error':type==='warning'?' warning':'');
+  t.style.display='block';
+  setTimeout(function(){t.style.display='none';},duration);
+}
+function escapeHtml(s){if(s==null)return"";return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function safeSetLS(key,val){try{localStorage.setItem(key,val);return true;}catch(e){return false;}}
+function safeGetLS(key,def){try{var v=localStorage.getItem(key);return v==null?def:v;}catch(e){return def;}}
+function safeParseJSON(str,def){if(!str)return def;try{return JSON.parse(str);}catch(e){return def;}}
+
 async function requestNotificationPermission() {
   if(!('Notification' in window)) {
     showToast('❌ مرورگر شما از نوتیفیکیشن پشتیبانی نمی‌کند', 'error', 5000);
     return;
   }
-  
   if(Notification.permission === 'granted') {
     showToast('✅ نوتیفیکیشن از قبل فعال است');
     updateNotificationStatus();
     sendTestNotification();
     return;
   }
-  
   if(Notification.permission === 'denied') {
-    showToast('⚠️ نوتیفیکیشن در تنظیمات مرورگر رد شده. لطفاً از تنظیمات مرورگر اجازه دهید.', 'warning', 8000);
+    showToast('⚠️ نوتیفیکیشن در تنظیمات مرورگر رد شده.', 'warning', 8000);
     updateNotificationStatus();
     return;
   }
-  
   try {
     var perm = await Notification.requestPermission();
     if(perm === 'granted') {
@@ -944,7 +948,6 @@ async function requestNotificationPermission() {
 
 function sendTestNotification() {
   try {
-    // از Service Worker برای اعلان استفاده می‌کنیم اگر ممکن باشد
     if('serviceWorker' in navigator && navigator.serviceWorker.controller) {
       navigator.serviceWorker.ready.then(function(reg) {
         reg.showNotification('🔔 نوتیفیکیشن فعال شد!', {
@@ -959,13 +962,10 @@ function sendTestNotification() {
       new Notification('🔔 نوتیفیکیشن فعال شد!', {
         body: 'از این پس آلارم‌ها در اعلانات بالای گوشی نمایش داده می‌شوند.',
         icon: '/Safir-salamat-/icon-192.png',
-        badge: '/Safir-salamat-/icon-192.png',
         tag: 'safir-test'
       });
     }
-  } catch(e) {
-    console.log('Test notification error:', e);
-  }
+  } catch(e) { console.log('Test notification error:', e); }
 }
 
 function updateNotificationStatus() {
@@ -981,7 +981,7 @@ function updateNotificationStatus() {
     box.innerHTML = '<p style="font-size:0.85em; color:var(--btn-success); margin-bottom:8px;">✅ نوتیفیکیشن اعلانات فعال است</p><button class="btn btn-orange" onclick="sendTestNotification();showToast(\'🔔 نوتیفیکیشن تست ارسال شد\')" style="font-size:0.8em; padding:8px;">🔔 تست نوتیفیکیشن</button>';
   } else if(Notification.permission === 'denied') {
     box.className = 'notification-status-box';
-    box.innerHTML = '<p style="font-size:0.85em; margin-bottom:8px;">⚠️ نوتیفیکیشن رد شده است. لطفاً از تنظیمات مرورگر (Site Settings → Notifications) اجازه دهید.</p><button class="btn btn-red" onclick="showNotificationHelp()" style="font-size:0.8em; padding:8px;">📖 راهنما</button>';
+    box.innerHTML = '<p style="font-size:0.85em; margin-bottom:8px;">⚠️ نوتیفیکیشن رد شده است. لطفاً از تنظیمات مرورگر اجازه دهید.</p><button class="btn btn-red" onclick="showNotificationHelp()" style="font-size:0.8em; padding:8px;">📖 راهنما</button>';
   } else {
     box.className = 'notification-status-box';
     box.innerHTML = '<p style="font-size:0.85em; margin-bottom:8px;">⚠️ نوتیفیکیشن اعلانات غیرفعال است</p><button class="btn btn-green" onclick="requestNotificationPermission()" style="font-size:0.8em; padding:8px;">🔔 فعال‌سازی نوتیفیکیشن در اعلانات بالای گوشی</button>';
@@ -995,14 +995,9 @@ function showNotificationHelp() {
         '۲. Permissions → Notifications → Allow\n\n' +
         'آیفون (Safari):\n' +
         '۱. Settings → Safari → Notifications\n' +
-        '۲. سایت را پیدا و فعال کنید\n\n' +
-        'یا از تنظیمات گوشی:\n' +
-        'Settings → Apps → مرورگر → Notifications → فعال کنید');
+        '۲. سایت را پیدا و فعال کنید');
 }
 
-/* ============================================================
-   ذخیره و بازیابی تنظیمات مخصوص هر کاربر
-   ============================================================ */
 function saveUserAlarmSettings() {
   if(!userId) return;
   var settings = {
@@ -1022,7 +1017,7 @@ function loadUserAlarmSettings() {
   if(!userId) return;
   var saved = safeParseJSON(safeGetLS(userKey('alarmSettings'), 'null'), null);
   if(saved) {
-    alarmVolume = typeof saved.alarmVolume === 'number' ? saved.alarmVolume : 70;
+    alarmVolume = (typeof saved.alarmVolume === 'number' && saved.alarmVolume >= 0 && saved.alarmVolume <= 100) ? saved.alarmVolume : 70;
     gradualVolume = saved.gradualVolume !== false;
     silentModeOverride = saved.silentModeOverride !== false;
     vibrateEnabled = saved.vibrateEnabled !== false;
@@ -1032,18 +1027,25 @@ function loadUserAlarmSettings() {
     if(saved.alarmEnabled && typeof saved.alarmEnabled === 'object') {
       alarmEnabled = saved.alarmEnabled;
     }
+  } else {
+    alarmVolume = 70;
+    gradualVolume = true;
+    silentModeOverride = true;
+    vibrateEnabled = true;
+    vibrateOnlyMode = false;
+    autoReactivateCheck = false;
+    backgroundAlarmEnabled = false;
   }
 }
 
 /* ============================================================
-   AUTH
+   AUTH - بازنویسی شده برای رفع مشکل لاگین
    ============================================================ */
 var profilesList = safeParseJSON(safeGetLS('profilesList', '[]'), []);
 var activeUserCode = safeGetLS('activeUserCode', null);
 
 function initAuth() {
-  // چک impersonation
-  checkImpersonationSession();
+  var wasImpersonating = safeGetLS('isImpersonatingSession', 'false');
   
   if(!activeUserCode) {
     if(profilesList.length > 0) {
@@ -1051,27 +1053,51 @@ function initAuth() {
       safeSetLS('activeUserCode', activeUserCode);
     }
   }
+  
   if(activeUserCode) {
     userId = activeUserCode;
     var profile = profilesList.find(function(p){ return p.code === userId; });
     if(profile) userProfile = profile.data;
     else userProfile = safeParseJSON(safeGetLS('userProfile','null'), null);
+    
+    if(wasImpersonating === 'true') {
+      var savedAdminCode = safeGetLS('adminOriginalCode', null);
+      if(savedAdminCode) {
+        originalAdminCode = savedAdminCode;
+        originalAdminProfile = safeParseJSON(safeGetLS('adminOriginalProfile', null), null);
+        isImpersonating = true;
+        setTimeout(function(){
+          var bar = document.getElementById('adminReturnBar');
+          if(bar) bar.style.display = 'block';
+        }, 500);
+      }
+    }
+    
     document.getElementById('loginPage').classList.remove('active');
     document.getElementById('mainAppContainer').style.display = 'block';
     updateProfileUI();
-    loadUserAlarmSettings();
+    
+    try { loadUserAlarmSettings(); } catch(e) { console.warn('loadUserAlarmSettings:', e); }
+    
     initData(); 
     renderTable(); 
     renderAlarmSettings(); 
     updateTodayShowcase(); 
     checkRegimeReceive();
-    loadCustomAlarmSound();
-    loadAlarmSoundSettings();
-    updateNotificationStatus();
-    if(autoReactivateCheck) startAutoReactivateInterval();
-    if(backgroundAlarmEnabled) setTimeout(setupBackgroundAlarm, 2000);
+    
+    try { loadCustomAlarmSound(); } catch(e) { console.warn('loadCustomAlarmSound:', e); }
+    try { loadAlarmSoundSettings(); } catch(e) { console.warn('loadAlarmSoundSettings:', e); }
+    try { updateNotificationStatus(); } catch(e) { console.warn('updateNotificationStatus:', e); }
+    
+    if(autoReactivateCheck) { try { startAutoReactivateInterval(); } catch(e) {} }
+    if(backgroundAlarmEnabled) { try { setTimeout(setupBackgroundAlarm, 2000); } catch(e) {} }
+    
     receiveAll(true).then(function(){
-       renderTable(); updateTodayShowcase(); checkRegimeReceive();
+       try {
+         renderTable(); 
+         updateTodayShowcase(); 
+         checkRegimeReceive();
+       } catch(e) { console.warn('Post-receive:', e); }
     }).catch(function(e){ });
   } else {
     document.getElementById('loginPage').classList.add('active');
@@ -1110,9 +1136,18 @@ async function doLogin() {
   var username = document.getElementById('loginUsername').value.trim();
   var pass = document.getElementById('loginPassword').value.trim();
   var remember = document.getElementById('rememberMe').checked;
-  if(!username || !pass) { showToast('نام کاربری و رمز را وارد کنید', 'error'); return; }
+  
+  if(!username || !pass) { 
+    showToast('نام کاربری و رمز را وارد کنید', 'error'); 
+    return; 
+  }
+  
   showToast('⏳ در حال بررسی...', 'warning');
-  var profile = profilesList.find(function(p) { return p.username === username && p.password === pass; });
+  
+  var profile = profilesList.find(function(p) { 
+    return p.username === username && p.password === pass; 
+  });
+  
   if(!profile) {
     try {
       const { data, error } = await supabaseClient.from('users_list').select('code, data');
@@ -1127,31 +1162,53 @@ async function doLogin() {
           }
         }
       }
-    } catch(e) { console.error('DB Login Error:', e); }
+    } catch(e) { 
+      console.error('DB Login Error:', e); 
+    }
   }
-  if(!profile) { showToast('نام کاربری یا رمز عبور اشتباه است.', 'error'); return; }
+  
+  if(!profile) { 
+    showToast('نام کاربری یا رمز عبور اشتباه است.', 'error'); 
+    return; 
+  }
+  
   userId = profile.code; 
   userProfile = profile.data;
+  activeUserCode = userId;
+  
   safeSetLS('activeUserCode', userId);
   safeSetLS('userId', userId);
-  safeSetLS('userProfile', JSON.stringify(userProfile));
+  if(remember) safeSetLS('userProfile', JSON.stringify(userProfile));
+  
   document.getElementById('loginPage').classList.remove('active');
   document.getElementById('mainAppContainer').style.display = 'block';
   updateProfileUI();
-  loadUserAlarmSettings();
-  initData(); 
-  renderTable(); 
-  renderAlarmSettings(); 
-  updateTodayShowcase(); 
-  checkRegimeReceive();
-  loadCustomAlarmSound();
-  loadAlarmSoundSettings();
-  updateNotificationStatus();
-  if(autoReactivateCheck) startAutoReactivateInterval();
-  if(backgroundAlarmEnabled) setTimeout(setupBackgroundAlarm, 2000);
+  
+  try { loadUserAlarmSettings(); } catch(e) { console.warn('loadUserAlarmSettings:', e); }
+  
+  try {
+    initData(); 
+    renderTable(); 
+    renderAlarmSettings(); 
+    updateTodayShowcase(); 
+    checkRegimeReceive();
+  } catch(e) { console.error('Data init error:', e); }
+  
+  try { loadCustomAlarmSound(); } catch(e) { console.warn('loadCustomAlarmSound:', e); }
+  try { loadAlarmSoundSettings(); } catch(e) { console.warn('loadAlarmSoundSettings:', e); }
+  try { updateNotificationStatus(); } catch(e) { console.warn('updateNotificationStatus:', e); }
+  
+  if(autoReactivateCheck) { try { startAutoReactivateInterval(); } catch(e) {} }
+  if(backgroundAlarmEnabled) { try { setTimeout(setupBackgroundAlarm, 2000); } catch(e) {} }
+  
   receiveAll(true).then(function(){
-     renderTable(); updateTodayShowcase(); checkRegimeReceive();
+     try {
+       renderTable(); 
+       updateTodayShowcase(); 
+       checkRegimeReceive();
+     } catch(e) { console.warn('Post-receive:', e); }
   }).catch(function(e){});
+  
   showToast('✅ خوش آمدید');
 }
 
@@ -1349,7 +1406,6 @@ function updateProfileUI() {
   }
 }
 
-/* Data Helpers */
 async function getUserRecord(code) {
   if (!code) return null;
   try {
@@ -1395,7 +1451,6 @@ async function getAllUsersFromDB() {
   } catch(e) { return []; }
 }
 
-/* Admin Functions */
 async function previewNewUserAvatar(event) {
   var file = event.target.files[0];
   if (file) {
@@ -1441,13 +1496,9 @@ async function createUserByAdmin() {
   } else { showToast('❌ خطا', 'error'); }
 }
 
-/* ============================================================
-   IMPERSONATION - با تفکیک کامل داده‌ها
-   ============================================================ */
 async function impersonateUser(targetCode) {
   if(!confirm('ورود به پنل ' + targetCode + '؟')) return;
   
-  // ذخیره اطلاعات کامل ادمین
   originalAdminCode = userId;
   originalAdminProfile = JSON.parse(JSON.stringify(userProfile || {}));
   isImpersonating = true;
@@ -1456,7 +1507,6 @@ async function impersonateUser(targetCode) {
   safeSetLS('adminOriginalProfile', JSON.stringify(originalAdminProfile));
   safeSetLS('isImpersonatingSession', 'true');
   
-  // ذخیره داده‌های ادمین به صورت مجزا (تا روی کاربر تأثیر نگذارد)
   safeSetLS('admin_health40Data', safeGetLS('health40Data', ''));
   safeSetLS('admin_health40Times', safeGetLS('health40Times', ''));
   safeSetLS('admin_lastPrescription', safeGetLS('lastPrescription', ''));
@@ -1482,7 +1532,6 @@ async function impersonateUser(targetCode) {
   if(userProfile) safeSetLS('userProfile', JSON.stringify(userProfile));
   else localStorage.removeItem('userProfile');
   
-  // پاک کردن داده‌های ادمین از localStorage فعلی (تا کاربر جدید تحت تأثیر قرار نگیرد)
   localStorage.removeItem('health40Data');
   localStorage.removeItem('health40Times');
   localStorage.removeItem('lastPrescription');
@@ -1493,14 +1542,12 @@ async function impersonateUser(targetCode) {
   localStorage.removeItem('tableHistory');
   localStorage.removeItem('activeAlarm');
   
-  // بستن آلارم فعلی
   stopAlarm();
   
   updateProfileUI();
   document.getElementById('adminReturnBar').style.display = 'block'; 
   
-  // بارگذاری داده‌های کاربر هدف
-  loadUserAlarmSettings();
+  try { loadUserAlarmSettings(); } catch(e){}
   initData();
   renderTable();
   renderAlarmSettings();
@@ -1518,9 +1565,6 @@ async function impersonateUser(targetCode) {
   showToast('👤 وارد پنل ' + targetCode + ' شدید');
 }
 
-/* ============================================================
-   خروج کامل از پنل کاربر و بازگشت به پنل ادمین - با بازیابی داده‌های ادمین
-   ============================================================ */
 function exitImpersonation() {
   if(!confirm('از پنل این کاربر خارج شده و به پنل مدیریت بازمی‌گردید؟')) return;
   
@@ -1532,7 +1576,6 @@ function exitImpersonation() {
     return;
   }
   
-  // پاک کردن کامل داده‌های کاربر impersonate شده
   stopAlarm();
   localStorage.removeItem('tableReceived');
   localStorage.removeItem('lastPrescription');
@@ -1547,7 +1590,6 @@ function exitImpersonation() {
   localStorage.removeItem('hiddenMsgIds');
   localStorage.removeItem('shownPopupIds');
   
-  // بازگشت به ادمین
   isImpersonating = false;
   userId = savedAdminCode;
   userProfile = savedAdminProfile || safeParseJSON(safeGetLS('adminProfile','null'), null);
@@ -1556,7 +1598,6 @@ function exitImpersonation() {
   safeSetLS('userId', userId);
   if(userProfile) safeSetLS('userProfile', JSON.stringify(userProfile));
   
-  // بازیابی داده‌های اصلی ادمین
   var adminHealth = safeGetLS('admin_health40Data', '');
   if(adminHealth) safeSetLS('health40Data', adminHealth);
   var adminTimes = safeGetLS('admin_health40Times', '');
@@ -1572,7 +1613,6 @@ function exitImpersonation() {
   var adminStart = safeGetLS('admin_healthStartDate', '');
   if(adminStart) safeSetLS('healthStartDateGregorian', adminStart);
   
-  // پاک کردن backup های ادمین
   localStorage.removeItem('admin_health40Data');
   localStorage.removeItem('admin_health40Times');
   localStorage.removeItem('admin_lastPrescription');
@@ -1590,8 +1630,7 @@ function exitImpersonation() {
   document.getElementById('adminReturnBar').style.display = 'none';
   updateProfileUI();
   
-  // بازسازی داده‌ها
-  loadUserAlarmSettings();
+  try { loadUserAlarmSettings(); } catch(e){}
   initData();
   renderTable();
   renderAlarmSettings();
@@ -1602,28 +1641,11 @@ function exitImpersonation() {
   updateDateConversionInfo();
   updateDayDisplay();
   
-  // بروزرسانی picker تاریخ
   var sdp = document.getElementById('startDatePicker');
   if(sdp) sdp.value = toDateInputValue(getStartDateGregorian());
   
   showPage('pageAdmin');
   showToast('🔙 بازگشت کامل به پنل مدیریت انجام شد');
-}
-
-function checkImpersonationSession() {
-  var wasImpersonating = safeGetLS('isImpersonatingSession', 'false');
-  if(wasImpersonating === 'true') {
-    var savedAdminCode = safeGetLS('adminOriginalCode', null);
-    if(savedAdminCode) {
-      originalAdminCode = savedAdminCode;
-      originalAdminProfile = safeParseJSON(safeGetLS('adminOriginalProfile', null), null);
-      isImpersonating = true;
-      setTimeout(function(){
-        var bar = document.getElementById('adminReturnBar');
-        if(bar) bar.style.display = 'block';
-      }, 500);
-    }
-  }
 }
 
 function showUserDropdown(searchInputId, hiddenInputId) {
@@ -1958,7 +1980,6 @@ function switchAdminTab(tab,el){
   if(tab==='archive')renderArchiveShelves();
 }
 
-/* USER EDIT */
 var userEditMode = false;
 function toggleUserEditMode() {
   userEditMode = !userEditMode;
@@ -2039,7 +2060,6 @@ async function saveUserEditedTableToDB() {
   else showToast('❌ خطا در ذخیره.', 'error');
 }
 
-/* ADMIN SENDS */
 async function sendPrescription() {
   var code = document.getElementById('targetUserCode').value;
   if(!code) {
@@ -2297,7 +2317,6 @@ async function sendMessage(){
 function clearMessageForm(){var t=document.getElementById('messageTitle'),c=document.getElementById('messageContent'),g=document.getElementById('messageUserSearch');if(t)t.value='';if(c)c.value='';if(g)g.value='';document.getElementById('messageTarget').value='';}
 function clearAdminForm(){var t=document.getElementById('prescriptionTitle'),c=document.getElementById('prescriptionContent');if(t)t.value='';if(c)c.value='';document.getElementById('prescriptionUserSearch').value='';document.getElementById('targetUserCode').value='';}
 
-/* ADMIN EDITOR */
 function buildAdminEditor(){
   adminTableColumns = [].concat(tableColumns);
   adminTableColumnNames = Object.assign({}, tableColumnNames);
@@ -2450,7 +2469,6 @@ function updateAdminCell(rowIndex, col, value) {
   showToast('✅ ذخیره شد', 'success', 1000);
 }
 
-/* Dashboard & Recent */
 async function loadDashboard(showAlert){
   var allUsers = await getAllUsersFromDB();var globalData = await getGlobalData();
   var usersWithP = 0, usersWithT = 0;
@@ -2493,7 +2511,6 @@ function exportDashboard(){
   }catch(e){showToast('❌ خطا','error');}
 }
 
-/* Messages & History */
 function loadMyMessages(showAlert){
   getGlobalData().then(function(data){
     var messages=data.messages||[];var readIds=safeParseJSON(safeGetLS('readMsgIds','[]'),[]);var hiddenIds=safeParseJSON(safeGetLS('hiddenMsgIds','[]'),[]);
@@ -2546,15 +2563,11 @@ function deleteHistoryTable(index){if(!confirm('حذف شود؟'))return;var arc
 
 function editMyRegime(){var el=document.getElementById('regimeDisplay');if(el.contentEditable==='true'){el.contentEditable='false';el.style.border='1px solid rgba(244,208,63,.2)';showToast('✅ ذخیره شد');}else{el.contentEditable='true';el.style.border='2px solid var(--accent)';el.focus();showToast('✏️ ویرایش کنید','warning');}}
 
-/* ============================================================
-   تنظیمات صوتی
-   ============================================================ */
 function loadAlarmSoundSettings() {
   var slider = document.getElementById('alarmVolumeSlider');
   var volVal = document.getElementById('alarmVolumeValue');
   if(slider) slider.value = alarmVolume;
   if(volVal) volVal.textContent = alarmVolume + '%';
-  
   var vo = document.getElementById('vibrateOnlyToggle');
   var gt = document.getElementById('gradualVolumeToggle');
   var st = document.getElementById('silentModeToggle');
@@ -2563,6 +2576,11 @@ function loadAlarmSoundSettings() {
   if(gt) gt.classList.toggle('active', gradualVolume);
   if(st) st.classList.toggle('active', silentModeOverride);
   if(vt) vt.classList.toggle('active', vibrateEnabled);
+  
+  var arb = document.getElementById('autoReactivateCheck');
+  var bgc = document.getElementById('backgroundAlarmCheck');
+  if(arb) arb.checked = autoReactivateCheck;
+  if(bgc) bgc.checked = backgroundAlarmEnabled;
   
   updateVibrateOnlyUI();
 }
@@ -2619,9 +2637,6 @@ function toggleVibrate(btn) {
   showToast(vibrateEnabled ? '✅ ویبره فعال' : '⏸ ویبره غیرفعال');
 }
 
-/* ============================================================
-   ALARM SYSTEM
-   ============================================================ */
 function renderAlarmSettings(){
   var container=document.getElementById('alarmSettingsContainer');if(!container)return;var html='';
   tableColumns.forEach(function(col){var name=tableColumnNames[col]||col, time=currentTimes[col]||'08:00', enabled=alarmEnabled[col]!==false;
@@ -2690,17 +2705,13 @@ function scheduleAlarms() {
 function triggerAlarm(a){
   currentAlarmData = a;
   safeSetLS('activeAlarm_' + userId, JSON.stringify({name: a.name, type: a.type, triggeredAt: Date.now(), read: false, userId: userId}));
-  
   var el=document.getElementById('alarmMessage');
   if(el)el.textContent='⏰ '+a.type+': '+a.name;
   var ov=document.getElementById('alarmOverlay');
   if(ov)ov.classList.add('active');
-  
   playAlarmSound();
   if(vibrateEnabled || vibrateOnlyMode) vibrateAlarm();
   showInteractiveNotification(a.name, a.type);
-  
-  // ذخیره زمان‌بندی برای SW
   updateAlarmScheduleForSW();
 }
 
@@ -2710,27 +2721,16 @@ function vibrateAlarm(){
   }
 }
 
-/* ============================================================
-   نوتیفیکیشن تعاملی - بازنویسی شده برای کار در همه شرایط
-   ============================================================ */
 async function showInteractiveNotification(name, type){
-  if(!('Notification' in window)) {
-    console.log('Notification API not supported');
-    return;
-  }
-  
+  if(!('Notification' in window)) return;
   if(Notification.permission !== 'granted') {
-    console.log('Notification permission not granted:', Notification.permission);
     if(Notification.permission === 'default') {
       try {
         var perm = await Notification.requestPermission();
         if(perm !== 'granted') return;
       } catch(e) { return; }
-    } else {
-      return;
-    }
+    } else return;
   }
-  
   var notifOptions = {
     body: name + ' — برای قطع یا چرت روی نوتیفیکیشن کلیک کنید',
     icon: '/Safir-salamat-/icon-192.png',
@@ -2740,49 +2740,26 @@ async function showInteractiveNotification(name, type){
     requireInteraction: true,
     renotify: true,
     silent: false,
-    data: { 
-      alarmName: name, 
-      alarmType: type,
-      action: 'open',
-      url: location.href,
-      userId: userId
-    },
+    data: { alarmName: name, alarmType: type, action: 'open', url: location.href, userId: userId },
     actions: [
       { action: 'stop', title: '🔇 قطع آلارم' },
       { action: 'snooze', title: '💤 چرت ۱۰ دقیقه' }
     ]
   };
-  
   try {
-    // روش ۱: از طریق Service Worker (بهترین برای نوتیفیکیشن پایدار و actions)
     if('serviceWorker' in navigator) {
       try {
         var registration = await navigator.serviceWorker.ready;
         if(registration && typeof registration.showNotification === 'function') {
           await registration.showNotification('⏰ ' + type, notifOptions);
-          console.log('✓ Notification shown via Service Worker');
           return;
         }
-      } catch(swErr) {
-        console.log('SW notification failed, falling back:', swErr);
-      }
+      } catch(swErr) {}
     }
-    
-    // روش ۲: نوتیفیکیشن مستقیم
-    if(activeNotification) {
-      try { activeNotification.close(); } catch(e) {}
-    }
+    if(activeNotification) { try { activeNotification.close(); } catch(e) {} }
     activeNotification = new Notification('⏰ ' + type, notifOptions);
-    activeNotification.onclick = function(e) {
-      e.preventDefault();
-      window.focus();
-      try { activeNotification.close(); } catch(err) {}
-    };
-    console.log('✓ Notification shown via API');
-    
-  } catch(e) {
-    console.error('Notification creation failed:', e);
-  }
+    activeNotification.onclick = function(e) { e.preventDefault(); window.focus(); try { activeNotification.close(); } catch(err) {} };
+  } catch(e) { console.error('Notification creation failed:', e); }
 }
 
 if('serviceWorker' in navigator) {
@@ -2798,35 +2775,20 @@ if('serviceWorker' in navigator) {
 function playAlarmSound(){
   stopAlarmSound(false);
   gradualVolumeStep = 0;
-  
-  if(vibrateOnlyMode) {
-    console.log('Vibrate only mode - no sound');
-    return;
-  }
-  
+  if(vibrateOnlyMode) return;
   if(customAlarmAudio) {
     try { 
       customAlarmAudio.currentTime = 0; 
       customAlarmAudio.loop = true; 
       customAlarmAudio.volume = gradualVolume ? 0 : (alarmVolume / 100);
-      
       var playPromise = customAlarmAudio.play(); 
       if(playPromise && playPromise.catch) {
-        playPromise.catch(function(err){
-          console.log('Audio play error:', err);
-          playBeepFallback();
-        });
+        playPromise.catch(function(err){ playBeepFallback(); });
       }
-      
-      if(gradualVolume) {
-        startGradualVolumeIncrease(function(vol) {
-          if(customAlarmAudio) customAlarmAudio.volume = vol / 100;
-        });
-      }
+      if(gradualVolume) startGradualVolumeIncrease(function(vol) { if(customAlarmAudio) customAlarmAudio.volume = vol / 100; });
       return; 
-    } catch(e) { console.log('Custom audio error:', e); }
+    } catch(e) {}
   }
-  
   playBeepFallback();
 }
 
@@ -2837,9 +2799,7 @@ function playBeepFallback() {
       audioContext=new(window.AudioContext||window.webkitAudioContext)();
       if(audioContext.state==='suspended')audioContext.resume();
     }
-    
     var initialVolume = gradualVolume ? 0.05 : (alarmVolume / 100);
-    
     function beep(volume) {
       if(!audioContext||audioContext.state!=='running')return;
       var o=audioContext.createOscillator(),g=audioContext.createGain();
@@ -2850,17 +2810,10 @@ function playBeepFallback() {
       g.gain.linearRampToValueAtTime(0,audioContext.currentTime+.5);
       o.start(audioContext.currentTime);o.stop(audioContext.currentTime+.5);
     }
-    
     var currentVolume = initialVolume;
     beep(currentVolume);
-    
     alarmSoundInterval = setInterval(function(){ beep(currentVolume); }, 700);
-    
-    if(gradualVolume) {
-      startGradualVolumeIncrease(function(vol) {
-        currentVolume = Math.min(1, vol / 100);
-      });
-    }
+    if(gradualVolume) startGradualVolumeIncrease(function(vol) { currentVolume = Math.min(1, vol / 100); });
   }catch(e){}
 }
 
@@ -2894,19 +2847,14 @@ function stopAlarm(){
   document.getElementById('alarmOverlay').classList.remove('active');
   stopAlarmSound();
   if(navigator.vibrate)navigator.vibrate(0);
-  if(activeNotification) {
-    try { activeNotification.close(); } catch(e) {}
-    activeNotification = null;
-  }
+  if(activeNotification) { try { activeNotification.close(); } catch(e) {} activeNotification = null; }
   if(userId) localStorage.removeItem('activeAlarm_' + userId);
   currentAlarmData = null;
 }
 
 function snoozeAlarm(){
   stopAlarm();
-  setTimeout(function(){
-    if(alarmActive) triggerAlarm({name:'یادآوری',type:'🔔'});
-  }, 10 * 60 * 1000);
+  setTimeout(function(){ if(alarmActive) triggerAlarm({name:'یادآوری',type:'🔔'}); }, 10 * 60 * 1000);
 }
 
 function checkPendingAlarm() {
@@ -2915,10 +2863,7 @@ function checkPendingAlarm() {
   if(stored) {
     try {
       var a = JSON.parse(stored);
-      if(a.userId !== userId) {
-        localStorage.removeItem('activeAlarm_' + userId);
-        return;
-      }
+      if(a.userId !== userId) { localStorage.removeItem('activeAlarm_' + userId); return; }
       var elapsed = Date.now() - (a.triggeredAt || 0);
       if(elapsed < 10 * 60 * 1000 && !a.read) {
         currentAlarmData = { name: a.name, type: a.type };
@@ -2940,24 +2885,13 @@ function activateAlarms(){
   if('Notification'in window && Notification.permission==='default'){
     try{Notification.requestPermission();}catch(e){}
   }
-  if(alarmActive){ 
-    alarmActive=false;
-    clearTimers(); 
-    document.getElementById('statusText').textContent='⏸ غیرفعال'; 
-    return; 
-  }
+  if(alarmActive){ alarmActive=false;clearTimers(); document.getElementById('statusText').textContent='⏸ غیرفعال'; return; }
   alarmActive=true;
   scheduleAlarms();
   document.getElementById('statusText').textContent='✅ فعال';
-  setTimeout(function(){
-    playAlarmSound();
-    setTimeout(function(){ stopAlarmSound(false); },2000);
-  },100);
+  setTimeout(function(){ playAlarmSound(); setTimeout(function(){ stopAlarmSound(false); },2000); },100);
 }
 
-/* ============================================================
-   آپلود آهنگ - با ذخیره‌سازی مخصوص کاربر
-   ============================================================ */
 function openSoundFilePicker() {
   var inp = document.getElementById('customAlarmSound');
   if(!inp) {
@@ -2971,12 +2905,8 @@ function openSoundFilePicker() {
   }
   inp.value = '';
   var opened = false;
-  try {
-    if(typeof inp.showPicker === 'function') { inp.showPicker(); opened = true; }
-  } catch(e) { opened = false; }
-  if(!opened) {
-    try { inp.click(); opened = true; } catch(e) { opened = false; }
-  }
+  try { if(typeof inp.showPicker === 'function') { inp.showPicker(); opened = true; } } catch(e) { opened = false; }
+  if(!opened) { try { inp.click(); opened = true; } catch(e) { opened = false; } }
   if(!opened) {
     try {
       var lbl = document.createElement('label');
@@ -3005,7 +2935,6 @@ function uploadCustomAlarmSound(event) {
       var base64 = e.target.result;
       if(!base64 || base64.length < 100) { showToast('❌ فایل نامعتبر.', 'error'); return; }
       saveSoundToHistory(base64, file.name);
-      // ذخیره با کلید اختصاصی کاربر
       safeSetLS('customAlarmSound_' + userId, base64);
       customAlarmSoundData = base64;
       setupCustomAudio(base64);
@@ -3013,9 +2942,7 @@ function uploadCustomAlarmSound(event) {
     } catch(err) {
       if(err.name === 'QuotaExceededError' || (err.message && err.message.toLowerCase().includes('quota'))) {
         showToast('❌ فضای ذخیره‌سازی پر است.', 'error', 6000);
-      } else {
-        showToast('❌ خطا: ' + err.message, 'error', 5000);
-      }
+      } else showToast('❌ خطا: ' + err.message, 'error', 5000);
     }
   };
   reader.onerror = function() { showToast('❌ خطا در خواندن فایل.', 'error'); };
@@ -3027,14 +2954,10 @@ function saveSoundToHistory(base64, fileName) {
     var key = 'soundHistory_' + userId;
     var history = safeParseJSON(safeGetLS(key, '[]'), []);
     if(history.some(function(h){ return h.data === base64; })) return;
-    history.unshift({
-      name: fileName || ('آهنگ ' + new Date().toLocaleDateString('fa-IR')),
-      data: base64,
-      addedAt: Date.now()
-    });
+    history.unshift({ name: fileName || ('آهنگ ' + new Date().toLocaleDateString('fa-IR')), data: base64, addedAt: Date.now() });
     if(history.length > 3) history = history.slice(0, 3);
     safeSetLS(key, JSON.stringify(history));
-  } catch(e) { console.log('History save error:', e); }
+  } catch(e) {}
 }
 
 function renderSoundHistory() {
@@ -3089,9 +3012,7 @@ function deleteHistorySound(idx) {
   var removed = history.splice(idx, 1)[0];
   safeSetLS('soundHistory_' + userId, JSON.stringify(history));
   var currentSound = safeGetLS('customAlarmSound_' + userId, null);
-  if(currentSound === removed.data) {
-    removeCustomAlarmSoundSilent();
-  }
+  if(currentSound === removed.data) removeCustomAlarmSoundSilent();
   renderSoundHistory();
   showToast('✅ از سابقه حذف شد');
 }
@@ -3108,10 +3029,7 @@ function removeCustomAlarmSoundSilent() {
 
 function setupCustomAudio(base64) {
   try {
-    if(customAlarmAudio) {
-      customAlarmAudio.pause();
-      customAlarmAudio = null;
-    }
+    if(customAlarmAudio) { customAlarmAudio.pause(); customAlarmAudio = null; }
     customAlarmAudio = new Audio(base64);
     customAlarmAudio.preload = 'auto';
     customAlarmAudio.loop = true;
@@ -3119,13 +3037,8 @@ function setupCustomAudio(base64) {
     var statusEl = document.getElementById('customSoundStatus');
     if(statusEl) statusEl.innerHTML = '<span style="color:var(--btn-success);">✅ آهنگ اختصاصی فعال است</span>';
     var preview = document.getElementById('customSoundPreview');
-    if(preview) {
-      preview.src = base64;
-      preview.style.display = 'block';
-    }
-  } catch(e) {
-    showToast('❌ خطا در بارگذاری آهنگ: ' + e.message, 'error');
-  }
+    if(preview) { preview.src = base64; preview.style.display = 'block'; }
+  } catch(e) { showToast('❌ خطا در بارگذاری آهنگ: ' + e.message, 'error'); }
 }
 
 function loadCustomAlarmSound() {
@@ -3150,9 +3063,6 @@ function removeCustomAlarmSound() {
   showToast('✅ آهنگ اختصاصی حذف شد.');
 }
 
-/* ============================================================
-   فعال‌سازی خودکار هر ۳۰ دقیقه
-   ============================================================ */
 function toggleAutoReactivate() {
   var cb = document.getElementById('autoReactivateCheck');
   autoReactivateCheck = cb ? cb.checked : false;
@@ -3192,27 +3102,16 @@ function closeMiniAlarmToast() {
   if(m) m.classList.remove('active');
 }
 
-/* ============================================================
-   آلارم پس‌زمینه
-   ============================================================ */
 function toggleBackgroundAlarm() {
   var cb = document.getElementById('backgroundAlarmCheck');
   backgroundAlarmEnabled = cb ? cb.checked : false;
   saveUserAlarmSettings();
-  if(backgroundAlarmEnabled) {
-    setupBackgroundAlarm();
-    showToast('✅ آلارم پس‌زمینه فعال شد');
-  } else {
-    teardownBackgroundAlarm();
-    showToast('⏸ آلارم پس‌زمینه غیرفعال شد');
-  }
+  if(backgroundAlarmEnabled) { setupBackgroundAlarm(); showToast('✅ آلارم پس‌زمینه فعال شد'); }
+  else { teardownBackgroundAlarm(); showToast('⏸ آلارم پس‌زمینه غیرفعال شد'); }
 }
 
 function setupBackgroundAlarm() {
-  if(!('serviceWorker' in navigator)) {
-    showToast('⚠️ مرورگر شما از Service Worker پشتیبانی نمی‌کند', 'warning', 5000);
-    return;
-  }
+  if(!('serviceWorker' in navigator)) { showToast('⚠️ Service Worker پشتیبانی نمی‌شود', 'warning', 5000); return; }
   navigator.serviceWorker.ready.then(function(registration) {
     if('sync' in registration) {
       registration.sync.register('safir-alarm-sync').catch(function(e){});
@@ -3225,10 +3124,7 @@ function setupBackgroundAlarm() {
 }
 
 function teardownBackgroundAlarm() {
-  if(window._swAlarmInterval) {
-    clearInterval(window._swAlarmInterval);
-    window._swAlarmInterval = null;
-  }
+  if(window._swAlarmInterval) { clearInterval(window._swAlarmInterval); window._swAlarmInterval = null; }
   if(userId) localStorage.removeItem('swAlarmSchedule_' + userId);
 }
 
@@ -3241,17 +3137,11 @@ function updateAlarmScheduleForSW() {
     var time = currentTimes[col];
     var name = td[col] || '';
     if(time && name && name !== '❌') {
-      schedule.push({
-        col: col,
-        time: time,
-        name: name,
-        label: tableColumnNames[col] || col
-      });
+      schedule.push({ col: col, time: time, name: name, label: tableColumnNames[col] || col });
     }
   });
   safeSetLS('swAlarmSchedule_' + userId, JSON.stringify({
-    schedule: schedule,
-    userId: userId,
+    schedule: schedule, userId: userId,
     userName: userProfile ? userProfile.name : '',
     updatedAt: Date.now(),
     vibrateOnly: vibrateOnlyMode,
@@ -3272,9 +3162,7 @@ function sendAlarmScheduleToSW() {
   }).catch(function(){});
 }
 
-/* ============================================================
-   DATA
-   ============================================================ */
+/* DATA */
 var defaultHerbProperties={"روغن بادام شیرین":"تقویت مغز و اعصاب","دمنوش کاسنی":"تصفیه خون","چای آلبالو":"ضد التهاب","هل":"ضد نفخ","دمنوش ۵ گیاه":"لاغری","چای سیاه و وانیل":"انرژی"};
 var herbProperties={},tableColumns=['oil','breakfast','evening','dinner'],tableColumnNames={oil:'💧 ناشتا',breakfast:'☀️ صبح',evening:'🌅 عصر',dinner:'🌙 شب'},currentTimes={oil:"06:00",breakfast:"08:00",evening:"17:00",dinner:"21:00"};
 var totalDays=40,fortyDayData=[],viewMode="all",fontSize="medium",fontFamily="Vazirmatn",showDate=false,showWeekday=false,showPast=true;
@@ -3371,37 +3259,61 @@ function toggleShowWeekday(){showWeekday=document.getElementById('showWeekday').
 function toggleShowPastDays(){showPast=document.getElementById('showPastDays').checked;saveAll();renderTable();}
 function updateClock(){var el=document.getElementById('clockDisplay');if(el)el.textContent=new Date().toLocaleTimeString('fa-IR');}
 
-/* PWA INSTALL */
 var deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;var b=document.getElementById('pwaInstallBtn');if(b)b.style.display='flex';});
 function installPWA(){if(!deferredPrompt){showInstallGuide();return;}deferredPrompt.prompt();deferredPrompt.userChoice.then(function(r){if(r.outcome==='accepted'){showToast('✅ نصب شد!');var b=document.getElementById('pwaInstallBtn');if(b)b.style.display='none';}deferredPrompt=null;});}
 function showInstallGuide(){var ua=navigator.userAgent.toLowerCase();var isIOS=/iphone|ipad|ipod/.test(ua);var isSafari=/safari/.test(ua)&&!/chrome/.test(ua);var isFirefox=/firefox/.test(ua);var isSamsung=/samsungbrowser/.test(ua);var msg='';if(isIOS||isSafari)msg='📱 نصب روی iPhone / Safari:\n\n۱. دکمه Share\n۲. Add to Home Screen\n۳. Add';else if(isFirefox)msg='📱 نصب روی Firefox:\n\n۱. منوی ۳ نقطه\n۲. Install';else if(isSamsung)msg='📱 نصب روی Samsung:\n\n۱. منوی ۳ خط\n۲. Add page to → Home screen';else msg='📱 نصب اپ:\n\n۱. منوی ۳ نقطه\n۲. Add to Home screen / Install App';alert(msg);}
 
-/* INIT */
 function init(){
-  checkImpersonationSession();
-  initAuth();
-  applyTheme(); applySettings();
-  var sdp=document.getElementById('startDatePicker'); if(sdp)sdp.value=toDateInputValue(getStartDateGregorian());
-  updateDateConversionInfo();updateDayDisplay();
-  var vm=document.getElementById('viewMode');if(vm)vm.value=viewMode;
-  var fs=document.getElementById('fontSize');if(fs)fs.value=fontSize;
-  var sd=document.getElementById('showDate');if(sd)sd.checked=showDate;
-  var sw=document.getElementById('showWeekday');if(sw)sw.checked=showWeekday;
-  var sp=document.getElementById('showPastDays');if(sp)sp.checked=showPast;
-  var nm=document.getElementById('nightMode');if(nm)nm.checked=nightMode;
-  setInterval(updateClock,1000);updateClock();
-  setTimeout(loadRemoteBanner,1500); setInterval(loadRemoteBanner,300000);
-  setTimeout(checkNewMessages,3000); setInterval(checkNewMessages,60000);
+  try {
+    initAuth();
+  } catch(e) {
+    console.error('initAuth error:', e);
+    document.getElementById('loginPage').classList.add('active');
+    document.getElementById('mainAppContainer').style.display = 'none';
+    renderSavedProfiles();
+  }
   
-  setInterval(function() {
-    if(autoReactivateCheck && !alarmActive) activateAlarms();
-  }, 60 * 1000);
+  try { applyTheme(); applySettings(); } catch(e) { console.warn('theme:', e); }
   
-  setInterval(checkPendingAlarm, 60 * 1000);
+  try {
+    var sdp=document.getElementById('startDatePicker'); 
+    if(sdp) sdp.value=toDateInputValue(getStartDateGregorian());
+    updateDateConversionInfo();
+    updateDayDisplay();
+  } catch(e) { console.warn('date init:', e); }
   
-  // بروزرسانی وضعیت نوتیفیکیشن هر ۵ ثانیه
-  setInterval(updateNotificationStatus, 5000);
+  try {
+    var vm=document.getElementById('viewMode');if(vm)vm.value=viewMode;
+    var fs=document.getElementById('fontSize');if(fs)fs.value=fontSize;
+    var sd=document.getElementById('showDate');if(sd)sd.checked=showDate;
+    var sw=document.getElementById('showWeekday');if(sw)sw.checked=showWeekday;
+    var sp=document.getElementById('showPastDays');if(sp)sp.checked=showPast;
+    var nm=document.getElementById('nightMode');if(nm)nm.checked=nightMode;
+  } catch(e) { console.warn('controls:', e); }
+  
+  try {
+    setInterval(updateClock,1000);
+    updateClock();
+    setTimeout(loadRemoteBanner,1500); 
+    setInterval(loadRemoteBanner,300000);
+    setTimeout(checkNewMessages,3000); 
+    setInterval(checkNewMessages,60000);
+    
+    setInterval(function() {
+      if(autoReactivateCheck && !alarmActive) {
+        try { activateAlarms(); } catch(e) {}
+      }
+    }, 60 * 1000);
+    
+    setInterval(function() {
+      try { checkPendingAlarm(); } catch(e) {}
+    }, 60 * 1000);
+    
+    setInterval(function() {
+      try { updateNotificationStatus(); } catch(e) {}
+    }, 5000);
+  } catch(e) { console.warn('intervals:', e); }
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
 else init();
