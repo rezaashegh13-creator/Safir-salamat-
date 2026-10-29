@@ -45,22 +45,14 @@ body{font-family:var(--font-family);background:var(--bg-primary);
 
 .today-showcase { 
   background: linear-gradient(135deg, #1e3c26, #0d1f12); 
-  border: 2px solid var(--accent); 
-  border-radius: 20px; 
-  padding: 15px; 
-  margin-bottom: 15px; 
-  position: relative; 
-  overflow: hidden; 
+  border: 2px solid var(--accent); border-radius: 20px; padding: 15px; margin-bottom: 15px; 
+  position: relative; overflow: hidden; 
   box-shadow: 0 8px 25px rgba(0,0,0,0.4), inset 0 0 20px rgba(244,208,63,0.1), inset 0 1px 0 rgba(255,255,255,0.15);
 }
 .today-showcase::before {
-  content: '';
-  position: absolute;
-  top: -50%;left: -60%;width: 60%;height: 200%;
+  content: ''; position: absolute; top: -50%;left: -60%;width: 60%;height: 200%;
   background: linear-gradient(115deg,transparent 30%,rgba(255,255,255,0.12) 45%,rgba(244,208,63,0.18) 50%,rgba(255,255,255,0.12) 55%,transparent 70%);
-  transform: rotate(25deg);
-  animation: showcaseShine 6s ease-in-out infinite;
-  pointer-events: none;
+  transform: rotate(25deg); animation: showcaseShine 6s ease-in-out infinite; pointer-events: none;
 }
 .today-showcase::after {
   content: '';position: absolute;inset: 0;border-radius: 20px;padding: 2px;
@@ -84,10 +76,7 @@ body{font-family:var(--font-family);background:var(--bg-primary);
 
 .info-strip {
   background: linear-gradient(135deg, rgba(30,60,38,0.9), rgba(13,31,18,0.9));
-  border: 1px solid rgba(244,208,63,0.35);
-  border-radius: 16px;
-  padding: 12px 15px;
-  margin: 0 0 15px;
+  border: 1px solid rgba(244,208,63,0.35); border-radius: 16px; padding: 12px 15px; margin: 0 0 15px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3), inset 0 0 15px rgba(244,208,63,0.08);
   animation: infoGlow 4s ease-in-out infinite;
 }
@@ -98,37 +87,21 @@ body{font-family:var(--font-family);background:var(--bg-primary);
 .info-strip-row { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
 .info-badge { background: rgba(0,0,0,0.4); padding: 5px 12px; border-radius: 12px; border: 1px solid rgba(244,208,63,0.3); font-size: 0.8em; color: var(--text-secondary); }
 .info-day { color: var(--accent); font-weight: bold; }
-.info-motivation {
-  font-family: 'Lalezar', cursive;
-  font-size: 1.2em;
-  text-align: center;
-  color: var(--accent);
-  line-height: 1.9;
-  text-shadow: 0 2px 8px rgba(244,208,63,0.4);
-  padding: 6px 8px;
-  letter-spacing: 0.3px;
-}
+.info-motivation { font-family: 'Lalezar', cursive; font-size: 1.2em; text-align: center; color: var(--accent); line-height: 1.9; text-shadow: 0 2px 8px rgba(244,208,63,0.4); padding: 6px 8px; letter-spacing: 0.3px; }
 
 .welcome-message { text-align: center; font-family: 'Lalezar', cursive; font-size: 1.6em; color: var(--accent); margin-bottom: 10px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
 
 .growth-btn {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   margin: 25px auto 10px; padding: 14px 35px;
-  background: linear-gradient(90deg, #e8b923, #fff8b0, #f4d03f, #e8b923);
-  background-size: 300% 100%;
-  color: #0d1f12; text-decoration: none; border-radius: 30px;
-  font-family: 'Lalezar', cursive; font-size: 1.1em; font-weight: bold;
+  background: linear-gradient(90deg, #e8b923, #fff8b0, #f4d03f, #e8b923); background-size: 300% 100%;
+  color: #0d1f12; text-decoration: none; border-radius: 30px; font-family: 'Lalezar', cursive; font-size: 1.1em; font-weight: bold;
   width: fit-content; box-shadow: 0 0 20px rgba(244,208,63,0.6);
-  animation: shine 3s infinite linear; border: 2px solid #fff;
-  text-shadow: 1px 1px 0px rgba(255,255,255,0.5);
+  animation: shine 3s infinite linear; border: 2px solid #fff; text-shadow: 1px 1px 0px rgba(255,255,255,0.5);
 }
 @keyframes shine { 0% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-#topBanner {
-  display: none; width: 100%; background: var(--bg-secondary);
-  border-radius: 16px; overflow: hidden; margin-bottom: 15px;
-  border: 2px solid var(--accent); box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-}
+#topBanner { display: none; width: 100%; background: var(--bg-secondary); border-radius: 16px; overflow: hidden; margin-bottom: 15px; border: 2px solid var(--accent); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
 #topBanner.active { display: block; }
 #topBanner img { width: 100%; height: auto; max-height: 220px; object-fit: cover; display: block; border-radius: 14px; }
 
@@ -140,15 +113,10 @@ body{font-family:var(--font-family);background:var(--bg-primary);
 .admin-login-btn {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   margin: 15px auto 0; padding: 12px 28px;
-  background: linear-gradient(135deg, #f4d03f, #e8b923, #ffb700);
-  background-size: 200% 100%; color: #0d1f12;
-  border: 2px solid #fff; border-radius: 14px;
-  font-family: 'Lalezar', cursive; font-size: 1.05em; font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 6px 20px rgba(244,208,63,0.45), inset 0 -3px 0 rgba(0,0,0,0.15);
-  transition: all 0.3s ease;
-  animation: adminShine 3s ease-in-out infinite;
-  text-shadow: 1px 1px 0 rgba(255,255,255,0.4);
+  background: linear-gradient(135deg, #f4d03f, #e8b923, #ffb700); background-size: 200% 100%; color: #0d1f12;
+  border: 2px solid #fff; border-radius: 14px; font-family: 'Lalezar', cursive; font-size: 1.05em; font-weight: bold;
+  cursor: pointer; box-shadow: 0 6px 20px rgba(244,208,63,0.45), inset 0 -3px 0 rgba(0,0,0,0.15);
+  transition: all 0.3s ease; animation: adminShine 3s ease-in-out infinite; text-shadow: 1px 1px 0 rgba(255,255,255,0.4);
 }
 @keyframes adminShine {
   0%, 100% { background-position: 0% 50%; box-shadow: 0 6px 20px rgba(244,208,63,0.45), inset 0 -3px 0 rgba(0,0,0,0.15); }
@@ -264,11 +232,7 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 .preview-table tr:nth-child(even) td{background:rgba(0,0,0,.15)}
 .preview-scroll{max-height:350px;overflow-y:auto;border-radius:10px;border:1px solid var(--border-color)}
 
-.preview-edit-input {
-  width: 100%; background: transparent; border: 1px solid transparent;
-  color: var(--text-primary); text-align: center; font-family: inherit; font-size: inherit;
-  padding: 2px; border-radius: 4px; cursor: text;
-}
+.preview-edit-input { width: 100%; background: transparent; border: 1px solid transparent; color: var(--text-primary); text-align: center; font-family: inherit; font-size: inherit; padding: 2px; border-radius: 4px; cursor: text; }
 .preview-edit-input:focus { border-color: var(--accent); background: rgba(0,0,0,0.5); outline: none; }
 
 .day-input-box{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;background:var(--bg-primary);padding:10px;border-radius:8px;margin-bottom:8px}
@@ -319,32 +283,21 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   position: fixed; bottom: 15px; right: 15px; left: 15px;
   background: linear-gradient(135deg, #c0392b, #e74c3c);
   color: #fff; padding: 14px 18px; border-radius: 12px;
-  box-shadow: 0 6px 25px rgba(0,0,0,0.5);
-  z-index: 99998; font-family: var(--font-family);
-  border: 2px solid #fff; display: none; align-items: center;
-  gap: 10px; font-weight: 700;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.5); z-index: 99998; font-family: var(--font-family);
+  border: 2px solid #fff; display: none; align-items: center; gap: 10px; font-weight: 700;
   animation: miniAlarmPulse 2s ease-in-out infinite;
 }
 .mini-alarm-toast.active { display: flex; }
-@keyframes miniAlarmPulse {
-  0%, 100% { box-shadow: 0 6px 25px rgba(0,0,0,0.5); }
-  50% { box-shadow: 0 6px 35px rgba(231,76,60,0.9); }
-}
+@keyframes miniAlarmPulse { 0%, 100% { box-shadow: 0 6px 25px rgba(0,0,0,0.5); } 50% { box-shadow: 0 6px 35px rgba(231,76,60,0.9); } }
 .mini-alarm-toast button { background: #fff; color: #c0392b; border: none; border-radius: 8px; padding: 8px 15px; font-weight: 700; cursor: pointer; font-family: var(--font-family); }
 
 .archive-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-top: 12px; }
 .archive-book {
-  background: linear-gradient(135deg, #5a3d1a, #3a2510);
-  border: 2px solid var(--accent2);
-  border-radius: 6px 12px 12px 6px;
-  padding: 14px 12px;
-  cursor: pointer;
-  position: relative;
-  min-height: 110px;
+  background: linear-gradient(135deg, #5a3d1a, #3a2510); border: 2px solid var(--accent2);
+  border-radius: 6px 12px 12px 6px; padding: 14px 12px; cursor: pointer; position: relative; min-height: 110px;
   display: flex; flex-direction: column; justify-content: space-between;
   box-shadow: 4px 4px 0 rgba(0,0,0,0.5), inset -3px 0 0 rgba(0,0,0,0.3);
-  transition: all 0.25s;
-  overflow: hidden;
+  transition: all 0.25s; overflow: hidden;
 }
 .archive-book::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: linear-gradient(90deg, rgba(0,0,0,0.5), rgba(255,255,255,0.08)); }
 .archive-book:hover { transform: translateY(-3px); box-shadow: 6px 8px 0 rgba(0,0,0,0.5), inset -3px 0 0 rgba(0,0,0,0.3); border-color: var(--accent); }
@@ -357,7 +310,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 .archive-search-box { width: 100%; padding: 10px 12px; background: var(--input-bg); color: #fff; border: 1px solid var(--accent); border-radius: 10px; font-family: var(--font-family); font-size: 0.9em; margin-bottom: 10px; }
 .archive-shelf-title { color: var(--accent); font-family: 'Lalezar', cursive; font-size: 1.2em; text-align: center; margin: 12px 0 6px; border-bottom: 2px dashed var(--accent2); padding-bottom: 6px; }
 
-/* تنظیمات صدای آلارم */
 .alarm-sound-settings { background: rgba(0,0,0,0.25); padding: 12px; border-radius: 10px; border: 1px dashed var(--accent2); margin-top: 10px; }
 .alarm-sound-settings h4 { color: var(--accent); font-size: 0.9em; margin-bottom: 8px; text-align: center; }
 .volume-slider-row { display: flex; align-items: center; gap: 10px; margin: 10px 0; }
@@ -373,6 +325,9 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 .setting-toggle-row .toggle-btn::after { content: ''; position: absolute; top: 2px; right: 2px; width: 20px; height: 20px; border-radius: 50%; background: #888; transition: .2s; }
 .setting-toggle-row .toggle-btn.active { background: var(--btn-success); }
 .setting-toggle-row .toggle-btn.active::after { right: calc(100% - 22px); background: #fff; }
+
+.notification-status-box { padding: 10px; background: rgba(231,76,60,0.1); border: 2px solid var(--btn-danger); border-radius: 10px; margin: 10px 0; text-align: center; }
+.notification-status-box.granted { background: rgba(46,204,113,0.1); border-color: var(--btn-success); }
 </style>
 </head>
 <body>
@@ -414,7 +369,7 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   <div class="modal-content">
     <h2>🔑 فراموشی رمز عبور</h2>
     <p style="font-size:0.95em; line-height:2;">از مدیر اپلیکیشن درخواست کنید اطلاعات ورود شما را برایتان ارسال کند.</p>
-    <p style="font-size:0.8em; color:var(--accent); background:rgba(244,208,63,0.1); padding:10px; border-radius:8px; margin-top:10px;">💡 برای این کار، کد اختصاصی خود را به مدیر بدهید.</p>
+    <p style="font-size:0.8em; color:var(--accent); background:rgba(244,208,63,0.1); padding:10px; border-radius:8px; margin-top:10px;">💡 کد اختصاصی خود را به مدیر بدهید.</p>
     <button class="btn btn-gray" onclick="document.getElementById('forgotPassModal').classList.remove('active')" style="margin-top:15px;">متوجه شدم</button>
   </div>
 </div>
@@ -635,17 +590,26 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     <button class="btn btn-green" onclick="saveAlarmSettings()" style="margin-top:8px">💾 ذخیره تنظیمات هشدار</button>
     <button class="btn btn-orange" onclick="testAlarmSound()" style="margin-top:6px">🔊 تست صدای آلارم</button>
     
-    <!-- تنظیمات پیشرفته صدا -->
+    <div class="notification-status-box" id="notificationStatusBox">
+      <p style="font-size:0.85em; margin-bottom:8px;">⚠️ نوتیفیکیشن اعلانات غیرفعال است</p>
+      <button class="btn btn-green" onclick="requestNotificationPermission()" style="font-size:0.8em; padding:8px;">🔔 فعال‌سازی نوتیفیکیشن در اعلانات بالای گوشی</button>
+    </div>
+    
     <div class="alarm-sound-settings">
       <h4>🔊 تنظیمات پیشرفته صدا</h4>
       
-      <div class="volume-slider-row">
+      <div class="setting-toggle-row">
+        <label>📳 فقط ویبره (بدون صدا)</label>
+        <button class="toggle-btn" id="vibrateOnlyToggle" onclick="toggleVibrateOnly(this)"></button>
+      </div>
+      
+      <div class="volume-slider-row" id="volumeSliderRow">
         <label>🔉 حجم صدا:</label>
         <input type="range" id="alarmVolumeSlider" min="0" max="100" value="70" oninput="onVolumeChange(this.value)">
         <span class="volume-value" id="alarmVolumeValue">70%</span>
       </div>
       
-      <div class="setting-toggle-row">
+      <div class="setting-toggle-row" id="gradualVolumeRow">
         <label>📈 افزایش پله‌ای صدا (هر ۳ ثانیه بلندتر)</label>
         <button class="toggle-btn" id="gradualVolumeToggle" onclick="toggleGradualVolume(this)"></button>
       </div>
@@ -661,11 +625,11 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
       </div>
       
       <p style="font-size:0.7em; color:var(--text-muted); margin-top:8px; line-height:1.6; text-align:center;">
-        💡 توجه: «پخش در حالت بی‌صدا» فقط در مرورگرهایی که از این قابلیت پشتیبانی می‌کنند (مثل Chrome) کار می‌کند. در غیر این صورت، ویبره به عنوان جایگزین استفاده می‌شود.
+        💡 وقتی «فقط ویبره» فعال باشد، هیچ صدایی پخش نمی‌شود و فقط گوشی می‌لرزد.
       </p>
     </div>
     
-    <div class="sound-upload-box" style="margin-top:12px;">
+    <div class="sound-upload-box" style="margin-top:12px;" id="soundUploadBox">
       <p style="color:var(--accent); font-weight:700; font-size:0.9em; margin-bottom:8px;">🎵 آهنگ اختصاصی آلارم</p>
       <p style="font-size:0.75em; color:var(--text-muted); margin-bottom:8px;">می‌توانید یک فایل صوتی از گوشی خود انتخاب کنید (MP3/WAV/M4A/OGG).</p>
       <input type="file" id="customAlarmSound" accept="audio/*" style="display:none;" onchange="uploadCustomAlarmSound(event)">
@@ -688,16 +652,13 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
       <input type="checkbox" id="autoReactivateCheck" onchange="toggleAutoReactivate()">
       <label for="autoReactivateCheck">🔄 فعال‌سازی خودکار آلارم‌ها هر ۳۰ دقیقه</label>
     </div>
-    <p style="font-size:0.7em; color:var(--text-muted); margin-top:5px; line-height:1.7;">
-      💡 با فعال بودن این گزینه، اپلیکیشن هر ۳۰ دقیقه به صورت خودکار آلارم‌ها را فعال می‌کند. هنگام رسیدن زمان هر وعده، نوتیفیکیشن گوشی ارسال می‌شود که می‌توانید مستقیماً از روی آن آلارم را قطع یا به چرت ببرید.
-    </p>
     
     <div class="save-password-box" style="margin-top:12px; border-color:var(--btn-primary);">
       <input type="checkbox" id="backgroundAlarmCheck" onchange="toggleBackgroundAlarm()">
       <label for="backgroundAlarmCheck">🌙 فعال بودن آلارم حتی وقتی اپ بسته است</label>
     </div>
     <p style="font-size:0.7em; color:var(--text-muted); margin-top:5px; line-height:1.7;">
-      💡 با فعال بودن این گزینه، آلارم‌ها با استفاده از Service Worker و Background Sync حتی در پس‌زمینه و زمانی که اپ کاملاً بسته است، اجرا می‌شوند و نوتیفیکیشن ارسال می‌گردد.
+      💡 توجه: برای اجرای کامل آلارم در پس‌زمینه، اپلیکیشن باید به صفحه اصلی (Home Screen) اضافه شده باشد.
     </p>
   </div>
   
@@ -709,8 +670,7 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     <button class="btn btn-success" onclick="saveStartDatePermanently()" style="margin-top:8px;">💾 ذخیره دائم تاریخ شروع</button>
     <div style="font-size:.78em;color:var(--text-secondary);margin-top:8px;line-height:1.8">
       📅 شمسی: <span id="jalaliDate" style="color:var(--accent);font-weight:700">--</span><br>
-      📌 امروز: <span id="dayBadge" style="color:var(--accent);font-weight:700">روز --</span><br>
-      <span style="font-size:0.9em;color:var(--text-muted)">💡 اگر تاریخ شروع در آینده باشد، شمارش از فردای آن روز آغاز می‌شود.</span>
+      📌 امروز: <span id="dayBadge" style="color:var(--accent);font-weight:700">روز --</span>
     </div>
   </div>
   
@@ -767,7 +727,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     <h3>👥 مدیریت کاربران</h3>
     <div style="background:var(--bg-secondary); padding:15px; border-radius:10px; margin-bottom:15px; border:1px solid var(--accent);">
       <h4 style="color:var(--accent); margin-bottom:10px; text-align:center;">➕ ایجاد کاربر جدید</h4>
-      <p style="font-size:0.75em; color:var(--text-muted); margin-bottom:10px; text-align:center;">کاربر کد خود را از تنظیمات برای شما می‌فرستد.</p>
       <div class="settings-row"><label>کد کاربر:</label><input type="text" id="newUserCode" placeholder="مثلاً: A3B5C7" maxlength="10" style="text-align:center; direction:ltr;"></div>
       <div class="settings-row"><label>نام و نام خانوادگی:</label><input type="text" id="newUserName" placeholder="مثلاً: علی محمدی"></div>
       <div class="settings-row"><label>رمز ۴ رقمی:</label><input type="text" id="newUserPassword" placeholder="مثلاً: ۱۲۳۴" maxlength="4"></div>
@@ -928,71 +887,164 @@ var backgroundAlarmEnabled = false;
 
 var archivePendingAction = null;
 
-/* تنظیمات صوتی پیشرفته */
-var alarmVolume = 70; // 0-100
-var gradualVolume = true; // افزایش پله‌ای
-var silentModeOverride = true; // پخش در حالت بی‌صدا
+var alarmVolume = 70;
+var gradualVolume = true;
+var silentModeOverride = true;
 var vibrateEnabled = true;
-var gradualVolumeStep = 0; // شمارنده پله صدا
+var vibrateOnlyMode = false;
+var gradualVolumeStep = 0;
 var gradualVolumeInterval = null;
 
 var currentAlarmData = null;
 var activeNotification = null;
 
-function showToast(msg,type,duration){
-  type=type||"success";duration=duration||4000;
-  var t=document.getElementById('toast');if(!t)return;
-  t.textContent=msg;
-  t.className='toast'+(type==='error'?' error':type==='warning'?' warning':'');
-  t.style.display='block';
-  setTimeout(function(){t.style.display='none';},duration);
+/* ============================================================
+   کلیدهای localStorage مخصوص هر کاربر
+   ============================================================ */
+function userKey(base) {
+  return base + '_' + (userId || 'guest');
 }
-function escapeHtml(s){if(s==null)return"";return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
-function safeSetLS(key,val){try{localStorage.setItem(key,val);return true;}catch(e){return false;}}
-function safeGetLS(key,def){try{var v=localStorage.getItem(key);return v==null?def:v;}catch(e){return def;}}
-function safeParseJSON(str,def){if(!str)return def;try{return JSON.parse(str);}catch(e){return def;}}
 
-function saveOfflineBackup() {
-  if(!userId) { showToast('ابتدا وارد حساب شوید', 'error'); return; }
-  var backupData = {
-    userId: userId, userProfile: userProfile, fortyDayData: fortyDayData,
-    tableColumns: tableColumns, tableColumnNames: tableColumnNames,
-    currentTimes: currentTimes, totalDays: totalDays,
-    lastPrescription: safeGetLS('lastPrescription', null),
-    healthStartDateGregorian: safeGetLS('healthStartDateGregorian', null),
-    timestamp: new Date().toISOString()
+/* ============================================================
+   ارسال نوتیفیکیشن در اعلانات بالای گوشی - بازنویسی شده
+   ============================================================ */
+async function requestNotificationPermission() {
+  if(!('Notification' in window)) {
+    showToast('❌ مرورگر شما از نوتیفیکیشن پشتیبانی نمی‌کند', 'error', 5000);
+    return;
+  }
+  
+  if(Notification.permission === 'granted') {
+    showToast('✅ نوتیفیکیشن از قبل فعال است');
+    updateNotificationStatus();
+    sendTestNotification();
+    return;
+  }
+  
+  if(Notification.permission === 'denied') {
+    showToast('⚠️ نوتیفیکیشن در تنظیمات مرورگر رد شده. لطفاً از تنظیمات مرورگر اجازه دهید.', 'warning', 8000);
+    updateNotificationStatus();
+    return;
+  }
+  
+  try {
+    var perm = await Notification.requestPermission();
+    if(perm === 'granted') {
+      showToast('✅ نوتیفیکیشن فعال شد!');
+      updateNotificationStatus();
+      sendTestNotification();
+    } else {
+      showToast('❌ اجازه نوتیفیکیشن داده نشد', 'error', 5000);
+      updateNotificationStatus();
+    }
+  } catch(e) {
+    showToast('❌ خطا: ' + e.message, 'error');
+  }
+}
+
+function sendTestNotification() {
+  try {
+    // از Service Worker برای اعلان استفاده می‌کنیم اگر ممکن باشد
+    if('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.ready.then(function(reg) {
+        reg.showNotification('🔔 نوتیفیکیشن فعال شد!', {
+          body: 'از این پس آلارم‌ها در اعلانات بالای گوشی نمایش داده می‌شوند.',
+          icon: '/Safir-salamat-/icon-192.png',
+          badge: '/Safir-salamat-/icon-192.png',
+          tag: 'safir-test',
+          requireInteraction: false
+        });
+      });
+    } else {
+      new Notification('🔔 نوتیفیکیشن فعال شد!', {
+        body: 'از این پس آلارم‌ها در اعلانات بالای گوشی نمایش داده می‌شوند.',
+        icon: '/Safir-salamat-/icon-192.png',
+        badge: '/Safir-salamat-/icon-192.png',
+        tag: 'safir-test'
+      });
+    }
+  } catch(e) {
+    console.log('Test notification error:', e);
+  }
+}
+
+function updateNotificationStatus() {
+  var box = document.getElementById('notificationStatusBox');
+  if(!box) return;
+  if(!('Notification' in window)) {
+    box.className = 'notification-status-box';
+    box.innerHTML = '<p style="font-size:0.85em; margin-bottom:8px;">❌ مرورگر شما از نوتیفیکیشن پشتیبانی نمی‌کند</p>';
+    return;
+  }
+  if(Notification.permission === 'granted') {
+    box.className = 'notification-status-box granted';
+    box.innerHTML = '<p style="font-size:0.85em; color:var(--btn-success); margin-bottom:8px;">✅ نوتیفیکیشن اعلانات فعال است</p><button class="btn btn-orange" onclick="sendTestNotification();showToast(\'🔔 نوتیفیکیشن تست ارسال شد\')" style="font-size:0.8em; padding:8px;">🔔 تست نوتیفیکیشن</button>';
+  } else if(Notification.permission === 'denied') {
+    box.className = 'notification-status-box';
+    box.innerHTML = '<p style="font-size:0.85em; margin-bottom:8px;">⚠️ نوتیفیکیشن رد شده است. لطفاً از تنظیمات مرورگر (Site Settings → Notifications) اجازه دهید.</p><button class="btn btn-red" onclick="showNotificationHelp()" style="font-size:0.8em; padding:8px;">📖 راهنما</button>';
+  } else {
+    box.className = 'notification-status-box';
+    box.innerHTML = '<p style="font-size:0.85em; margin-bottom:8px;">⚠️ نوتیفیکیشن اعلانات غیرفعال است</p><button class="btn btn-green" onclick="requestNotificationPermission()" style="font-size:0.8em; padding:8px;">🔔 فعال‌سازی نوتیفیکیشن در اعلانات بالای گوشی</button>';
+  }
+}
+
+function showNotificationHelp() {
+  alert('برای فعال‌سازی نوتیفیکیشن:\n\n' +
+        'اندروید (Chrome):\n' +
+        '۱. روی قفل کنار آدرس سایت بزنید\n' +
+        '۲. Permissions → Notifications → Allow\n\n' +
+        'آیفون (Safari):\n' +
+        '۱. Settings → Safari → Notifications\n' +
+        '۲. سایت را پیدا و فعال کنید\n\n' +
+        'یا از تنظیمات گوشی:\n' +
+        'Settings → Apps → مرورگر → Notifications → فعال کنید');
+}
+
+/* ============================================================
+   ذخیره و بازیابی تنظیمات مخصوص هر کاربر
+   ============================================================ */
+function saveUserAlarmSettings() {
+  if(!userId) return;
+  var settings = {
+    alarmVolume: alarmVolume,
+    gradualVolume: gradualVolume,
+    silentModeOverride: silentModeOverride,
+    vibrateEnabled: vibrateEnabled,
+    vibrateOnlyMode: vibrateOnlyMode,
+    autoReactivate: autoReactivateCheck,
+    backgroundAlarm: backgroundAlarmEnabled,
+    alarmEnabled: alarmEnabled
   };
-  try {
-    localStorage.setItem('offlineBackup_' + userId, JSON.stringify(backupData));
-    showToast('✅ نسخه پشتیبان ذخیره شد.');
-  } catch(e) { showToast('❌ خطا در ذخیره پشتیبان: ' + e.message, 'error'); }
+  safeSetLS(userKey('alarmSettings'), JSON.stringify(settings));
 }
 
-function restoreOfflineBackup() {
-  if(!userId) { showToast('ابتدا وارد حساب شوید', 'error'); return; }
-  var backupStr = safeGetLS('offlineBackup_' + userId, null);
-  if(!backupStr) { showToast('⚠️ نسخه پشتیبانی یافت نشد.', 'warning'); return; }
-  if(!confirm('آیا مطمئن هستید؟')) return;
-  try {
-    var backup = JSON.parse(backupStr);
-    if(backup.fortyDayData) { fortyDayData = backup.fortyDayData; saveAll(); }
-    if(backup.tableColumns) tableColumns = backup.tableColumns;
-    if(backup.tableColumnNames) tableColumnNames = backup.tableColumnNames;
-    if(backup.currentTimes) currentTimes = backup.currentTimes;
-    if(backup.totalDays) totalDays = backup.totalDays;
-    if(backup.lastPrescription) safeSetLS('lastPrescription', backup.lastPrescription);
-    if(backup.healthStartDateGregorian) safeSetLS('healthStartDateGregorian', backup.healthStartDateGregorian);
-    if(backup.userProfile) { userProfile = backup.userProfile; safeSetLS('userProfile', JSON.stringify(userProfile)); updateProfileUI(); }
-    showToast('✅ بازیابی شد. صفحه بارگذاری...');
-    setTimeout(function() { window.location.reload(); }, 1500);
-  } catch(e) { showToast('❌ خطا: ' + e.message, 'error'); }
+function loadUserAlarmSettings() {
+  if(!userId) return;
+  var saved = safeParseJSON(safeGetLS(userKey('alarmSettings'), 'null'), null);
+  if(saved) {
+    alarmVolume = typeof saved.alarmVolume === 'number' ? saved.alarmVolume : 70;
+    gradualVolume = saved.gradualVolume !== false;
+    silentModeOverride = saved.silentModeOverride !== false;
+    vibrateEnabled = saved.vibrateEnabled !== false;
+    vibrateOnlyMode = saved.vibrateOnlyMode === true;
+    autoReactivateCheck = saved.autoReactivate === true;
+    backgroundAlarmEnabled = saved.backgroundAlarm === true;
+    if(saved.alarmEnabled && typeof saved.alarmEnabled === 'object') {
+      alarmEnabled = saved.alarmEnabled;
+    }
+  }
 }
 
-/* AUTH */
+/* ============================================================
+   AUTH
+   ============================================================ */
 var profilesList = safeParseJSON(safeGetLS('profilesList', '[]'), []);
 var activeUserCode = safeGetLS('activeUserCode', null);
 
 function initAuth() {
+  // چک impersonation
+  checkImpersonationSession();
+  
   if(!activeUserCode) {
     if(profilesList.length > 0) {
       activeUserCode = profilesList[profilesList.length - 1].code;
@@ -1007,16 +1059,17 @@ function initAuth() {
     document.getElementById('loginPage').classList.remove('active');
     document.getElementById('mainAppContainer').style.display = 'block';
     updateProfileUI();
+    loadUserAlarmSettings();
     initData(); 
     renderTable(); 
     renderAlarmSettings(); 
     updateTodayShowcase(); 
     checkRegimeReceive();
     loadCustomAlarmSound();
-    loadAutoReactivateSetting();
-    loadBackgroundAlarmSetting();
     loadAlarmSoundSettings();
-    checkPendingAlarm();
+    updateNotificationStatus();
+    if(autoReactivateCheck) startAutoReactivateInterval();
+    if(backgroundAlarmEnabled) setTimeout(setupBackgroundAlarm, 2000);
     receiveAll(true).then(function(){
        renderTable(); updateTodayShowcase(); checkRegimeReceive();
     }).catch(function(e){ });
@@ -1085,16 +1138,17 @@ async function doLogin() {
   document.getElementById('loginPage').classList.remove('active');
   document.getElementById('mainAppContainer').style.display = 'block';
   updateProfileUI();
+  loadUserAlarmSettings();
   initData(); 
   renderTable(); 
   renderAlarmSettings(); 
   updateTodayShowcase(); 
   checkRegimeReceive();
   loadCustomAlarmSound();
-  loadAutoReactivateSetting();
-  loadBackgroundAlarmSetting();
   loadAlarmSoundSettings();
-  checkPendingAlarm();
+  updateNotificationStatus();
+  if(autoReactivateCheck) startAutoReactivateInterval();
+  if(backgroundAlarmEnabled) setTimeout(setupBackgroundAlarm, 2000);
   receiveAll(true).then(function(){
      renderTable(); updateTodayShowcase(); checkRegimeReceive();
   }).catch(function(e){});
@@ -1103,6 +1157,7 @@ async function doLogin() {
 
 function doLogout() {
   if(!confirm('از حساب کاربری خارج می‌شوید؟')) return;
+  stopAlarm();
   localStorage.removeItem('activeUserCode');
   localStorage.removeItem('currentSessionUser');
   localStorage.removeItem('userProfile');
@@ -1387,25 +1442,32 @@ async function createUserByAdmin() {
 }
 
 /* ============================================================
-   IMPERSONATION - بازنویسی شده برای خروج کامل
+   IMPERSONATION - با تفکیک کامل داده‌ها
    ============================================================ */
 async function impersonateUser(targetCode) {
   if(!confirm('ورود به پنل ' + targetCode + '؟')) return;
   
-  // ذخیره اطلاعات کامل ادمین اصلی
+  // ذخیره اطلاعات کامل ادمین
   originalAdminCode = userId;
   originalAdminProfile = JSON.parse(JSON.stringify(userProfile || {}));
   isImpersonating = true;
   
-  // ذخیره در localStorage برای بازیابی ایمن
   safeSetLS('adminOriginalCode', originalAdminCode);
   safeSetLS('adminOriginalProfile', JSON.stringify(originalAdminProfile));
   safeSetLS('isImpersonatingSession', 'true');
   
+  // ذخیره داده‌های ادمین به صورت مجزا (تا روی کاربر تأثیر نگذارد)
+  safeSetLS('admin_health40Data', safeGetLS('health40Data', ''));
+  safeSetLS('admin_health40Times', safeGetLS('health40Times', ''));
+  safeSetLS('admin_lastPrescription', safeGetLS('lastPrescription', ''));
+  safeSetLS('admin_tableColumns', safeGetLS('tableColumns', ''));
+  safeSetLS('admin_prescriptionHistory', safeGetLS('prescriptionHistory', ''));
+  safeSetLS('admin_tableHistory', safeGetLS('tableHistory', ''));
+  safeSetLS('admin_healthStartDate', safeGetLS('healthStartDateGregorian', ''));
+  
   var userData = await getUserRecord(targetCode);
   if(!userData) { 
     showToast('اطلاعات کاربر یافت نشد', 'error'); 
-    // برگرد به حالت ادمین
     isImpersonating = false;
     userId = originalAdminCode;
     userProfile = originalAdminProfile;
@@ -1420,17 +1482,33 @@ async function impersonateUser(targetCode) {
   if(userProfile) safeSetLS('userProfile', JSON.stringify(userProfile));
   else localStorage.removeItem('userProfile');
   
+  // پاک کردن داده‌های ادمین از localStorage فعلی (تا کاربر جدید تحت تأثیر قرار نگیرد)
+  localStorage.removeItem('health40Data');
+  localStorage.removeItem('health40Times');
+  localStorage.removeItem('lastPrescription');
+  localStorage.removeItem('tableColumns');
+  localStorage.removeItem('tableReceived');
+  localStorage.removeItem('healthStartDateGregorian');
+  localStorage.removeItem('prescriptionHistory');
+  localStorage.removeItem('tableHistory');
+  localStorage.removeItem('activeAlarm');
+  
+  // بستن آلارم فعلی
+  stopAlarm();
+  
   updateProfileUI();
   document.getElementById('adminReturnBar').style.display = 'block'; 
   
-  // پاک کردن داده‌های کاربر قبلی
-  localStorage.removeItem('tableReceived');
-  localStorage.removeItem('lastPrescription');
-  localStorage.removeItem('health40Data');
-  localStorage.removeItem('health40Times');
-  localStorage.removeItem('customAlarmSound_' + targetCode);
+  // بارگذاری داده‌های کاربر هدف
+  loadUserAlarmSettings();
+  initData();
+  renderTable();
+  renderAlarmSettings();
+  updateTodayShowcase();
+  checkRegimeReceive();
+  loadCustomAlarmSound();
+  updateNotificationStatus();
   
-  showPage('pageMenu');
   receiveAll(true).then(function(){ 
     renderTable(); 
     updateTodayShowcase(); 
@@ -1441,12 +1519,11 @@ async function impersonateUser(targetCode) {
 }
 
 /* ============================================================
-   خروج کامل از پنل کاربر و بازگشت به پنل ادمین
+   خروج کامل از پنل کاربر و بازگشت به پنل ادمین - با بازیابی داده‌های ادمین
    ============================================================ */
 function exitImpersonation() {
   if(!confirm('از پنل این کاربر خارج شده و به پنل مدیریت بازمی‌گردید؟')) return;
   
-  // بازیابی اطلاعات ادمین از localStorage (امن‌تر)
   var savedAdminCode = safeGetLS('adminOriginalCode', originalAdminCode);
   var savedAdminProfile = safeParseJSON(safeGetLS('adminOriginalProfile', null), originalAdminProfile);
   
@@ -1456,16 +1533,19 @@ function exitImpersonation() {
   }
   
   // پاک کردن کامل داده‌های کاربر impersonate شده
-  var impersonatedCode = userId;
+  stopAlarm();
   localStorage.removeItem('tableReceived');
   localStorage.removeItem('lastPrescription');
   localStorage.removeItem('health40Data');
   localStorage.removeItem('health40Times');
-  localStorage.removeItem('customAlarmSound_' + impersonatedCode);
+  localStorage.removeItem('tableColumns');
+  localStorage.removeItem('healthStartDateGregorian');
+  localStorage.removeItem('prescriptionHistory');
+  localStorage.removeItem('tableHistory');
   localStorage.removeItem('activeAlarm');
-  
-  // بستن هر آلارم فعال
-  stopAlarm();
+  localStorage.removeItem('readMsgIds');
+  localStorage.removeItem('hiddenMsgIds');
+  localStorage.removeItem('shownPopupIds');
   
   // بازگشت به ادمین
   isImpersonating = false;
@@ -1476,7 +1556,30 @@ function exitImpersonation() {
   safeSetLS('userId', userId);
   if(userProfile) safeSetLS('userProfile', JSON.stringify(userProfile));
   
-  // پاک کردن session impersonate
+  // بازیابی داده‌های اصلی ادمین
+  var adminHealth = safeGetLS('admin_health40Data', '');
+  if(adminHealth) safeSetLS('health40Data', adminHealth);
+  var adminTimes = safeGetLS('admin_health40Times', '');
+  if(adminTimes) safeSetLS('health40Times', adminTimes);
+  var adminPresc = safeGetLS('admin_lastPrescription', '');
+  if(adminPresc) safeSetLS('lastPrescription', adminPresc);
+  var adminCols = safeGetLS('admin_tableColumns', '');
+  if(adminCols) safeSetLS('tableColumns', adminCols);
+  var adminPrescHist = safeGetLS('admin_prescriptionHistory', '');
+  if(adminPrescHist) safeSetLS('prescriptionHistory', adminPrescHist);
+  var adminTableHist = safeGetLS('admin_tableHistory', '');
+  if(adminTableHist) safeSetLS('tableHistory', adminTableHist);
+  var adminStart = safeGetLS('admin_healthStartDate', '');
+  if(adminStart) safeSetLS('healthStartDateGregorian', adminStart);
+  
+  // پاک کردن backup های ادمین
+  localStorage.removeItem('admin_health40Data');
+  localStorage.removeItem('admin_health40Times');
+  localStorage.removeItem('admin_lastPrescription');
+  localStorage.removeItem('admin_tableColumns');
+  localStorage.removeItem('admin_prescriptionHistory');
+  localStorage.removeItem('admin_tableHistory');
+  localStorage.removeItem('admin_healthStartDate');
   localStorage.removeItem('adminOriginalCode');
   localStorage.removeItem('adminOriginalProfile');
   localStorage.removeItem('isImpersonatingSession');
@@ -1487,19 +1590,26 @@ function exitImpersonation() {
   document.getElementById('adminReturnBar').style.display = 'none';
   updateProfileUI();
   
-  // بازسازی داده‌ها برای ادمین
+  // بازسازی داده‌ها
+  loadUserAlarmSettings();
   initData();
   renderTable();
   renderAlarmSettings();
   updateTodayShowcase();
   checkRegimeReceive();
   loadCustomAlarmSound();
+  updateNotificationStatus();
+  updateDateConversionInfo();
+  updateDayDisplay();
+  
+  // بروزرسانی picker تاریخ
+  var sdp = document.getElementById('startDatePicker');
+  if(sdp) sdp.value = toDateInputValue(getStartDateGregorian());
   
   showPage('pageAdmin');
   showToast('🔙 بازگشت کامل به پنل مدیریت انجام شد');
 }
 
-/* بازیابی خودکار در صورت رفرش صفحه در حین impersonate */
 function checkImpersonationSession() {
   var wasImpersonating = safeGetLS('isImpersonatingSession', 'false');
   if(wasImpersonating === 'true') {
@@ -1508,7 +1618,10 @@ function checkImpersonationSession() {
       originalAdminCode = savedAdminCode;
       originalAdminProfile = safeParseJSON(safeGetLS('adminOriginalProfile', null), null);
       isImpersonating = true;
-      document.getElementById('adminReturnBar').style.display = 'block';
+      setTimeout(function(){
+        var bar = document.getElementById('adminReturnBar');
+        if(bar) bar.style.display = 'block';
+      }, 500);
     }
   }
 }
@@ -1629,7 +1742,7 @@ function showPage(pageId){
   if(pageId==='pageRegime')checkRegimeReceive();
   if(pageId==='pageMessages')loadMyMessages();
   if(pageId==='pageAdmin'){ var tabs = document.querySelectorAll('.admin-tab'); if(tabs.length > 0) switchAdminTab('dashboard', tabs[0]); }
-  if(pageId==='pageSettings')renderAlarmSettings();
+  if(pageId==='pageSettings'){ renderAlarmSettings(); updateNotificationStatus(); }
 }
 
 function updateTodayShowcase() {
@@ -1744,7 +1857,7 @@ function handleReceiveDaily(){
   receiveAll(true).then(function(){ safeSetLS('tableReceived','true');renderTable(); showToast('✅ دریافت شد'); }).catch(function(e){ alert('❌ خطا: '+e.message); });
 }
 function handleReceiveRegime(){
-  if(!navigator.online){alert('❌ اتصال به اینترنت را چک کنید.');return;}
+  if(!navigator.onLine){alert('❌ اتصال به اینترنت را چک کنید.');return;}
   showToast('⏳ در حال دریافت...','warning');
   receiveAll(true).then(function(){ checkRegimeReceive();showToast('✅ دریافت شد'); }).catch(function(e){ alert('❌ خطا: '+e.message); });
 }
@@ -2434,60 +2547,80 @@ function deleteHistoryTable(index){if(!confirm('حذف شود؟'))return;var arc
 function editMyRegime(){var el=document.getElementById('regimeDisplay');if(el.contentEditable==='true'){el.contentEditable='false';el.style.border='1px solid rgba(244,208,63,.2)';showToast('✅ ذخیره شد');}else{el.contentEditable='true';el.style.border='2px solid var(--accent)';el.focus();showToast('✏️ ویرایش کنید','warning');}}
 
 /* ============================================================
-   تنظیمات صوتی پیشرفته
+   تنظیمات صوتی
    ============================================================ */
 function loadAlarmSoundSettings() {
-  alarmVolume = parseInt(safeGetLS('alarmVolume', '70'));
-  gradualVolume = safeGetLS('gradualVolume', 'true') === 'true';
-  silentModeOverride = safeGetLS('silentModeOverride', 'true') === 'true';
-  vibrateEnabled = safeGetLS('vibrateEnabled', 'true') === 'true';
-  
   var slider = document.getElementById('alarmVolumeSlider');
   var volVal = document.getElementById('alarmVolumeValue');
   if(slider) slider.value = alarmVolume;
   if(volVal) volVal.textContent = alarmVolume + '%';
   
+  var vo = document.getElementById('vibrateOnlyToggle');
   var gt = document.getElementById('gradualVolumeToggle');
   var st = document.getElementById('silentModeToggle');
   var vt = document.getElementById('vibrateToggle');
+  if(vo) vo.classList.toggle('active', vibrateOnlyMode);
   if(gt) gt.classList.toggle('active', gradualVolume);
   if(st) st.classList.toggle('active', silentModeOverride);
   if(vt) vt.classList.toggle('active', vibrateEnabled);
+  
+  updateVibrateOnlyUI();
+}
+
+function updateVibrateOnlyUI() {
+  var sliderRow = document.getElementById('volumeSliderRow');
+  var gradualRow = document.getElementById('gradualVolumeRow');
+  var uploadBox = document.getElementById('soundUploadBox');
+  if(vibrateOnlyMode) {
+    if(sliderRow) sliderRow.style.opacity = '0.4';
+    if(gradualRow) gradualRow.style.opacity = '0.4';
+    if(uploadBox) uploadBox.style.opacity = '0.4';
+  } else {
+    if(sliderRow) sliderRow.style.opacity = '1';
+    if(gradualRow) gradualRow.style.opacity = '1';
+    if(uploadBox) uploadBox.style.opacity = '1';
+  }
+}
+
+function toggleVibrateOnly(btn) {
+  vibrateOnlyMode = !vibrateOnlyMode;
+  btn.classList.toggle('active', vibrateOnlyMode);
+  updateVibrateOnlyUI();
+  saveUserAlarmSettings();
+  showToast(vibrateOnlyMode ? '✅ حالت فقط ویبره فعال شد (صدا قطع)' : '✅ حالت صدا + ویبره فعال شد');
 }
 
 function onVolumeChange(val) {
   alarmVolume = parseInt(val);
-  safeSetLS('alarmVolume', String(alarmVolume));
   var el = document.getElementById('alarmVolumeValue');
   if(el) el.textContent = alarmVolume + '%';
-  if(customAlarmAudio) {
-    customAlarmAudio.volume = alarmVolume / 100;
-  }
+  if(customAlarmAudio) customAlarmAudio.volume = alarmVolume / 100;
+  saveUserAlarmSettings();
 }
 
 function toggleGradualVolume(btn) {
   gradualVolume = !gradualVolume;
   btn.classList.toggle('active', gradualVolume);
-  safeSetLS('gradualVolume', String(gradualVolume));
+  saveUserAlarmSettings();
   showToast(gradualVolume ? '✅ افزایش پله‌ای صدا فعال' : '⏸ افزایش پله‌ای غیرفعال');
 }
 
 function toggleSilentMode(btn) {
   silentModeOverride = !silentModeOverride;
   btn.classList.toggle('active', silentModeOverride);
-  safeSetLS('silentModeOverride', String(silentModeOverride));
+  saveUserAlarmSettings();
   showToast(silentModeOverride ? '✅ پخش در حالت بی‌صدا فعال' : '⏸ پخش در حالت بی‌صدا غیرفعال');
 }
 
 function toggleVibrate(btn) {
   vibrateEnabled = !vibrateEnabled;
   btn.classList.toggle('active', vibrateEnabled);
-  safeSetLS('vibrateEnabled', String(vibrateEnabled));
+  saveUserAlarmSettings();
   showToast(vibrateEnabled ? '✅ ویبره فعال' : '⏸ ویبره غیرفعال');
 }
 
 /* ============================================================
-   ALARM SYSTEM - با پشتیبانی از صدای پله‌ای و حالت بی‌صدا
+   ALARM SYSTEM
    ============================================================ */
 function renderAlarmSettings(){
   var container=document.getElementById('alarmSettingsContainer');if(!container)return;var html='';
@@ -2496,10 +2629,15 @@ function renderAlarmSettings(){
   container.innerHTML=html;
 }
 function updateAlarmTime(col,time){currentTimes[col]=time;saveAll();}
-function toggleAlarmFor(col,btn){var c=alarmEnabled[col]!==false;alarmEnabled[col]=!c;btn.classList.toggle('active',!c);if(alarmActive)scheduleAlarms();}
-function saveAlarmSettings(){saveAll();if(alarmActive)scheduleAlarms();showToast('✅ ذخیره شد');}
+function toggleAlarmFor(col,btn){var c=alarmEnabled[col]!==false;alarmEnabled[col]=!c;btn.classList.toggle('active',!c);saveUserAlarmSettings();if(alarmActive)scheduleAlarms();}
+function saveAlarmSettings(){saveAll();saveUserAlarmSettings();if(alarmActive)scheduleAlarms();showToast('✅ ذخیره شد');}
 function testAlarmSound(){
   unlockAudio();
+  if(vibrateOnlyMode) {
+    if(navigator.vibrate) navigator.vibrate([500,200,500,200,500]);
+    showToast('📳 حالت فقط ویبره - لرزش تست');
+    return;
+  }
   if(customAlarmAudio) {
     try { 
       customAlarmAudio.currentTime = 0; 
@@ -2520,7 +2658,6 @@ function unlockAudio(){
   try{
     audioContext=new(window.AudioContext||window.webkitAudioContext)();
     if(audioContext.state==='suspended')audioContext.resume();
-    // ارسال یک سیگنال بی‌صدا برای باز کردن قفل
     var osc=audioContext.createOscillator(),g=audioContext.createGain();
     osc.connect(g);g.connect(audioContext.destination);
     g.gain.setValueAtTime(0,audioContext.currentTime);
@@ -2552,7 +2689,7 @@ function scheduleAlarms() {
 
 function triggerAlarm(a){
   currentAlarmData = a;
-  safeSetLS('activeAlarm', JSON.stringify({name: a.name, type: a.type, triggeredAt: Date.now(), read: false}));
+  safeSetLS('activeAlarm_' + userId, JSON.stringify({name: a.name, type: a.type, triggeredAt: Date.now(), read: false, userId: userId}));
   
   var el=document.getElementById('alarmMessage');
   if(el)el.textContent='⏰ '+a.type+': '+a.name;
@@ -2560,80 +2697,100 @@ function triggerAlarm(a){
   if(ov)ov.classList.add('active');
   
   playAlarmSound();
-  if(vibrateEnabled) vibrateAlarm();
+  if(vibrateEnabled || vibrateOnlyMode) vibrateAlarm();
   showInteractiveNotification(a.name, a.type);
+  
+  // ذخیره زمان‌بندی برای SW
+  updateAlarmScheduleForSW();
 }
 
 function vibrateAlarm(){
   if(navigator.vibrate) {
-    try { navigator.vibrate([500,200,500,200,500,200,500]); } catch(e) {}
+    try { navigator.vibrate([500,200,500,200,500,200,500,200,500]); } catch(e) {}
   }
 }
 
-function showInteractiveNotification(name, type){
-  if(!('Notification' in window)) return;
+/* ============================================================
+   نوتیفیکیشن تعاملی - بازنویسی شده برای کار در همه شرایط
+   ============================================================ */
+async function showInteractiveNotification(name, type){
+  if(!('Notification' in window)) {
+    console.log('Notification API not supported');
+    return;
+  }
   
-  function doNotify() {
-    try {
-      if(activeNotification) {
-        try { activeNotification.close(); } catch(e) {}
-        activeNotification = null;
-      }
-      
-      var options = {
-        body: name + ' — برای قطع یا چرت روی نوتیفیکیشن کلیک کنید',
-        icon: '/Safir-salamat-/icon-192.png',
-        badge: '/Safir-salamat-/icon-192.png',
-        vibrate: vibrateEnabled ? [500,200,500,200,500] : [],
-        tag: 'safir-alarm',
-        requireInteraction: true,
-        renotify: true,
-        silent: false,
-        data: { 
-          alarmName: name, 
-          alarmType: type,
-          action: 'open',
-          url: location.href
-        },
-        actions: [
-          { action: 'stop', title: '🔇 قطع آلارم' },
-          { action: 'snooze', title: '💤 چرت ۱۰ دقیقه' }
-        ]
-      };
-      
-      activeNotification = new Notification('⏰ ' + type, options);
-      
-      activeNotification.onclick = function(e) {
-        e.preventDefault();
-        window.focus();
-        try { activeNotification.close(); } catch(err) {}
-        activeNotification = null;
-      };
-      
-    } catch(e) {
-      console.error('Notification creation failed:', e);
+  if(Notification.permission !== 'granted') {
+    console.log('Notification permission not granted:', Notification.permission);
+    if(Notification.permission === 'default') {
+      try {
+        var perm = await Notification.requestPermission();
+        if(perm !== 'granted') return;
+      } catch(e) { return; }
+    } else {
+      return;
     }
   }
   
-  if(Notification.permission === 'granted') {
-    doNotify();
-  } else if(Notification.permission !== 'denied') {
-    Notification.requestPermission().then(function(perm){
-      if(perm === 'granted') doNotify();
-    });
+  var notifOptions = {
+    body: name + ' — برای قطع یا چرت روی نوتیفیکیشن کلیک کنید',
+    icon: '/Safir-salamat-/icon-192.png',
+    badge: '/Safir-salamat-/icon-192.png',
+    vibrate: (vibrateEnabled || vibrateOnlyMode) ? [500,200,500,200,500] : [],
+    tag: 'safir-alarm-' + userId,
+    requireInteraction: true,
+    renotify: true,
+    silent: false,
+    data: { 
+      alarmName: name, 
+      alarmType: type,
+      action: 'open',
+      url: location.href,
+      userId: userId
+    },
+    actions: [
+      { action: 'stop', title: '🔇 قطع آلارم' },
+      { action: 'snooze', title: '💤 چرت ۱۰ دقیقه' }
+    ]
+  };
+  
+  try {
+    // روش ۱: از طریق Service Worker (بهترین برای نوتیفیکیشن پایدار و actions)
+    if('serviceWorker' in navigator) {
+      try {
+        var registration = await navigator.serviceWorker.ready;
+        if(registration && typeof registration.showNotification === 'function') {
+          await registration.showNotification('⏰ ' + type, notifOptions);
+          console.log('✓ Notification shown via Service Worker');
+          return;
+        }
+      } catch(swErr) {
+        console.log('SW notification failed, falling back:', swErr);
+      }
+    }
+    
+    // روش ۲: نوتیفیکیشن مستقیم
+    if(activeNotification) {
+      try { activeNotification.close(); } catch(e) {}
+    }
+    activeNotification = new Notification('⏰ ' + type, notifOptions);
+    activeNotification.onclick = function(e) {
+      e.preventDefault();
+      window.focus();
+      try { activeNotification.close(); } catch(err) {}
+    };
+    console.log('✓ Notification shown via API');
+    
+  } catch(e) {
+    console.error('Notification creation failed:', e);
   }
 }
 
-/* لیسنر پیام‌های Service Worker */
 if('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('message', function(event) {
     var data = event.data || {};
     if(data.type === 'ALARM_ACTION') {
-      if(data.action === 'stop') {
-        stopAlarm();
-      } else if(data.action === 'snooze') {
-        snoozeAlarm();
-      }
+      if(data.action === 'stop') stopAlarm();
+      else if(data.action === 'snooze') snoozeAlarm();
     }
   });
 }
@@ -2641,6 +2798,11 @@ if('serviceWorker' in navigator) {
 function playAlarmSound(){
   stopAlarmSound(false);
   gradualVolumeStep = 0;
+  
+  if(vibrateOnlyMode) {
+    console.log('Vibrate only mode - no sound');
+    return;
+  }
   
   if(customAlarmAudio) {
     try { 
@@ -2662,7 +2824,7 @@ function playAlarmSound(){
         });
       }
       return; 
-    } catch(e) { console.log('Custom audio play error:', e); }
+    } catch(e) { console.log('Custom audio error:', e); }
   }
   
   playBeepFallback();
@@ -2692,16 +2854,13 @@ function playBeepFallback() {
     var currentVolume = initialVolume;
     beep(currentVolume);
     
-    alarmSoundInterval = setInterval(function(){
-      beep(currentVolume);
-    }, 700);
+    alarmSoundInterval = setInterval(function(){ beep(currentVolume); }, 700);
     
     if(gradualVolume) {
       startGradualVolumeIncrease(function(vol) {
         currentVolume = Math.min(1, vol / 100);
       });
     }
-    
   }catch(e){}
 }
 
@@ -2710,15 +2869,11 @@ function startGradualVolumeIncrease(callback) {
   gradualVolumeStep = 0;
   gradualVolumeInterval = setInterval(function(){
     gradualVolumeStep++;
-    // هر 3 ثانیه 20% اضافه کن
     var targetVolume = Math.min(alarmVolume, gradualVolumeStep * 20 + 10);
     if(callback) callback(targetVolume);
-    var el = document.getElementById('alarmVolumeValue');
-    if(el) el.textContent = targetVolume + '% (پله‌ای)';
     if(targetVolume >= alarmVolume) {
       clearInterval(gradualVolumeInterval);
       gradualVolumeInterval = null;
-      if(el) el.textContent = alarmVolume + '%';
     }
   }, 3000);
 }
@@ -2733,8 +2888,6 @@ function stopAlarmSound(fullCleanup){
     try{if(audioContext.state!=='closed')audioContext.close();}catch(e){}
     audioContext=null;audioUnlocked=false;
   }
-  var el = document.getElementById('alarmVolumeValue');
-  if(el) el.textContent = alarmVolume + '%';
 }
 
 function stopAlarm(){
@@ -2745,7 +2898,7 @@ function stopAlarm(){
     try { activeNotification.close(); } catch(e) {}
     activeNotification = null;
   }
-  localStorage.removeItem('activeAlarm');
+  if(userId) localStorage.removeItem('activeAlarm_' + userId);
   currentAlarmData = null;
 }
 
@@ -2757,10 +2910,15 @@ function snoozeAlarm(){
 }
 
 function checkPendingAlarm() {
-  var stored = safeGetLS('activeAlarm', null);
+  if(!userId) return;
+  var stored = safeGetLS('activeAlarm_' + userId, null);
   if(stored) {
     try {
       var a = JSON.parse(stored);
+      if(a.userId !== userId) {
+        localStorage.removeItem('activeAlarm_' + userId);
+        return;
+      }
       var elapsed = Date.now() - (a.triggeredAt || 0);
       if(elapsed < 10 * 60 * 1000 && !a.read) {
         currentAlarmData = { name: a.name, type: a.type };
@@ -2769,9 +2927,9 @@ function checkPendingAlarm() {
         var ov = document.getElementById('alarmOverlay');
         if(ov) ov.classList.add('active');
         playAlarmSound();
-        if(vibrateEnabled) vibrateAlarm();
+        if(vibrateEnabled || vibrateOnlyMode) vibrateAlarm();
       } else {
-        localStorage.removeItem('activeAlarm');
+        localStorage.removeItem('activeAlarm_' + userId);
       }
     } catch(e) {}
   }
@@ -2782,15 +2940,23 @@ function activateAlarms(){
   if('Notification'in window && Notification.permission==='default'){
     try{Notification.requestPermission();}catch(e){}
   }
-  if(alarmActive){ alarmActive=false;clearTimers(); document.getElementById('statusText').textContent='⏸ غیرفعال'; return; }
+  if(alarmActive){ 
+    alarmActive=false;
+    clearTimers(); 
+    document.getElementById('statusText').textContent='⏸ غیرفعال'; 
+    return; 
+  }
   alarmActive=true;
   scheduleAlarms();
   document.getElementById('statusText').textContent='✅ فعال';
-  setTimeout(function(){playAlarmSound();setTimeout(function(){ stopAlarmSound(false); },2000);},100);
+  setTimeout(function(){
+    playAlarmSound();
+    setTimeout(function(){ stopAlarmSound(false); },2000);
+  },100);
 }
 
 /* ============================================================
-   آپلود آهنگ و سابقه
+   آپلود آهنگ - با ذخیره‌سازی مخصوص کاربر
    ============================================================ */
 function openSoundFilePicker() {
   var inp = document.getElementById('customAlarmSound');
@@ -2822,9 +2988,7 @@ function openSoundFilePicker() {
       opened = true;
     } catch(e) { opened = false; }
   }
-  if(!opened) {
-    showToast('⚠️ مرورگر شما از باز کردن فایل پشتیبانی نمی‌کند.', 'warning', 6000);
-  }
+  if(!opened) showToast('⚠️ مرورگر شما از باز کردن فایل پشتیبانی نمی‌کند.', 'warning', 6000);
 }
 
 function uploadCustomAlarmSound(event) {
@@ -2841,6 +3005,7 @@ function uploadCustomAlarmSound(event) {
       var base64 = e.target.result;
       if(!base64 || base64.length < 100) { showToast('❌ فایل نامعتبر.', 'error'); return; }
       saveSoundToHistory(base64, file.name);
+      // ذخیره با کلید اختصاصی کاربر
       safeSetLS('customAlarmSound_' + userId, base64);
       customAlarmSoundData = base64;
       setupCustomAudio(base64);
@@ -2859,7 +3024,8 @@ function uploadCustomAlarmSound(event) {
 
 function saveSoundToHistory(base64, fileName) {
   try {
-    var history = safeParseJSON(safeGetLS('soundHistory_' + userId, '[]'), []);
+    var key = 'soundHistory_' + userId;
+    var history = safeParseJSON(safeGetLS(key, '[]'), []);
     if(history.some(function(h){ return h.data === base64; })) return;
     history.unshift({
       name: fileName || ('آهنگ ' + new Date().toLocaleDateString('fa-IR')),
@@ -2867,7 +3033,7 @@ function saveSoundToHistory(base64, fileName) {
       addedAt: Date.now()
     });
     if(history.length > 3) history = history.slice(0, 3);
-    safeSetLS('soundHistory_' + userId, JSON.stringify(history));
+    safeSetLS(key, JSON.stringify(history));
   } catch(e) { console.log('History save error:', e); }
 }
 
@@ -2963,6 +3129,7 @@ function setupCustomAudio(base64) {
 }
 
 function loadCustomAlarmSound() {
+  if(!userId) return;
   var stored = safeGetLS('customAlarmSound_' + userId, null);
   if(stored) {
     customAlarmSoundData = stored;
@@ -2989,7 +3156,7 @@ function removeCustomAlarmSound() {
 function toggleAutoReactivate() {
   var cb = document.getElementById('autoReactivateCheck');
   autoReactivateCheck = cb ? cb.checked : false;
-  safeSetLS('autoReactivateAlarms', String(autoReactivateCheck));
+  saveUserAlarmSettings();
   if(autoReactivateCheck) {
     startAutoReactivateInterval();
     if('Notification' in window && Notification.permission === 'default') {
@@ -3004,19 +3171,10 @@ function toggleAutoReactivate() {
   }
 }
 
-function loadAutoReactivateSetting() {
-  var saved = safeGetLS('autoReactivateAlarms', 'false');
-  autoReactivateCheck = (saved === 'true');
-  var cb = document.getElementById('autoReactivateCheck');
-  if(cb) cb.checked = autoReactivateCheck;
-  if(autoReactivateCheck) {
-    startAutoReactivateInterval();
-    if(!alarmActive) setTimeout(function(){ if(!alarmActive) activateAlarms(); }, 2000);
-  }
-}
-
 function startAutoReactivateInterval() {
   stopAutoReactivateInterval();
+  var cb = document.getElementById('autoReactivateCheck');
+  if(cb) cb.checked = autoReactivateCheck;
   autoReactivateInterval = setInterval(function() {
     if(autoReactivateCheck && !alarmActive) {
       activateAlarms();
@@ -3035,12 +3193,12 @@ function closeMiniAlarmToast() {
 }
 
 /* ============================================================
-   فعال بودن آلارم حتی وقتی اپ بسته است (Background Alarm)
+   آلارم پس‌زمینه
    ============================================================ */
 function toggleBackgroundAlarm() {
   var cb = document.getElementById('backgroundAlarmCheck');
   backgroundAlarmEnabled = cb ? cb.checked : false;
-  safeSetLS('backgroundAlarmEnabled', String(backgroundAlarmEnabled));
+  saveUserAlarmSettings();
   if(backgroundAlarmEnabled) {
     setupBackgroundAlarm();
     showToast('✅ آلارم پس‌زمینه فعال شد');
@@ -3050,37 +3208,18 @@ function toggleBackgroundAlarm() {
   }
 }
 
-function loadBackgroundAlarmSetting() {
-  var saved = safeGetLS('backgroundAlarmEnabled', 'false');
-  backgroundAlarmEnabled = (saved === 'true');
-  var cb = document.getElementById('backgroundAlarmCheck');
-  if(cb) cb.checked = backgroundAlarmEnabled;
-  if(backgroundAlarmEnabled) {
-    setTimeout(setupBackgroundAlarm, 2000);
-  }
-}
-
 function setupBackgroundAlarm() {
   if(!('serviceWorker' in navigator)) {
     showToast('⚠️ مرورگر شما از Service Worker پشتیبانی نمی‌کند', 'warning', 5000);
     return;
   }
-  
-  // ثبت Background Sync اگر پشتیبانی شود
   navigator.serviceWorker.ready.then(function(registration) {
     if('sync' in registration) {
-      registration.sync.register('safir-alarm-sync').catch(function(e){
-        console.log('Background sync registration failed:', e);
-      });
+      registration.sync.register('safir-alarm-sync').catch(function(e){});
     }
-    // ارسال زمان‌های آلارم به Service Worker
     sendAlarmScheduleToSW();
   });
-  
-  // ذخیره زمان‌های آلارم در localStorage برای SW
   updateAlarmScheduleForSW();
-  
-  // ذخیره مجدد هر دقیقه برای بروزرسانی
   if(window._swAlarmInterval) clearInterval(window._swAlarmInterval);
   window._swAlarmInterval = setInterval(updateAlarmScheduleForSW, 60000);
 }
@@ -3090,11 +3229,11 @@ function teardownBackgroundAlarm() {
     clearInterval(window._swAlarmInterval);
     window._swAlarmInterval = null;
   }
-  localStorage.removeItem('swAlarmSchedule');
+  if(userId) localStorage.removeItem('swAlarmSchedule_' + userId);
 }
 
 function updateAlarmScheduleForSW() {
-  if(!backgroundAlarmEnabled) return;
+  if(!backgroundAlarmEnabled || !userId) return;
   var td = fortyDayData[getCurrentDayAuto()] || {};
   var schedule = [];
   tableColumns.forEach(function(col) {
@@ -3110,10 +3249,13 @@ function updateAlarmScheduleForSW() {
       });
     }
   });
-  safeSetLS('swAlarmSchedule', JSON.stringify({
+  safeSetLS('swAlarmSchedule_' + userId, JSON.stringify({
     schedule: schedule,
     userId: userId,
-    updatedAt: Date.now()
+    userName: userProfile ? userProfile.name : '',
+    updatedAt: Date.now(),
+    vibrateOnly: vibrateOnlyMode,
+    soundUrl: customAlarmSoundData ? 'custom' : 'beep'
   }));
 }
 
@@ -3121,7 +3263,7 @@ function sendAlarmScheduleToSW() {
   if(!('serviceWorker' in navigator)) return;
   navigator.serviceWorker.ready.then(function(registration) {
     if(registration.active) {
-      var schedule = safeGetLS('swAlarmSchedule', null);
+      var schedule = safeGetLS('swAlarmSchedule_' + userId, null);
       registration.active.postMessage({
         type: 'UPDATE_ALARM_SCHEDULE',
         data: schedule ? JSON.parse(schedule) : { schedule: [] }
@@ -3130,7 +3272,9 @@ function sendAlarmScheduleToSW() {
   }).catch(function(){});
 }
 
-/* DATA */
+/* ============================================================
+   DATA
+   ============================================================ */
 var defaultHerbProperties={"روغن بادام شیرین":"تقویت مغز و اعصاب","دمنوش کاسنی":"تصفیه خون","چای آلبالو":"ضد التهاب","هل":"ضد نفخ","دمنوش ۵ گیاه":"لاغری","چای سیاه و وانیل":"انرژی"};
 var herbProperties={},tableColumns=['oil','breakfast','evening','dinner'],tableColumnNames={oil:'💧 ناشتا',breakfast:'☀️ صبح',evening:'🌅 عصر',dinner:'🌙 شب'},currentTimes={oil:"06:00",breakfast:"08:00",evening:"17:00",dinner:"21:00"};
 var totalDays=40,fortyDayData=[],viewMode="all",fontSize="medium",fontFamily="Vazirmatn",showDate=false,showWeekday=false,showPast=true;
@@ -3255,6 +3399,9 @@ function init(){
   }, 60 * 1000);
   
   setInterval(checkPendingAlarm, 60 * 1000);
+  
+  // بروزرسانی وضعیت نوتیفیکیشن هر ۵ ثانیه
+  setInterval(updateNotificationStatus, 5000);
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
 else init();
