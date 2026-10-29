@@ -168,8 +168,10 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 
 .alarm-overlay{display:none;position:fixed;inset:0;background:radial-gradient(circle,rgba(192,57,43,.95),rgba(0,0,0,.98));z-index:99999;flex-direction:column;justify-content:center;align-items:center;padding:20px}
 .alarm-overlay.active{display:flex}
-.alarm-stop-btn{background:var(--btn-danger);color:#fff;font-size:1.6em;font-weight:700;padding:20px 50px;border:4px solid #fff;border-radius:18px;cursor:pointer; margin-bottom: 10px; width: 100%; max-width: 300px;}
-.alarm-snooze-btn{background:var(--accent2);color:#0d1f12;font-size:1em;padding:12px 30px;border:2px solid #fff;border-radius:18px;cursor:pointer;margin-top:15px;font-weight:700; width: 100%; max-width: 300px;}
+.alarm-header { display:flex; justify-content: space-between; align-items: center; width: 100%; max-width: 350px; margin-bottom: 20px;}
+.alarm-close-btn { background: #fff; color: #c0392b; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 1.8em; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center;}
+.alarm-stop-btn{background:var(--btn-danger);color:#fff;font-size:1.4em;font-weight:700;padding:15px 30px;border:3px solid #fff;border-radius:15px;cursor:pointer; margin-bottom: 10px; width: 100%; max-width: 300px;}
+.alarm-snooze-btn{background:var(--accent2);color:#0d1f12;font-size:1em;padding:12px 30px;border:2px solid #fff;border-radius:15px;cursor:pointer;margin-top:10px;font-weight:700; width: 100%; max-width: 300px;}
 .alarm-message{color:var(--accent);font-size:1.5em;margin-bottom:25px;text-align:center;font-weight:700}
 
 .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#2ecc71;color:#fff;padding:12px 25px;border-radius:25px;font-weight:700;z-index:99999;display:none;max-width:90%;text-align:center}
@@ -328,6 +330,17 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 
 .notification-status-box { padding: 10px; background: rgba(231,76,60,0.1); border: 2px solid var(--btn-danger); border-radius: 10px; margin: 10px 0; text-align: center; }
 .notification-status-box.granted { background: rgba(46,204,113,0.1); border-color: var(--btn-success); }
+
+/* استایل‌های صفحه راهنما (بروشور) */
+.guide-modal-content { background: var(--bg-primary); border: none; padding: 0; width: 100%; height: 100%; max-height: 100vh; max-width: 100vw; border-radius: 0; overflow-y: auto; display: flex; flex-direction: column;}
+.guide-header { position: sticky; top: 0; background: var(--bg-secondary); padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--accent); z-index: 10;}
+.guide-header h2 { color: var(--accent); margin: 0; font-size: 1.2em;}
+.guide-header button { background: var(--btn-danger); color: white; border: none; padding: 8px 15px; border-radius: 8px; font-weight: bold; font-family: inherit;}
+.guide-content { padding: 20px; line-height: 2; color: var(--text-primary);}
+.guide-content h3 { color: var(--accent); margin-top: 20px; margin-bottom: 10px; font-size: 1.1em; border-bottom: 1px dashed var(--accent); padding-bottom: 5px;}
+.guide-content p { margin-bottom: 15px; font-size: 0.95em;}
+.guide-content ul { padding-right: 20px; margin-bottom: 15px; }
+.guide-content li { margin-bottom: 8px; font-size: 0.95em;}
 </style>
 </head>
 <body>
@@ -339,10 +352,64 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   <button onclick="closeMiniAlarmToast()" style="background: transparent; color: #fff; font-size: 1.2em;">✕</button>
 </div>
 
+<!-- صفحه آلارم با دکمه ضربدر -->
 <div class="alarm-overlay" id="alarmOverlay">
+  <div class="alarm-header">
+    <button class="alarm-close-btn" onclick="stopAlarm()" title="قطع کردن صدا">✕</button>
+    <div style="color: white; font-weight: bold; font-size: 1.2em;">سفیر سلامت</div>
+    <div style="width: 50px;"></div> <!-- برای توازن -->
+  </div>
   <div class="alarm-message" id="alarmMessage">⏰ وقت دارو</div>
   <button class="alarm-stop-btn" onclick="stopAlarm()">🔇 قطع کامل آلارم</button>
   <button class="alarm-snooze-btn" onclick="snoozeAlarm()">💤 چرت ۱۰ دقیقه</button>
+</div>
+
+<!-- مودال راهنمای تقویم -->
+<div class="modal-overlay" id="calendarGuideModal" style="z-index: 100005; padding: 0;">
+  <div class="guide-modal-content">
+    <div class="guide-header">
+      <h2>📅 راهنمای اتصال به تقویم</h2>
+      <button onclick="document.getElementById('calendarGuideModal').classList.remove('active')">✕ بستن</button>
+    </div>
+    <div class="guide-content">
+      <p>برای اینکه آلارم‌ها حتی بدون اینترنت و با اپلیکیشن بسته هم کار کنند، باید فایل تقویم را در گوشی خود ذخیره کنید. مراحل زیر را به ترتیب انجام دهید:</p>
+      
+      <h3>📱 کاربران اندروید (سامسونگ، شیائومی، هواوی و...)</h3>
+      <ul>
+        <li><strong>۱.</strong> در این صفحه، روی دکمه <strong>«📅 انتقال آلارم‌ها به تقویم»</strong> ضربه بزنید.</li>
+        <li><strong>۲.</strong> یک فایل با پسوند <code>.ics</code> دانلود می‌شود. روی آن ضربه بزنید.</li>
+        <li><strong>۳.</strong> اگر پنجره‌ای باز شد، برنامه <strong>Google Calendar</strong> یا <strong>تقویم سامسونگ</strong> را انتخاب کنید.</li>
+        <li><strong>۴.</strong> در صفحه باز شده، روی <strong>Import</strong> (وارد کردن) یا <strong>Add</strong> کلیک کنید.</li>
+        <li><strong>۵.</strong> اگر مستقیم باز نشد، وارد اپ Google Calendar شوید، از منوی ☰ به <strong>Settings</strong> بروید، سپس <strong>Import & export</strong> و در نهایت <strong>Import</strong> را بزنید و فایل را انتخاب کنید.</li>
+      </ul>
+
+      <h3>📱 کاربران آیفون (iPhone)</h3>
+      <ul>
+        <li><strong>۱.</strong> روی دکمه <strong>«📅 انتقال آلارم‌ها به تقویم»</strong> ضربه بزنید.</li>
+        <li><strong>۲.</strong> فایل دانلود شده را لمس کنید.</li>
+        <li><strong>۳.</strong> در منوی باز شده، گزینه <strong>Add All</strong> (افزودن همه) را انتخاب کنید.</li>
+      </ul>
+
+      <h3>⚠️ نکات بسیار مهم:</h3>
+      <ul>
+        <li>هر زمان که <strong>زمان یا محتوای وعده‌های خود را در اپلیکیشن تغییر دادید</strong>، حتماً دوباره روی دکمه انتقال به تقویم بزنید تا فایل جدید جایگزین شود.</li>
+        <li>در برخی گوشی‌ها، به صورت پیش‌فرض یادآور ۳۰ دقیقه قبل تنظیم می‌شود. برای تغییر آن به "دقیقاً سر وقت"، روی رویداد در تقویم کلیک کنید و زمان یادآور را به <strong>"در زمان رویداد"</strong> تغییر دهید.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- مودال بروشور راهنما -->
+<div class="modal-overlay" id="brochureModal" style="z-index: 100006; padding: 0;">
+  <div class="guide-modal-content">
+    <div class="guide-header">
+      <h2>📖 بروشور راهنما</h2>
+      <button onclick="document.getElementById('brochureModal').classList.remove('active')">✕ بستن</button>
+    </div>
+    <div class="guide-content" style="text-align: center;" id="brochureContent">
+      <p style="margin-top: 50px; color: var(--text-muted);">در حال بارگذاری...</p>
+    </div>
+  </div>
 </div>
 
 <div class="modal-overlay active" id="loginPage" style="z-index: 100000; background: var(--bg-primary);">
@@ -514,10 +581,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     </div>
     <button class="btn btn-orange" onclick="activateAlarms()" id="alarmMainBtn">🔔 فعال‌سازی آلارم‌ها</button>
     
-    <!-- دکمه جدید برای افزودن به تقویم (آفلاین) -->
-    <button class="btn btn-green" onclick="addAlarmsToDeviceCalendar()" style="margin-top:10px; font-weight:bold; background: linear-gradient(135deg,#2980b9,#3498db);">📅 انتقال آلارم‌ها به تقویم گوشی (آفلاین)</button>
-    <p style="font-size:0.7em; color:var(--accent); text-align:center; margin-bottom:10px;">با زدن این دکمه، برنامه در اپ تقویم گوشی شما ذخیره می‌شود و حتی بدون اینترنت و بسته بودن اپ، گوشی شما زنگ می‌زند.</p>
-
     <div class="table-wrapper"><table id="dietTable"><thead id="tableHead"></thead><tbody id="scheduleBody"></tbody></table></div>
     <div class="status-box"><div id="statusText" style="font-weight:700;color:var(--accent)">⏳ آماده</div><div style="margin:8px 0">⏰ <span id="clockDisplay">--:--:--</span></div></div>
   </div>
@@ -570,6 +633,83 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     </div>
   </div>
 
+  <!-- ابزارهای هوشمند -->
+  <div class="section-box" style="border:2px solid #3498db;">
+    <h3>🛠️ ابزارهای هوشمند</h3>
+    <div class="btn-row" style="flex-direction:column;">
+      <button class="btn" style="background:linear-gradient(135deg,#2980b9,#3498db); color:#fff;" onclick="addAlarmsToDeviceCalendar()">📅 انتقال آلارم‌ها به تقویم (آفلاین)</button>
+      <button class="btn" style="background:linear-gradient(135deg,#8e44ad,#9b59b6); color:#fff;" onclick="document.getElementById('calendarGuideModal').classList.add('active')">📖 راهنمای اتصال به تقویم</button>
+      <button class="btn" style="background:linear-gradient(135deg,#e67e22,#f39c12); color:#fff;" onclick="openBrochure()">📖 بروشور راهنمای اپلیکیشن</button>
+    </div>
+  </div>
+
+  <!-- تنظیمات آلارم -->
+  <div class="section-box" style="border:2px solid var(--btn-success)">
+    <h3>🔔 تنظیمات آلارم</h3>
+    <button class="btn btn-green" onclick="toggleAlarmSettingsPanel()" id="alarmSettingsToggleBtn" style="margin-bottom:10px;">⚙️ باز کردن تنظیمات پیشرفته آلارم</button>
+    
+    <div id="alarmSettingsPanel" style="display:none;">
+      <div id="alarmSettingsContainer"></div>
+      <button class="btn btn-green" onclick="saveAlarmSettings()" style="margin-top:8px">💾 ذخیره</button>
+      <button class="btn btn-orange" onclick="testAlarmSound()" style="margin-top:6px">🔊 تست صدا و ویبره</button>
+      
+      <div class="notification-status-box" id="notificationStatusBox">
+        <p style="font-size:0.85em; margin-bottom:8px;">⚠️ نوتیفیکیشن غیرفعال</p>
+        <button class="btn btn-green" onclick="requestNotificationPermission()" style="font-size:0.8em; padding:8px;">🔔 فعال‌سازی نوتیفیکیشن</button>
+      </div>
+      
+      <button class="btn btn-purple" onclick="registerPushSubscription()" style="margin-top:8px;">
+        📡 فعال‌سازی اعلان پس‌زمینه (سرور)
+      </button>
+
+      <div class="alarm-sound-settings">
+        <h4>🔊 تنظیمات پیشرفته</h4>
+        
+        <div class="setting-toggle-row">
+          <label>📳 فقط ویبره (بدون صدا)</label>
+          <button class="toggle-btn" id="vibrateOnlyToggle" onclick="toggleVibrateOnly(this)"></button>
+        </div>
+        
+        <div class="volume-slider-row" id="volumeSliderRow">
+          <label>🔉 صدا:</label>
+          <input type="range" id="alarmVolumeSlider" min="0" max="100" value="70" oninput="onVolumeChange(this.value)">
+          <span class="volume-value" id="alarmVolumeValue">70%</span>
+        </div>
+        
+        <div class="setting-toggle-row" id="gradualVolumeRow">
+          <label>📈 افزایش پله‌ای</label>
+          <button class="toggle-btn" id="gradualVolumeToggle" onclick="toggleGradualVolume(this)"></button>
+        </div>
+        
+        <div class="setting-toggle-row">
+          <label>📳 ویبره هنگام آلارم</label>
+          <button class="toggle-btn" id="vibrateToggle" onclick="toggleVibrate(this)"></button>
+        </div>
+      </div>
+      
+      <div class="sound-upload-box" style="margin-top:12px;" id="soundUploadBox">
+        <p style="color:var(--accent); font-weight:700; font-size:0.9em; margin-bottom:8px;">🎵 آهنگ اختصاصی</p>
+        <input type="file" id="customAlarmSound" accept="audio/*" style="display:none;" onchange="uploadCustomAlarmSound(event)">
+        <div class="sound-btn-row">
+          <button class="btn btn-blue" type="button" onclick="openSoundFilePicker()">📁 آپلود</button>
+          <button class="btn btn-red" type="button" onclick="removeCustomAlarmSound()">🗑️ حذف</button>
+        </div>
+        <div id="customSoundStatus" style="font-size:0.75em; color:var(--text-muted); margin-top:8px;">
+          آهنگ پیش‌فرض
+        </div>
+        <div style="margin-top:14px; padding-top:10px; border-top:1px dashed rgba(244,208,63,0.3);">
+          <p style="color:var(--accent); font-weight:700; font-size:0.85em; margin-bottom:8px;">📚 سابقه (۳ آهنگ آخر)</p>
+          <div id="soundHistoryList"></div>
+        </div>
+      </div>
+      
+      <div class="save-password-box" style="margin-top:12px; border-color:var(--accent2);">
+        <input type="checkbox" id="autoReactivateCheck" onchange="toggleAutoReactivate()">
+        <label for="autoReactivateCheck">🔄 فعال‌سازی خودکار هر ۳۰ دقیقه</label>
+      </div>
+    </div>
+  </div>
+  
   <div class="section-box" style="border:2px solid var(--btn-success);">
     <h3>💾 پشتیبان‌گیری آفلاین</h3>
     <div class="btn-row">
@@ -582,68 +722,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     <h3>🔄 به‌روزرسانی و نصب</h3>
     <button class="btn btn-orange" onclick="clearCacheAndReload()" style="margin-bottom:8px;">🔄 پاک‌سازی کش</button>
     <button class="btn btn-green" onclick="installPWA()">📲 نصب اپلیکیشن</button>
-  </div>
-
-  <div class="section-box" style="border:2px solid var(--btn-success)">
-    <h3>🔔 تنظیم هشدار جدول</h3>
-    <div id="alarmSettingsContainer"></div>
-    <button class="btn btn-green" onclick="saveAlarmSettings()" style="margin-top:8px">💾 ذخیره</button>
-    <button class="btn btn-orange" onclick="testAlarmSound()" style="margin-top:6px">🔊 تست صدا و ویبره</button>
-    
-    <div class="notification-status-box" id="notificationStatusBox">
-      <p style="font-size:0.85em; margin-bottom:8px;">⚠️ نوتیفیکیشن غیرفعال</p>
-      <button class="btn btn-green" onclick="requestNotificationPermission()" style="font-size:0.8em; padding:8px;">🔔 فعال‌سازی نوتیفیکیشن</button>
-    </div>
-    
-    <button class="btn btn-purple" onclick="registerPushSubscription()" style="margin-top:8px;">
-      📡 فعال‌سازی اعلان پس‌زمینه (سرور)
-    </button>
-
-    <div class="alarm-sound-settings">
-      <h4>🔊 تنظیمات پیشرفته</h4>
-      
-      <div class="setting-toggle-row">
-        <label>📳 فقط ویبره (بدون صدا)</label>
-        <button class="toggle-btn" id="vibrateOnlyToggle" onclick="toggleVibrateOnly(this)"></button>
-      </div>
-      
-      <div class="volume-slider-row" id="volumeSliderRow">
-        <label>🔉 صدا:</label>
-        <input type="range" id="alarmVolumeSlider" min="0" max="100" value="70" oninput="onVolumeChange(this.value)">
-        <span class="volume-value" id="alarmVolumeValue">70%</span>
-      </div>
-      
-      <div class="setting-toggle-row" id="gradualVolumeRow">
-        <label>📈 افزایش پله‌ای</label>
-        <button class="toggle-btn" id="gradualVolumeToggle" onclick="toggleGradualVolume(this)"></button>
-      </div>
-      
-      <div class="setting-toggle-row">
-        <label>📳 ویبره هنگام آلارم</label>
-        <button class="toggle-btn" id="vibrateToggle" onclick="toggleVibrate(this)"></button>
-      </div>
-    </div>
-    
-    <div class="sound-upload-box" style="margin-top:12px;" id="soundUploadBox">
-      <p style="color:var(--accent); font-weight:700; font-size:0.9em; margin-bottom:8px;">🎵 آهنگ اختصاصی</p>
-      <input type="file" id="customAlarmSound" accept="audio/*" style="display:none;" onchange="uploadCustomAlarmSound(event)">
-      <div class="sound-btn-row">
-        <button class="btn btn-blue" type="button" onclick="openSoundFilePicker()">📁 آپلود</button>
-        <button class="btn btn-red" type="button" onclick="removeCustomAlarmSound()">🗑️ حذف</button>
-      </div>
-      <div id="customSoundStatus" style="font-size:0.75em; color:var(--text-muted); margin-top:8px;">
-        آهنگ پیش‌فرض
-      </div>
-      <div style="margin-top:14px; padding-top:10px; border-top:1px dashed rgba(244,208,63,0.3);">
-        <p style="color:var(--accent); font-weight:700; font-size:0.85em; margin-bottom:8px;">📚 سابقه (۳ آهنگ آخر)</p>
-        <div id="soundHistoryList"></div>
-      </div>
-    </div>
-    
-    <div class="save-password-box" style="margin-top:12px; border-color:var(--accent2);">
-      <input type="checkbox" id="autoReactivateCheck" onchange="toggleAutoReactivate()">
-      <label for="autoReactivateCheck">🔄 فعال‌سازی خودکار هر ۳۰ دقیقه</label>
-    </div>
   </div>
   
   <div class="section-box" style="border:2px solid var(--accent2)"><h3>📚 تاریخچه</h3><div class="btn-row"><button class="btn btn-blue" onclick="showHistory('prescriptions')">💊 نسخه‌ها</button><button class="btn btn-purple" onclick="showHistory('tables')">📊 جدول‌ها</button></div></div>
@@ -658,7 +736,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     </div>
   </div>
   
-  <!-- بخش نمایش که برگشت خورد -->
   <div class="section-box">
     <h3>🎨 نمایش</h3>
     <div class="settings-row">
@@ -826,10 +903,21 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   </div>
 
   <div class="admin-panel" id="adminTabBanner" style="display:none">
-    <h3>🖼️ مدیریت بنر</h3>
-    <div class="settings-row"><label>لینک:</label><input type="text" id="bannerUrlInput" placeholder="https://..." style="direction:ltr;text-align:left;font-size:.8em"></div>
-    <div class="btn-row"><button class="btn btn-green" onclick="saveBannerUrl()">💾 ذخیره</button><button class="btn btn-red" onclick="disableBanner()">🚫 غیرفعال</button></div>
-    <div style="background:var(--input-bg);padding:10px;border-radius:8px;margin-top:12px"><div id="bannerPreview" style="text-align:center"><p style="font-size:.8em;color:var(--text-muted)">هنوز تنظیم نشده</p></div></div>
+    <h3>🖼️ مدیریت بنر و بروشور</h3>
+    
+    <div style="background:var(--input-bg); padding:10px; border-radius:8px; margin-bottom:15px;">
+      <h4 style="color:var(--accent); font-size:0.9em; margin-bottom:8px;">بنر بالای صفحه</h4>
+      <div class="settings-row"><label>لینک:</label><input type="text" id="bannerUrlInput" placeholder="https://..." style="direction:ltr;text-align:left;font-size:.8em"></div>
+      <div class="btn-row"><button class="btn btn-green" onclick="saveBannerUrl()">💾 ذخیره</button><button class="btn btn-red" onclick="disableBanner()">🚫 غیرفعال</button></div>
+      <div style="margin-top:10px; text-align:center;"><div id="bannerPreview"><p style="font-size:.8em;color:var(--text-muted)">هنوز تنظیم نشده</p></div></div>
+    </div>
+
+    <div style="background:var(--input-bg); padding:10px; border-radius:8px;">
+      <h4 style="color:var(--accent); font-size:0.9em; margin-bottom:8px;">بروشور راهنما (عکس طولانی)</h4>
+      <div class="settings-row"><label>لینک:</label><input type="text" id="brochureUrlInput" placeholder="https://..." style="direction:ltr;text-align:left;font-size:.8em"></div>
+      <div class="btn-row"><button class="btn btn-green" onclick="saveBrochureUrl()">💾 ذخیره</button><button class="btn btn-red" onclick="disableBrochure()">🚫 غیرفعال</button></div>
+      <div style="margin-top:10px; text-align:center;"><div id="brochurePreview"><p style="font-size:.8em;color:var(--text-muted)">هنوز تنظیم نشده</p></div></div>
+    </div>
   </div>
 
   <div class="section-box"><h3>📋 آخرین ارسال‌ها</h3><div id="adminRecentList" style="font-size:.8em;line-height:1.8;color:var(--text-secondary)">هنوز ارسالی انجام نشده...</div></div>
@@ -1777,9 +1865,33 @@ function archiveCurrentTable(tableName){ if(!fortyDayData||fortyDayData.length==
 function loadRemoteBanner(){ var tb=document.getElementById('topBanner'),img=document.getElementById('topBannerImg');if(!tb||!img)return;if(!navigator.onLine){tb.classList.remove('active');return;} getGlobalData().then(function(data){var bc=data.banner;if(!bc||!bc.url||bc.active===false){tb.classList.remove('active');return;}img.onload=function(){img.style.display='block';tb.classList.add('active');};img.onerror=function(){img.style.display='none';tb.classList.remove('active');};img.src=bc.url;}).catch(function(){tb.classList.remove('active');}); }
 function bannerLoaded(){}
 function bannerError(){var tb=document.getElementById('topBanner'),img=document.getElementById('topBannerImg');if(img)img.style.display='none';if(tb)tb.classList.remove('active');}
-function loadBannerInAdmin(){getGlobalData().then(function(data){var bc=data.banner;var p=document.getElementById('bannerPreview'),inp=document.getElementById('bannerUrlInput');if(!p||!inp)return;if(bc&&bc.url){inp.value=bc.url;if(bc.active===false)p.innerHTML='<p style="color:#e74c3c;">🚫 غیرفعال</p>';else p.innerHTML='<img src="'+escapeHtml(bc.url)+'" style="width:100%;max-width:500px;border-radius:10px;">';}else{p.innerHTML='<p style="font-size:.8em;color:var(--text-muted)">تنظیم نشده</p>';inp.value='';}}).catch(function(){});}
+function loadBannerInAdmin(){
+  getGlobalData().then(function(data){
+    var bc=data.banner; var p=document.getElementById('bannerPreview'), inp=document.getElementById('bannerUrlInput');
+    if(bc && bc.url){ inp.value=bc.url; if(bc.active===false) p.innerHTML='<p style="color:#e74c3c;">🚫 غیرفعال</p>'; else p.innerHTML='<img src="'+escapeHtml(bc.url)+'" style="width:100%;max-width:200px;border-radius:10px;">'; }
+    else { p.innerHTML='<p style="font-size:.8em;color:var(--text-muted)">تنظیم نشده</p>'; inp.value=''; }
+    
+    var br = data.brochure; var bp = document.getElementById('brochurePreview'), bInp = document.getElementById('brochureUrlInput');
+    if(br && br.url){ bInp.value=br.url; if(br.active===false) bp.innerHTML='<p style="color:#e74c3c;">🚫 غیرفعال</p>'; else bp.innerHTML='<img src="'+escapeHtml(br.url)+'" style="width:100%;max-width:200px;border-radius:10px;">'; }
+    else { bp.innerHTML='<p style="font-size:.8em;color:var(--text-muted)">تنظیم نشده</p>'; bInp.value=''; }
+  }).catch(function(){});
+}
 function saveBannerUrl(){var url=document.getElementById('bannerUrlInput').value.trim();if(!url){showToast('لینک','error');return;}getGlobalData().then(function(record){record.banner={url:url,active:true,updatedAt:Date.now()};return saveGlobalData(record);}).then(function(ok){if(ok){showToast('✅');loadBannerInAdmin();loadRemoteBanner();}});}
 function disableBanner(){if(!confirm('غیرفعال شود؟'))return;getGlobalData().then(function(record){if(!record.banner)record.banner={url:'',active:false};record.banner.active=false;record.banner.updatedAt=Date.now();return saveGlobalData(record);}).then(function(ok){if(ok){showToast('✅');loadBannerInAdmin();document.getElementById('topBanner').classList.remove('active');}});}
+
+async function openBrochure() {
+  var gData = await getGlobalData();
+  var br = gData.brochure;
+  var contentDiv = document.getElementById('brochureContent');
+  if (br && br.url && br.active !== false) {
+    contentDiv.innerHTML = '<img src="'+escapeHtml(br.url)+'" style="width:100%; max-width:100%; height:auto; border-radius:8px;">';
+    document.getElementById('brochureModal').classList.add('active');
+  } else {
+    showToast('⚠️ بروشوری تنظیم نشده است', 'warning', 4000);
+  }
+}
+function saveBrochureUrl(){var url=document.getElementById('brochureUrlInput').value.trim();if(!url){showToast('لینک','error');return;}getGlobalData().then(function(record){record.brochure={url:url,active:true,updatedAt:Date.now()};return saveGlobalData(record);}).then(function(ok){if(ok){showToast('✅');loadBannerInAdmin();}});}
+function disableBrochure(){if(!confirm('غیرفعال شود؟'))return;getGlobalData().then(function(record){if(!record.brochure)record.brochure={url:'',active:false};record.brochure.active=false;record.brochure.updatedAt=Date.now();return saveGlobalData(record);}).then(function(ok){if(ok){showToast('✅');loadBannerInAdmin();}});}
 
 function openAdminLogin(){var inp=document.getElementById('adminPasswordInput'),cb=document.getElementById('savePasswordCheck'),m=document.getElementById('adminLoginModal');if(inp){var saved=safeGetLS(SAVE_PASSWORD_KEY,null);if(saved){inp.value=saved;if(cb)cb.checked=true;}else{inp.value='';if(cb)cb.checked=false;}}if(m)m.classList.add('active');}
 function closeAdminLogin(){document.getElementById('adminLoginModal').classList.remove('active');}
@@ -2010,6 +2122,20 @@ function editMyRegime(){var el=document.getElementById('regimeDisplay');if(el.co
 /* ============================================================
    ALARM SETTINGS UI
    ============================================================ */
+function toggleAlarmSettingsPanel() {
+  var panel = document.getElementById('alarmSettingsPanel');
+  var btn = document.getElementById('alarmSettingsToggleBtn');
+  if (panel.style.display === 'none') {
+    panel.style.display = 'block';
+    btn.innerHTML = '🔽 بستن تنظیمات پیشرفته آلارم';
+    btn.style.background = 'var(--btn-danger)';
+  } else {
+    panel.style.display = 'none';
+    btn.innerHTML = '⚙️ باز کردن تنظیمات پیشرفته آلارم';
+    btn.style.background = 'var(--btn-success)';
+  }
+}
+
 function loadAlarmSoundSettings() {
   var slider = document.getElementById('alarmVolumeSlider'); var volVal = document.getElementById('alarmVolumeValue'); if(slider) slider.value = alarmVolume; if(volVal) volVal.textContent = alarmVolume + '%';
   var vo = document.getElementById('vibrateOnlyToggle'); var gt = document.getElementById('gradualVolumeToggle'); var vt = document.getElementById('vibrateToggle');
@@ -2357,7 +2483,7 @@ function addAlarmsToDeviceCalendar() {
       icsContent.push('SUMMARY:⏰ سفیر سلامت - ' + (tableColumnNames[col] || col));
       icsContent.push('DESCRIPTION:وعده: ' + mealName);
       icsContent.push('BEGIN:VALARM');
-      icsContent.push('TRIGGER:-PT1M'); // ۱ دقیقه قبل
+      icsContent.push('TRIGGER:PT0S'); // دقیقا در زمان رویداد
       icsContent.push('ACTION:DISPLAY');
       icsContent.push('DESCRIPTION:یادآوری سفیر سلامت');
       icsContent.push('END:VALARM');
