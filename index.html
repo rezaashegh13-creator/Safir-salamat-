@@ -43,20 +43,105 @@ body{font-family:var(--font-family);background:var(--bg-primary);
 .saved-profile-item { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border-color); cursor: pointer;}
 .saved-profile-item:hover { border-color: var(--accent); }
 
-/* ویترین برنامه امروز */
-.today-showcase { background: linear-gradient(135deg, #1e3c26, #0d1f12); border: 2px solid var(--accent); border-radius: 20px; padding: 15px; margin-bottom: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.4), inset 0 0 20px rgba(244,208,63,0.1); position: relative; overflow: hidden; }
-.today-showcase::before { content: '✨'; position: absolute; top: -10px; left: -10px; font-size: 5em; opacity: 0.05; transform: rotate(20deg); }
-.showcase-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 15px; border-bottom: 1px dashed rgba(244,208,63,0.3); padding-bottom: 10px; }
+/* === ویترین امروز با انیمیشن شیشه‌ای === */
+.today-showcase { 
+  background: linear-gradient(135deg, #1e3c26, #0d1f12); 
+  border: 2px solid var(--accent); 
+  border-radius: 20px; 
+  padding: 15px; 
+  margin-bottom: 15px; 
+  position: relative; 
+  overflow: hidden; 
+  box-shadow: 
+    0 8px 25px rgba(0,0,0,0.4),
+    inset 0 0 20px rgba(244,208,63,0.1),
+    inset 0 1px 0 rgba(255,255,255,0.15);
+}
+.today-showcase::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 60%;
+  height: 200%;
+  background: linear-gradient(115deg,transparent 30%,rgba(255,255,255,0.12) 45%,rgba(244,208,63,0.18) 50%,rgba(255,255,255,0.12) 55%,transparent 70%);
+  transform: rotate(25deg);
+  animation: showcaseShine 6s ease-in-out infinite;
+  pointer-events: none;
+}
+.today-showcase::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  padding: 2px;
+  background: linear-gradient(120deg, transparent, rgba(244,208,63,0.6), transparent, rgba(244,208,63,0.6), transparent);
+  background-size: 300% 100%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  animation: showcaseBorder 5s linear infinite;
+  pointer-events: none;
+}
+@keyframes showcaseShine {
+  0%   { left: -60%; top: -50%; }
+  50%  { left: 120%; top: -50%; }
+  100% { left: 120%; top: -50%; }
+}
+@keyframes showcaseBorder {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+.showcase-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 15px; border-bottom: 1px dashed rgba(244,208,63,0.3); padding-bottom: 10px; position: relative; z-index: 1; }
 .showcase-title { font-family: 'Lalezar', cursive; color: var(--accent); font-size: 1.5em; text-align: center; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-.showcase-motivation-box { text-align: center; margin-top: 8px; font-size: 0.95em; color: var(--accent); font-weight: bold; padding: 8px; background: rgba(244,208,63,0.08); border-radius: 10px; border: 1px dashed var(--accent2); line-height: 1.8; width: 100%; }
-.showcase-date-box { display: flex; justify-content: center; gap: 15px; margin-top: 10px; font-size: 0.8em; color: var(--text-secondary); flex-wrap: wrap;}
-.showcase-date-box span { background: rgba(0,0,0,0.4); padding: 4px 10px; border-radius: 10px; border: 1px solid rgba(244,208,63,0.2); }
-.showcase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+.showcase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; position: relative; z-index: 1; }
 .showcase-card { background: rgba(0,0,0,0.3); border: 1px solid rgba(244,208,63,0.3); border-radius: 12px; padding: 10px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; }
 .showcase-card-icon { font-size: 1.8em; margin-bottom: 5px; }
 .showcase-card-label { font-size: 0.75em; color: var(--text-muted); margin-bottom: 4px; }
 .showcase-card-value { font-size: 0.9em; font-weight: bold; color: #fff; }
 .showcase-card-time { font-size: 0.7em; color: var(--accent2); margin-top: 4px; }
+
+/* === نوار اطلاعات تاریخ و روز و انگیزشی (خارج از قاب) === */
+.info-strip {
+  background: linear-gradient(135deg, rgba(30,60,38,0.9), rgba(13,31,18,0.9));
+  border: 1px solid rgba(244,208,63,0.35);
+  border-radius: 16px;
+  padding: 12px 15px;
+  margin: 0 0 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3), inset 0 0 15px rgba(244,208,63,0.08);
+  animation: infoGlow 4s ease-in-out infinite;
+}
+@keyframes infoGlow {
+  0%, 100% { box-shadow: 0 4px 12px rgba(0,0,0,0.3), inset 0 0 15px rgba(244,208,63,0.08); }
+  50% { box-shadow: 0 4px 18px rgba(0,0,0,0.4), inset 0 0 22px rgba(244,208,63,0.18); }
+}
+.info-strip-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.info-badge {
+  background: rgba(0,0,0,0.4);
+  padding: 5px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(244,208,63,0.3);
+  font-size: 0.8em;
+  color: var(--text-secondary);
+}
+.info-day { color: var(--accent); font-weight: bold; }
+.info-motivation {
+  font-family: 'Lalezar', cursive;
+  font-size: 1.2em;
+  text-align: center;
+  color: var(--accent);
+  line-height: 1.9;
+  text-shadow: 0 2px 8px rgba(244,208,63,0.4);
+  padding: 6px 8px;
+  letter-spacing: 0.3px;
+}
 
 .welcome-message { text-align: center; font-family: 'Lalezar', cursive; font-size: 1.6em; color: var(--accent); margin-bottom: 10px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
 
@@ -73,14 +158,62 @@ body{font-family:var(--font-family);background:var(--bg-primary);
 }
 @keyframes shine { 0% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-#topBanner{display:none;width:100%;background:var(--bg-secondary);border-bottom:3px solid var(--accent);overflow:hidden}
-#topBanner.active{display:block}
-#topBanner img{width:100%;height:auto;max-height:220px;object-fit:cover;display:block}
+/* === بنر (زیر پروفایل) === */
+#topBanner {
+  display: none;
+  width: 100%;
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 15px;
+  border: 2px solid var(--accent);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+#topBanner.active { display: block; }
+#topBanner img {
+  width: 100%;
+  height: auto;
+  max-height: 220px;
+  object-fit: cover;
+  display: block;
+  border-radius: 14px;
+}
 
 .main-header{text-align:center;margin-bottom:15px;padding:20px 15px;background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border-radius:20px;border:1px solid rgba(244,208,63,.3);position:relative;overflow:hidden}
 .main-header::before{content:'🌿';position:absolute;font-size:8em;opacity:.03;top:-30px;left:-20px;transform:rotate(-15deg)}
 .main-header h1{color:var(--accent);font-size:1.6em;margin-bottom:5px}
 .main-header h2{color:var(--text-secondary);font-size:1em;margin-bottom:12px}
+
+/* === دکمه ورود پنل مدیریت مستطیلی جذاب === */
+.admin-login-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 15px auto 0;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #f4d03f, #e8b923, #ffb700);
+  background-size: 200% 100%;
+  color: #0d1f12;
+  border: 2px solid #fff;
+  border-radius: 14px;
+  font-family: 'Lalezar', cursive;
+  font-size: 1.05em;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(244,208,63,0.45), inset 0 -3px 0 rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+  animation: adminShine 3s ease-in-out infinite;
+  text-shadow: 1px 1px 0 rgba(255,255,255,0.4);
+}
+@keyframes adminShine {
+  0%, 100% { background-position: 0% 50%; box-shadow: 0 6px 20px rgba(244,208,63,0.45), inset 0 -3px 0 rgba(0,0,0,0.15); }
+  50% { background-position: 100% 50%; box-shadow: 0 8px 28px rgba(244,208,63,0.7), inset 0 -3px 0 rgba(0,0,0,0.15); }
+}
+.admin-login-btn:active {
+  transform: scale(0.96);
+  box-shadow: 0 3px 10px rgba(244,208,63,0.5);
+}
 
 .page{display:none}.page.active{display:block}
 .menu-card{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-tertiary));border-radius:16px;padding:18px;margin-bottom:12px;cursor:pointer;border:1px solid rgba(244,208,63,.2);border-right:5px solid var(--accent);position:relative;overflow:hidden}
@@ -138,7 +271,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 
 .admin-panel{background:linear-gradient(135deg,#2a1a1a,#3d2020);border:2px solid var(--accent2);border-radius:15px;padding:15px;margin:10px 0}
 .admin-panel h3{color:var(--accent);text-align:center;margin-bottom:10px}
-.admin-warning{background:rgba(244,208,63,.1);padding:8px;border-radius:8px;font-size:.75em;color:var(--accent);text-align:center;margin-bottom:10px;border:1px solid rgba(244,208,63,.3)}
 
 .msg-badge{position:absolute;top:-8px;right:-8px;background:#e74c3c;color:#fff;border-radius:50%;width:24px;height:24px;font-size:.7em;display:flex;align-items:center;justify-content:center;font-weight:700}
 .menu-card{position:relative}
@@ -227,15 +359,14 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 .admin-user-details { font-size: 0.8em; color: var(--text-secondary); line-height: 1.6; margin-top:5px;}
 .admin-user-actions { display: flex; gap: 5px; flex-direction: column; }
 .btn-small { padding: 6px 10px; font-size: 0.75em; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; font-family: var(--font-family); }
+
+.supervisor-box { margin-top: 12px; padding: 12px; background: rgba(244,208,63,0.08); border: 1px dashed var(--accent); border-radius: 12px; font-size: 0.9em; color: var(--text-secondary); line-height: 1.9; }
+.supervisor-box strong { display: block; color: var(--accent); font-size: 1.15em; margin-top: 4px; font-family: 'Lalezar', cursive; letter-spacing: 0.5px; }
 </style>
 </head>
 <body>
 
 <div class="toast" id="toast"></div>
-
-<div id="topBanner">
-  <img id="topBannerImg" style="display:none" onload="bannerLoaded()" onerror="bannerError()" alt="">
-</div>
 
 <div class="alarm-overlay" id="alarmOverlay">
   <div class="alarm-message" id="alarmMessage">⏰ وقت دارو</div>
@@ -369,18 +500,27 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   </div>
 </div>
 
+<!-- بنر زیر پروفایل -->
+<div id="topBanner">
+  <img id="topBannerImg" style="display:none" onload="bannerLoaded()" onerror="bannerError()" alt="">
+</div>
+
 <div class="page active" id="pageMenu">
   <div class="welcome-message" id="welcomeMessage" style="display:none;"></div>
   
-  <!-- ویترین امروز -->
+  <!-- نوار تاریخ + روز + جمله انگیزشی (خارج از قاب چی بخوریم) -->
+  <div class="info-strip" id="infoStrip">
+    <div class="info-strip-row">
+      <span class="info-badge" id="infoJalaliDate">📅 ---</span>
+      <span class="info-badge info-day" id="infoDayNumber">📌 روز ---</span>
+    </div>
+    <div class="info-motivation" id="infoMotivation">---</div>
+  </div>
+
+  <!-- ویترین امروز (بدون تاریخ و انگیزشی) -->
   <div class="today-showcase" id="todayShowcase">
     <div class="showcase-header">
       <div class="showcase-title">امروز چی بخوریم؟</div>
-      <div class="showcase-motivation-box" id="motivationText">در حال بارگذاری...</div>
-      <div class="showcase-date-box">
-        <span id="showcaseJalaliDate">---</span>
-        <span id="showcaseDayNumber" class="showcase-day-badge">روز ---</span>
-      </div>
     </div>
     <div class="showcase-grid" id="showcaseGrid"><p style="text-align:center;color:var(--text-muted);grid-column:1/-1;font-size:0.9em;">در حال بارگذاری...</p></div>
   </div>
@@ -456,11 +596,12 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 </div>
 
 <div class="page" id="pageSettings">
-  <!-- هدر تنظیمات با دکمه پنل ادمین -->
   <div class="main-header" style="position:relative;">
     <h1>⚙️ تنظیمات</h1>
     <h2>مدیریت برنامه</h2>
-    <button onclick="openAdminLogin()" style="position:absolute; top:15px; left:15px; width:40px; height:40px; border-radius:50%; background:var(--accent); color:#0d1f12; border:2px solid #fff; font-size:1.2em; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,0.4);" title="پنل مدیریت">🔐</button>
+    <button class="admin-login-btn" onclick="openAdminLogin()" title="پنل مدیریت">
+      <span>🔐 ورود به پنل مدیریت</span>
+    </button>
   </div>
   <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
   
@@ -473,7 +614,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     </div>
   </div>
 
-  <!-- پشتیبان‌گیری آفلاین -->
   <div class="section-box" style="border:2px solid var(--btn-success);">
     <h3>💾 پشتیبان‌گیری آفلاین</h3>
     <p style="font-size:0.8em; color:var(--text-secondary); text-align:center; margin-bottom:10px;">در صورت پاک شدن اطلاعات، از این بخش استفاده کنید.</p>
@@ -500,7 +640,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     <div style="font-size:.78em;color:var(--text-secondary);margin-top:8px;line-height:1.8">📅 شمسی: <span id="jalaliDate" style="color:var(--accent);font-weight:700">--</span><br>📌 امروز: <span id="dayBadge" style="color:var(--accent);font-weight:700">روز --</span></div>
   </div>
   
-  <!-- بخش تم‌ها (بازگردانده شد) -->
   <div class="section-box">
     <h3>🎨 پوسته و تم</h3>
     <div class="settings-row">
@@ -703,7 +842,7 @@ function safeGetLS(key,def){try{var v=localStorage.getItem(key);return v==null?d
 function safeParseJSON(str,def){if(!str)return def;try{return JSON.parse(str);}catch(e){return def;}}
 
 /* ============================================================
-   پشتیبان گیری و بازیابی آفلاین
+   پشتیبان‌گیری و بازیابی آفلاین
    ============================================================ */
 function saveOfflineBackup() {
   if(!userId) { showToast('ابتدا وارد حساب شوید', 'error'); return; }
@@ -818,7 +957,7 @@ function renderSavedProfiles() {
     container.style.display = 'block';
     var html = '';
     profilesList.forEach(function(p) {
-      html += '<div class="saved-profile-item" onclick="quickLogin(\''+p.username+'\')">';
+      html += '<div class="saved-profile-item" onclick="quickLogin(\''+escapeHtml(p.username)+'\', \''+escapeHtml(p.password)+'\')">';
       html += '<div><div style="font-weight:bold; color:var(--accent);">'+escapeHtml(p.username)+'</div><div style="font-size:0.7em; color:var(--text-muted);">'+escapeHtml(p.code)+'</div></div>';
       html += '<div>👈</div></div>';
     });
@@ -828,9 +967,9 @@ function renderSavedProfiles() {
   }
 }
 
-function quickLogin(username) {
+function quickLogin(username, password) {
   document.getElementById('loginUsername').value = username;
-  document.getElementById('loginPassword').focus();
+  document.getElementById('loginPassword').value = password;
 }
 
 function showForgotPassModal() {
@@ -852,20 +991,25 @@ async function doLogin() {
     try {
       const { data, error } = await supabaseClient
         .from('users_list')
-        .select('code, data')
-        .eq('data->auth->>username', username)
-        .eq('data->auth->>password', pass)
-        .maybeSingle();
+        .select('code, data');
         
-      if(data && data.code) {
-        profile = {
-          username: username,
-          password: pass,
-          code: data.code,
-          data: data.data.profile
-        };
-        profilesList.push(profile);
-        safeSetLS('profilesList', JSON.stringify(profilesList));
+      if(data && !error) {
+        for(var i=0; i<data.length; i++) {
+          var u = data[i];
+          if(u.data && u.data.auth && 
+             u.data.auth.username === username && 
+             u.data.auth.password === pass) {
+            profile = {
+              username: username,
+              password: pass,
+              code: u.code,
+              data: u.data.profile || {}
+            };
+            profilesList.push(profile);
+            safeSetLS('profilesList', JSON.stringify(profilesList));
+            break;
+          }
+        }
       }
     } catch(e) {
       console.error('DB Login Error:', e);
@@ -882,12 +1026,7 @@ async function doLogin() {
   
   safeSetLS('activeUserCode', userId);
   safeSetLS('userId', userId);
-  
-  if(remember) {
-    safeSetLS('userProfile', JSON.stringify(userProfile));
-  } else {
-    localStorage.removeItem('userProfile');
-  }
+  safeSetLS('userProfile', JSON.stringify(userProfile));
 
   document.getElementById('loginPage').classList.remove('active');
   document.getElementById('mainAppContainer').style.display = 'block';
@@ -1070,6 +1209,9 @@ async function saveProfileEdit() {
   data.profile.problem = problem;
   if(avatar && avatar.indexOf('svg') === -1) data.profile.avatar = avatar;
   
+  if(!data.auth) data.auth = {};
+  data.auth.username = name;
+  
   var ok = await saveUserRecord(userId, data);
   if(ok) {
     userProfile.name = name; userProfile.age = age; userProfile.problem = problem;
@@ -1097,7 +1239,7 @@ async function deleteMyAccount() {
   showToast('⏳ در حال حذف...', 'warning');
   
   try {
-    const { data, error } = await supabaseClient.from('users_list').delete().eq('code', userId.toUpperCase()).select();
+    const { error } = await supabaseClient.from('users_list').delete().eq('code', userId.toUpperCase());
     
     if (error) {
       showToast('❌ خطا در حذف از سرور: ' + error.message, 'error', 6000);
@@ -1106,13 +1248,25 @@ async function deleteMyAccount() {
 
     profilesList = profilesList.filter(function(p) { return p.code !== userId; });
     safeSetLS('profilesList', JSON.stringify(profilesList));
+    
     localStorage.removeItem('activeUserCode');
     localStorage.removeItem('currentSessionUser');
     localStorage.removeItem('userProfile');
-    localStorage.removeItem('health40Data'); 
+    localStorage.removeItem('health40Data');
+    localStorage.removeItem('lastPrescription');
+    localStorage.removeItem('tableReceived');
+    localStorage.removeItem('offlineBackup_' + userId);
+    
+    activeUserCode = null;
+    userId = '';
+    userProfile = null;
     
     showToast('✅ حساب کاربری حذف شد.');
-    doLogout();
+    
+    document.getElementById('mainAppContainer').style.display = 'none';
+    document.getElementById('loginPage').classList.add('active');
+    document.getElementById('loginPassword').value = '';
+    renderSavedProfiles();
     
   } catch(e) {
     showToast('❌ خطای شبکه در حذف: ' + e.message, 'error', 6000);
@@ -1444,19 +1598,19 @@ function updateTodayShowcase() {
   var todayIdx = getCurrentDayAuto();
   var todayDate = new Date();
   var jalali = gregorianToJalali(todayDate);
-  
-  var scDate = document.getElementById('showcaseJalaliDate');
-  if(scDate) scDate.textContent = '📅 ' + formatJalaliFull(jalali);
-  
   var dayNumFa = toPersianNumber(todayIdx + 1);
-  var scDay = document.getElementById('showcaseDayNumber');
-  if(scDay) scDay.textContent = '📌 روز ' + dayNumFa + ' از ' + toPersianNumber(totalDays);
   
-  // جملات انگیزشی
-  var motivations = getMotivationalMessage(todayIdx + 1);
-  var motEl = document.getElementById('motivationText');
-  if(motEl) motEl.textContent = motivations;
-
+  // نوار اطلاعات (خارج از قاب)
+  var infoDate = document.getElementById('infoJalaliDate');
+  if (infoDate) infoDate.textContent = '📅 ' + formatJalaliFull(jalali);
+  
+  var infoDay = document.getElementById('infoDayNumber');
+  if (infoDay) infoDay.textContent = '📌 روز ' + dayNumFa + ' از ' + toPersianNumber(totalDays);
+  
+  var infoMot = document.getElementById('infoMotivation');
+  if (infoMot) infoMot.textContent = getMotivationalMessage(todayIdx + 1);
+  
+  // ویترین
   if (fortyDayData.length === 0) {
     grid.innerHTML = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;font-size:0.9em;">برنامه‌ای ثبت نشده است</p>';
     return;
@@ -1484,13 +1638,12 @@ function updateTodayShowcase() {
   grid.innerHTML = html;
 }
 
-// تابع تبدیل اعداد به فارسی
 function toPersianNumber(num) {
   var fa = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
   return String(num).replace(/\d/g, function(d) { return fa[parseInt(d)]; });
 }
 
-// جملات انگیزشی برای 40 روز
+// جملات انگیزشی ۴۰ روزه با حروف فارسی (بدون تکرار)
 function getMotivationalMessage(dayNum) {
   var messages = [
     "باریکلا، سفر سلامتت رو شروع کردی! 🌱",
@@ -1513,26 +1666,26 @@ function getMotivationalMessage(dayNum) {
     "شیر مادر و نان پدر حلالت قهرمان، روز هجدهمتمه 🦁",
     "دست بزنید براش! روز نوزدهمت مبارک 👏",
     "وااای به نیمه‌ی راه رسیدی دوست من، امروز نصف چله رو رد کردی، روز بیستمته مثل خودت که نمره‌ات بیسته... 💯",
-    "21 روز شد، تو یک الگوی واقعی هستی 🌟",
-    "22 روز پشتکار، 22 روز افتخار 🏅",
-    "23 روز شد و تو داری قوی‌تر از قبل میشی 💪",
-    "24 روز گذشت، بدنت داره تشکر میکنه ازت 🙏",
-    "روز بیست و پنجم، نیمی از مسیر رو با موفقیت طی کردی 🚀",
-    "26 روز شد، تو یک قهرمان واقعی هستی 🏆",
-    "27 روز پایداری، آفرین به این اراده 🌿",
-    "روز 28، داری به خط پایان نزدیک میشی 🎯",
-    "29 روز، یک قدم دیگه به رویاهات نزدیکتر 💫",
-    "سی روز شد! تو یک افسانه‌ای 🦸",
-    "31 روز، قدرتتو به همه ثابت کردی 💥",
-    "32 روز، بدنت داره میدرخشه ✨",
-    "33 روز، با همین قدرت ادامه بده 🔥",
-    "34 روز، یک الگوی سلامت شدی 🌱",
-    "روز 35، تقریباً رسیدی به قله کوه ⛰️",
-    "36 روز، افتخار میکنم بهت 🥇",
-    "37 روز، پشتکارت مثال زدنیه 🌟",
-    "38 روز، فقط 2 روز مونده به جشن 🎉",
-    "39 روز، فردا روز جشنته 🎊",
-    "تبریک! 40 روز کامل شد، تو یک قهرمان واقعی هستی 🏆🎉"
+    "باریکلا به این اراده‌ات، رسیدی به روز بیست و یکم و داری می‌درخشی! ✨",
+    "چه افتخاری، بیست و دومین روز برنامه‌ته، بدنت داره جشن می‌گیره! 🎊",
+    "دمت گرم قهرمان، روز بیست و سومته و پشتکارت زبانزد شده! 🏅",
+    "ماشالله به این همتت، بیست و چهار روز پایداری یعنی یک دنیا افتخار! 🌟",
+    "خداقوت پهلوان، روز بیست و پنجمته و داری به قله نزدیک‌تر میشی! ⛰️",
+    "آفرین به خودت، بیست و ششمین روزته و سلامت داری برات می‌رقصه! 💃",
+    "به به چه پشتکاری، روز بیست و هفتمته و بدنت داره تشکر می‌کنه ازت! 🙏",
+    "ایول رفیق، روز بیست و هشتم شد و تو یک الگوی واقعی شدی! 🦸",
+    "مژده مژده، بیست و نهمین روزته و داری به خط پایان نزدیک میشی! 🎯",
+    "تبریک می‌گم، روز سی‌امته! یک ماه کامل پایداری، فوق‌العاده‌ای! 🎉",
+    "بابا دستمریزاد، روز سی و یکمته و قدرتت رو به همه ثابت کردی! 💥",
+    "خدا قوت، سی و دومین روزته و بدنت داره می‌درخشه! ✨",
+    "آفرین به این اراده، روز سی و سومته با همین قدرت ادامه بده! 🔥",
+    "ماشالله رفیق، سی و چهارمین روزته و یک قهرمان سلامت شدی! 🌱",
+    "دمت گرم قهرمان، روز سی و پنجمته، تقریباً رسیدی به قله! 🏔️",
+    "به به چه همتی، سی و ششمین روزته و بهت افتخار می‌کنم! 🥇",
+    "ایول به این پشتکار، روز سی و هفتمته و مثال‌زدنی شدی! 🌟",
+    "مژده، سی و هشتمین روزته، فقط دو روز تا جشن مونده! 🎊",
+    "تبریک، روز سی و نهمته، فردا روز جشنته رفیق! 🎉",
+    "باریکلا به خودت! چهل روز کامل شد و تو یک قهرمان واقعی هستی! 🏆🎉"
   ];
   if (dayNum >= 1 && dayNum <= 40) {
     return messages[dayNum - 1];
@@ -1758,29 +1911,40 @@ async function saveUserEditedTableToDB() {
 /* ============================================================
    ADMIN SENDS
    ============================================================ */
-async function sendPrescription(){
-  var code = document.getElementById('targetUserCode').value || document.getElementById('prescriptionUserSearch').value;
-  var te=document.getElementById('prescriptionTitle'), ce2=document.getElementById('prescriptionContent');
-  var title=te.value.trim(), content=ce2.value.trim();
+async function sendPrescription() {
+  var code = document.getElementById('targetUserCode').value;
+  if(!code) {
+    var rawVal = document.getElementById('prescriptionUserSearch').value;
+    var match = rawVal.match(/\(([^)]+)\)/);
+    if(match) code = match[1];
+    else if(rawVal.length >= 3 && rawVal.length <= 10) code = rawVal;
+  }
+  code = (code || '').trim().toUpperCase();
   
-  if(!code) code = document.getElementById('prescriptionUserSearch').value.split('(')[1]?.replace(')','') || '';
-  code = code.trim().toUpperCase();
+  var te = document.getElementById('prescriptionTitle');
+  var ce2 = document.getElementById('prescriptionContent');
+  var title = te.value.trim();
+  var content = ce2.value.trim();
   
-  if(!code||code.length<3){showToast('کاربر را انتخاب کنید','error');return;}
-  if(!content){showToast('متن نسخه را وارد کنید','error');return;}
+  if(!code || code.length < 3) { showToast('کاربر را انتخاب کنید', 'error'); return; }
+  if(!content) { showToast('متن نسخه را وارد کنید', 'error'); return; }
   
-  showToast('⏳ در حال ارسال...','warning');
+  showToast('⏳ در حال ارسال...', 'warning');
   var userData = await getUserRecord(code) || {};
-  userData.prescription = { title: title||'نسخه اختصاصی', content: content, sentAt: Date.now() };
+  userData.prescription = { title: title || 'نسخه اختصاصی', content: content, sentAt: Date.now() };
   
   var ok = await saveUserRecord(code, userData);
-  if(ok){
-    showToast('✅ نسخه برای '+code+' ارسال شد');
-    document.getElementById('prescriptionUserSearch').value='';
-    document.getElementById('targetUserCode').value='';
-    te.value='';ce2.value='';
-    loadAdminRecent(); loadDashboard(false);
-  } else showToast('❌ خطا در ارسال','error');
+  if(ok) {
+    showToast('✅ نسخه برای ' + code + ' ارسال شد');
+    document.getElementById('prescriptionUserSearch').value = '';
+    document.getElementById('targetUserCode').value = '';
+    te.value = '';
+    ce2.value = '';
+    loadAdminRecent();
+    loadDashboard(false);
+  } else {
+    showToast('❌ خطا در ارسال', 'error');
+  }
 }
 
 async function sendMessage(){
@@ -1852,7 +2016,6 @@ function addTableColumnEditor(){
   var newCol='c_'+Date.now();adminTableColumns.push(newCol);adminTableColumnNames[newCol]='وعده '+adminTableColumns.length;adminCurrentTimes[newCol]='08:00';adminFortyDayData.forEach(function(day){day[newCol]='';});renderAdminTableEditor(); renderAdminDayEditor();
 }
 
-// تابع جدید برای حذف وعده
 function removeTableColumnEditor(i) {
   if(adminTableColumns.length <= 1) { showToast('حداقل یک وعده باید باقی بماند', 'error'); return; }
   var colName = adminTableColumnNames[adminTableColumns[i]] || adminTableColumns[i];
@@ -1916,16 +2079,19 @@ function applyToAdminDays(type){
   showToast('✅ اعمال شد');
 }
 
-async function sendTableToUser(){
+async function sendTableToUser() {
   var code = document.getElementById('targetUserCodeTable').value;
   if(!code) {
-      var rawVal = document.getElementById('tableUserSearch').value.split('(')[1]?.replace(')','') || '';
-      code = rawVal.trim();
+    var rawVal = document.getElementById('tableUserSearch').value;
+    var match = rawVal.match(/\(([^)]+)\)/);
+    if(match) code = match[1];
   }
-  code = code.toUpperCase();
-  if(!code||code.length<3){showToast('کاربر را انتخاب کنید','error');return;}
-  if(!confirm('جدول فعلی برای کاربر '+code+' ارسال شود؟'))return;
-  showToast('⏳ در حال ارسال...','warning');
+  code = (code || '').trim().toUpperCase();
+  
+  if(!code || code.length < 3) { showToast('کاربر را انتخاب کنید', 'error'); return; }
+  if(!confirm('جدول فعلی برای کاربر ' + code + ' ارسال شود؟')) return;
+  
+  showToast('⏳ در حال ارسال...', 'warning');
   
   var snapshot = {
     fortyDayData: JSON.parse(JSON.stringify(adminFortyDayData)),
@@ -1933,19 +2099,22 @@ async function sendTableToUser(){
     tableColumnNames: Object.assign({}, adminTableColumnNames),
     currentTimes: Object.assign({}, adminCurrentTimes),
     totalDays: adminTotalDays,
-    sentAt: Date.now() 
+    sentAt: Date.now()
   };
   
   var userData = await getUserRecord(code) || {};
   userData.tableData = snapshot;
   
   var ok = await saveUserRecord(code, userData);
-  if(ok){ 
-    showToast('✅ جدول برای '+code+' ارسال شد'); 
-    document.getElementById('tableUserSearch').value='';
-    document.getElementById('targetUserCodeTable').value='';
-    loadAdminRecent(); loadDashboard(false); 
-  } else showToast('❌ خطا','error');
+  if(ok) {
+    showToast('✅ جدول برای ' + code + ' ارسال شد');
+    document.getElementById('tableUserSearch').value = '';
+    document.getElementById('targetUserCodeTable').value = '';
+    loadAdminRecent();
+    loadDashboard(false);
+  } else {
+    showToast('❌ خطا', 'error');
+  }
 }
 
 async function sendTableToAll(){
@@ -2103,7 +2272,25 @@ function testAlarmSound(){unlockAudio();playAlarmSound();setTimeout(stopAlarmSou
 function clearTimers(){alarmTimers.forEach(function(t){clearTimeout(t);});alarmTimers=[];}
 function msUntil(t){var p=t.split(':'),h=parseInt(p[0]),m=parseInt(p[1]),now=new Date(),target=new Date(now);target.setHours(h,m,0,0);if(target<=now)target.setDate(target.getDate()+1);return target.getTime()-now.getTime();}
 function unlockAudio(){if(audioUnlocked)return true;try{audioContext=new(window.AudioContext||window.webkitAudioContext)();if(audioContext.state==='suspended')audioContext.resume();var osc=audioContext.createOscillator(),g=audioContext.createGain();osc.connect(g);g.connect(audioContext.destination);g.gain.setValueAtTime(0,audioContext.currentTime);osc.start(audioContext.currentTime);osc.stop(audioContext.currentTime+.1);audioUnlocked=true;return true;}catch(e){return false;}}
-function scheduleAlarms(){clearTimers();if(!alarmActive)return;var td=fortyDayData[getCurrentDayAuto()]||{};tableColumns.forEach(function(col){if(alarmEnabled[col]===false)return;var time=currentTimes[col],name=td[col]||'';if(time&&name&&name!=='❌'){var ms=msUntil(time);if(ms>0&&ms<86400000){alarmTimers.push(setTimeout(function(){triggerAlarm({name:name,type:tableColumnNames[col]});setTimeout(scheduleAlarms,60000);},ms));}}});}
+function scheduleAlarms() {
+  clearTimers();
+  if(!alarmActive) return;
+  var td = fortyDayData[getCurrentDayAuto()] || {};
+  tableColumns.forEach(function(col) {
+    if(alarmEnabled[col] === false) return;
+    var time = currentTimes[col];
+    var name = td[col] || '';
+    if(time && name && name !== '❌') {
+      var ms = msUntil(time);
+      if(ms > 0 && ms < 86400000) {
+        alarmTimers.push(setTimeout(function() {
+          triggerAlarm({ name: name, type: tableColumnNames[col] });
+          setTimeout(scheduleAlarms, 60000);
+        }, ms));
+      }
+    }
+  });
+}
 function triggerAlarm(a){var el=document.getElementById('alarmMessage');if(el)el.textContent='⏰ '+a.type+': '+a.name;var ov=document.getElementById('alarmOverlay');if(ov)ov.classList.add('active');playAlarmSound();if(navigator.vibrate)navigator.vibrate([500,200,500,200,500]);}
 function playAlarmSound(){stopAlarmSound();if(!audioUnlocked)unlockAudio();try{if(!audioContext||audioContext.state==='suspended'){audioContext=new(window.AudioContext||window.webkitAudioContext)();if(audioContext.state==='suspended')audioContext.resume();}function beep(){if(!audioContext||audioContext.state!=='running')return;var o=audioContext.createOscillator(),g=audioContext.createGain();o.connect(g);g.connect(audioContext.destination);o.type='sine';o.frequency.setValueAtTime(880,audioContext.currentTime);g.gain.setValueAtTime(0,audioContext.currentTime);g.gain.linearRampToValueAtTime(.5,audioContext.currentTime+.05);g.gain.linearRampToValueAtTime(0,audioContext.currentTime+.5);o.start(audioContext.currentTime);o.stop(audioContext.currentTime+.5);}beep();alarmSoundInterval=setInterval(beep,700);}catch(e){}}
 function stopAlarmSound(){if(alarmSoundInterval){clearInterval(alarmSoundInterval);alarmSoundInterval=null;}if(audioContext){try{if(audioContext.state!=='closed')audioContext.close();}catch(e){}audioContext=null;audioUnlocked=false;}}
@@ -2120,9 +2307,31 @@ var persianMonths=['فروردین','اردیبهشت','خرداد','تیر','م
 function gregorianToJalali(gDate){var g=new Date(gDate),gy=g.getFullYear(),gm=g.getMonth()+1,gd=g.getDate();var gdm=[0,31,59,90,120,151,181,212,243,273,304,334],gy2=gm>2?gy+1:gy;var days=355666+365*gy+Math.floor((gy2+3)/4)-Math.floor((gy2+99)/100)+Math.floor((gy2+399)/400)+gd+gdm[gm-1];var jy=-1595+33*Math.floor(days/12053);days%=12053;jy+=4*Math.floor(days/1461);days%=1461;if(days>365){jy+=Math.floor((days-1)/365);days=(days-1)%365;}var jm=days<186?1+Math.floor(days/31):7+Math.floor((days-186)/30);var jd=days<186?1+days%31:1+(days-186)%30;return{y:jy,m:jm,d:jd};}
 function formatJalali(j){return j.y+'/'+String(j.m).padStart(2,'0')+'/'+String(j.d).padStart(2,'0');}
 function formatJalaliFull(j){return toPersianNumber(j.d)+' '+persianMonths[j.m-1]+' '+toPersianNumber(j.y);}
-function getStartDateGregorian(){return new Date(safeGetLS('healthStartDateGregorian','2026-08-04'));}
+
+function getStartDateGregorian() {
+  var saved = safeGetLS('healthStartDateGregorian', null);
+  if(saved) {
+    var d = new Date(saved);
+    if(!isNaN(d.getTime())) {
+      d.setHours(0,0,0,0);
+      return d;
+    }
+  }
+  var today = new Date();
+  today.setHours(0,0,0,0);
+  safeSetLS('healthStartDateGregorian', today.toISOString());
+  return today;
+}
 function setStartDateGregorian(d){safeSetLS('healthStartDateGregorian',d.toISOString());}
-function getCurrentDayAuto(){return Math.max(0,Math.min(totalDays-1,Math.floor((Date.now()-getStartDateGregorian().getTime())/86400000)));}
+
+function getCurrentDayAuto() {
+  var start = getStartDateGregorian();
+  var now = new Date();
+  now.setHours(0,0,0,0);
+  start.setHours(0,0,0,0);
+  var diffDays = Math.floor((now.getTime() - start.getTime()) / 86400000);
+  return Math.max(0, Math.min(totalDays - 1, diffDays));
+}
 function toDateInputValue(d){return d.toISOString().split('T')[0];}
 
 function initData(){
@@ -2172,7 +2381,7 @@ function renderTable(){
   tbody.innerHTML=html;
 }
 
-function onStartDateChanged(){var gDate=new Date(document.getElementById('startDatePicker').value+'T00:00:00');if(isNaN(gDate.getTime()))return;setStartDateGregorian(gDate);updateDateConversionInfo();updateDayDisplay();renderTable();updateTodayShowcase();saveAll();}
+function onStartDateChanged(){var gDate=new Date(document.getElementById('startDatePicker').value+'T00:00:00');if(isNaN(gDate.getTime()))return;gDate.setHours(0,0,0,0);setStartDateGregorian(gDate);updateDateConversionInfo();updateDayDisplay();renderTable();updateTodayShowcase();saveAll();}
 function updateDateConversionInfo(){var sd=getStartDateGregorian(),j=gregorianToJalali(sd);var el=document.getElementById('jalaliDate');if(el)el.textContent=formatJalaliFull(j);}
 function updateDayDisplay(){var el=document.getElementById('dayBadge');if(el)el.textContent='روز '+(getCurrentDayAuto()+1)+' از '+totalDays;}
 function changeViewMode(){viewMode=document.getElementById('viewMode').value;saveAll();renderTable();}
@@ -2220,6 +2429,7 @@ function saveStartDatePermanently() {
   if(!val) { showToast('تاریخ را انتخاب کنید', 'error'); return; }
   var d = new Date(val + 'T00:00:00');
   if(isNaN(d.getTime())) return;
+  d.setHours(0,0,0,0);
   setStartDateGregorian(d);
   saveAll();
   updateDateConversionInfo();
@@ -2227,6 +2437,16 @@ function saveStartDatePermanently() {
   renderTable();
   updateTodayShowcase();
   showToast('✅ تاریخ شروع برای همیشه ذخیره شد.');
+}
+
+function clearCacheAndReload(){
+  if(!confirm('برنامه به‌روزرسانی و کش پاک شود؟')) return;
+  try{
+    if('caches' in window){caches.keys().then(function(names){names.forEach(function(n){caches.delete(n);});});}
+    if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(regs){regs.forEach(function(r){r.unregister();});});}
+    showToast('✅ کش پاک شد، در حال بارگذاری...');
+    setTimeout(function(){location.reload(true);},1200);
+  }catch(e){showToast('❌ خطا: '+e.message,'error');}
 }
 </script>
 </body>
