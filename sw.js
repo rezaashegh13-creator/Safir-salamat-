@@ -1,6 +1,5 @@
-// sw.js — نسخه ۳ - با push و مدیریت بهتر آلارم
-
-const CACHE_NAME = 'safir-salamat-v3';
+// sw.js — نسخه ۴
+const CACHE_NAME = 'safir-salamat-v4';
 const ASSETS_TO_CACHE = ['/Safir-salamat-/', '/Safir-salamat-/index.html'];
 
 let currentSchedule = null;
@@ -18,7 +17,11 @@ self.addEventListener('activate', function(e) {
     caches.keys().then(function(names) {
       return Promise.all(names.filter(function(n){ return n !== CACHE_NAME; }).map(function(n){ return caches.delete(n); }));
     }).then(function() { return self.clients.claim(); })
-    .then(function() { startAlarmChecker(); })
+    .then(function() { 
+      // ✅ بازیابی از IndexedDB
+      loadStateFromDB();
+      startAlarmChecker(); 
+    })
   );
 });
 
@@ -38,28 +41,40 @@ self.addEventListener('fetch', function(e) {
   );
 });
 
-/* ============ Message Handler ============ */
+async function loadStateFromDB() {
+  try {
+    var sched = await getFromStore('schedule');
+    if(sched) currentSchedule = sched;
+    var sound = await getFromStore('sound');
+    if(sound) currentSoundData = sound;
+    console.log('[SW] Restored from DB:', !!currentSchedule, !!currentSoundData);
+  } catch(e) { console.warn('Load state error:', e); }
+}
+
 self.addEventListener('message', function(event) {
   var data = event.data || {};
   
   if(data.type === 'UPDATE_ALARM_SCHEDULE') {
     currentSchedule = data.data;
-    console.log('[SW] Schedule:', currentSchedule ? currentSchedule.schedule.length : 0);
+    saveToStore('schedule', data.data);
+    console.log('[SW] Schedule updated');
     startAlarmChecker();
   }
   if(data.type === 'SET_SOUND') {
     currentSoundData = data.data;
+    saveToStore('sound', data.data);
   }
   if(data.type === 'STOP_ALARM') {
     closeAllAlarmNotifications();
   }
-  // ✅ مهم: ارسال برای Push - مدیریت اشتراک
-  if(data.type === 'REGISTER_PUSH') {
-    registerPush(data.vapidPublicKey);
+  if(data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+  if(data.type === 'PING') {
+    event.source && event.source.postMessage({type: 'PONG'});
   }
 });
 
-/* ============ Push ============ */
 self.addEventListener('push', function(event) {
   console.log('[SW] Push received');
   var data = {};
@@ -67,6 +82,7 @@ self.addEventListener('push', function(event) {
   
   var title = data.title || '⏰ سفیر سلامت';
   var body = data.body || 'وقت دارو';
+  var soundData = data.sound || currentSoundData;
   
   var options = {
     body: body,
@@ -76,13 +92,8 @@ self.addEventListener('push', function(event) {
     requireInteraction: true,
     renotify: true,
     silent: false,
-    vibrate: [800,200,800,200,800,200,800],
-    data: { 
-      alarmName: body, 
-      alarmType: title,
-      isAlarm: true,
-      fromPush: true
-    },
+    vibrate: [800,200,800,200,800,200,800,200,800],
+    data: { alarmName: body, alarmType: title, isAlarm: true, fromPush: true },
     actions: [
       { action: 'stop', title: '🔇 قطع آلارم' },
       { action: 'snooze', title: '💤 چرت ۱۰ دقیقه' }
@@ -91,41 +102,11 @@ self.addEventListener('push', function(event) {
   
   event.waitUntil(
     self.registration.showNotification(title, options).then(function() {
-      // اطلاع به همه client ها
       return notifyClients({type: 'TRIGGER_ALARM_FROM_SW', alarmData: {name: body, type: title}});
     })
   );
 });
 
-async function registerPush(vapidPublicKey) {
-  if(!vapidPublicKey) return;
-  try {
-    var reg = self.registration;
-    var sub = await reg.pushManager.getSubscription();
-    if(!sub) {
-      sub = await reg.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(vapidPublicKey)
-      });
-    }
-    return sub;
-  } catch(e) {
-    console.warn('[SW] Push register failed:', e);
-  }
-}
-
-function urlBase64ToUint8Array(base64String) {
-  var padding = '='.repeat((4 - base64String.length % 4) % 4);
-  var base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
-  var rawData = atob(base64);
-  var output = new Uint8Array(rawData.length);
-  for(var i = 0; i < rawData.length; ++i) {
-    output[i] = rawData.charCodeAt(i);
-  }
-  return output;
-}
-
-/* ============ Notification Click ============ */
 self.addEventListener('notificationclick', function(event) {
   var n = event.notification;
   var action = event.action;
@@ -147,7 +128,6 @@ self.addEventListener('notificationclick', function(event) {
     return;
   }
   
-  // کلیک ساده → قطع + باز کردن اپ
   notifyClients({type: 'ALARM_ACTION', action: 'stop'});
   closeAllAlarmNotifications();
   
@@ -170,7 +150,6 @@ self.addEventListener('notificationclose', function(event) {
   }
 });
 
-/* ============ Sync ============ */
 self.addEventListener('sync', function(event) {
   if(event.tag === 'safir-alarm-sync') {
     event.waitUntil(checkAndTriggerAlarms());
@@ -183,18 +162,21 @@ self.addEventListener('periodicsync', function(event) {
   }
 });
 
-/* ============ Alarm Checker ============ */
 function startAlarmChecker() {
   if(alarmCheckInterval) clearInterval(alarmCheckInterval);
+  // ✅ هر 20 ثانیه چک (دقیق‌تر)
   alarmCheckInterval = setInterval(function() {
     checkAndTriggerAlarms();
-  }, 30 * 1000);
+  }, 20 * 1000);
   checkAndTriggerAlarms();
 }
 
-function checkAndTriggerAlarms() {
+async function checkAndTriggerAlarms() {
   if(!currentSchedule || !currentSchedule.schedule || !currentSchedule.schedule.length) {
-    return Promise.resolve();
+    // تلاش برای بازیابی
+    var sched = await getFromStore('schedule');
+    if(sched) currentSchedule = sched;
+    else return;
   }
   
   var now = new Date();
@@ -205,6 +187,7 @@ function checkAndTriggerAlarms() {
     var parts = alarm.time.split(':');
     var alarmMinutes = parseInt(parts[0]) * 60 + parseInt(parts[1]);
     
+    // ✅ چک دقیقه فعلی (نه کمتر از 1 دقیقه)
     if(currentMinutes === alarmMinutes) {
       var key = todayKey + '_' + alarm.time + '_' + alarm.col;
       return getFromStore('triggered').then(function(tr) {
@@ -224,7 +207,17 @@ function checkAndTriggerAlarms() {
   return Promise.all(promises);
 }
 
-function showAlarmNotification(alarm) {
+async function showAlarmNotification(alarm) {
+  var soundData = currentSoundData;
+  if(!soundData) {
+    soundData = await getFromStore('sound');
+    if(soundData) currentSoundData = soundData;
+  }
+  
+  var vibratePattern = (currentSchedule && (currentSchedule.vibrate || currentSchedule.vibrateOnly)) 
+    ? [800,200,800,200,800,200,800,200,800] 
+    : [];
+  
   var opts = {
     body: alarm.name + ' — کلیک برای قطع',
     icon: '/Safir-salamat-/icon-192.png',
@@ -233,13 +226,18 @@ function showAlarmNotification(alarm) {
     requireInteraction: true,
     renotify: true,
     silent: false,
-    vibrate: (currentSchedule.vibrate || currentSchedule.vibrateOnly) ? [800,200,800,200,800,200,800,200,800] : [],
+    vibrate: vibratePattern,
     data: { alarmName: alarm.name, alarmType: alarm.label, isAlarm: true, col: alarm.col },
     actions: [
       { action: 'stop', title: '🔇 قطع آلارم' },
       { action: 'snooze', title: '💤 چرت ۱۰ دقیقه' }
     ]
   };
+  
+  // ✅ اضافه کردن صدا اگر پشتیبانی شود
+  if(soundData) {
+    opts.sound = soundData;
+  }
   
   notifyClients({type: 'TRIGGER_ALARM_FROM_SW', alarmData: {name: alarm.name, type: alarm.label}});
   return self.registration.showNotification('⏰ ' + alarm.label, opts);
@@ -265,10 +263,10 @@ function scheduleSnoozeAlarm(data) {
   }
 }
 
-/* ============ IndexedDB ============ */
+/* IndexedDB */
 function openDB() {
   return new Promise(function(resolve, reject) {
-    var req = indexedDB.open('safir_sw_db', 2);
+    var req = indexedDB.open('safir_sw_db', 3);
     req.onupgradeneeded = function(e) {
       var db = e.target.result;
       if(!db.objectStoreNames.contains('kv')) db.createObjectStore('kv');
