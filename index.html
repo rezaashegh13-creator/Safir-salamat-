@@ -168,8 +168,8 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 
 .alarm-overlay{display:none;position:fixed;inset:0;background:radial-gradient(circle,rgba(192,57,43,.95),rgba(0,0,0,.98));z-index:99999;flex-direction:column;justify-content:center;align-items:center;padding:20px}
 .alarm-overlay.active{display:flex}
-.alarm-stop-btn{background:var(--btn-danger);color:#fff;font-size:1.6em;font-weight:700;padding:20px 50px;border:4px solid #fff;border-radius:18px;cursor:pointer}
-.alarm-snooze-btn{background:var(--accent2);color:#0d1f12;font-size:1em;padding:12px 30px;border:2px solid #fff;border-radius:18px;cursor:pointer;margin-top:15px;font-weight:700}
+.alarm-stop-btn{background:var(--btn-danger);color:#fff;font-size:1.6em;font-weight:700;padding:20px 50px;border:4px solid #fff;border-radius:18px;cursor:pointer; margin-bottom: 10px; width: 100%; max-width: 300px;}
+.alarm-snooze-btn{background:var(--accent2);color:#0d1f12;font-size:1em;padding:12px 30px;border:2px solid #fff;border-radius:18px;cursor:pointer;margin-top:15px;font-weight:700; width: 100%; max-width: 300px;}
 .alarm-message{color:var(--accent);font-size:1.5em;margin-bottom:25px;text-align:center;font-weight:700}
 
 .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#2ecc71;color:#fff;padding:12px 25px;border-radius:25px;font-weight:700;z-index:99999;display:none;max-width:90%;text-align:center}
@@ -341,7 +341,7 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 
 <div class="alarm-overlay" id="alarmOverlay">
   <div class="alarm-message" id="alarmMessage">⏰ وقت دارو</div>
-  <button class="alarm-stop-btn" onclick="stopAlarm()">🔇 قطع آلارم</button>
+  <button class="alarm-stop-btn" onclick="stopAlarm()">🔇 قطع کامل آلارم</button>
   <button class="alarm-snooze-btn" onclick="snoozeAlarm()">💤 چرت ۱۰ دقیقه</button>
 </div>
 
@@ -513,6 +513,11 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
       </div>
     </div>
     <button class="btn btn-orange" onclick="activateAlarms()" id="alarmMainBtn">🔔 فعال‌سازی آلارم‌ها</button>
+    
+    <!-- دکمه جدید برای افزودن به تقویم (آفلاین) -->
+    <button class="btn btn-green" onclick="addAlarmsToDeviceCalendar()" style="margin-top:10px; font-weight:bold; background: linear-gradient(135deg,#2980b9,#3498db);">📅 انتقال آلارم‌ها به تقویم گوشی (آفلاین)</button>
+    <p style="font-size:0.7em; color:var(--accent); text-align:center; margin-bottom:10px;">با زدن این دکمه، برنامه در اپ تقویم گوشی شما ذخیره می‌شود و حتی بدون اینترنت و بسته بودن اپ، گوشی شما زنگ می‌زند.</p>
+
     <div class="table-wrapper"><table id="dietTable"><thead id="tableHead"></thead><tbody id="scheduleBody"></tbody></table></div>
     <div class="status-box"><div id="statusText" style="font-weight:700;color:var(--accent)">⏳ آماده</div><div style="margin:8px 0">⏰ <span id="clockDisplay">--:--:--</span></div></div>
   </div>
@@ -589,9 +594,11 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
       <p style="font-size:0.85em; margin-bottom:8px;">⚠️ نوتیفیکیشن غیرفعال</p>
       <button class="btn btn-green" onclick="requestNotificationPermission()" style="font-size:0.8em; padding:8px;">🔔 فعال‌سازی نوتیفیکیشن</button>
     </div>
+    
     <button class="btn btn-purple" onclick="registerPushSubscription()" style="margin-top:8px;">
-  📡 فعال‌سازی اعلان پس‌زمینه (سرور)
-</button>
+      📡 فعال‌سازی اعلان پس‌زمینه (سرور)
+    </button>
+
     <div class="alarm-sound-settings">
       <h4>🔊 تنظیمات پیشرفته</h4>
       
@@ -637,11 +644,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
       <input type="checkbox" id="autoReactivateCheck" onchange="toggleAutoReactivate()">
       <label for="autoReactivateCheck">🔄 فعال‌سازی خودکار هر ۳۰ دقیقه</label>
     </div>
-    
-    <div class="save-password-box" style="margin-top:12px; border-color:var(--btn-primary);">
-      <input type="checkbox" id="backgroundAlarmCheck" onchange="toggleBackgroundAlarm()">
-      <label for="backgroundAlarmCheck">🌙 آلارم در پس‌زمینه</label>
-    </div>
   </div>
   
   <div class="section-box" style="border:2px solid var(--accent2)"><h3>📚 تاریخچه</h3><div class="btn-row"><button class="btn btn-blue" onclick="showHistory('prescriptions')">💊 نسخه‌ها</button><button class="btn btn-purple" onclick="showHistory('tables')">📊 جدول‌ها</button></div></div>
@@ -656,6 +658,39 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     </div>
   </div>
   
+  <!-- بخش نمایش که برگشت خورد -->
+  <div class="section-box">
+    <h3>🎨 نمایش</h3>
+    <div class="settings-row">
+      <label>نوع:</label>
+      <select id="viewMode" onchange="changeViewMode()">
+        <option value="all">کل روزها</option>
+        <option value="week">یک هفته</option>
+        <option value="today">فقط امروز</option>
+      </select>
+    </div>
+    <div class="settings-row">
+      <label>فونت:</label>
+      <select id="fontSize" onchange="changeFontSize()">
+        <option value="small">ریز</option>
+        <option value="medium" selected>متوسط</option>
+        <option value="large">بزرگ</option>
+      </select>
+    </div>
+    <div class="settings-row">
+      <label>📅 نمایش تاریخ</label>
+      <input type="checkbox" id="showDate" onchange="toggleShowDate()">
+    </div>
+    <div class="settings-row">
+      <label>📆 نمایش روز هفته</label>
+      <input type="checkbox" id="showWeekday" onchange="toggleShowWeekday()">
+    </div>
+    <div class="settings-row">
+      <label>📂 نمایش گذشته</label>
+      <input type="checkbox" id="showPastDays" onchange="toggleShowPastDays()" checked>
+    </div>
+  </div>
+
   <div class="section-box">
     <h3>🎨 پوسته و تم</h3>
     <div class="settings-row">
@@ -675,7 +710,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     </div>
   </div>
   
-  <div class="section-box"><h3>🎨 نمایش</h3><div class="settings-row"><label>نوع:</label><select id="viewMode" onchange="changeViewMode()"><option value="all">کل روزها</option><option value="week">یک هفته</option><option value="today">فقط امروز</option></select></div><div class="settings-row"><label>فونت:</label><select id="fontSize" onchange="changeFontSize()"><option value="small">ریز</option><option value="medium" selected>متوسط</option><option value="large">بزرگ</option></select></div></div>
 </div>
 
 <div class="page" id="pageAdmin">
@@ -854,9 +888,6 @@ var audioBufferCache = {};
 var alarmKeepAliveTimer = null;
 var swRegistration = null;
 
-/* ============================================================
-   INDEXEDDB برای ذخیره‌سازی پایدار آهنگ و تنظیمات
-   ============================================================ */
 var appDB = null;
 
 function openAppDB() {
@@ -871,7 +902,6 @@ function openAppDB() {
     req.onerror = function(e) { reject(e.target.error); };
   });
 }
-
 async function dbSave(key, value) {
   try {
     var db = await openAppDB();
@@ -881,9 +911,8 @@ async function dbSave(key, value) {
       tx.oncomplete = function() { resolve(true); };
       tx.onerror = function() { reject(tx.error); };
     });
-  } catch(e) { console.warn('dbSave failed:', e); return false; }
+  } catch(e) { return false; }
 }
-
 async function dbGet(key) {
   try {
     var db = await openAppDB();
@@ -895,7 +924,6 @@ async function dbGet(key) {
     });
   } catch(e) { return null; }
 }
-
 async function dbDelete(key) {
   try {
     var db = await openAppDB();
@@ -911,7 +939,6 @@ async function dbDelete(key) {
 function userKey(base) {
   return base + '_' + (userId || 'guest');
 }
-
 function showToast(msg,type,duration){
   type=type||"success";duration=duration||4000;
   var t=document.getElementById('toast');if(!t)return;
@@ -926,21 +953,14 @@ function safeGetLS(key,def){try{var v=localStorage.getItem(key);return v==null?d
 function safeParseJSON(str,def){if(!str)return def;try{return JSON.parse(str);}catch(e){return def;}}
 
 /* ============================================================
-   VIBRATION - بهبود یافته
+   VIBRATION
    ============================================================ */
 function vibrateAlarm(){
   if(!(vibrateEnabled || vibrateOnlyMode)) return;
-  if(!navigator.vibrate) {
-    console.warn('Vibration API not supported');
-    return;
-  }
+  if(!navigator.vibrate) return;
   try {
-    // ✅ الگوی طولانی و مداوم
     var pattern = [1000, 300, 1000, 300, 1000, 300, 1000, 300, 1000, 300, 1000];
     navigator.vibrate(pattern);
-    console.log('✓ Vibrating:', pattern.length, 'steps');
-    
-    // ✅ تکرار ویبره هر 5 ثانیه اگر آلارم هنوز فعال است
     if(window._vibrateRepeatTimer) clearInterval(window._vibrateRepeatTimer);
     window._vibrateRepeatTimer = setInterval(function() {
       if(!alarmActive || !currentAlarmData) {
@@ -948,67 +968,42 @@ function vibrateAlarm(){
         window._vibrateRepeatTimer = null;
         return;
       }
-      try {
-        navigator.vibrate(pattern);
-      } catch(e) {}
+      try { navigator.vibrate(pattern); } catch(e) {}
     }, 5000);
-    
-  } catch(e) {
-    console.warn('Vibrate failed:', e);
-  }
+  } catch(e) {}
 }
-
 function stopVibration(){
   try {
     if(navigator.vibrate) navigator.vibrate(0);
-    if(window._vibrateRepeatTimer) {
-      clearInterval(window._vibrateRepeatTimer);
-      window._vibrateRepeatTimer = null;
-    }
+    if(window._vibrateRepeatTimer) { clearInterval(window._vibrateRepeatTimer); window._vibrateRepeatTimer = null; }
   } catch(e) {}
 }
 
 /* ============================================================
-   AUDIO - Web Audio API
+   AUDIO
    ============================================================ */
 async function unlockAudio(){
   if(audioUnlocked && audioContext && audioContext.state === 'running') return true;
   try {
-    if(!audioContext) {
-      audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    if(audioContext.state === 'suspended') {
-      await audioContext.resume();
-    }
+    if(!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    if(audioContext.state === 'suspended') await audioContext.resume();
     var osc = audioContext.createOscillator();
     var g = audioContext.createGain();
-    osc.connect(g);
-    g.connect(audioContext.destination);
+    osc.connect(g); g.connect(audioContext.destination);
     g.gain.setValueAtTime(0.001, audioContext.currentTime);
-    osc.start(audioContext.currentTime);
-    osc.stop(audioContext.currentTime + 0.1);
+    osc.start(audioContext.currentTime); osc.stop(audioContext.currentTime + 0.1);
     audioUnlocked = true;
     return true;
-  } catch(e) {
-    return false;
-  }
+  } catch(e) { return false; }
 }
-
 async function playAlarmSound(){
   stopAlarmSound(false);
   gradualVolumeStep = 0;
-  
   if(vibrateOnlyMode) return;
+  if(!unlockAudio()) { vibrateAlarm(); return; }
   
-  if(!unlockAudio()) {
-    vibrateAlarm();
-    return;
-  }
-  
-  // ✅ پخش آهنگ اختصاصی از IndexedDB یا متغیر
   var soundDataToUse = customAlarmSoundData;
   if(!soundDataToUse) {
-    // تلاش برای بازیابی از IndexedDB
     try {
       soundDataToUse = await dbGet('customSound_' + userId);
       if(soundDataToUse) customAlarmSoundData = soundDataToUse;
@@ -1017,33 +1012,24 @@ async function playAlarmSound(){
   
   if(soundDataToUse) {
     try {
-      if(!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      }
+      if(!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
       if(audioContext.state === 'suspended') await audioContext.resume();
-      
       var base64 = soundDataToUse.split(',')[1];
       var binaryString = atob(base64);
       var bytes = new Uint8Array(binaryString.length);
       for(var i = 0; i < binaryString.length; i++) bytes[i] = binaryString.charCodeAt(i);
-      
       var audioBuffer = await new Promise(function(resolve, reject) {
         audioContext.decodeAudioData(bytes.buffer.slice(0), resolve, reject);
       });
-      
       audioBufferCache.current = audioBuffer;
-      
       var playLoop = function() {
         if(!audioContext || audioContext.state === 'closed') return;
         if(!alarmActive) return;
-        
         var source = audioContext.createBufferSource();
         source.buffer = audioBuffer;
         var gainNode = audioContext.createGain();
-        var initialVol = gradualVolume ? 0.05 : (alarmVolume / 100);
-        gainNode.gain.value = initialVol;
-        source.connect(gainNode);
-        gainNode.connect(audioContext.destination);
+        gainNode.gain.value = gradualVolume ? 0.05 : (alarmVolume / 100);
+        source.connect(gainNode); gainNode.connect(audioContext.destination);
         source.start(0);
         source.onended = function() {
           if(audioContext && audioContext.state === 'running' && alarmActive) {
@@ -1053,27 +1039,19 @@ async function playAlarmSound(){
         audioBufferCache.currentSource = source;
         audioBufferCache.currentGain = gainNode;
       };
-      
       playLoop();
-      
       if(gradualVolume) {
         startGradualVolumeIncrease(function(vol) {
           if(audioBufferCache.currentGain) {
-            try {
-              audioBufferCache.currentGain.gain.linearRampToValueAtTime(vol / 100, audioContext.currentTime + 0.3);
-            } catch(e) {}
+            try { audioBufferCache.currentGain.gain.linearRampToValueAtTime(vol / 100, audioContext.currentTime + 0.3); } catch(e) {}
           }
         });
       }
       return;
-    } catch(err) {
-      console.warn('Web Audio failed:', err);
-    }
+    } catch(err) {}
   }
-  
   playBeepFallback();
 }
-
 function playBeepFallback() {
   if(!audioUnlocked) unlockAudio();
   try {
@@ -1083,7 +1061,6 @@ function playBeepFallback() {
     }
     var initialVolume = gradualVolume ? 0.05 : (alarmVolume / 100);
     var currentVolume = initialVolume;
-    
     function beep(volume) {
       if(!audioContext || audioContext.state !== 'running') return;
       if(!alarmActive) return;
@@ -1091,31 +1068,24 @@ function playBeepFallback() {
         var o = audioContext.createOscillator();
         var g = audioContext.createGain();
         o.connect(g); g.connect(audioContext.destination);
-        o.type = 'sine';
-        o.frequency.setValueAtTime(880, audioContext.currentTime);
+        o.type = 'sine'; o.frequency.setValueAtTime(880, audioContext.currentTime);
         g.gain.setValueAtTime(0, audioContext.currentTime);
         g.gain.linearRampToValueAtTime(volume, audioContext.currentTime + .05);
         g.gain.linearRampToValueAtTime(0, audioContext.currentTime + .5);
-        o.start(audioContext.currentTime);
-        o.stop(audioContext.currentTime + .5);
+        o.start(audioContext.currentTime); o.stop(audioContext.currentTime + .5);
       } catch(e) {}
     }
-    
     beep(currentVolume);
     if(alarmSoundInterval) clearInterval(alarmSoundInterval);
     alarmSoundInterval = setInterval(function() {
       if(!alarmActive) { clearInterval(alarmSoundInterval); alarmSoundInterval = null; return; }
       beep(currentVolume);
     }, 900);
-    
     if(gradualVolume) {
-      startGradualVolumeIncrease(function(vol) {
-        currentVolume = Math.min(1, vol / 100);
-      });
+      startGradualVolumeIncrease(function(vol) { currentVolume = Math.min(1, vol / 100); });
     }
   } catch(e) { vibrateAlarm(); }
 }
-
 function startGradualVolumeIncrease(callback) {
   if(gradualVolumeInterval) clearInterval(gradualVolumeInterval);
   gradualVolumeStep = 0;
@@ -1129,13 +1099,9 @@ function startGradualVolumeIncrease(callback) {
     }
   }, 3000);
 }
-
 function stopAlarmSound(fullCleanup){
   if(fullCleanup === undefined) fullCleanup = true;
-  if(audioBufferCache.currentSource) {
-    try { audioBufferCache.currentSource.stop(); } catch(e) {}
-    audioBufferCache.currentSource = null;
-  }
+  if(audioBufferCache.currentSource) { try { audioBufferCache.currentSource.stop(); } catch(e) {} audioBufferCache.currentSource = null; }
   audioBufferCache.currentGain = null;
   if(alarmSoundInterval) { clearInterval(alarmSoundInterval); alarmSoundInterval = null; }
   if(gradualVolumeInterval) { clearInterval(gradualVolumeInterval); gradualVolumeInterval = null; }
@@ -1144,7 +1110,7 @@ function stopAlarmSound(fullCleanup){
 }
 
 /* ============================================================
-   NOTIFICATION
+   NOTIFICATIONS
    ============================================================ */
 async function requestNotificationPermission() {
   if(!('Notification' in window)) { showToast('❌ پشتیبانی نمی‌شود', 'error'); return; }
@@ -1166,23 +1132,15 @@ async function requestNotificationPermission() {
     }
   } catch(e) { showToast('❌ خطا', 'error'); }
 }
-
 async function sendTestNotification() {
   try {
     if(swRegistration && swRegistration.showNotification) {
-      await swRegistration.showNotification('🔔 فعال شد', {
-        body: 'آلارم‌ها در اعلانات گوشی نمایش داده می‌شوند',
-        icon: '/Safir-salamat-/icon-192.png',
-        badge: '/Safir-salamat-/icon-192.png',
-        tag: 'safir-test',
-        vibrate: [300, 200, 300]
-      });
+      await swRegistration.showNotification('🔔 فعال شد', { body: 'آلارم‌ها در اعلانات گوشی نمایش داده می‌شوند', icon: '/Safir-salamat-/icon-192.png', badge: '/Safir-salamat-/icon-192.png', tag: 'safir-test', vibrate: [300, 200, 300] });
     } else if(Notification.permission === 'granted') {
       new Notification('🔔 فعال شد', { body: 'آلارم‌ها', icon: '/Safir-salamat-/icon-192.png' });
     }
   } catch(e) {}
 }
-
 function updateNotificationStatus() {
   var box = document.getElementById('notificationStatusBox');
   if(!box) return;
@@ -1201,38 +1159,18 @@ function updateNotificationStatus() {
 }
 
 /* ============================================================
-   SETTINGS SAVE/LOAD - با IndexedDB برای پایداری
+   SETTINGS
    ============================================================ */
 async function saveUserAlarmSettings() {
   if(!userId) return;
-  var settings = {
-    alarmVolume: alarmVolume,
-    gradualVolume: gradualVolume,
-    vibrateEnabled: vibrateEnabled,
-    vibrateOnlyMode: vibrateOnlyMode,
-    autoReactivate: autoReactivateCheck,
-    backgroundAlarm: backgroundAlarmEnabled,
-    alarmEnabled: alarmEnabled,
-    currentTimes: currentTimes
-  };
-  // ذخیره در localStorage (سریع)
+  var settings = { alarmVolume, gradualVolume, vibrateEnabled, vibrateOnlyMode, autoReactivate: autoReactivateCheck, backgroundAlarm: backgroundAlarmEnabled, alarmEnabled, currentTimes };
   safeSetLS(userKey('alarmSettings'), JSON.stringify(settings));
-  // ذخیره در IndexedDB (پایدار)
   try { await dbSave('alarmSettings_' + userId, settings); } catch(e) {}
 }
-
 async function loadUserAlarmSettings() {
   if(!userId) return;
-  var saved = null;
-  
-  // اول localStorage
-  saved = safeParseJSON(safeGetLS(userKey('alarmSettings'), 'null'), null);
-  
-  // اگر نبود، از IndexedDB
-  if(!saved) {
-    try { saved = await dbGet('alarmSettings_' + userId); } catch(e) {}
-  }
-  
+  var saved = safeParseJSON(safeGetLS(userKey('alarmSettings'), 'null'), null);
+  if(!saved) { try { saved = await dbGet('alarmSettings_' + userId); } catch(e) {} }
   if(saved) {
     alarmVolume = (typeof saved.alarmVolume === 'number' && saved.alarmVolume >= 0 && saved.alarmVolume <= 100) ? saved.alarmVolume : 70;
     gradualVolume = saved.gradualVolume !== false;
@@ -1240,22 +1178,18 @@ async function loadUserAlarmSettings() {
     vibrateOnlyMode = saved.vibrateOnlyMode === true;
     autoReactivateCheck = saved.autoReactivate === true;
     backgroundAlarmEnabled = saved.backgroundAlarm === true;
-    if(saved.alarmEnabled && typeof saved.alarmEnabled === 'object') {
-      alarmEnabled = saved.alarmEnabled;
-    }
+    if(saved.alarmEnabled && typeof saved.alarmEnabled === 'object') alarmEnabled = saved.alarmEnabled;
     if(saved.currentTimes && typeof saved.currentTimes === 'object') {
       for(var k in saved.currentTimes) currentTimes[k] = saved.currentTimes[k];
       safeSetLS('health40Times', JSON.stringify(currentTimes));
     }
   }
 }
-
 async function applyUserCustomTimes() {
   if(!userId) return;
   var saved = null;
   try { saved = await dbGet('alarmSettings_' + userId); } catch(e) {}
   if(!saved) saved = safeParseJSON(safeGetLS(userKey('alarmSettings'), 'null'), null);
-  
   if(saved && saved.currentTimes) {
     for(var k in saved.currentTimes) currentTimes[k] = saved.currentTimes[k];
     safeSetLS('health40Times', JSON.stringify(currentTimes));
@@ -1271,59 +1205,37 @@ var activeUserCode = safeGetLS('activeUserCode', null);
 
 async function initAuth() {
   var wasImpersonating = safeGetLS('isImpersonatingSession', 'false');
-  
-  if(!activeUserCode && profilesList.length > 0) {
-    activeUserCode = profilesList[profilesList.length - 1].code;
-    safeSetLS('activeUserCode', activeUserCode);
-  }
-  
+  if(!activeUserCode && profilesList.length > 0) { activeUserCode = profilesList[profilesList.length - 1].code; safeSetLS('activeUserCode', activeUserCode); }
   if(activeUserCode) {
     userId = activeUserCode;
     var profile = profilesList.find(function(p){ return p.code === userId; });
-    if(profile) userProfile = profile.data;
-    else userProfile = safeParseJSON(safeGetLS('userProfile','null'), null);
-    
+    if(profile) userProfile = profile.data; else userProfile = safeParseJSON(safeGetLS('userProfile','null'), null);
     if(wasImpersonating === 'true') {
       var savedAdminCode = safeGetLS('adminOriginalCode', null);
       if(savedAdminCode) {
         originalAdminCode = savedAdminCode;
         originalAdminProfile = safeParseJSON(safeGetLS('adminOriginalProfile', null), null);
         isImpersonating = true;
-        setTimeout(function(){
-          var bar = document.getElementById('adminReturnBar');
-          if(bar) bar.style.display = 'block';
-        }, 500);
+        setTimeout(function(){ var bar = document.getElementById('adminReturnBar'); if(bar) bar.style.display = 'block'; }, 500);
       }
     }
-    
     document.getElementById('loginPage').classList.remove('active');
     document.getElementById('mainAppContainer').style.display = 'block';
     updateProfileUI();
-    
     initData();
     try { await loadUserAlarmSettings(); } catch(e) {}
-    
     renderTable(); 
     renderAlarmSettings(); 
     updateTodayShowcase(); 
     checkRegimeReceive();
-    
     try { await loadCustomAlarmSound(); } catch(e) {}
     try { loadAlarmSoundSettings(); } catch(e) {}
     try { updateNotificationStatus(); } catch(e) {}
-    
     if(autoReactivateCheck) { try { startAutoReactivateInterval(); } catch(e) {} }
     if(backgroundAlarmEnabled) { try { setTimeout(setupBackgroundAlarm, 2000); } catch(e) {} }
-    
     receiveAll(true).then(async function(){
-       try {
-         await applyUserCustomTimes();
-         renderTable(); 
-         updateTodayShowcase(); 
-         checkRegimeReceive();
-       } catch(e) {}
+       try { await applyUserCustomTimes(); renderTable(); updateTodayShowcase(); checkRegimeReceive(); } catch(e) {}
     }).catch(function(e){ });
-    
     startAlarmHeartbeat();
   } else {
     document.getElementById('loginPage').classList.add('active');
@@ -1331,7 +1243,6 @@ async function initAuth() {
     renderSavedProfiles();
   }
 }
-
 function renderSavedProfiles() {
   var container = document.getElementById('savedProfilesContainer');
   var list = document.getElementById('savedProfilesList');
@@ -1344,30 +1255,18 @@ function renderSavedProfiles() {
       html += '<div>👈</div></div>';
     });
     list.innerHTML = html;
-  } else {
-    container.style.display = 'none';
-  }
+  } else { container.style.display = 'none'; }
 }
-
-function quickLogin(username, password) {
-  document.getElementById('loginUsername').value = username;
-  document.getElementById('loginPassword').value = password;
-}
-
-function showForgotPassModal() {
-  document.getElementById('forgotPassModal').classList.add('active');
-}
+function quickLogin(username, password) { document.getElementById('loginUsername').value = username; document.getElementById('loginPassword').value = password; }
+function showForgotPassModal() { document.getElementById('forgotPassModal').classList.add('active'); }
 
 async function doLogin() {
   var username = document.getElementById('loginUsername').value.trim();
   var pass = document.getElementById('loginPassword').value.trim();
   var remember = document.getElementById('rememberMe').checked;
-  
   if(!username || !pass) { showToast('نام و رمز را وارد کنید', 'error'); return; }
   showToast('⏳ بررسی...', 'warning');
-  
   var profile = profilesList.find(function(p) { return p.username === username && p.password === pass; });
-  
   if(!profile) {
     try {
       const { data, error } = await supabaseClient.from('users_list').select('code, data');
@@ -1376,73 +1275,39 @@ async function doLogin() {
           var u = data[i];
           if(u.data && u.data.auth && u.data.auth.username === username && u.data.auth.password === pass) {
             profile = { username: username, password: pass, code: u.code, data: u.data.profile || {} };
-            profilesList.push(profile);
-            safeSetLS('profilesList', JSON.stringify(profilesList));
-            break;
+            profilesList.push(profile); safeSetLS('profilesList', JSON.stringify(profilesList)); break;
           }
         }
       }
     } catch(e) { console.error('DB Login Error:', e); }
   }
-  
   if(!profile) { showToast('نام یا رمز اشتباه', 'error'); return; }
-  
-  userId = profile.code; 
-  userProfile = profile.data;
-  activeUserCode = userId;
-  
-  safeSetLS('activeUserCode', userId);
-  safeSetLS('userId', userId);
+  userId = profile.code; userProfile = profile.data; activeUserCode = userId;
+  safeSetLS('activeUserCode', userId); safeSetLS('userId', userId);
   if(remember) safeSetLS('userProfile', JSON.stringify(userProfile));
-  
   document.getElementById('loginPage').classList.remove('active');
   document.getElementById('mainAppContainer').style.display = 'block';
   updateProfileUI();
-  
   initData();
   try { await loadUserAlarmSettings(); } catch(e) {}
-  
-  try {
-    renderTable(); 
-    renderAlarmSettings(); 
-    updateTodayShowcase(); 
-    checkRegimeReceive();
-  } catch(e) {}
-  
+  try { renderTable(); renderAlarmSettings(); updateTodayShowcase(); checkRegimeReceive(); } catch(e) {}
   try { await loadCustomAlarmSound(); } catch(e) {}
   try { loadAlarmSoundSettings(); } catch(e) {}
   try { updateNotificationStatus(); } catch(e) {}
-  
   if(autoReactivateCheck) { try { startAutoReactivateInterval(); } catch(e) {} }
   if(backgroundAlarmEnabled) { try { setTimeout(setupBackgroundAlarm, 2000); } catch(e) {} }
-  
   receiveAll(true).then(async function(){
-     try {
-       await applyUserCustomTimes();
-       renderTable(); 
-       updateTodayShowcase(); 
-       checkRegimeReceive();
-     } catch(e) {}
+     try { await applyUserCustomTimes(); renderTable(); updateTodayShowcase(); checkRegimeReceive(); } catch(e) {}
   }).catch(function(e){});
-  
   startAlarmHeartbeat();
   showToast('✅ خوش آمدید');
 }
 
 function doLogout() {
   if(!confirm('خارج می‌شوید؟')) return;
-  stopAlarm();
-  stopAlarmHeartbeat();
-  localStorage.removeItem('activeUserCode');
-  localStorage.removeItem('currentSessionUser');
-  localStorage.removeItem('userProfile');
-  if(isImpersonating) { 
-    isImpersonating = false; 
-    userId = originalAdminCode;
-    originalAdminCode = "";
-    originalAdminProfile = null;
-    document.getElementById('adminReturnBar').style.display = 'none';
-  }
+  stopAlarm(); stopAlarmHeartbeat();
+  localStorage.removeItem('activeUserCode'); localStorage.removeItem('currentSessionUser'); localStorage.removeItem('userProfile');
+  if(isImpersonating) { isImpersonating = false; userId = originalAdminCode; originalAdminCode = ""; originalAdminProfile = null; document.getElementById('adminReturnBar').style.display = 'none'; }
   activeUserCode = null;
   document.getElementById('mainAppContainer').style.display = 'none';
   document.getElementById('loginPage').classList.add('active');
@@ -1454,7 +1319,6 @@ function showRegisterForm() {
   if(profilesList.length >= 3) { showToast('⚠️ حداکثر ۳', 'warning', 5000); return; }
   document.getElementById('registerModal').classList.add('active');
 }
-
 function previewRegAvatar(event) {
   var file = event.target.files[0];
   if (file) {
@@ -1466,7 +1330,6 @@ function previewRegAvatar(event) {
     reader.readAsDataURL(file);
   }
 }
-
 function compressImage(base64Str, maxWidth, maxHeight, quality) {
     return new Promise((resolve) => {
         var img = new Image();
@@ -1483,7 +1346,6 @@ function compressImage(base64Str, maxWidth, maxHeight, quality) {
         };
     });
 }
-
 async function doRegister() {
   var fullName = document.getElementById('regFullName').value.trim();
   var age = document.getElementById('regAge').value.trim();
@@ -1500,9 +1362,7 @@ async function doRegister() {
   var profileData = { name: fullName, age: age, problem: problem, avatar: avatar };
   var newUserCode = generateFallbackUserId(); 
   try {
-    let timeoutId = setTimeout(() => {
-      if(btn) { btn.disabled = false; btn.textContent = '✅ تکمیل'; }
-    }, 10000);
+    let timeoutId = setTimeout(() => { if(btn) { btn.disabled = false; btn.textContent = '✅ تکمیل'; } }, 10000);
     var remoteData = { profile: profileData, auth: { username: fullName, password: password } };
     var ok = await saveUserRecord(newUserCode, remoteData);
     clearTimeout(timeoutId);
@@ -1515,9 +1375,7 @@ async function doRegister() {
     document.getElementById('loginPassword').value = password;
   } catch(e) {
     showToast('❌ خطا: ' + e.message, 'error');
-  } finally {
-    if(btn) { btn.disabled = false; btn.textContent = '✅ تکمیل'; }
-  }
+  } finally { if(btn) { btn.disabled = false; btn.textContent = '✅ تکمیل'; } }
 }
 
 function openEditProfileModal() {
@@ -1527,7 +1385,6 @@ function openEditProfileModal() {
   document.getElementById('editAvatarPreview').src = userProfile.avatar;
   document.getElementById('editProfileModal').classList.add('active');
 }
-
 function previewEditAvatar(event) {
   var file = event.target.files[0];
   if (file) {
@@ -1539,7 +1396,6 @@ function previewEditAvatar(event) {
     reader.readAsDataURL(file);
   }
 }
-
 async function saveProfileEdit() {
   var name = document.getElementById('editFullName').value.trim();
   var age = document.getElementById('editAge').value.trim();
@@ -1549,9 +1405,7 @@ async function saveProfileEdit() {
   showToast('⏳ ذخیره...', 'warning');
   var data = await getUserRecord(userId) || {};
   if(!data.profile) data.profile = {};
-  data.profile.name = name;
-  data.profile.age = age;
-  data.profile.problem = problem;
+  data.profile.name = name; data.profile.age = age; data.profile.problem = problem;
   if(avatar && avatar.indexOf('svg') === -1) data.profile.avatar = avatar;
   if(!data.auth) data.auth = {};
   data.auth.username = name;
@@ -1561,17 +1415,12 @@ async function saveProfileEdit() {
     if(avatar && avatar.indexOf('svg') === -1) userProfile.avatar = avatar;
     safeSetLS('userProfile', JSON.stringify(userProfile));
     var pIdx = profilesList.findIndex(function(p) { return p.code === userId; });
-    if(pIdx > -1) {
-      profilesList[pIdx].username = name;
-      profilesList[pIdx].data = userProfile;
-      safeSetLS('profilesList', JSON.stringify(profilesList));
-    }
+    if(pIdx > -1) { profilesList[pIdx].username = name; profilesList[pIdx].data = userProfile; safeSetLS('profilesList', JSON.stringify(profilesList)); }
     updateProfileUI();
     document.getElementById('editProfileModal').classList.remove('active');
     showToast('✅ شد');
   } else { showToast('❌ خطا', 'error'); }
 }
-
 async function deleteMyAccount() {
   if(!confirm('⚠️ کل حساب حذف شود؟')) return;
   try {
@@ -1579,33 +1428,24 @@ async function deleteMyAccount() {
     if (error) { showToast('❌ خطا', 'error', 6000); return; }
     profilesList = profilesList.filter(function(p) { return p.code !== userId; });
     safeSetLS('profilesList', JSON.stringify(profilesList));
-    localStorage.removeItem('activeUserCode');
-    localStorage.removeItem('userProfile');
+    localStorage.removeItem('activeUserCode'); localStorage.removeItem('userProfile');
     activeUserCode = null; userId = ''; userProfile = null;
     showToast('✅ حذف شد');
     document.getElementById('mainAppContainer').style.display = 'none';
-    document.getElementById('loginPage').classList.add('active');
-    document.getElementById('loginPassword').value = '';
+    document.getElementById('loginPage').classList.add('active'); document.getElementById('loginPassword').value = '';
     renderSavedProfiles();
   } catch(e) { showToast('❌ خطا', 'error', 6000); }
 }
-
 function generateFallbackUserId(){
   var chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',code='';
   for(var i=0;i<6;i++)code+=chars.charAt(Math.floor(Math.random()*chars.length));
   return code;
 }
-
 function updateProfileUI() {
   if(userProfile) {
-    var dn = document.getElementById('displayName');
-    if(dn) dn.textContent = userProfile.name;
-    var dc = document.getElementById('displayCode');
-    if(dc) dc.textContent = 'کد: ' + userId;
-    if(userProfile.avatar) {
-      var da = document.getElementById('displayAvatar');
-      if(da) da.src = userProfile.avatar;
-    }
+    var dn = document.getElementById('displayName'); if(dn) dn.textContent = userProfile.name;
+    var dc = document.getElementById('displayCode'); if(dc) dc.textContent = 'کد: ' + userId;
+    if(userProfile.avatar) { var da = document.getElementById('displayAvatar'); if(da) da.src = userProfile.avatar; }
     var wm = document.getElementById('welcomeMessage');
     if(wm) { wm.style.display = 'block'; wm.innerHTML = '🌿 ' + userProfile.name + ' خوش آمدی 🌿'; }
   }
@@ -1632,31 +1472,16 @@ async function saveUserRecord(code, data) {
 }
 async function deleteUserRecord(code) {
   if (!code) return false;
-  try {
-    const { error } = await supabaseClient.from('users_list').delete().eq('code', code.toUpperCase());
-    if (error) throw error;
-    return true;
-  } catch(e) { return false; }
+  try { const { error } = await supabaseClient.from('users_list').delete().eq('code', code.toUpperCase()); if (error) throw error; return true; } catch(e) { return false; }
 }
 async function getGlobalData() {
-  try {
-    const { data, error } = await supabaseClient.from('app_data').select('data').eq('id', 1).maybeSingle();
-    if (error) throw error;
-    return data ? data.data : { messages: [], banner: { url: '', active: false }, archives: { prescriptions: [], tables: [] } };
-  } catch(e) { return { messages: [], banner: { url: '', active: false }, archives: { prescriptions: [], tables: [] } }; }
+  try { const { data, error } = await supabaseClient.from('app_data').select('data').eq('id', 1).maybeSingle(); if (error) throw error; return data ? data.data : { messages: [], banner: { url: '', active: false }, archives: { prescriptions: [], tables: [] } }; } catch(e) { return { messages: [], banner: { url: '', active: false }, archives: { prescriptions: [], tables: [] } }; }
 }
 async function saveGlobalData(record) {
-  try {
-    const { error } = await supabaseClient.from('app_data').upsert({ id: 1, user_code: 'GLOBAL', data: record, updated_at: new Date().toISOString() });
-    return !error;
-  } catch(e) { return false; }
+  try { const { error } = await supabaseClient.from('app_data').upsert({ id: 1, user_code: 'GLOBAL', data: record, updated_at: new Date().toISOString() }); return !error; } catch(e) { return false; }
 }
 async function getAllUsersFromDB() {
-  try {
-    const { data, error } = await supabaseClient.from('users_list').select('code, data');
-    if (error) throw error;
-    return data || [];
-  } catch(e) { return []; }
+  try { const { data, error } = await supabaseClient.from('users_list').select('code, data'); if (error) throw error; return data || []; } catch(e) { return []; }
 }
 
 /* ============================================================
@@ -1664,15 +1489,12 @@ async function getAllUsersFromDB() {
    ============================================================ */
 async function impersonateUser(targetCode) {
   if(!confirm('ورود به پنل ' + targetCode + '؟')) return;
-  
   originalAdminCode = userId;
   originalAdminProfile = JSON.parse(JSON.stringify(userProfile || {}));
   isImpersonating = true;
-  
   safeSetLS('adminOriginalCode', originalAdminCode);
   safeSetLS('adminOriginalProfile', JSON.stringify(originalAdminProfile));
   safeSetLS('isImpersonatingSession', 'true');
-  
   safeSetLS('admin_health40Data', safeGetLS('health40Data', ''));
   safeSetLS('admin_health40Times', safeGetLS('health40Times', ''));
   safeSetLS('admin_lastPrescription', safeGetLS('lastPrescription', ''));
@@ -1683,125 +1505,50 @@ async function impersonateUser(targetCode) {
   
   var userData = await getUserRecord(targetCode);
   if(!userData) { showToast('یافت نشد', 'error'); return; }
-  
-  userId = targetCode;
-  userProfile = userData.profile || null;
-  
-  safeSetLS('activeUserCode', userId);
-  safeSetLS('userId', userId);
+  userId = targetCode; userProfile = userData.profile || null;
+  safeSetLS('activeUserCode', userId); safeSetLS('userId', userId);
   if(userProfile) safeSetLS('userProfile', JSON.stringify(userProfile));
   
-  localStorage.removeItem('health40Data');
-  localStorage.removeItem('health40Times');
-  localStorage.removeItem('lastPrescription');
-  localStorage.removeItem('tableColumns');
-  localStorage.removeItem('tableReceived');
-  localStorage.removeItem('healthStartDateGregorian');
-  localStorage.removeItem('prescriptionHistory');
-  localStorage.removeItem('tableHistory');
-  localStorage.removeItem('activeAlarm');
-  
+  localStorage.removeItem('health40Data'); localStorage.removeItem('health40Times'); localStorage.removeItem('lastPrescription'); localStorage.removeItem('tableColumns'); localStorage.removeItem('tableReceived'); localStorage.removeItem('healthStartDateGregorian'); localStorage.removeItem('prescriptionHistory'); localStorage.removeItem('tableHistory'); localStorage.removeItem('activeAlarm');
   stopAlarm();
-  
   updateProfileUI();
   document.getElementById('adminReturnBar').style.display = 'block'; 
-  
   try { await loadUserAlarmSettings(); } catch(e){}
-  initData();
-  renderTable();
-  renderAlarmSettings();
-  updateTodayShowcase();
-  checkRegimeReceive();
-  await loadCustomAlarmSound();
-  updateNotificationStatus();
-  
-  receiveAll(true).then(async function(){ 
-    await applyUserCustomTimes();
-    renderTable(); 
-    updateTodayShowcase(); 
-    checkRegimeReceive(); 
-  }).catch(function(){});
+  initData(); renderTable(); renderAlarmSettings(); updateTodayShowcase(); checkRegimeReceive();
+  await loadCustomAlarmSound(); updateNotificationStatus();
+  receiveAll(true).then(async function(){ await applyUserCustomTimes(); renderTable(); updateTodayShowcase(); checkRegimeReceive(); }).catch(function(){});
   loadMyMessages();
   showToast('👤 وارد پنل ' + targetCode);
 }
 
 async function exitImpersonation() {
   if(!confirm('خروج و بازگشت به پنل مدیریت؟')) return;
-  
   var savedAdminCode = safeGetLS('adminOriginalCode', originalAdminCode);
   var savedAdminProfile = safeParseJSON(safeGetLS('adminOriginalProfile', null), originalAdminProfile);
   if(!savedAdminCode) { showToast('❌ خطا', 'error'); return; }
-  
   stopAlarm();
-  localStorage.removeItem('tableReceived');
-  localStorage.removeItem('lastPrescription');
-  localStorage.removeItem('health40Data');
-  localStorage.removeItem('health40Times');
-  localStorage.removeItem('tableColumns');
-  localStorage.removeItem('healthStartDateGregorian');
-  localStorage.removeItem('prescriptionHistory');
-  localStorage.removeItem('tableHistory');
-  localStorage.removeItem('activeAlarm');
-  localStorage.removeItem('readMsgIds');
-  localStorage.removeItem('hiddenMsgIds');
-  localStorage.removeItem('shownPopupIds');
-  
-  isImpersonating = false;
-  userId = savedAdminCode;
+  localStorage.removeItem('tableReceived'); localStorage.removeItem('lastPrescription'); localStorage.removeItem('health40Data'); localStorage.removeItem('health40Times'); localStorage.removeItem('tableColumns'); localStorage.removeItem('healthStartDateGregorian'); localStorage.removeItem('prescriptionHistory'); localStorage.removeItem('tableHistory'); localStorage.removeItem('activeAlarm'); localStorage.removeItem('readMsgIds'); localStorage.removeItem('hiddenMsgIds'); localStorage.removeItem('shownPopupIds');
+  isImpersonating = false; userId = savedAdminCode;
   userProfile = savedAdminProfile || safeParseJSON(safeGetLS('adminProfile','null'), null);
-  
-  safeSetLS('activeUserCode', userId);
-  safeSetLS('userId', userId);
+  safeSetLS('activeUserCode', userId); safeSetLS('userId', userId);
   if(userProfile) safeSetLS('userProfile', JSON.stringify(userProfile));
   
-  var adminHealth = safeGetLS('admin_health40Data', '');
-  if(adminHealth) safeSetLS('health40Data', adminHealth);
-  var adminTimes = safeGetLS('admin_health40Times', '');
-  if(adminTimes) safeSetLS('health40Times', adminTimes);
-  var adminPresc = safeGetLS('admin_lastPrescription', '');
-  if(adminPresc) safeSetLS('lastPrescription', adminPresc);
-  var adminCols = safeGetLS('admin_tableColumns', '');
-  if(adminCols) safeSetLS('tableColumns', adminCols);
-  var adminPrescHist = safeGetLS('admin_prescriptionHistory', '');
-  if(adminPrescHist) safeSetLS('prescriptionHistory', adminPrescHist);
-  var adminTableHist = safeGetLS('admin_tableHistory', '');
-  if(adminTableHist) safeSetLS('tableHistory', adminTableHist);
-  var adminStart = safeGetLS('admin_healthStartDate', '');
-  if(adminStart) safeSetLS('healthStartDateGregorian', adminStart);
+  var adminHealth = safeGetLS('admin_health40Data', ''); if(adminHealth) safeSetLS('health40Data', adminHealth);
+  var adminTimes = safeGetLS('admin_health40Times', ''); if(adminTimes) safeSetLS('health40Times', adminTimes);
+  var adminPresc = safeGetLS('admin_lastPrescription', ''); if(adminPresc) safeSetLS('lastPrescription', adminPresc);
+  var adminCols = safeGetLS('admin_tableColumns', ''); if(adminCols) safeSetLS('tableColumns', adminCols);
+  var adminPrescHist = safeGetLS('admin_prescriptionHistory', ''); if(adminPrescHist) safeSetLS('prescriptionHistory', adminPrescHist);
+  var adminTableHist = safeGetLS('admin_tableHistory', ''); if(adminTableHist) safeSetLS('tableHistory', adminTableHist);
+  var adminStart = safeGetLS('admin_healthStartDate', ''); if(adminStart) safeSetLS('healthStartDateGregorian', adminStart);
   
-  localStorage.removeItem('admin_health40Data');
-  localStorage.removeItem('admin_health40Times');
-  localStorage.removeItem('admin_lastPrescription');
-  localStorage.removeItem('admin_tableColumns');
-  localStorage.removeItem('admin_prescriptionHistory');
-  localStorage.removeItem('admin_tableHistory');
-  localStorage.removeItem('admin_healthStartDate');
-  localStorage.removeItem('adminOriginalCode');
-  localStorage.removeItem('adminOriginalProfile');
-  localStorage.removeItem('isImpersonatingSession');
-  
-  originalAdminCode = "";
-  originalAdminProfile = null;
-  
+  localStorage.removeItem('admin_health40Data'); localStorage.removeItem('admin_health40Times'); localStorage.removeItem('admin_lastPrescription'); localStorage.removeItem('admin_tableColumns'); localStorage.removeItem('admin_prescriptionHistory'); localStorage.removeItem('admin_tableHistory'); localStorage.removeItem('admin_healthStartDate'); localStorage.removeItem('adminOriginalCode'); localStorage.removeItem('adminOriginalProfile'); localStorage.removeItem('isImpersonatingSession');
+  originalAdminCode = ""; originalAdminProfile = null;
   document.getElementById('adminReturnBar').style.display = 'none';
   updateProfileUI();
-  
-  initData();
-  try { await loadUserAlarmSettings(); } catch(e){}
-  renderTable();
-  renderAlarmSettings();
-  updateTodayShowcase();
-  checkRegimeReceive();
-  await loadCustomAlarmSound();
-  updateNotificationStatus();
-  updateDateConversionInfo();
-  updateDayDisplay();
-  
-  var sdp = document.getElementById('startDatePicker');
-  if(sdp) sdp.value = toDateInputValue(getStartDateGregorian());
-  
-  showPage('pageAdmin');
-  showToast('🔙 بازگشت');
+  initData(); try { await loadUserAlarmSettings(); } catch(e){}
+  renderTable(); renderAlarmSettings(); updateTodayShowcase(); checkRegimeReceive(); await loadCustomAlarmSound(); updateNotificationStatus(); updateDateConversionInfo(); updateDayDisplay();
+  var sdp = document.getElementById('startDatePicker'); if(sdp) sdp.value = toDateInputValue(getStartDateGregorian());
+  showPage('pageAdmin'); showToast('🔙 بازگشت');
 }
 
 /* ============================================================
@@ -1812,25 +1559,20 @@ async function createUserByAdmin() {
   var name = document.getElementById('newUserName').value.trim();
   var password = document.getElementById('newUserPassword').value.trim();
   if(!code || code.length < 3) { showToast('کد معتبر نیست', 'error'); return; }
-  if(!name) { showToast('نام را وارد کنید', 'error'); return; }
+  if(!name) { showToast('نام', 'error'); return; }
   if(password.length !== 4) { showToast('رمز ۴ رقم', 'error'); return; }
   var existing = await getUserRecord(code);
-  if(existing && existing.profile) {
-    if(!confirm('وجود دارد. به‌روزرسانی شود؟')) return;
-  }
+  if(existing && existing.profile) { if(!confirm('وجود دارد. به‌روزرسانی شود؟')) return; }
   var data = existing || {};
   if(!data.profile) data.profile = {};
-  data.profile.name = name;
-  data.profile.registeredAt = data.profile.registeredAt || Date.now();
+  data.profile.name = name; data.profile.registeredAt = data.profile.registeredAt || Date.now();
   data.auth = { username: name, password: password };
   var ok = await saveUserRecord(code, data);
   if(ok) {
     showToast('✅ ذخیره شد');
-    document.getElementById('newUserCode').value = '';
-    document.getElementById('newUserName').value = '';
-    document.getElementById('newUserPassword').value = '';
+    document.getElementById('newUserCode').value = ''; document.getElementById('newUserName').value = ''; document.getElementById('newUserPassword').value = '';
     loadUsersListForAdmin();
-  } else showToast('❌ خطا', 'error');
+  } else showToast('❌', 'error');
 }
 
 function showUserDropdown(searchInputId, hiddenInputId) {
@@ -1838,26 +1580,21 @@ function showUserDropdown(searchInputId, hiddenInputId) {
   var dropdown = document.getElementById(searchInputId + 'Dropdown');
   if(!adminUsersCache || adminUsersCache.length === 0) {
     dropdown.innerHTML = '<div style="padding:15px;text-align:center;color:var(--text-muted);">در حال بارگذاری...</div>';
-    dropdown.classList.add('active');
-    loadUsersListForAdmin();
-    return;
+    dropdown.classList.add('active'); loadUsersListForAdmin(); return;
   }
   var filtered = adminUsersCache.filter(function(u) {
     var name = (u.data && u.data.profile && u.data.profile.name) ? u.data.profile.name.toLowerCase() : '';
     var code = u.code.toLowerCase();
     return name.includes(searchVal) || code.includes(searchVal);
   });
-  if(filtered.length === 0) {
-    dropdown.innerHTML = '<div style="padding:15px;text-align:center;color:var(--text-muted);">یافت نشد</div>';
-  } else {
+  if(filtered.length === 0) dropdown.innerHTML = '<div style="padding:15px;text-align:center;color:var(--text-muted);">یافت نشد</div>';
+  else {
     var html = '';
     filtered.forEach(function(u) {
       var p = u.data ? u.data.profile : null;
       var displayName = (p && p.name) ? p.name : 'بدون نام';
       html += '<div class="dropdown-item" onclick="selectUserFromDropdown(\''+searchInputId+'\', \''+hiddenInputId+'\', \''+u.code+'\', \''+escapeHtml(displayName).replace(/'/g,"\\'")+'\')">';
-      html += '<div style="display:flex;flex-direction:column;text-align:right;">';
-      html += '<div class="dropdown-item-name">'+escapeHtml(displayName)+'</div>';
-      html += '<div class="dropdown-item-code">کد: '+escapeHtml(u.code)+'</div></div>';
+      html += '<div style="display:flex;flex-direction:column;text-align:right;"><div class="dropdown-item-name">'+escapeHtml(displayName)+'</div><div class="dropdown-item-code">کد: '+escapeHtml(u.code)+'</div></div>';
       html += '<div style="color:var(--accent);">➕</div></div>';
     });
     dropdown.innerHTML = html;
@@ -1870,30 +1607,18 @@ function selectUserFromDropdown(searchInputId, hiddenInputId, code, name) {
   document.getElementById(searchInputId + 'Dropdown').classList.remove('active');
 }
 document.addEventListener('click', function(e){
-  document.querySelectorAll('.custom-dropdown').forEach(function(d){ 
-    if(!d.contains(e.target) && !d.previousElementSibling.contains(e.target)) d.classList.remove('active'); 
-  });
+  document.querySelectorAll('.custom-dropdown').forEach(function(d){ if(!d.contains(e.target) && !d.previousElementSibling.contains(e.target)) d.classList.remove('active'); });
 });
-async function loadUsersListForAdmin() {
-  adminUsersCache = await getAllUsersFromDB();
-  renderAdminUsersList(adminUsersCache);
-}
+async function loadUsersListForAdmin() { adminUsersCache = await getAllUsersFromDB(); renderAdminUsersList(adminUsersCache); }
 function renderAdminUsersList(users) {
-  var container = document.getElementById('adminUsersListContainer');
-  if(!container) return;
+  var container = document.getElementById('adminUsersListContainer'); if(!container) return;
   if(users.length === 0) { container.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:20px;">هیچ کاربری نیست</p>'; return; }
   var html = '';
   users.forEach(function(u) {
-    var p = u.data ? u.data.profile : null;
-    var auth = u.data ? u.data.auth : null;
-    var name = (p && p.name) ? p.name : 'بدون نام';
-    var age = (p && p.age) ? p.age : '---';
-    var problem = (p && p.problem) ? p.problem : '---';
-    var password = (auth && auth.password) ? auth.password : '---';
-    html += '<div class="admin-user-row">';
-    html += '<div class="admin-user-info">';
-    html += '<div class="admin-user-name">' + escapeHtml(name) + '</div>';
-    html += '<div class="admin-user-code">کد: ' + escapeHtml(u.code) + '</div>';
+    var p = u.data ? u.data.profile : null; var auth = u.data ? u.data.auth : null;
+    var name = (p && p.name) ? p.name : 'بدون نام'; var age = (p && p.age) ? p.age : '---'; var problem = (p && p.problem) ? p.problem : '---'; var password = (auth && auth.password) ? auth.password : '---';
+    html += '<div class="admin-user-row"><div class="admin-user-info">';
+    html += '<div class="admin-user-name">' + escapeHtml(name) + '</div><div class="admin-user-code">کد: ' + escapeHtml(u.code) + '</div>';
     html += '<div class="admin-user-details">🔑 ' + escapeHtml(password) + '<br>🎂 ' + escapeHtml(age) + '<br>🩺 ' + escapeHtml(problem) + '</div></div>';
     html += '<div class="admin-user-actions">';
     html += '<button class="btn-small" style="background:var(--btn-primary);color:#fff;" onclick="editUserName(\''+u.code+'\', \''+escapeHtml(name).replace(/'/g,"\\'")+'\')">✏️</button>';
@@ -1905,29 +1630,14 @@ function renderAdminUsersList(users) {
 }
 function filterAdminUsers() {
   var q = document.getElementById('adminUserSearch').value.toLowerCase().trim();
-  var filtered = adminUsersCache.filter(function(u){
-    var name = (u.data && u.data.profile && u.data.profile.name) ? u.data.profile.name.toLowerCase() : '';
-    return name.includes(q) || u.code.toLowerCase().includes(q);
-  });
+  var filtered = adminUsersCache.filter(function(u){ var name = (u.data && u.data.profile && u.data.profile.name) ? u.data.profile.name.toLowerCase() : ''; return name.includes(q) || u.code.toLowerCase().includes(q); });
   renderAdminUsersList(filtered);
 }
 async function editUserName(code, currentName) {
   var newName = prompt('نام جدید:', currentName);
-  if(newName && newName.trim() !== '' && newName !== currentName) {
-    var data = await getUserRecord(code);
-    if(data) {
-      if(!data.profile) data.profile = {};
-      data.profile.name = newName.trim();
-      var ok = await saveUserRecord(code, data);
-      if(ok) { showToast('✅'); loadUsersListForAdmin(); }
-    }
-  }
+  if(newName && newName.trim() !== '' && newName !== currentName) { var data = await getUserRecord(code); if(data) { if(!data.profile) data.profile = {}; data.profile.name = newName.trim(); var ok = await saveUserRecord(code, data); if(ok) { showToast('✅'); loadUsersListForAdmin(); } } }
 }
-async function deleteUser(code) {
-  if(!confirm('کاربر ' + code + ' حذف شود؟')) return;
-  var ok = await deleteUserRecord(code);
-  if(ok) { showToast('✅'); loadUsersListForAdmin(); }
-}
+async function deleteUser(code) { if(!confirm('کاربر ' + code + ' حذف شود؟')) return; var ok = await deleteUserRecord(code); if(ok) { showToast('✅'); loadUsersListForAdmin(); } }
 
 /* ============================================================
    PAGES
@@ -1935,8 +1645,7 @@ async function deleteUser(code) {
 function showPage(pageId){
   var pages=document.querySelectorAll('.page');
   for(var i=0;i<pages.length;i++)pages[i].classList.remove('active');
-  var target=document.getElementById(pageId);
-  if(target)target.classList.add('active');
+  var target=document.getElementById(pageId); if(target)target.classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
   if(pageId==='pageMenu') updateTodayShowcase();
   if(pageId==='pageDaily')renderTable();
@@ -1947,53 +1656,28 @@ function showPage(pageId){
 }
 
 function updateTodayShowcase() {
-  var grid = document.getElementById('showcaseGrid');
-  if (!grid) return;
+  var grid = document.getElementById('showcaseGrid'); if (!grid) return;
   var localData = safeGetLS('health40Data', null);
-  if(localData && (!fortyDayData || fortyDayData.length === 0)) {
-    try { fortyDayData = JSON.parse(localData); } catch(e){}
-  }
-  var todayIdx = getCurrentDayAuto();
-  var jalali = gregorianToJalali(new Date());
-  var dayNumFa = toPersianNumber(todayIdx + 1);
-  var infoDate = document.getElementById('infoJalaliDate');
-  if (infoDate) infoDate.textContent = '📅 ' + formatJalaliFull(jalali);
-  var infoDay = document.getElementById('infoDayNumber');
-  if (infoDay) infoDay.textContent = '📌 روز ' + dayNumFa + ' از ' + toPersianNumber(totalDays);
-  var infoMot = document.getElementById('infoMotivation');
-  if (infoMot) infoMot.textContent = getMotivationalMessage(todayIdx + 1);
-  if (fortyDayData.length === 0) {
-    grid.innerHTML = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;">برنامه‌ای نیست</p>';
-    return;
-  }
-  var dayData = fortyDayData[todayIdx] || {};
-  var html = '';
+  if(localData && (!fortyDayData || fortyDayData.length === 0)) { try { fortyDayData = JSON.parse(localData); } catch(e){} }
+  var todayIdx = getCurrentDayAuto(); var jalali = gregorianToJalali(new Date()); var dayNumFa = toPersianNumber(todayIdx + 1);
+  var infoDate = document.getElementById('infoJalaliDate'); if (infoDate) infoDate.textContent = '📅 ' + formatJalaliFull(jalali);
+  var infoDay = document.getElementById('infoDayNumber'); if (infoDay) infoDay.textContent = '📌 روز ' + dayNumFa + ' از ' + toPersianNumber(totalDays);
+  var infoMot = document.getElementById('infoMotivation'); if (infoMot) infoMot.textContent = getMotivationalMessage(todayIdx + 1);
+  if (fortyDayData.length === 0) { grid.innerHTML = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;">برنامه‌ای نیست</p>'; return; }
+  var dayData = fortyDayData[todayIdx] || {}; var html = '';
   tableColumns.forEach(function(col) {
-    var val = dayData[col];
-    if (!val || val === '❌') return;
-    var label = tableColumnNames[col] || col;
-    var time = currentTimes[col] || '';
-    var icon = '🕐';
-    if (col.includes('oil')) icon = '💧';
-    else if (col.includes('breakfast')) icon = '☀️';
-    else if (col.includes('evening')) icon = '🌅';
-    else if (col.includes('dinner')) icon = '🌙';
+    var val = dayData[col]; if (!val || val === '❌') return;
+    var label = tableColumnNames[col] || col; var time = currentTimes[col] || ''; var icon = '🕐';
+    if (col.includes('oil')) icon = '💧'; else if (col.includes('breakfast')) icon = '☀️'; else if (col.includes('evening')) icon = '🌅'; else if (col.includes('dinner')) icon = '🌙';
     html += '<div class="showcase-card"><div class="showcase-card-icon">' + icon + '</div><div class="showcase-card-label">' + escapeHtml(label) + '</div><div class="showcase-card-value">' + escapeHtml(val) + '</div>';
-    if (time) html += '<div class="showcase-card-time">⏰ ' + time + '</div>';
-    html += '</div>';
+    if (time) html += '<div class="showcase-card-time">⏰ ' + time + '</div>'; html += '</div>';
   });
   if (!html) html = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;">برنامه‌ای امروز نیست</p>';
   grid.innerHTML = html;
 }
 
-function toPersianNumber(num) {
-  var fa = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
-  return String(num).replace(/\d/g, function(d) { return fa[parseInt(d)]; });
-}
+function toPersianNumber(num) { var fa = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹']; return String(num).replace(/\d/g, function(d) { return fa[parseInt(d)]; }); }
 
-/* ============================================================
-   جملات انگیزشی کامل - ۴۰ روز
-   ============================================================ */
 function getMotivationalMessage(dayNum) {
   var messages = [
     "باریکلا، سفر سلامتت رو شروع کردی! 🌱",
@@ -2042,34 +1726,11 @@ function getMotivationalMessage(dayNum) {
 }
 
 function checkRegimeReceive(){
-  var d=document.getElementById('regimeDisplay');
-  if(!d) return;
-  var has=safeGetLS('lastPrescription',null);
-  if(has){
-    try{
-      var info=JSON.parse(has);
-      d.innerHTML='<strong style="color:var(--accent)">'+escapeHtml(info.title||'نسخه')+'</strong>\n\n'+escapeHtml(info.content);
-    }catch(e){}
-  } else {
-    d.innerHTML = 'هنوز نسخه‌ای دریافت نشده.';
-  }
+  var d=document.getElementById('regimeDisplay'); if(!d) return; var has=safeGetLS('lastPrescription',null);
+  if(has){ try{ var info=JSON.parse(has); d.innerHTML='<strong style="color:var(--accent)">'+escapeHtml(info.title||'نسخه')+'</strong>\n\n'+escapeHtml(info.content); }catch(e){} } else { d.innerHTML = 'هنوز نسخه‌ای دریافت نشده.'; }
 }
-
-function handleReceiveDaily(){
-  if(!navigator.onLine){alert('❌ اینترنت');return;}
-  showToast('⏳ دریافت...','warning');
-  receiveAll(true).then(async function(){ 
-    safeSetLS('tableReceived','true');
-    await applyUserCustomTimes();
-    renderTable(); 
-    showToast('✅ دریافت شد'); 
-  }).catch(function(e){ alert('❌ خطا: '+e.message); });
-}
-function handleReceiveRegime(){
-  if(!navigator.onLine){alert('❌ اینترنت');return;}
-  showToast('⏳ دریافت...','warning');
-  receiveAll(true).then(function(){ checkRegimeReceive();showToast('✅ دریافت شد'); }).catch(function(e){ alert('❌ خطا: '+e.message); });
-}
+function handleReceiveDaily(){ if(!navigator.onLine){alert('❌ اینترنت');return;} showToast('⏳ دریافت...','warning'); receiveAll(true).then(async function(){ safeSetLS('tableReceived','true'); await applyUserCustomTimes(); renderTable(); showToast('✅ دریافت شد'); }).catch(function(e){ alert('❌ خطا: '+e.message); }); }
+function handleReceiveRegime(){ if(!navigator.onLine){alert('❌ اینترنت');return;} showToast('⏳ دریافت...','warning'); receiveAll(true).then(function(){ checkRegimeReceive();showToast('✅ دریافت شد'); }).catch(function(e){ alert('❌ خطا: '+e.message); }); }
 
 async function receiveAll(silent){
   return new Promise(async function(resolve,reject){
@@ -2079,17 +1740,10 @@ async function receiveAll(silent){
     getUserRecord(code).then(async function(data){
       var gotSomething=false;
       if(!data) { reject(new Error('اطلاعاتی نیست')); return; }
-      
-      var userCustomTimes = null;
-      try { userCustomTimes = await dbGet('alarmSettings_' + userId); } catch(e) {}
+      var userCustomTimes = null; try { userCustomTimes = await dbGet('alarmSettings_' + userId); } catch(e) {}
       if(!userCustomTimes) userCustomTimes = safeParseJSON(safeGetLS(userKey('alarmSettings'), 'null'), null);
       var savedCustomTimes = userCustomTimes && userCustomTimes.currentTimes ? userCustomTimes.currentTimes : null;
-      
-      if(data.prescription) {
-        archiveCurrentPrescription();
-        safeSetLS('lastPrescription',JSON.stringify(data.prescription));
-        gotSomething=true;
-      }
+      if(data.prescription) { archiveCurrentPrescription(); safeSetLS('lastPrescription',JSON.stringify(data.prescription)); gotSomething=true; }
       if(data.tableData) {
         var forty=data.tableData.fortyDayData||[];
         if(forty.length>0){
@@ -2097,35 +1751,19 @@ async function receiveAll(silent){
           fortyDayData=JSON.parse(JSON.stringify(forty));
           tableColumns=[].concat(data.tableData.tableColumns||[]);
           tableColumnNames=Object.assign({},data.tableData.tableColumnNames||{});
-          
           var serverTimes = Object.assign({}, data.tableData.currentTimes||{});
-          if(savedCustomTimes) {
-            currentTimes = Object.assign({}, serverTimes, savedCustomTimes);
-          } else {
-            currentTimes = serverTimes;
-          }
-          
+          currentTimes = savedCustomTimes ? Object.assign({}, serverTimes, savedCustomTimes) : serverTimes;
           totalDays=data.tableData.totalDays||40;
           while(fortyDayData.length<totalDays)fortyDayData.push({});
           if(fortyDayData.length>totalDays)fortyDayData.length=totalDays;
-          fortyDayData.forEach(function(day){
-            tableColumns.forEach(function(col){ if(day[col]===undefined)day[col]=''; });
-          });
+          fortyDayData.forEach(function(day){ tableColumns.forEach(function(col){ if(day[col]===undefined)day[col]=''; }); });
           if(data.tableData.sentAt) {
-             var sentDate = new Date(data.tableData.sentAt);
-             sentDate.setHours(0,0,0,0);
+             var sentDate = new Date(data.tableData.sentAt); sentDate.setHours(0,0,0,0);
              var existingStart = safeGetLS('healthStartDateGregorian', null);
-             if(!existingStart) {
-               safeSetLS('healthStartDateGregorian', sentDate.toISOString());
-             }
+             if(!existingStart) safeSetLS('healthStartDateGregorian', sentDate.toISOString());
           }
-          saveAll();
-          renderTable();
-          updateTodayShowcase();
-          updateDateConversionInfo();
-          updateDayDisplay();
-          safeSetLS('tableReceived','true');
-          gotSomething=true;
+          saveAll(); renderTable(); updateTodayShowcase(); updateDateConversionInfo(); updateDayDisplay();
+          safeSetLS('tableReceived','true'); gotSomething=true;
         }
       }
       if(!gotSomething){ reject(new Error('دیتایی نیست')); return; }
@@ -2133,37 +1771,14 @@ async function receiveAll(silent){
     }).catch(function(e){ reject(e); });
   });
 }
+function archiveCurrentPrescription(){ var current=safeGetLS('lastPrescription',null);if(!current)return;try{var info=JSON.parse(current);var archive=safeParseJSON(safeGetLS('prescriptionHistory','[]'),[]);if(archive.some(function(a){return a.content===info.content;}))return;archive.unshift({title:info.title||'بدون عنوان',content:info.content,archivedAt:Date.now()});if(archive.length>20)archive.length=20;safeSetLS('prescriptionHistory',JSON.stringify(archive));}catch(e){} }
+function archiveCurrentTable(tableName){ if(!fortyDayData||fortyDayData.length===0)return; try{ var archive=safeParseJSON(safeGetLS('tableHistory','[]'),[]); archive.unshift({ name: tableName || 'جدول', fortyDayData:JSON.parse(JSON.stringify(fortyDayData)), tableColumns:[].concat(tableColumns), tableColumnNames:Object.assign({},tableColumnNames), currentTimes:Object.assign({},currentTimes), totalDays:totalDays, archivedAt:Date.now() }); if(archive.length>20)archive.length=20; safeSetLS('tableHistory',JSON.stringify(archive)); }catch(e){} }
 
-function archiveCurrentPrescription(){
-  var current=safeGetLS('lastPrescription',null);if(!current)return;
-  try{var info=JSON.parse(current);var archive=safeParseJSON(safeGetLS('prescriptionHistory','[]'),[]);if(archive.some(function(a){return a.content===info.content;}))return;archive.unshift({title:info.title||'بدون عنوان',content:info.content,archivedAt:Date.now()});if(archive.length>20)archive.length=20;safeSetLS('prescriptionHistory',JSON.stringify(archive));}catch(e){}
-}
-function archiveCurrentTable(tableName){
-  if(!fortyDayData||fortyDayData.length===0)return;
-  try{
-    var archive=safeParseJSON(safeGetLS('tableHistory','[]'),[]);
-    archive.unshift({
-      name: tableName || 'جدول',
-      fortyDayData:JSON.parse(JSON.stringify(fortyDayData)),
-      tableColumns:[].concat(tableColumns),
-      tableColumnNames:Object.assign({},tableColumnNames),
-      currentTimes:Object.assign({},currentTimes),
-      totalDays:totalDays,
-      archivedAt:Date.now()
-    });
-    if(archive.length>20)archive.length=20;
-    safeSetLS('tableHistory',JSON.stringify(archive));
-  }catch(e){}
-}
-
-function loadRemoteBanner(){
-  var tb=document.getElementById('topBanner'),img=document.getElementById('topBannerImg');if(!tb||!img)return;if(!navigator.onLine){tb.classList.remove('active');return;}
-  getGlobalData().then(function(data){var bc=data.banner;if(!bc||!bc.url||bc.active===false){tb.classList.remove('active');return;}img.onload=function(){img.style.display='block';tb.classList.add('active');};img.onerror=function(){img.style.display='none';tb.classList.remove('active');};img.src=bc.url;}).catch(function(){tb.classList.remove('active');});
-}
+function loadRemoteBanner(){ var tb=document.getElementById('topBanner'),img=document.getElementById('topBannerImg');if(!tb||!img)return;if(!navigator.onLine){tb.classList.remove('active');return;} getGlobalData().then(function(data){var bc=data.banner;if(!bc||!bc.url||bc.active===false){tb.classList.remove('active');return;}img.onload=function(){img.style.display='block';tb.classList.add('active');};img.onerror=function(){img.style.display='none';tb.classList.remove('active');};img.src=bc.url;}).catch(function(){tb.classList.remove('active');}); }
 function bannerLoaded(){}
 function bannerError(){var tb=document.getElementById('topBanner'),img=document.getElementById('topBannerImg');if(img)img.style.display='none';if(tb)tb.classList.remove('active');}
 function loadBannerInAdmin(){getGlobalData().then(function(data){var bc=data.banner;var p=document.getElementById('bannerPreview'),inp=document.getElementById('bannerUrlInput');if(!p||!inp)return;if(bc&&bc.url){inp.value=bc.url;if(bc.active===false)p.innerHTML='<p style="color:#e74c3c;">🚫 غیرفعال</p>';else p.innerHTML='<img src="'+escapeHtml(bc.url)+'" style="width:100%;max-width:500px;border-radius:10px;">';}else{p.innerHTML='<p style="font-size:.8em;color:var(--text-muted)">تنظیم نشده</p>';inp.value='';}}).catch(function(){});}
-function saveBannerUrl(){var url=document.getElementById('bannerUrlInput').value.trim();if(!url){showToast('لینک', 'error');return;}getGlobalData().then(function(record){record.banner={url:url,active:true,updatedAt:Date.now()};return saveGlobalData(record);}).then(function(ok){if(ok){showToast('✅');loadBannerInAdmin();loadRemoteBanner();}});}
+function saveBannerUrl(){var url=document.getElementById('bannerUrlInput').value.trim();if(!url){showToast('لینک','error');return;}getGlobalData().then(function(record){record.banner={url:url,active:true,updatedAt:Date.now()};return saveGlobalData(record);}).then(function(ok){if(ok){showToast('✅');loadBannerInAdmin();loadRemoteBanner();}});}
 function disableBanner(){if(!confirm('غیرفعال شود؟'))return;getGlobalData().then(function(record){if(!record.banner)record.banner={url:'',active:false};record.banner.active=false;record.banner.updatedAt=Date.now();return saveGlobalData(record);}).then(function(ok){if(ok){showToast('✅');loadBannerInAdmin();document.getElementById('topBanner').classList.remove('active');}});}
 
 function openAdminLogin(){var inp=document.getElementById('adminPasswordInput'),cb=document.getElementById('savePasswordCheck'),m=document.getElementById('adminLoginModal');if(inp){var saved=safeGetLS(SAVE_PASSWORD_KEY,null);if(saved){inp.value=saved;if(cb)cb.checked=true;}else{inp.value='';if(cb)cb.checked=false;}}if(m)m.classList.add('active');}
@@ -2173,11 +1788,7 @@ function checkAdminPassword(){var inp=document.getElementById('adminPasswordInpu
 function switchAdminTab(tab,el){
   var tabs=document.querySelectorAll('.admin-tab');for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');if(el)el.classList.add('active');
   ['dashboard','users','prescription','table','archive','message','banner'].forEach(function(t){ var id='adminTab'+t.charAt(0).toUpperCase()+t.slice(1); var e=document.getElementById(id); if(e)e.style.display=(t===tab)?'block':'none'; });
-  if(tab==='table') buildAdminEditor();
-  if(tab==='banner')loadBannerInAdmin();
-  if(tab==='dashboard')loadDashboard(false);
-  if(tab==='users')loadUsersListForAdmin();
-  if(tab==='archive')renderArchiveShelves();
+  if(tab==='table') buildAdminEditor(); if(tab==='banner')loadBannerInAdmin(); if(tab==='dashboard')loadDashboard(false); if(tab==='users')loadUsersListForAdmin(); if(tab==='archive')renderArchiveShelves();
 }
 
 /* ============================================================
@@ -2185,79 +1796,37 @@ function switchAdminTab(tab,el){
    ============================================================ */
 var userEditMode = false;
 function toggleUserEditMode() {
-  userEditMode = !userEditMode;
-  var ctrl = document.getElementById('userEditControls');
-  var btn = document.getElementById('userEditTableBtn');
-  if(userEditMode) {
-    ctrl.style.display = 'block';
-    btn.textContent = '❌ بستن';
-    btn.style.background = 'var(--btn-danger)';
-    currentEditorDay = getCurrentDayAuto(); 
-    renderUserDayEditor();
-  } else {
-    ctrl.style.display = 'none';
-    btn.textContent = '✏️ ویرایش دستی';
-    btn.style.background = 'var(--btn-purple)';
-    renderTable(); 
-  }
+  userEditMode = !userEditMode; var ctrl = document.getElementById('userEditControls'); var btn = document.getElementById('userEditTableBtn');
+  if(userEditMode) { ctrl.style.display = 'block'; btn.textContent = '❌ بستن'; btn.style.background = 'var(--btn-danger)'; currentEditorDay = getCurrentDayAuto(); renderUserDayEditor(); }
+  else { ctrl.style.display = 'none'; btn.textContent = '✏️ ویرایش دستی'; btn.style.background = 'var(--btn-purple)'; renderTable(); }
 }
-
 function renderUserDayEditor() {
-  if(currentEditorDay >= totalDays) currentEditorDay = 0;
-  var lbl = document.getElementById('editorDayLabel');
-  var pBtn = document.getElementById('prevDayBtn');
-  var nBtn = document.getElementById('nextDayBtn');
-  if(lbl) lbl.textContent = 'روز ' + (currentEditorDay + 1);
-  if(pBtn) pBtn.disabled = currentEditorDay <= 0;
-  if(nBtn) nBtn.disabled = currentEditorDay >= totalDays - 1;
-  var dayData = fortyDayData[currentEditorDay] || {};
-  var html = '';
-  tableColumns.forEach(function(col) {
-    var label = tableColumnNames[col] || col;
-    var val = dayData[col] || '';
-    html += '<div class="day-input-box"><label>'+escapeHtml(label)+':</label><input type="text" data-col="'+escapeHtml(col)+'" value="'+escapeHtml(val)+'" onchange="updateUserDayField(this.getAttribute(\'data-col\'), this.value)"></div>';
-  });
-  var dec = document.getElementById('dayEditorContainer');
-  if(dec) dec.innerHTML = html;
+  if(currentEditorDay >= totalDays) currentEditorDay = 0; var lbl = document.getElementById('editorDayLabel'); var pBtn = document.getElementById('prevDayBtn'); var nBtn = document.getElementById('nextDayBtn');
+  if(lbl) lbl.textContent = 'روز ' + (currentEditorDay + 1); if(pBtn) pBtn.disabled = currentEditorDay <= 0; if(nBtn) nBtn.disabled = currentEditorDay >= totalDays - 1;
+  var dayData = fortyDayData[currentEditorDay] || {}; var html = '';
+  tableColumns.forEach(function(col) { var label = tableColumnNames[col] || col; var val = dayData[col] || ''; html += '<div class="day-input-box"><label>'+escapeHtml(label)+':</label><input type="text" data-col="'+escapeHtml(col)+'" value="'+escapeHtml(val)+'" onchange="updateUserDayField(this.getAttribute(\'data-col\'), this.value)"></div>'; });
+  var dec = document.getElementById('dayEditorContainer'); if(dec) dec.innerHTML = html;
 }
-
-function updateUserDayField(col, val) {
-  if(!fortyDayData[currentEditorDay]) fortyDayData[currentEditorDay] = {};
-  fortyDayData[currentEditorDay][col] = val;
-}
-
+function updateUserDayField(col, val) { if(!fortyDayData[currentEditorDay]) fortyDayData[currentEditorDay] = {}; fortyDayData[currentEditorDay][col] = val; }
 function prevEditorDay() { if(currentEditorDay > 0) { currentEditorDay--; renderUserDayEditor(); } }
 function nextEditorDay() { if(currentEditorDay < totalDays - 1) { currentEditorDay++; renderUserDayEditor(); } }
-
 function applyToDays(type) {
-  var form = {};
-  var inputs = document.querySelectorAll('#dayEditorContainer input[data-col]');
+  var form = {}; var inputs = document.querySelectorAll('#dayEditorContainer input[data-col]');
   for(var i=0;i<inputs.length;i++){ form[inputs[i].getAttribute('data-col')] = inputs[i].value; }
   var targets=[], typeName='';
   if(type==='all'){for(var i=0;i<totalDays;i++)targets.push(i);typeName='کل روزها';}
   else if(type==='odd'){for(var j=0;j<totalDays;j+=2)targets.push(j);typeName='فرد';}
   else if(type==='even'){for(var k=1;k<totalDays;k+=2)targets.push(k);typeName='زوج';}
   if(!confirm('اعمال؟')) return;
-  targets.forEach(function(idx){
-    if(!fortyDayData[idx]) fortyDayData[idx]={};
-    tableColumns.forEach(function(col){ fortyDayData[idx][col] = form[col] || ''; });
-  });
-  renderTable(); updateTodayShowcase();
-  showToast('✅ اعمال شد');
+  targets.forEach(function(idx){ if(!fortyDayData[idx]) fortyDayData[idx]={}; tableColumns.forEach(function(col){ fortyDayData[idx][col] = form[col] || ''; }); });
+  renderTable(); updateTodayShowcase(); showToast('✅ اعمال شد');
 }
-
 async function saveUserEditedTableToDB() {
   showToast('⏳ ذخیره...', 'warning');
   var userData = await getUserRecord(userId) || {};
   if(!userData.tableData) userData.tableData = {}; 
-  userData.tableData.fortyDayData = fortyDayData;
-  userData.tableData.tableColumns = tableColumns;
-  userData.tableData.tableColumnNames = tableColumnNames;
-  userData.tableData.currentTimes = currentTimes;
-  userData.tableData.totalDays = totalDays;
-  var ok = await saveUserRecord(userId, userData);
-  if(ok) showToast('✅ ذخیره شد');
-  else showToast('❌ خطا', 'error');
+  userData.tableData.fortyDayData = fortyDayData; userData.tableData.tableColumns = tableColumns; userData.tableData.tableColumnNames = tableColumnNames; userData.tableData.currentTimes = currentTimes; userData.tableData.totalDays = totalDays;
+  var ok = await saveUserRecord(userId, userData); if(ok) showToast('✅ ذخیره شد'); else showToast('❌ خطا', 'error');
 }
 
 /* ============================================================
@@ -2265,200 +1834,64 @@ async function saveUserEditedTableToDB() {
    ============================================================ */
 async function sendPrescription() {
   var code = document.getElementById('targetUserCode').value;
-  if(!code) {
-    var rawVal = document.getElementById('prescriptionUserSearch').value;
-    var match = rawVal.match(/\(([^)]+)\)/);
-    if(match) code = match[1];
-    else if(rawVal.length >= 3 && rawVal.length <= 10) code = rawVal;
-  }
+  if(!code) { var rawVal = document.getElementById('prescriptionUserSearch').value; var match = rawVal.match(/\(([^)]+)\)/); if(match) code = match[1]; else if(rawVal.length >= 3 && rawVal.length <= 10) code = rawVal; }
   code = (code || '').trim().toUpperCase();
-  var te = document.getElementById('prescriptionTitle');
-  var ce2 = document.getElementById('prescriptionContent');
+  var te = document.getElementById('prescriptionTitle'); var ce2 = document.getElementById('prescriptionContent');
   var title = te.value.trim(), content = ce2.value.trim();
-  if(!code || code.length < 3) { showToast('کاربر را انتخاب', 'error'); return; }
-  if(!content) { showToast('متن خالی', 'error'); return; }
+  if(!code || code.length < 3) { showToast('کاربر', 'error'); return; } if(!content) { showToast('متن', 'error'); return; }
   showToast('⏳ ارسال...', 'warning');
-  var userData = await getUserRecord(code) || {};
-  userData.prescription = { title: title || 'نسخه', content: content, sentAt: Date.now() };
+  var userData = await getUserRecord(code) || {}; userData.prescription = { title: title || 'نسخه', content: content, sentAt: Date.now() };
   var ok = await saveUserRecord(code, userData);
-  if(ok) {
-    showToast('✅');
-    document.getElementById('prescriptionUserSearch').value = '';
-    document.getElementById('targetUserCode').value = '';
-    te.value = ''; ce2.value = '';
-    loadAdminRecent(); loadDashboard(false);
-  } else showToast('❌', 'error');
+  if(ok) { showToast('✅'); document.getElementById('prescriptionUserSearch').value = ''; document.getElementById('targetUserCode').value = ''; te.value = ''; ce2.value = ''; loadAdminRecent(); loadDashboard(false); } else showToast('❌', 'error');
 }
-
 async function askArchivePrescription() {
-  var title = document.getElementById('prescriptionTitle').value.trim();
-  var content = document.getElementById('prescriptionContent').value.trim();
-  if(!content) { showToast('متن خالی', 'error'); return; }
-  if(!confirm('بایگانی شود؟')) return;
+  var title = document.getElementById('prescriptionTitle').value.trim(); var content = document.getElementById('prescriptionContent').value.trim();
+  if(!content) { showToast('متن', 'error'); return; } if(!confirm('بایگانی شود؟')) return;
   archivePendingAction = { type: 'prescription', data: { title: title || 'نسخه', content: content, sentAt: Date.now() } };
-  var modal = document.getElementById('archiveNameModal');
-  var t = document.getElementById('archiveNameTitle');
-  var inp = document.getElementById('archiveNameInput');
-  if(t) t.textContent = '📚 بایگانی نسخه';
-  if(inp) inp.value = title || 'نسخه عمومی';
-  modal.classList.add('active');
-  setTimeout(function(){ if(inp){inp.focus();inp.select();} }, 200);
+  var modal = document.getElementById('archiveNameModal'); var t = document.getElementById('archiveNameTitle'); var inp = document.getElementById('archiveNameInput');
+  if(t) t.textContent = '📚 بایگانی نسخه'; if(inp) inp.value = title || 'نسخه عمومی'; modal.classList.add('active'); setTimeout(function(){ if(inp){inp.focus();inp.select();} }, 200);
 }
-
 async function askArchiveTable() {
   if(!confirm('بایگانی شود؟')) return;
-  archivePendingAction = { type: 'table', data: {
-    fortyDayData: JSON.parse(JSON.stringify(adminFortyDayData)),
-    tableColumns: [].concat(adminTableColumns),
-    tableColumnNames: Object.assign({}, adminTableColumnNames),
-    currentTimes: Object.assign({}, adminCurrentTimes),
-    totalDays: adminTotalDays,
-    sentAt: Date.now()
-  }};
-  var modal = document.getElementById('archiveNameModal');
-  var t = document.getElementById('archiveNameTitle');
-  var inp = document.getElementById('archiveNameInput');
-  if(t) t.textContent = '📚 بایگانی جدول';
-  if(inp) inp.value = 'جدول ' + new Date().toLocaleDateString('fa-IR');
-  modal.classList.add('active');
-  setTimeout(function(){ if(inp){inp.focus();inp.select();} }, 200);
+  archivePendingAction = { type: 'table', data: { fortyDayData: JSON.parse(JSON.stringify(adminFortyDayData)), tableColumns: [].concat(adminTableColumns), tableColumnNames: Object.assign({}, adminTableColumnNames), currentTimes: Object.assign({}, adminCurrentTimes), totalDays: adminTotalDays, sentAt: Date.now() }};
+  var modal = document.getElementById('archiveNameModal'); var t = document.getElementById('archiveNameTitle'); var inp = document.getElementById('archiveNameInput');
+  if(t) t.textContent = '📚 بایگانی جدول'; if(inp) inp.value = 'جدول ' + new Date().toLocaleDateString('fa-IR'); modal.classList.add('active'); setTimeout(function(){ if(inp){inp.focus();inp.select();} }, 200);
 }
-
-function closeArchiveNameModal() {
-  document.getElementById('archiveNameModal').classList.remove('active');
-  archivePendingAction = null;
-}
-
+function closeArchiveNameModal() { document.getElementById('archiveNameModal').classList.remove('active'); archivePendingAction = null; }
 async function confirmArchiveName() {
-  var name = document.getElementById('archiveNameInput').value.trim();
-  if(!name) { showToast('نام', 'error'); return; }
-  if(!archivePendingAction) { closeArchiveNameModal(); return; }
-  showToast('⏳...', 'warning');
-  var globalData = await getGlobalData();
-  if(!globalData.archives) globalData.archives = { prescriptions: [], tables: [] };
-  var id = 'arc_' + Date.now();
-  if(archivePendingAction.type === 'prescription') {
-    globalData.archives.prescriptions.unshift({ id: id, name: name, title: archivePendingAction.data.title, content: archivePendingAction.data.content, archivedAt: Date.now() });
-  } else {
-    globalData.archives.tables.unshift({ id: id, name: name, data: archivePendingAction.data, archivedAt: Date.now() });
-  }
-  var ok = await saveGlobalData(globalData);
-  if(ok) { showToast('✅'); closeArchiveNameModal(); renderArchiveShelves(); }
+  var name = document.getElementById('archiveNameInput').value.trim(); if(!name) { showToast('نام', 'error'); return; } if(!archivePendingAction) { closeArchiveNameModal(); return; }
+  showToast('⏳...', 'warning'); var globalData = await getGlobalData(); if(!globalData.archives) globalData.archives = { prescriptions: [], tables: [] }; var id = 'arc_' + Date.now();
+  if(archivePendingAction.type === 'prescription') globalData.archives.prescriptions.unshift({ id: id, name: name, title: archivePendingAction.data.title, content: archivePendingAction.data.content, archivedAt: Date.now() });
+  else globalData.archives.tables.unshift({ id: id, name: name, data: archivePendingAction.data, archivedAt: Date.now() });
+  var ok = await saveGlobalData(globalData); if(ok) { showToast('✅'); closeArchiveNameModal(); renderArchiveShelves(); }
 }
-
 async function renderArchiveShelves() {
-  var pGrid = document.getElementById('archivePrescriptionsGrid');
-  var tGrid = document.getElementById('archiveTablesGrid');
-  if(!pGrid || !tGrid) return;
-  var globalData = await getGlobalData();
-  var archives = globalData.archives || { prescriptions: [], tables: [] };
+  var pGrid = document.getElementById('archivePrescriptionsGrid'); var tGrid = document.getElementById('archiveTablesGrid'); if(!pGrid || !tGrid) return;
+  var globalData = await getGlobalData(); var archives = globalData.archives || { prescriptions: [], tables: [] };
   var search = (document.getElementById('archiveSearchInput')?.value || '').toLowerCase().trim();
-  var pres = archives.prescriptions || [];
-  var tabs = archives.tables || [];
-  if(search) {
-    pres = pres.filter(function(p){ return (p.name||'').toLowerCase().includes(search); });
-    tabs = tabs.filter(function(t){ return (t.name||'').toLowerCase().includes(search); });
-  }
+  var pres = archives.prescriptions || []; var tabs = archives.tables || [];
+  if(search) { pres = pres.filter(function(p){ return (p.name||'').toLowerCase().includes(search); }); tabs = tabs.filter(function(t){ return (t.name||'').toLowerCase().includes(search); }); }
   if(pres.length === 0) pGrid.innerHTML = '<div class="archive-empty" style="grid-column:1/-1;">📭 خالی</div>';
-  else {
-    var html = '';
-    pres.forEach(function(p) {
-      var d = new Date(p.archivedAt).toLocaleDateString('fa-IR');
-      html += '<div class="archive-book" onclick="activateArchivedPrescription(\''+p.id+'\')">';
-      html += '<div class="archive-book-title">💊 ' + escapeHtml(p.name) + '</div>';
-      html += '<div class="archive-book-meta">' + d + '</div>';
-      html += '<div class="archive-book-actions" onclick="event.stopPropagation();">';
-      html += '<button style="background:var(--btn-primary);color:#fff;" onclick="editArchivePrescription(\''+p.id+'\')">✏️</button>';
-      html += '<button style="background:var(--btn-danger);color:#fff;" onclick="deleteArchivePrescription(\''+p.id+'\')">🗑️</button>';
-      html += '</div></div>';
-    });
-    pGrid.innerHTML = html;
-  }
+  else { var html = ''; pres.forEach(function(p) { var d = new Date(p.archivedAt).toLocaleDateString('fa-IR'); html += '<div class="archive-book" onclick="activateArchivedPrescription(\''+p.id+'\')"><div class="archive-book-title">💊 ' + escapeHtml(p.name) + '</div><div class="archive-book-meta">' + d + '</div><div class="archive-book-actions" onclick="event.stopPropagation();"><button style="background:var(--btn-primary);color:#fff;" onclick="editArchivePrescription(\''+p.id+'\')">✏️</button><button style="background:var(--btn-danger);color:#fff;" onclick="deleteArchivePrescription(\''+p.id+'\')">🗑️</button></div></div>'; }); pGrid.innerHTML = html; }
   if(tabs.length === 0) tGrid.innerHTML = '<div class="archive-empty" style="grid-column:1/-1;">📭 خالی</div>';
-  else {
-    var html2 = '';
-    tabs.forEach(function(t) {
-      var d = new Date(t.archivedAt).toLocaleDateString('fa-IR');
-      html2 += '<div class="archive-book" onclick="activateArchivedTable(\''+t.id+'\')">';
-      html2 += '<div class="archive-book-title">📋 ' + escapeHtml(t.name) + '</div>';
-      html2 += '<div class="archive-book-meta">' + d + '</div>';
-      html2 += '<div class="archive-book-actions" onclick="event.stopPropagation();">';
-      html2 += '<button style="background:var(--btn-primary);color:#fff;" onclick="editArchiveTable(\''+t.id+'\')">✏️</button>';
-      html2 += '<button style="background:var(--btn-danger);color:#fff;" onclick="deleteArchiveTable(\''+t.id+'\')">🗑️</button>';
-      html2 += '</div></div>';
-    });
-    tGrid.innerHTML = html2;
-  }
+  else { var html2 = ''; tabs.forEach(function(t) { var d = new Date(t.archivedAt).toLocaleDateString('fa-IR'); html2 += '<div class="archive-book" onclick="activateArchivedTable(\''+t.id+'\')"><div class="archive-book-title">📋 ' + escapeHtml(t.name) + '</div><div class="archive-book-meta">' + d + '</div><div class="archive-book-actions" onclick="event.stopPropagation();"><button style="background:var(--btn-primary);color:#fff;" onclick="editArchiveTable(\''+t.id+'\')">✏️</button><button style="background:var(--btn-danger);color:#fff;" onclick="deleteArchiveTable(\''+t.id+'\')">🗑️</button></div></div>'; }); tGrid.innerHTML = html2; }
 }
-
-async function activateArchivedPrescription(id) {
-  if(!confirm('فعال شود؟')) return;
-  var globalData = await getGlobalData();
-  var p = (globalData.archives.prescriptions || []).find(function(x){ return x.id === id; });
-  if(!p) return;
-  document.getElementById('prescriptionTitle').value = p.title || '';
-  document.getElementById('prescriptionContent').value = p.content || '';
-  showToast('✅');
-  switchAdminTab('prescription', document.querySelectorAll('.admin-tab')[1]);
-}
-async function activateArchivedTable(id) {
-  if(!confirm('فعال شود؟')) return;
-  var globalData = await getGlobalData();
-  var t = (globalData.archives.tables || []).find(function(x){ return x.id === id; });
-  if(!t) return;
-  adminTableColumns = [].concat(t.data.tableColumns);
-  adminTableColumnNames = Object.assign({}, t.data.tableColumnNames);
-  adminCurrentTimes = Object.assign({}, t.data.currentTimes);
-  adminTotalDays = t.data.totalDays || 40;
-  adminFortyDayData = JSON.parse(JSON.stringify(t.data.fortyDayData));
-  adminCurrentEditorDay = 0;
-  renderAdminTableEditor();
-  renderAdminDayEditor();
-  showToast('✅');
-  switchAdminTab('table', document.querySelectorAll('.admin-tab')[2]);
-}
-async function editArchivePrescription(id) {
-  var g = await getGlobalData();
-  var p = (g.archives.prescriptions || []).find(function(x){ return x.id === id; });
-  if(!p) return;
-  var n = prompt('نام جدید:', p.name);
-  if(n && n.trim()) { p.name = n.trim(); await saveGlobalData(g); renderArchiveShelves(); }
-}
-async function deleteArchivePrescription(id) {
-  if(!confirm('حذف؟')) return;
-  var g = await getGlobalData();
-  if(g.archives && g.archives.prescriptions) g.archives.prescriptions = g.archives.prescriptions.filter(function(x){ return x.id !== id; });
-  await saveGlobalData(g); renderArchiveShelves();
-}
-async function editArchiveTable(id) {
-  var g = await getGlobalData();
-  var t = (g.archives.tables || []).find(function(x){ return x.id === id; });
-  if(!t) return;
-  var n = prompt('نام جدید:', t.name);
-  if(n && n.trim()) { t.name = n.trim(); await saveGlobalData(g); renderArchiveShelves(); }
-}
-async function deleteArchiveTable(id) {
-  if(!confirm('حذف؟')) return;
-  var g = await getGlobalData();
-  if(g.archives && g.archives.tables) g.archives.tables = g.archives.tables.filter(function(x){ return x.id !== id; });
-  await saveGlobalData(g); renderArchiveShelves();
-}
+async function activateArchivedPrescription(id) { if(!confirm('فعال شود؟')) return; var g = await getGlobalData(); var p = (g.archives.prescriptions || []).find(function(x){ return x.id === id; }); if(!p) return; document.getElementById('prescriptionTitle').value = p.title || ''; document.getElementById('prescriptionContent').value = p.content || ''; showToast('✅'); switchAdminTab('prescription', document.querySelectorAll('.admin-tab')[1]); }
+async function activateArchivedTable(id) { if(!confirm('فعال شود؟')) return; var g = await getGlobalData(); var t = (g.archives.tables || []).find(function(x){ return x.id === id; }); if(!t) return; adminTableColumns = [].concat(t.data.tableColumns); adminTableColumnNames = Object.assign({}, t.data.tableColumnNames); adminCurrentTimes = Object.assign({}, t.data.currentTimes); adminTotalDays = t.data.totalDays || 40; adminFortyDayData = JSON.parse(JSON.stringify(t.data.fortyDayData)); adminCurrentEditorDay = 0; renderAdminTableEditor(); renderAdminDayEditor(); showToast('✅'); switchAdminTab('table', document.querySelectorAll('.admin-tab')[2]); }
+async function editArchivePrescription(id) { var g = await getGlobalData(); var p = (g.archives.prescriptions || []).find(function(x){ return x.id === id; }); if(!p) return; var n = prompt('نام جدید:', p.name); if(n && n.trim()) { p.name = n.trim(); await saveGlobalData(g); renderArchiveShelves(); } }
+async function deleteArchivePrescription(id) { if(!confirm('حذف؟')) return; var g = await getGlobalData(); if(g.archives && g.archives.prescriptions) g.archives.prescriptions = g.archives.prescriptions.filter(function(x){ return x.id !== id; }); await saveGlobalData(g); renderArchiveShelves(); }
+async function editArchiveTable(id) { var g = await getGlobalData(); var t = (g.archives.tables || []).find(function(x){ return x.id === id; }); if(!t) return; var n = prompt('نام جدید:', t.name); if(n && n.trim()) { t.name = n.trim(); await saveGlobalData(g); renderArchiveShelves(); } }
+async function deleteArchiveTable(id) { if(!confirm('حذف؟')) return; var g = await getGlobalData(); if(g.archives && g.archives.tables) g.archives.tables = g.archives.tables.filter(function(x){ return x.id !== id; }); await saveGlobalData(g); renderArchiveShelves(); }
 
 async function sendMessage(){
   var targetCode = document.getElementById('messageTarget').value;
-  if(!targetCode) {
-      var rawVal = document.getElementById('messageUserSearch').value.trim();
-      if(rawVal && rawVal.length >= 3 && rawVal.length <= 10) targetCode = rawVal;
-  }
-  var te=document.getElementById('messageTitle'), ce=document.getElementById('messageContent');
-  var title=te.value.trim(), content=ce.value.trim();
+  if(!targetCode) { var rawVal = document.getElementById('messageUserSearch').value.trim(); if(rawVal && rawVal.length >= 3 && rawVal.length <= 10) targetCode = rawVal; }
+  var te=document.getElementById('messageTitle'), ce=document.getElementById('messageContent'); var title=te.value.trim(), content=ce.value.trim();
   if(!content){showToast('متن خالی','error');return;}
-  var globalData = await getGlobalData();
-  if(!globalData.messages) globalData.messages = [];
+  var globalData = await getGlobalData(); if(!globalData.messages) globalData.messages = [];
   globalData.messages.push({id:'m_'+Date.now(),title:title||'پیام',content:content,target:targetCode.toUpperCase()||'all',sentAt:Date.now()});
   if(globalData.messages.length>100) globalData.messages = globalData.messages.slice(-100);
-  var ok = await saveGlobalData(globalData);
-  if(ok){ showToast('✅'); clearMessageForm();loadAdminRecent(); }
+  var ok = await saveGlobalData(globalData); if(ok){ showToast('✅'); clearMessageForm();loadAdminRecent(); }
 }
 function clearMessageForm(){var t=document.getElementById('messageTitle'),c=document.getElementById('messageContent'),g=document.getElementById('messageUserSearch');if(t)t.value='';if(c)c.value='';if(g)g.value='';document.getElementById('messageTarget').value='';}
 function clearAdminForm(){var t=document.getElementById('prescriptionTitle'),c=document.getElementById('prescriptionContent');if(t)t.value='';if(c)c.value='';document.getElementById('prescriptionUserSearch').value='';document.getElementById('targetUserCode').value='';}
@@ -2466,26 +1899,12 @@ function clearAdminForm(){var t=document.getElementById('prescriptionTitle'),c=d
 /* ============================================================
    ADMIN EDITOR
    ============================================================ */
-function buildAdminEditor(){
-  adminTableColumns = [].concat(tableColumns);
-  adminTableColumnNames = Object.assign({}, tableColumnNames);
-  adminCurrentTimes = Object.assign({}, currentTimes);
-  adminTotalDays = totalDays;
-  adminFortyDayData = JSON.parse(JSON.stringify(fortyDayData.length ? fortyDayData : generateDefaultTableData()));
-  adminCurrentEditorDay = 0;
-  renderAdminTableEditor(); 
-  renderAdminDayEditor(); 
-}
-function generateDefaultTableData() {
-  var arr = [];
-  for(var i=0;i<40;i++){ var d={}; tableColumns.forEach(function(c){ d[c]=''; }); arr.push(d); }
-  return arr;
-}
+function buildAdminEditor(){ adminTableColumns = [].concat(tableColumns); adminTableColumnNames = Object.assign({}, tableColumnNames); adminCurrentTimes = Object.assign({}, currentTimes); adminTotalDays = totalDays; adminFortyDayData = JSON.parse(JSON.stringify(fortyDayData.length ? fortyDayData : generateDefaultTableData())); adminCurrentEditorDay = 0; renderAdminTableEditor(); renderAdminDayEditor(); }
+function generateDefaultTableData() { var arr = []; for(var i=0;i<40;i++){ var d={}; tableColumns.forEach(function(c){ d[c]=''; }); arr.push(d); } return arr; }
 function renderAdminTableEditor(){
   var container=document.getElementById('tableEditorContainer');if(!container)return;var html='';
   adminTableColumns.forEach(function(col,i){
-    var name = adminTableColumnNames[col] || col;
-    var time = adminCurrentTimes[col] || '08:00';
+    var name = adminTableColumnNames[col] || col; var time = adminCurrentTimes[col] || '08:00';
     html+='<div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;background:var(--bg-primary);padding:10px;border-radius:8px;margin-bottom:8px">';
     html+='<input type="text" value="'+escapeHtml(name)+'" onchange="updateAdminColName('+i+',this.value)" style="background:var(--bg-primary);color:var(--text-primary);border:1px solid #3d5a45;padding:8px;border-radius:6px;font-family:var(--font-family);font-size:.9em;">';
     html+='<input type="time" value="'+escapeHtml(time)+'" onchange="updateAdminColTime('+i+',this.value)" style="width:90px;background:var(--bg-primary);color:var(--accent);border:1px solid var(--accent);padding:6px;border-radius:6px;font-family:var(--font-family)">';
@@ -2495,106 +1914,56 @@ function renderAdminTableEditor(){
 }
 function updateAdminColName(i,val){ var col = adminTableColumns[i]; adminTableColumnNames[col] = val; }
 function updateAdminColTime(i,val){ var col = adminTableColumns[i]; adminCurrentTimes[col] = val; }
-function addTableColumnEditor(){
-  if(adminTableColumns.length>=8){showToast('حداکثر ۸','warning');return;}
-  var newCol='c_'+Date.now();adminTableColumns.push(newCol);adminTableColumnNames[newCol]='وعده '+adminTableColumns.length;adminCurrentTimes[newCol]='08:00';adminFortyDayData.forEach(function(day){day[newCol]='';});renderAdminTableEditor(); renderAdminDayEditor();
-}
+function addTableColumnEditor(){ if(adminTableColumns.length>=8){showToast('حداکثر ۸','warning');return;} var newCol='c_'+Date.now();adminTableColumns.push(newCol);adminTableColumnNames[newCol]='وعده '+adminTableColumns.length;adminCurrentTimes[newCol]='08:00';adminFortyDayData.forEach(function(day){day[newCol]='';});renderAdminTableEditor(); renderAdminDayEditor(); }
 function renderAdminDayEditor(){
   var container=document.getElementById('adminDayEditorContainer');if(!container)return;
   if(adminCurrentEditorDay >= adminTotalDays) adminCurrentEditorDay=0;
-  var lbl=document.getElementById('adminEditorDayLabel');
-  var pBtn=document.getElementById('adminPrevDayBtn');
-  var nBtn=document.getElementById('adminNextDayBtn');
-  if(lbl)lbl.textContent='روز '+(adminCurrentEditorDay+1);
-  if(pBtn)pBtn.disabled = adminCurrentEditorDay <= 0;
-  if(nBtn)nBtn.disabled = adminCurrentEditorDay >= adminTotalDays-1;
-  var dayData = adminFortyDayData[adminCurrentEditorDay] || {};
-  var html='';
-  adminTableColumns.forEach(function(col){
-    var label = adminTableColumnNames[col] || col;
-    var value = dayData[col] || '';
-    html+='<div class="day-input-box"><label>'+escapeHtml(label)+':</label><input type="text" data-col="'+escapeHtml(col)+'" value="'+escapeHtml(value)+'" onchange="updateAdminDayField(this.getAttribute(\'data-col\'),this.value)"></div>';
-  });
+  var lbl=document.getElementById('adminEditorDayLabel'); var pBtn=document.getElementById('adminPrevDayBtn'); var nBtn=document.getElementById('adminNextDayBtn');
+  if(lbl)lbl.textContent='روز '+(adminCurrentEditorDay+1); if(pBtn)pBtn.disabled = adminCurrentEditorDay <= 0; if(nBtn)nBtn.disabled = adminCurrentEditorDay >= adminTotalDays-1;
+  var dayData = adminFortyDayData[adminCurrentEditorDay] || {}; var html='';
+  adminTableColumns.forEach(function(col){ var label = adminTableColumnNames[col] || col; var value = dayData[col] || ''; html+='<div class="day-input-box"><label>'+escapeHtml(label)+':</label><input type="text" data-col="'+escapeHtml(col)+'" value="'+escapeHtml(value)+'" onchange="updateAdminDayField(this.getAttribute(\'data-col\'),this.value)"></div>'; });
   container.innerHTML=html;
 }
-function updateAdminDayField(col,value){
-  if(!adminFortyDayData[adminCurrentEditorDay])adminFortyDayData[adminCurrentEditorDay]={};
-  adminFortyDayData[adminCurrentEditorDay][col]=value;
-}
+function updateAdminDayField(col,value){ if(!adminFortyDayData[adminCurrentEditorDay])adminFortyDayData[adminCurrentEditorDay]={}; adminFortyDayData[adminCurrentEditorDay][col]=value; }
 function prevAdminEditorDay(){ if(adminCurrentEditorDay > 0){ adminCurrentEditorDay--; renderAdminDayEditor(); } }
 function nextAdminEditorDay(){ if(adminCurrentEditorDay < adminTotalDays-1){ adminCurrentEditorDay++; renderAdminDayEditor(); } }
 
 async function sendTableToUser() {
   var code = document.getElementById('targetUserCodeTable').value;
-  if(!code) {
-    var rawVal = document.getElementById('tableUserSearch').value;
-    var match = rawVal.match(/\(([^)]+)\)/);
-    if(match) code = match[1];
-  }
+  if(!code) { var rawVal = document.getElementById('tableUserSearch').value; var match = rawVal.match(/\(([^)]+)\)/); if(match) code = match[1]; }
   code = (code || '').trim().toUpperCase();
-  if(!code || code.length < 3) { showToast('کاربر را انتخاب', 'error'); return; }
-  if(!confirm('ارسال شود؟')) return;
-  var snapshot = {
-    fortyDayData: JSON.parse(JSON.stringify(adminFortyDayData)),
-    tableColumns: [].concat(adminTableColumns),
-    tableColumnNames: Object.assign({}, adminTableColumnNames),
-    currentTimes: Object.assign({}, adminCurrentTimes),
-    totalDays: adminTotalDays,
-    sentAt: Date.now()
-  };
-  var userData = await getUserRecord(code) || {};
-  userData.tableData = snapshot;
+  if(!code || code.length < 3) { showToast('کاربر', 'error'); return; } if(!confirm('ارسال شود؟')) return;
+  var snapshot = { fortyDayData: JSON.parse(JSON.stringify(adminFortyDayData)), tableColumns: [].concat(adminTableColumns), tableColumnNames: Object.assign({}, adminTableColumnNames), currentTimes: Object.assign({}, adminCurrentTimes), totalDays: adminTotalDays, sentAt: Date.now() };
+  var userData = await getUserRecord(code) || {}; userData.tableData = snapshot;
   var ok = await saveUserRecord(code, userData);
-  if(ok) {
-    showToast('✅');
-    document.getElementById('tableUserSearch').value = '';
-    document.getElementById('targetUserCodeTable').value = '';
-    loadAdminRecent(); loadDashboard(false);
-  } else showToast('❌', 'error');
+  if(ok) { showToast('✅'); document.getElementById('tableUserSearch').value = ''; document.getElementById('targetUserCodeTable').value = ''; loadAdminRecent(); loadDashboard(false); } else showToast('❌', 'error');
 }
 async function sendTableToAll(){
   if(!confirm('برای همه؟'))return;
   var snapshot = { fortyDayData: JSON.parse(JSON.stringify(adminFortyDayData)), tableColumns: [].concat(adminTableColumns), tableColumnNames: Object.assign({}, adminTableColumnNames), currentTimes: Object.assign({}, adminCurrentTimes), totalDays: adminTotalDays, sentAt: Date.now() };
-  var allUsers = await getAllUsersFromDB();
-  if(allUsers.length === 0) { showToast('کاربری نیست','error'); return; }
-  var count = 0;
-  for(var i=0; i<allUsers.length; i++) { var u = allUsers[i]; var data = u.data || {}; data.tableData = snapshot; var ok = await saveUserRecord(u.code, data); if(ok) count++; }
-  showToast('✅ '+count);
-  loadAdminRecent();
+  var allUsers = await getAllUsersFromDB(); if(allUsers.length === 0) { showToast('کاربری','error'); return; }
+  var count = 0; for(var i=0; i<allUsers.length; i++) { var u = allUsers[i]; var data = u.data || {}; data.tableData = snapshot; var ok = await saveUserRecord(u.code, data); if(ok) count++; }
+  showToast('✅ '+count); loadAdminRecent();
 }
 
 /* ============================================================
    DASHBOARD
    ============================================================ */
 async function loadDashboard(showAlert){
-  var allUsers = await getAllUsersFromDB();var globalData = await getGlobalData();
-  var usersWithP = 0, usersWithT = 0;
+  var allUsers = await getAllUsersFromDB();var globalData = await getGlobalData(); var usersWithP = 0, usersWithT = 0;
   allUsers.forEach(function(u){ if(u.data && u.data.prescription) usersWithP++; if(u.data && u.data.tableData) usersWithT++; });
   var el1=document.getElementById('statUsers'), el2=document.getElementById('statPrescriptions'), el3=document.getElementById('statTables'), el4=document.getElementById('statMessages');
-  if(el1) el1.textContent = allUsers.length;
-  if(el2) el2.textContent = usersWithP;
-  if(el3) el3.textContent = usersWithT;
-  if(el4) el4.textContent = (globalData.messages||[]).length;
+  if(el1) el1.textContent = allUsers.length; if(el2) el2.textContent = usersWithP; if(el3) el3.textContent = usersWithT; if(el4) el4.textContent = (globalData.messages||[]).length;
 }
 async function loadAdminRecent(){
   var globalData = await getGlobalData();var allUsers = await getAllUsersFromDB();var html = '';
   var recentP = [];allUsers.forEach(function(u){ if(u.data && u.data.prescription) { recentP.push({code: u.code, title: u.data.prescription.title, time: u.data.prescription.sentAt}); } });
   recentP.sort(function(a,b){return b.time - a.time;});
   if(recentP.length > 0) { html += '<div style="color:var(--accent);font-weight:700;margin-bottom:5px">💊 آخرین:</div>'; recentP.slice(0,3).forEach(function(p){ html += '📤 <strong>'+escapeHtml(p.code)+'</strong> - '+escapeHtml(p.title)+'<br>'; }); }
-  var msgs = (globalData.messages||[]).slice(-3).reverse();
-  if(msgs.length > 0) { html += '<div style="color:var(--accent);font-weight:700;margin:10px 0 5px">📢 پیام‌ها:</div>'; msgs.forEach(function(m){ html += '📨 <strong>'+escapeHtml(m.title)+'</strong><br>'; }); }
-  if(!html) html = 'هنوز ارسالی نیست...';
-  var el=document.getElementById('adminRecentList'); if(el) el.innerHTML = html;
+  var msgs = (globalData.messages||[]).slice(-3).reverse(); if(msgs.length > 0) { html += '<div style="color:var(--accent);font-weight:700;margin:10px 0 5px">📢 پیام‌ها:</div>'; msgs.forEach(function(m){ html += '📨 <strong>'+escapeHtml(m.title)+'</strong><br>'; }); }
+  if(!html) html = 'هنوز ارسالی نیست...'; var el=document.getElementById('adminRecentList'); if(el) el.innerHTML = html;
 }
-function exportDashboard(){
-  var users=dashboardData.users||{},tables=dashboardData.tables||{};
-  var text='📊 گزارش\n📅 '+new Date().toLocaleString('fa-IR')+'\n\n👥 کاربران: '+(Object.keys(users).length)+'\n';
-  var blob=new Blob([text],{type:'text/plain;charset=utf-8'});
-  var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');a.href=url;a.download='report-'+Date.now()+'.txt';a.click();
-  URL.revokeObjectURL(url);
-  showToast('✅');
-}
+function exportDashboard(){ var users=dashboardData.users||{},tables=dashboardData.tables||{}; var text='📊 گزارش\n📅 '+new Date().toLocaleString('fa-IR')+'\n\n👥 کاربران: '+(Object.keys(users).length)+'\n'; var blob=new Blob([text],{type:'text/plain;charset=utf-8'}); var url=URL.createObjectURL(blob); var a=document.createElement('a');a.href=url;a.download='report-'+Date.now()+'.txt';a.click(); URL.revokeObjectURL(url); showToast('✅'); }
 
 /* ============================================================
    MESSAGES
@@ -2620,24 +1989,13 @@ function closeMsgPopup(){document.getElementById('msgPopupOverlay').classList.re
 function showHistory(type){
   var modal=document.getElementById('historyModal'),title=document.getElementById('historyTitle'),list=document.getElementById('historyList');
   if(type==='prescriptions'){
-    title.textContent='💊 نسخه‌ها';
-    var archive=safeParseJSON(safeGetLS('prescriptionHistory','[]'),[]);
-    var current=safeGetLS('lastPrescription',null);
-    var html='';
+    title.textContent='💊 نسخه‌ها'; var archive=safeParseJSON(safeGetLS('prescriptionHistory','[]'),[]); var current=safeGetLS('lastPrescription',null); var html='';
     if(current){try{var info=JSON.parse(current);html+='<div class="history-item active-history"><div class="history-item-title">'+escapeHtml(info.title||'فعلی')+'</div></div>';}catch(e){}}
     archive.forEach(function(item,i){html+='<div class="history-item"><div class="history-item-title">'+escapeHtml(item.title)+'</div><div class="history-item-date">'+new Date(item.archivedAt).toLocaleString('fa-IR')+'</div><button class="btn-hist-restore" onclick="restorePrescription('+i+')">♻️</button></div>';});
     list.innerHTML=html || '<p style="text-align:center;padding:20px">خالی</p>';
   } else {
-    title.textContent='📊 جدول‌ها';
-    var archive2=safeParseJSON(safeGetLS('tableHistory','[]'),[]);
-    var html2='';
-    archive2.forEach(function(item,i){
-      html2+='<div class="history-item"><div class="history-item-title">'+escapeHtml(item.name)+'</div>';
-      html2+='<div class="history-actions">';
-      html2+='<button class="btn-hist-restore" onclick="restoreTable('+i+')">♻️</button>';
-      html2+='<button class="btn-hist-del" onclick="deleteHistoryTable('+i+')">🗑️</button>';
-      html2+='</div></div>';
-    });
+    title.textContent='📊 جدول‌ها'; var archive2=safeParseJSON(safeGetLS('tableHistory','[]'),[]); var html2='';
+    archive2.forEach(function(item,i){ html2+='<div class="history-item"><div class="history-item-title">'+escapeHtml(item.name)+'</div><div class="history-actions"><button class="btn-hist-restore" onclick="restoreTable('+i+')">♻️</button><button class="btn-hist-del" onclick="deleteHistoryTable('+i+')">🗑️</button></div></div>'; });
     list.innerHTML=html2 || '<p style="text-align:center;padding:20px">خالی</p>';
   }
   modal.classList.add('active');
@@ -2653,70 +2011,21 @@ function editMyRegime(){var el=document.getElementById('regimeDisplay');if(el.co
    ALARM SETTINGS UI
    ============================================================ */
 function loadAlarmSoundSettings() {
-  var slider = document.getElementById('alarmVolumeSlider');
-  var volVal = document.getElementById('alarmVolumeValue');
-  if(slider) slider.value = alarmVolume;
-  if(volVal) volVal.textContent = alarmVolume + '%';
-  var vo = document.getElementById('vibrateOnlyToggle');
-  var gt = document.getElementById('gradualVolumeToggle');
-  var vt = document.getElementById('vibrateToggle');
-  if(vo) vo.classList.toggle('active', vibrateOnlyMode);
-  if(gt) gt.classList.toggle('active', gradualVolume);
-  if(vt) vt.classList.toggle('active', vibrateEnabled);
-  var arb = document.getElementById('autoReactivateCheck');
-  var bgc = document.getElementById('backgroundAlarmCheck');
-  if(arb) arb.checked = autoReactivateCheck;
-  if(bgc) bgc.checked = backgroundAlarmEnabled;
+  var slider = document.getElementById('alarmVolumeSlider'); var volVal = document.getElementById('alarmVolumeValue'); if(slider) slider.value = alarmVolume; if(volVal) volVal.textContent = alarmVolume + '%';
+  var vo = document.getElementById('vibrateOnlyToggle'); var gt = document.getElementById('gradualVolumeToggle'); var vt = document.getElementById('vibrateToggle');
+  if(vo) vo.classList.toggle('active', vibrateOnlyMode); if(gt) gt.classList.toggle('active', gradualVolume); if(vt) vt.classList.toggle('active', vibrateEnabled);
+  var arb = document.getElementById('autoReactivateCheck'); if(arb) arb.checked = autoReactivateCheck;
   updateVibrateOnlyUI();
 }
-
 function updateVibrateOnlyUI() {
-  var sliderRow = document.getElementById('volumeSliderRow');
-  var gradualRow = document.getElementById('gradualVolumeRow');
-  var uploadBox = document.getElementById('soundUploadBox');
-  if(vibrateOnlyMode) {
-    if(sliderRow) sliderRow.style.opacity = '0.4';
-    if(gradualRow) gradualRow.style.opacity = '0.4';
-    if(uploadBox) uploadBox.style.opacity = '0.4';
-  } else {
-    if(sliderRow) sliderRow.style.opacity = '1';
-    if(gradualRow) gradualRow.style.opacity = '1';
-    if(uploadBox) uploadBox.style.opacity = '1';
-  }
+  var sliderRow = document.getElementById('volumeSliderRow'); var gradualRow = document.getElementById('gradualVolumeRow'); var uploadBox = document.getElementById('soundUploadBox');
+  if(vibrateOnlyMode) { if(sliderRow) sliderRow.style.opacity = '0.4'; if(gradualRow) gradualRow.style.opacity = '0.4'; if(uploadBox) uploadBox.style.opacity = '0.4'; }
+  else { if(sliderRow) sliderRow.style.opacity = '1'; if(gradualRow) gradualRow.style.opacity = '1'; if(uploadBox) uploadBox.style.opacity = '1'; }
 }
-
-function toggleVibrateOnly(btn) {
-  vibrateOnlyMode = !vibrateOnlyMode;
-  btn.classList.toggle('active', vibrateOnlyMode);
-  updateVibrateOnlyUI();
-  saveUserAlarmSettings();
-  // تست فوری
-  if(vibrateOnlyMode && navigator.vibrate) {
-    navigator.vibrate([300, 100, 300]);
-  }
-}
-
-function onVolumeChange(val) {
-  alarmVolume = parseInt(val);
-  var el = document.getElementById('alarmVolumeValue');
-  if(el) el.textContent = alarmVolume + '%';
-  saveUserAlarmSettings();
-}
-
-function toggleGradualVolume(btn) {
-  gradualVolume = !gradualVolume;
-  btn.classList.toggle('active', gradualVolume);
-  saveUserAlarmSettings();
-}
-
-function toggleVibrate(btn) {
-  vibrateEnabled = !vibrateEnabled;
-  btn.classList.toggle('active', vibrateEnabled);
-  saveUserAlarmSettings();
-  if(vibrateEnabled && navigator.vibrate) {
-    navigator.vibrate([300, 100, 300]);
-  }
-}
+function toggleVibrateOnly(btn) { vibrateOnlyMode = !vibrateOnlyMode; btn.classList.toggle('active', vibrateOnlyMode); updateVibrateOnlyUI(); saveUserAlarmSettings(); if(vibrateOnlyMode && navigator.vibrate) navigator.vibrate([300, 100, 300]); }
+function onVolumeChange(val) { alarmVolume = parseInt(val); var el = document.getElementById('alarmVolumeValue'); if(el) el.textContent = alarmVolume + '%'; saveUserAlarmSettings(); }
+function toggleGradualVolume(btn) { gradualVolume = !gradualVolume; btn.classList.toggle('active', gradualVolume); saveUserAlarmSettings(); }
+function toggleVibrate(btn) { vibrateEnabled = !vibrateEnabled; btn.classList.toggle('active', vibrateEnabled); saveUserAlarmSettings(); if(vibrateEnabled && navigator.vibrate) navigator.vibrate([300, 100, 300]); }
 
 /* ============================================================
    ALARM SYSTEM
@@ -2727,171 +2036,63 @@ function renderAlarmSettings(){
   html+='<div class="alarm-row"><label>'+escapeHtml(name)+'</label><input type="time" value="'+escapeHtml(time)+'" onchange="updateAlarmTime(\''+escapeHtml(col)+'\',this.value)"><button class="toggle-btn '+(enabled?'active':'')+'" onclick="toggleAlarmFor(\''+escapeHtml(col)+'\',this)"></button></div>';});
   container.innerHTML=html;
 }
-
 async function updateAlarmTime(col,time){
-  currentTimes[col]=time;
-  saveAll();
-  // ذخیره در IndexedDB و localStorage
-  var saved = safeParseJSON(safeGetLS(userKey('alarmSettings'), '{}'), {});
-  saved.currentTimes = Object.assign({}, saved.currentTimes || {}, currentTimes);
-  saved.currentTimes[col] = time;
-  safeSetLS(userKey('alarmSettings'), JSON.stringify(saved));
-  try { await dbSave('alarmSettings_' + userId, saved); } catch(e) {}
-  updateAlarmScheduleForSW();
-  showToast('✅ زمان ' + (tableColumnNames[col] || col) + ' ذخیره شد');
+  currentTimes[col]=time; saveAll(); var saved = safeParseJSON(safeGetLS(userKey('alarmSettings'), '{}'), {});
+  saved.currentTimes = Object.assign({}, saved.currentTimes || {}, currentTimes); saved.currentTimes[col] = time;
+  safeSetLS(userKey('alarmSettings'), JSON.stringify(saved)); try { await dbSave('alarmSettings_' + userId, saved); } catch(e) {}
+  updateAlarmScheduleForSW(); showToast('✅ زمان ' + (tableColumnNames[col] || col) + ' ذخیره شد');
 }
-
-function toggleAlarmFor(col,btn){
-  var c=alarmEnabled[col]!==false;
-  alarmEnabled[col]=!c;
-  btn.classList.toggle('active',!c);
-  saveUserAlarmSettings();
-  if(alarmActive)scheduleAlarms();
-}
-
-function saveAlarmSettings(){
-  saveAll();
-  saveUserAlarmSettings();
-  if(alarmActive)scheduleAlarms();
-  updateAlarmScheduleForSW();
-  showToast('✅ ذخیره شد');
-}
+function toggleAlarmFor(col,btn){ var c=alarmEnabled[col]!==false; alarmEnabled[col]=!c; btn.classList.toggle('active',!c); saveUserAlarmSettings(); if(alarmActive)scheduleAlarms(); }
+function saveAlarmSettings(){ saveAll(); saveUserAlarmSettings(); if(alarmActive)scheduleAlarms(); updateAlarmScheduleForSW(); showToast('✅ ذخیره شد'); }
 
 async function testAlarmSound(){
-  unlockAudio();
-  if(vibrateOnlyMode) {
-    if(navigator.vibrate) navigator.vibrate([500,200,500,200,500,200,500]);
-    showToast('📳 لرزش تست');
-    return;
-  }
-  // تست آهنگ
-  await playAlarmSound();
-  setTimeout(function(){ stopAlarmSound(false); if(vibrateEnabled) vibrateAlarm(); }, 5000);
-  showToast('🔊 در حال تست...');
+  unlockAudio(); if(vibrateOnlyMode) { if(navigator.vibrate) navigator.vibrate([500,200,500,200,500,200,500]); showToast('📳 تست ویبره'); return; }
+  await playAlarmSound(); setTimeout(function(){ stopAlarmSound(false); if(vibrateEnabled) vibrateAlarm(); }, 5000); showToast('🔊 تست...');
 }
 
 function clearTimers(){alarmTimers.forEach(function(t){clearTimeout(t);});alarmTimers=[];}
 function msUntil(t){var p=t.split(':'),h=parseInt(p[0]),m=parseInt(p[1]),now=new Date(),target=new Date(now);target.setHours(h,m,0,0);if(target<=now)target.setDate(target.getDate()+1);return target.getTime()-now.getTime();}
 
 function scheduleAlarms() {
-  clearTimers();
-  if(!alarmActive) return;
+  clearTimers(); if(!alarmActive) return;
   var td = fortyDayData[getCurrentDayAuto()] || {};
   tableColumns.forEach(function(col) {
-    if(alarmEnabled[col] === false) return;
-    var time = currentTimes[col];
-    var name = td[col] || '';
-    if(time && name && name !== '❌') {
-      var ms = msUntil(time);
-      if(ms > 0 && ms < 86400000) {
-        alarmTimers.push(setTimeout(function() {
-          triggerAlarm({ name: name, type: tableColumnNames[col] });
-          setTimeout(scheduleAlarms, 60000);
-        }, ms));
-      }
-    }
+    if(alarmEnabled[col] === false) return; var time = currentTimes[col]; var name = td[col] || '';
+    if(time && name && name !== '❌') { var ms = msUntil(time); if(ms > 0 && ms < 86400000) { alarmTimers.push(setTimeout(function() { triggerAlarm({ name: name, type: tableColumnNames[col] }); setTimeout(scheduleAlarms, 60000); }, ms)); } }
   });
   updateAlarmScheduleForSW();
 }
 
-function startAlarmHeartbeat() {
-  stopAlarmHeartbeat();
-  window._alarmHeartbeatInterval = setInterval(function() {
-    if(alarmActive) updateAlarmScheduleForSW();
-  }, 5 * 60 * 1000);
-}
-function stopAlarmHeartbeat() {
-  if(window._alarmHeartbeatInterval) { clearInterval(window._alarmHeartbeatInterval); window._alarmHeartbeatInterval = null; }
-}
+function startAlarmHeartbeat() { stopAlarmHeartbeat(); window._alarmHeartbeatInterval = setInterval(function() { if(alarmActive) updateAlarmScheduleForSW(); }, 5 * 60 * 1000); }
+function stopAlarmHeartbeat() { if(window._alarmHeartbeatInterval) { clearInterval(window._alarmHeartbeatInterval); window._alarmHeartbeatInterval = null; } }
 
 function triggerAlarm(a){
-  currentAlarmData = a;
-  safeSetLS('activeAlarm_' + userId, JSON.stringify({name: a.name, type: a.type, triggeredAt: Date.now(), read: false, userId: userId}));
-  var el=document.getElementById('alarmMessage');
-  if(el)el.textContent='⏰ '+a.type+': '+a.name;
-  var ov=document.getElementById('alarmOverlay');
-  if(ov)ov.classList.add('active');
-  
-  // ✅ اول ویبره (سریع‌تر)
-  vibrateAlarm();
-  
-  // ✅ بعد صدا
-  playAlarmSound();
-  
-  // ✅ نوتیفیکیشن
-  showInteractiveNotification(a.name, a.type);
-  
-  startAlarmKeepAlive();
-  updateAlarmScheduleForSW();
+  if (alarmSoundInterval) { clearInterval(alarmSoundInterval); alarmSoundInterval = null; }
+  if (audioBufferCache.currentSource) { try { audioBufferCache.currentSource.stop(); } catch(e) {} }
+  currentAlarmData = a; safeSetLS('activeAlarm_' + userId, JSON.stringify({name: a.name, type: a.type, triggeredAt: Date.now(), read: false, userId: userId}));
+  var el=document.getElementById('alarmMessage'); if(el)el.textContent='⏰ '+a.type+': '+a.name;
+  var ov=document.getElementById('alarmOverlay'); if(ov)ov.classList.add('active');
+  vibrateAlarm(); playAlarmSound(); showInteractiveNotification(a.name, a.type); startAlarmKeepAlive(); updateAlarmScheduleForSW();
 }
 
 function startAlarmKeepAlive() {
   stopAlarmKeepAlive();
   alarmKeepAliveTimer = setInterval(function() {
-    if(!alarmActive || !currentAlarmData) {
-      stopAlarmKeepAlive();
-      return;
-    }
-    var ov = document.getElementById('alarmOverlay');
-    if(ov && !ov.classList.contains('active')) {
-      ov.classList.add('active');
-    }
-    if(vibrateEnabled || vibrateOnlyMode) {
-      if(navigator.vibrate) {
-        try { navigator.vibrate([500,200,500,200,500]); } catch(e) {}
-      }
-    }
-    if(!vibrateOnlyMode && !alarmSoundInterval && !audioBufferCache.currentSource) {
-      playAlarmSound();
-    }
+    if(!alarmActive || !currentAlarmData) { stopAlarmKeepAlive(); return; }
+    var ov = document.getElementById('alarmOverlay'); if(ov && !ov.classList.contains('active')) ov.classList.add('active');
+    if(vibrateEnabled || vibrateOnlyMode) { if(navigator.vibrate) { try { navigator.vibrate([500,200,500,200,500]); } catch(e) {} } }
+    if(!vibrateOnlyMode && !alarmSoundInterval && !audioBufferCache.currentSource) playAlarmSound();
   }, 5000);
 }
-function stopAlarmKeepAlive() {
-  if(alarmKeepAliveTimer) {
-    clearInterval(alarmKeepAliveTimer);
-    alarmKeepAliveTimer = null;
-  }
-}
+function stopAlarmKeepAlive() { if(alarmKeepAliveTimer) { clearInterval(alarmKeepAliveTimer); alarmKeepAliveTimer = null; } }
 
 async function showInteractiveNotification(name, type){
   if(!('Notification' in window)) return;
-  if(Notification.permission !== 'granted') {
-    if(Notification.permission === 'default') {
-      try {
-        var perm = await Notification.requestPermission();
-        if(perm !== 'granted') return;
-      } catch(e) { return; }
-    } else return;
-  }
-  var opts = {
-    body: name + ' — کلیک برای قطع یا چرت',
-    icon: '/Safir-salamat-/icon-192.png',
-    badge: '/Safir-salamat-/icon-192.png',
-    vibrate: (vibrateEnabled || vibrateOnlyMode) ? [500,200,500,200,500,200,500,200,500] : [],
-    tag: 'safir-alarm-' + userId,
-    requireInteraction: true,
-    renotify: true,
-    silent: false,
-    data: { alarmName: name, alarmType: type, isAlarm: true, action: 'open' },
-    actions: [
-      { action: 'stop', title: '🔇 قطع' },
-      { action: 'snooze', title: '💤 چرت' }
-    ]
-  };
+  if(Notification.permission !== 'granted') { if(Notification.permission === 'default') { try { var perm = await Notification.requestPermission(); if(perm !== 'granted') return; } catch(e) { return; } } else return; }
+  var opts = { body: name + ' — کلیک برای قطع یا چرت', icon: '/Safir-salamat-/icon-192.png', badge: '/Safir-salamat-/icon-192.png', vibrate: (vibrateEnabled || vibrateOnlyMode) ? [500,200,500,200,500,200,500,200,500] : [], tag: 'safir-alarm-' + userId, requireInteraction: true, renotify: true, silent: false, data: { alarmName: name, alarmType: type, isAlarm: true, action: 'open' }, actions: [ { action: 'stop', title: '🔇 قطع' }, { action: 'snooze', title: '💤 چرت' } ] };
   try {
-    if(swRegistration && swRegistration.showNotification) {
-      await swRegistration.showNotification('⏰ ' + type, opts);
-      return;
-    }
-    if('serviceWorker' in navigator) {
-      try {
-        var reg = await navigator.serviceWorker.ready;
-        if(reg && reg.showNotification) {
-          await reg.showNotification('⏰ ' + type, opts);
-          return;
-        }
-      } catch(e) {}
-    }
+    if(swRegistration && swRegistration.showNotification) { await swRegistration.showNotification('⏰ ' + type, opts); return; }
+    if('serviceWorker' in navigator) { try { var reg = await navigator.serviceWorker.ready; if(reg && reg.showNotification) { await reg.showNotification('⏰ ' + type, opts); return; } } catch(e) {} }
     if(activeNotification) { try { activeNotification.close(); } catch(e) {} }
     activeNotification = new Notification('⏰ ' + type, opts);
     activeNotification.onclick = function(e) { e.preventDefault(); stopAlarm(); window.focus(); };
@@ -2901,461 +2102,138 @@ async function showInteractiveNotification(name, type){
 if('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('message', function(event) {
     var data = event.data || {};
-    if(data.type === 'ALARM_ACTION' || data.type === 'NOTIFICATION_CLICK') {
-      if(data.action === 'stop') { stopAlarm(); }
-      else if(data.action === 'snooze') { snoozeAlarm(); }
-      else if(data.action === 'open') { stopAlarm(); }
-    }
-    if(data.type === 'TRIGGER_ALARM_FROM_SW') {
-      if(data.alarmData) triggerAlarm(data.alarmData);
-    }
+    if(data.type === 'ALARM_ACTION' || data.type === 'NOTIFICATION_CLICK') { if(data.action === 'stop' || data.action === 'open') stopAlarm(); else if(data.action === 'snooze') snoozeAlarm(); }
+    if(data.type === 'TRIGGER_ALARM_FROM_SW') { if(data.alarmData) triggerAlarm(data.alarmData); }
   });
 }
 
 function stopAlarm(){
-  document.getElementById('alarmOverlay').classList.remove('active');
-  stopAlarmSound();
-  stopAlarmKeepAlive();
-  stopVibration();
+  document.getElementById('alarmOverlay').classList.remove('active'); stopAlarmSound(); stopAlarmKeepAlive(); stopVibration();
   if(activeNotification) { try { activeNotification.close(); } catch(e) {} activeNotification = null; }
-  if(userId) localStorage.removeItem('activeAlarm_' + userId);
-  currentAlarmData = null;
-  try {
-    if(swRegistration && swRegistration.active) {
-      swRegistration.active.postMessage({type: 'STOP_ALARM'});
-    }
-  } catch(e) {}
+  if(userId) localStorage.removeItem('activeAlarm_' + userId); currentAlarmData = null;
+  try { if(swRegistration && swRegistration.active) swRegistration.active.postMessage({type: 'STOP_ALARM'}); } catch(e) {}
 }
-
-function snoozeAlarm(){
-  stopAlarm();
-  setTimeout(function(){ if(alarmActive) triggerAlarm({name:'یادآوری',type:'🔔'}); }, 10 * 60 * 1000);
-}
-
+function snoozeAlarm(){ stopAlarm(); setTimeout(function(){ if(alarmActive) triggerAlarm({name:'یادآوری',type:'🔔'}); }, 10 * 60 * 1000); }
 function checkPendingAlarm() {
-  if(!userId) return;
-  var stored = safeGetLS('activeAlarm_' + userId, null);
-  if(stored) {
-    try {
-      var a = JSON.parse(stored);
-      if(a.userId !== userId) { localStorage.removeItem('activeAlarm_' + userId); return; }
-      var elapsed = Date.now() - (a.triggeredAt || 0);
-      if(elapsed < 10 * 60 * 1000 && !a.read) {
-        currentAlarmData = { name: a.name, type: a.type };
-        var el = document.getElementById('alarmMessage');
-        if(el) el.textContent = '⏰ ' + a.type + ': ' + a.name;
-        var ov = document.getElementById('alarmOverlay');
-        if(ov) ov.classList.add('active');
-        vibrateAlarm();
-        playAlarmSound();
-      } else {
-        localStorage.removeItem('activeAlarm_' + userId);
-      }
-    } catch(e) {}
-  }
+  if(!userId) return; var stored = safeGetLS('activeAlarm_' + userId, null);
+  if(stored) { try { var a = JSON.parse(stored); if(a.userId !== userId) { localStorage.removeItem('activeAlarm_' + userId); return; } var elapsed = Date.now() - (a.triggeredAt || 0); if(elapsed < 10 * 60 * 1000 && !a.read) { currentAlarmData = { name: a.name, type: a.type }; var el = document.getElementById('alarmMessage'); if(el) el.textContent = '⏰ ' + a.type + ': ' + a.name; var ov = document.getElementById('alarmOverlay'); if(ov) ov.classList.add('active'); vibrateAlarm(); playAlarmSound(); } else { localStorage.removeItem('activeAlarm_' + userId); } } catch(e) {} }
 }
-
 function activateAlarms(){
-  unlockAudio();
-  if('Notification'in window && Notification.permission==='default'){
-    try{Notification.requestPermission();}catch(e){}
-  }
-  if(alarmActive){ 
-    alarmActive=false;clearTimers(); 
-    document.getElementById('statusText').textContent='⏸ غیرفعال'; 
-    return; 
-  }
-  alarmActive=true;
-  scheduleAlarms();
-  document.getElementById('statusText').textContent='✅ فعال';
-  setTimeout(function(){ playAlarmSound(); setTimeout(function(){ stopAlarmSound(false); },2000); },100);
+  unlockAudio(); if('Notification'in window && Notification.permission==='default'){try{Notification.requestPermission();}catch(e){}}
+  if(alarmActive){ alarmActive=false;clearTimers(); document.getElementById('statusText').textContent='⏸ غیرفعال'; return; }
+  alarmActive=true; scheduleAlarms(); document.getElementById('statusText').textContent='✅ فعال'; setTimeout(function(){ playAlarmSound(); setTimeout(function(){ stopAlarmSound(false); },2000); },100);
 }
 
 /* ============================================================
-   UPLOAD SOUND - با IndexedDB (پایدار)
+   UPLOAD SOUND
    ============================================================ */
 function openSoundFilePicker() {
-  var inp = document.getElementById('customAlarmSound');
-  if(!inp) {
-    inp = document.createElement('input');
-    inp.type = 'file';
-    inp.id = 'customAlarmSound';
-    inp.accept = 'audio/*';
-    inp.style.display = 'none';
-    inp.addEventListener('change', uploadCustomAlarmSound);
-    document.body.appendChild(inp);
-  }
-  inp.value = '';
-  var opened = false;
-  try { if(typeof inp.showPicker === 'function') { inp.showPicker(); opened = true; } } catch(e) { opened = false; }
-  if(!opened) { try { inp.click(); opened = true; } catch(e) { opened = false; } }
-  if(!opened) showToast('⚠️ پشتیبانی نمی‌شود', 'warning', 6000);
+  var inp = document.getElementById('customAlarmSound'); if(!inp) { inp = document.createElement('input'); inp.type = 'file'; inp.id = 'customAlarmSound'; inp.accept = 'audio/*'; inp.style.display = 'none'; inp.addEventListener('change', uploadCustomAlarmSound); document.body.appendChild(inp); }
+  inp.value = ''; var opened = false; try { if(typeof inp.showPicker === 'function') { inp.showPicker(); opened = true; } } catch(e) { opened = false; }
+  if(!opened) { try { inp.click(); opened = true; } catch(e) { opened = false; } } if(!opened) showToast('⚠️ پشتیبانی نمی‌شود', 'warning', 6000);
 }
-
 async function uploadCustomAlarmSound(event) {
-  var file = event.target.files && event.target.files[0];
-  if(!file) return;
-  if(!file.type.startsWith('audio/') && !file.name.match(/\.(mp3|wav|m4a|ogg|aac|flac|opus|weba)$/i)) {
-    showToast('⚠️ فایل صوتی انتخاب کنید', 'warning', 5000);
-    return;
-  }
+  var file = event.target.files && event.target.files[0]; if(!file) return;
+  if(!file.type.startsWith('audio/') && !file.name.match(/\.(mp3|wav|m4a|ogg|aac|flac|opus|weba)$/i)) { showToast('⚠️ فایل صوتی', 'warning', 5000); return; }
   showToast('⏳ پردازش...', 'warning', 3000);
   var reader = new FileReader();
   reader.onload = async function(e) {
     try {
-      var base64 = e.target.result;
-      if(!base64 || base64.length < 100) { showToast('❌ نامعتبر', 'error'); return; }
-      
-      // ✅ ذخیره در IndexedDB (پایدار)
-      var savedToDB = await dbSave('customSound_' + userId, base64);
-      if(!savedToDB) {
-        showToast('❌ خطا در ذخیره پایدار', 'error', 5000);
-      }
-      
-      // ✅ ذخیره آهنگ در سابقه
-      await saveSoundToHistory(base64, file.name);
-      
-      // ✅ ذخیره در localStorage هم (fallback)
-      safeSetLS('customAlarmSound_' + userId, base64);
-      customAlarmSoundData = base64;
-      setupCustomAudio(base64);
-      sendSoundToSW(base64);
-      
-      showToast('✅ ذخیره شد (پایدار)');
-    } catch(err) {
-      showToast('❌ خطا: ' + err.message, 'error', 5000);
-    }
+      var base64 = e.target.result; if(!base64 || base64.length < 100) { showToast('❌ نامعتبر', 'error'); return; }
+      var savedToDB = await dbSave('customSound_' + userId, base64); if(!savedToDB) showToast('❌ خطا', 'error', 5000);
+      await saveSoundToHistory(base64, file.name); safeSetLS('customAlarmSound_' + userId, base64); customAlarmSoundData = base64;
+      setupCustomAudio(base64); sendSoundToSW(base64); showToast('✅ ذخیره شد');
+    } catch(err) { showToast('❌ خطا: ' + err.message, 'error', 5000); }
   };
-  reader.onerror = function() { showToast('❌ خطا', 'error'); };
-  reader.readAsDataURL(file);
+  reader.onerror = function() { showToast('❌ خطا', 'error'); }; reader.readAsDataURL(file);
 }
-
-function sendSoundToSW(base64) {
-  if(!swRegistration || !swRegistration.active) return;
-  try {
-    if(base64.length < 500000) {
-      swRegistration.active.postMessage({type: 'SET_SOUND', data: base64, userId: userId});
-    }
-  } catch(e) {}
-}
-
+function sendSoundToSW(base64) { if(!swRegistration || !swRegistration.active) return; try { if(base64.length < 500000) swRegistration.active.postMessage({type: 'SET_SOUND', data: base64, userId: userId}); } catch(e) {} }
 async function saveSoundToHistory(base64, fileName) {
   try {
-    var history = [];
-    try { history = await dbGet('soundHistory_' + userId) || []; } catch(e) { history = safeParseJSON(safeGetLS('soundHistory_' + userId, '[]'), []); }
-    
+    var history = []; try { history = await dbGet('soundHistory_' + userId) || []; } catch(e) { history = safeParseJSON(safeGetLS('soundHistory_' + userId, '[]'), []); }
     if(history.some(function(h){ return h.data === base64; })) return;
-    history.unshift({ name: fileName || 'آهنگ', data: base64, addedAt: Date.now() });
-    if(history.length > 3) history = history.slice(0, 3);
-    
-    // ذخیره در IndexedDB
-    try { await dbSave('soundHistory_' + userId, history); } catch(e) {}
-    // ذخیره در localStorage هم
-    safeSetLS('soundHistory_' + userId, JSON.stringify(history));
-    console.log('✓ Sound saved to history. Total:', history.length);
-  } catch(e) { console.warn('History save error:', e); }
-}
-
-async function renderSoundHistory() {
-  var list = document.getElementById('soundHistoryList');
-  if(!list) return;
-  
-  var history = [];
-  try { history = await dbGet('soundHistory_' + userId) || []; } catch(e) {}
-  if(history.length === 0) {
-    history = safeParseJSON(safeGetLS('soundHistory_' + userId, '[]'), []);
-  }
-  
-  if(history.length === 0) {
-    list.innerHTML = '<p style="font-size:0.75em; color:var(--text-muted); text-align:center; padding:8px;">هنوز آهنگی نیست</p>';
-    return;
-  }
-  var html = '';
-  history.forEach(function(h, idx) {
-    var date = new Date(h.addedAt).toLocaleDateString('fa-IR');
-    html += '<div class="sound-history-item">';
-    html += '<div class="sound-history-name">🎵 ' + escapeHtml(h.name) + '<br><span style="font-size:0.85em;">' + date + '</span></div>';
-    html += '<button class="btn-play" onclick="playHistorySound(' + idx + ')">▶️</button>';
-    html += '<button class="btn-play" style="background:var(--btn-blue);" onclick="applyHistorySound(' + idx + ')">✅</button>';
-    html += '<button class="btn-del" onclick="deleteHistorySound(' + idx + ')">🗑️</button>';
-    html += '</div>';
-  });
-  list.innerHTML = html;
-}
-
-async function playHistorySound(idx) {
-  var history = [];
-  try { history = await dbGet('soundHistory_' + userId) || []; } catch(e) {}
-  if(history.length === 0) history = safeParseJSON(safeGetLS('soundHistory_' + userId, '[]'), []);
-  var h = history[idx];
-  if(!h) return;
-  try {
-    var audio = new Audio(h.data);
-    audio.volume = alarmVolume / 100;
-    audio.play();
-    setTimeout(function(){ try{audio.pause();}catch(e){} }, 5000);
-    showToast('🔊 پخش...');
-  } catch(e) { showToast('❌ خطا', 'error'); }
-}
-
-async function applyHistorySound(idx) {
-  var history = [];
-  try { history = await dbGet('soundHistory_' + userId) || []; } catch(e) {}
-  if(history.length === 0) history = safeParseJSON(safeGetLS('soundHistory_' + userId, '[]'), []);
-  var h = history[idx];
-  if(!h) return;
-  
-  await dbSave('customSound_' + userId, h.data);
-  safeSetLS('customAlarmSound_' + userId, h.data);
-  customAlarmSoundData = h.data;
-  setupCustomAudio(h.data);
-  sendSoundToSW(h.data);
-  showToast('✅ فعال شد');
-}
-
-async function deleteHistorySound(idx) {
-  var history = [];
-  try { history = await dbGet('soundHistory_' + userId) || []; } catch(e) {}
-  if(history.length === 0) history = safeParseJSON(safeGetLS('soundHistory_' + userId, '[]'), []);
-  if(!history[idx]) return;
-  var removed = history.splice(idx, 1)[0];
-  
-  try { await dbSave('soundHistory_' + userId, history); } catch(e) {}
-  safeSetLS('soundHistory_' + userId, JSON.stringify(history));
-  
-  var currentSound = await dbGet('customSound_' + userId);
-  if(!currentSound) currentSound = safeGetLS('customAlarmSound_' + userId, null);
-  if(currentSound === removed.data) {
-    await removeCustomAlarmSoundSilent();
-  }
-  await renderSoundHistory();
-}
-
-async function removeCustomAlarmSoundSilent() {
-  try { await dbDelete('customSound_' + userId); } catch(e) {}
-  try { localStorage.removeItem('customAlarmSound_' + userId); } catch(e) {}
-  if(customAlarmAudio) { customAlarmAudio.pause(); customAlarmAudio = null; }
-  customAlarmSoundData = null;
-  var statusEl = document.getElementById('customSoundStatus');
-  if(statusEl) statusEl.textContent = 'آهنگ پیش‌فرض';
-  var preview = document.getElementById('customSoundPreview');
-  if(preview) { preview.src = ''; preview.style.display = 'none'; }
-  try { if(swRegistration && swRegistration.active) swRegistration.active.postMessage({type: 'SET_SOUND', data: null}); } catch(e) {}
-}
-
-function setupCustomAudio(base64) {
-  try {
-    if(customAlarmAudio) { customAlarmAudio.pause(); customAlarmAudio = null; }
-    customAlarmAudio = new Audio(base64);
-    customAlarmAudio.preload = 'auto';
-    customAlarmAudio.loop = true;
-    customAlarmAudio.volume = alarmVolume / 100;
-    var statusEl = document.getElementById('customSoundStatus');
-    if(statusEl) statusEl.innerHTML = '<span style="color:var(--btn-success);">✅ آهنگ فعال</span>';
+    history.unshift({ name: fileName || 'آهنگ', data: base64, addedAt: Date.now() }); if(history.length > 3) history = history.slice(0, 3);
+    try { await dbSave('soundHistory_' + userId, history); } catch(e) {} safeSetLS('soundHistory_' + userId, JSON.stringify(history));
   } catch(e) {}
 }
-
+async function renderSoundHistory() {
+  var list = document.getElementById('soundHistoryList'); if(!list) return;
+  var history = []; try { history = await dbGet('soundHistory_' + userId) || []; } catch(e) {}
+  if(history.length === 0) history = safeParseJSON(safeGetLS('soundHistory_' + userId, '[]'), []);
+  if(history.length === 0) { list.innerHTML = '<p style="font-size:0.75em; color:var(--text-muted); text-align:center; padding:8px;">هنوز نیست</p>'; return; }
+  var html = '';
+  history.forEach(function(h, idx) { var date = new Date(h.addedAt).toLocaleDateString('fa-IR'); html += '<div class="sound-history-item"><div class="sound-history-name">🎵 ' + escapeHtml(h.name) + '<br><span style="font-size:0.85em;">' + date + '</span></div><button class="btn-play" onclick="playHistorySound(' + idx + ')">▶️</button><button class="btn-play" style="background:var(--btn-blue);" onclick="applyHistorySound(' + idx + ')">✅</button><button class="btn-del" onclick="deleteHistorySound(' + idx + ')">🗑️</button></div>'; });
+  list.innerHTML = html;
+}
+async function playHistorySound(idx) { var history = []; try { history = await dbGet('soundHistory_' + userId) || []; } catch(e) {} if(history.length === 0) history = safeParseJSON(safeGetLS('soundHistory_' + userId, '[]'), []); var h = history[idx]; if(!h) return; try { var audio = new Audio(h.data); audio.volume = alarmVolume / 100; audio.play(); setTimeout(function(){ try{audio.pause();}catch(e){} }, 5000); showToast('🔊 پخش...'); } catch(e) { showToast('❌ خطا', 'error'); } }
+async function applyHistorySound(idx) { var history = []; try { history = await dbGet('soundHistory_' + userId) || []; } catch(e) {} if(history.length === 0) history = safeParseJSON(safeGetLS('soundHistory_' + userId, '[]'), []); var h = history[idx]; if(!h) return; await dbSave('customSound_' + userId, h.data); safeSetLS('customAlarmSound_' + userId, h.data); customAlarmSoundData = h.data; setupCustomAudio(h.data); sendSoundToSW(h.data); showToast('✅ فعال شد'); }
+async function deleteHistorySound(idx) { var history = []; try { history = await dbGet('soundHistory_' + userId) || []; } catch(e) {} if(history.length === 0) history = safeParseJSON(safeGetLS('soundHistory_' + userId, '[]'), []); if(!history[idx]) return; var removed = history.splice(idx, 1)[0]; try { await dbSave('soundHistory_' + userId, history); } catch(e) {} safeSetLS('soundHistory_' + userId, JSON.stringify(history)); var currentSound = await dbGet('customSound_' + userId); if(!currentSound) currentSound = safeGetLS('customAlarmSound_' + userId, null); if(currentSound === removed.data) await removeCustomAlarmSoundSilent(); await renderSoundHistory(); }
+async function removeCustomAlarmSoundSilent() { try { await dbDelete('customSound_' + userId); } catch(e) {} try { localStorage.removeItem('customAlarmSound_' + userId); } catch(e) {} if(customAlarmAudio) { customAlarmAudio.pause(); customAlarmAudio = null; } customAlarmSoundData = null; var statusEl = document.getElementById('customSoundStatus'); if(statusEl) statusEl.textContent = 'آهنگ پیش‌فرض'; var preview = document.getElementById('customSoundPreview'); if(preview) { preview.src = ''; preview.style.display = 'none'; } try { if(swRegistration && swRegistration.active) swRegistration.active.postMessage({type: 'SET_SOUND', data: null}); } catch(e) {} }
+function setupCustomAudio(base64) { try { if(customAlarmAudio) { customAlarmAudio.pause(); customAlarmAudio = null; } customAlarmAudio = new Audio(base64); customAlarmAudio.preload = 'auto'; customAlarmAudio.loop = true; customAlarmAudio.volume = alarmVolume / 100; var statusEl = document.getElementById('customSoundStatus'); if(statusEl) statusEl.innerHTML = '<span style="color:var(--btn-success);">✅ آهنگ فعال</span>'; } catch(e) {} }
 async function loadCustomAlarmSound() {
-  if(!userId) return;
-  
-  // ✅ اول از IndexedDB
-  var stored = null;
-  try { stored = await dbGet('customSound_' + userId); } catch(e) {}
-  
-  // اگر نبود، از localStorage
-  if(!stored) {
-    stored = safeGetLS('customAlarmSound_' + userId, null);
-    if(stored) {
-      // بازیابی به IndexedDB
-      try { await dbSave('customSound_' + userId, stored); } catch(e) {}
-    }
-  }
-  
-  if(stored) {
-    customAlarmSoundData = stored;
-    setupCustomAudio(stored);
-    sendSoundToSW(stored);
-    console.log('✓ Custom sound loaded');
-  } else {
-    var statusEl = document.getElementById('customSoundStatus');
-    if(statusEl) statusEl.textContent = 'آهنگ پیش‌فرض';
-  }
+  if(!userId) return; var stored = null; try { stored = await dbGet('customSound_' + userId); } catch(e) {}
+  if(!stored) { stored = safeGetLS('customAlarmSound_' + userId, null); if(stored) { try { await dbSave('customSound_' + userId, stored); } catch(e) {} } }
+  if(stored) { customAlarmSoundData = stored; setupCustomAudio(stored); sendSoundToSW(stored); } else { var statusEl = document.getElementById('customSoundStatus'); if(statusEl) statusEl.textContent = 'آهنگ پیش‌فرض'; }
   await renderSoundHistory();
 }
-
-async function removeCustomAlarmSound() {
-  if(!confirm('حذف شود؟')) return;
-  await removeCustomAlarmSoundSilent();
-  var fileInput = document.getElementById('customAlarmSound');
-  if(fileInput) fileInput.value = '';
-  await renderSoundHistory();
-  showToast('✅ حذف شد');
-}
+async function removeCustomAlarmSound() { if(!confirm('حذف شود؟')) return; await removeCustomAlarmSoundSilent(); var fileInput = document.getElementById('customAlarmSound'); if(fileInput) fileInput.value = ''; await renderSoundHistory(); showToast('✅ حذف شد'); }
 
 /* ============================================================
    AUTO REACTIVATE
    ============================================================ */
-function toggleAutoReactivate() {
-  var cb = document.getElementById('autoReactivateCheck');
-  autoReactivateCheck = cb ? cb.checked : false;
-  saveUserAlarmSettings();
-  if(autoReactivateCheck) {
-    startAutoReactivateInterval();
-    if('Notification' in window && Notification.permission === 'default') {
-      try { Notification.requestPermission(); } catch(e){}
-    }
-    showToast('✅ فعال‌سازی خودکار');
-    if(!alarmActive) activateAlarms();
-  } else {
-    stopAutoReactivateInterval();
-    closeMiniAlarmToast();
-  }
-}
-
-function startAutoReactivateInterval() {
-  stopAutoReactivateInterval();
-  var cb = document.getElementById('autoReactivateCheck');
-  if(cb) cb.checked = autoReactivateCheck;
-  autoReactivateInterval = setInterval(function() {
-    if(autoReactivateCheck && !alarmActive) {
-      activateAlarms();
-    }
-  }, 30 * 60 * 1000);
-}
-
-function stopAutoReactivateInterval() {
-  if(autoReactivateInterval) { clearInterval(autoReactivateInterval); autoReactivateInterval = null; }
-}
-
-function closeMiniAlarmToast() {
-  var m = document.getElementById('miniAlarmToast');
-  if(m) m.classList.remove('active');
-}
+function toggleAutoReactivate() { var cb = document.getElementById('autoReactivateCheck'); autoReactivateCheck = cb ? cb.checked : false; saveUserAlarmSettings(); if(autoReactivateCheck) { startAutoReactivateInterval(); if('Notification' in window && Notification.permission === 'default') try { Notification.requestPermission(); } catch(e){} showToast('✅ فعال‌سازی خودکار'); if(!alarmActive) activateAlarms(); } else { stopAutoReactivateInterval(); closeMiniAlarmToast(); } }
+function startAutoReactivateInterval() { stopAutoReactivateInterval(); var cb = document.getElementById('autoReactivateCheck'); if(cb) cb.checked = autoReactivateCheck; autoReactivateInterval = setInterval(function() { if(autoReactivateCheck && !alarmActive) activateAlarms(); }, 30 * 60 * 1000); }
+function stopAutoReactivateInterval() { if(autoReactivateInterval) { clearInterval(autoReactivateInterval); autoReactivateInterval = null; } }
+function closeMiniAlarmToast() { var m = document.getElementById('miniAlarmToast'); if(m) m.classList.remove('active'); }
 
 /* ============================================================
    BACKGROUND ALARM
    ============================================================ */
-function toggleBackgroundAlarm() {
-  var cb = document.getElementById('backgroundAlarmCheck');
-  backgroundAlarmEnabled = cb ? cb.checked : false;
-  saveUserAlarmSettings();
-  if(backgroundAlarmEnabled) { setupBackgroundAlarm(); showToast('✅ پس‌زمینه فعال'); }
-  else { teardownBackgroundAlarm(); showToast('⏸'); }
-}
-
+function toggleBackgroundAlarm() { var cb = document.getElementById('backgroundAlarmCheck'); backgroundAlarmEnabled = cb ? cb.checked : false; saveUserAlarmSettings(); if(backgroundAlarmEnabled) { setupBackgroundAlarm(); showToast('✅ پس‌زمینه فعال'); } else { teardownBackgroundAlarm(); showToast('⏸'); } }
 function setupBackgroundAlarm() {
-  if(!('serviceWorker' in navigator)) { showToast('⚠️ پشتیبانی نمی‌شود', 'warning', 5000); return; }
+  if(!('serviceWorker' in navigator)) { showToast('⚠️', 'warning', 5000); return; }
   navigator.serviceWorker.ready.then(function(registration) {
-    swRegistration = registration;
-    if('periodicSync' in registration) {
-      registration.periodicSync.register('safir-check-alarms', {
-        minInterval: 15 * 60 * 1000
-      }).catch(function(e){});
-    }
-    if('sync' in registration) {
-      registration.sync.register('safir-alarm-sync').catch(function(e){});
-    }
-    sendAlarmScheduleToSW();
-    if(customAlarmSoundData) sendSoundToSW(customAlarmSoundData);
+    swRegistration = registration; if('periodicSync' in registration) { registration.periodicSync.register('safir-check-alarms', { minInterval: 15 * 60 * 1000 }).catch(function(e){}); }
+    if('sync' in registration) { registration.sync.register('safir-alarm-sync').catch(function(e){}); }
+    sendAlarmScheduleToSW(); if(customAlarmSoundData) sendSoundToSW(customAlarmSoundData);
   });
-  updateAlarmScheduleForSW();
-  if(window._swAlarmInterval) clearInterval(window._swAlarmInterval);
-  window._swAlarmInterval = setInterval(updateAlarmScheduleForSW, 60000);
+  updateAlarmScheduleForSW(); if(window._swAlarmInterval) clearInterval(window._swAlarmInterval); window._swAlarmInterval = setInterval(updateAlarmScheduleForSW, 60000);
 }
-
-function teardownBackgroundAlarm() {
-  if(window._swAlarmInterval) { clearInterval(window._swAlarmInterval); window._swAlarmInterval = null; }
-  if(userId) localStorage.removeItem('swAlarmSchedule_' + userId);
-}
-
+function teardownBackgroundAlarm() { if(window._swAlarmInterval) { clearInterval(window._swAlarmInterval); window._swAlarmInterval = null; } if(userId) localStorage.removeItem('swAlarmSchedule_' + userId); }
 function updateAlarmScheduleForSW() {
-  if(!userId) return;
-  var td = fortyDayData[getCurrentDayAuto()] || {};
-  var schedule = [];
-  tableColumns.forEach(function(col) {
-    if(alarmEnabled[col] === false) return;
-    var time = currentTimes[col];
-    var name = td[col] || '';
-    if(time && name && name !== '❌') {
-      schedule.push({ col: col, time: time, name: name, label: tableColumnNames[col] || col });
-    }
-  });
-  var data = {
-    schedule: schedule, 
-    userId: userId,
-    userName: userProfile ? userProfile.name : '',
-    updatedAt: Date.now(),
-    vibrateOnly: vibrateOnlyMode,
-    vibrate: vibrateEnabled || vibrateOnlyMode,
-    volume: alarmVolume,
-    gradual: gradualVolume,
-    hasCustomSound: !!customAlarmSoundData,
-    backgroundEnabled: backgroundAlarmEnabled
-  };
-  safeSetLS('swAlarmSchedule_' + userId, JSON.stringify(data));
-  if(backgroundAlarmEnabled) sendAlarmScheduleToSW();
+  if(!userId) return; var td = fortyDayData[getCurrentDayAuto()] || {}; var schedule = [];
+  tableColumns.forEach(function(col) { if(alarmEnabled[col] === false) return; var time = currentTimes[col]; var name = td[col] || ''; if(time && name && name !== '❌') { schedule.push({ col: col, time: time, name: name, label: tableColumnNames[col] || col }); } });
+  var data = { schedule: schedule, userId: userId, userName: userProfile ? userProfile.name : '', updatedAt: Date.now(), vibrateOnly: vibrateOnlyMode, vibrate: vibrateEnabled || vibrateOnlyMode, volume: alarmVolume, gradual: gradualVolume, hasCustomSound: !!customAlarmSoundData, backgroundEnabled: backgroundAlarmEnabled };
+  safeSetLS('swAlarmSchedule_' + userId, JSON.stringify(data)); if(backgroundAlarmEnabled) sendAlarmScheduleToSW();
 }
-
-function sendAlarmScheduleToSW() {
-  if(!('serviceWorker' in navigator)) return;
-  navigator.serviceWorker.ready.then(function(registration) {
-    swRegistration = registration;
-    if(registration.active) {
-      var schedule = safeGetLS('swAlarmSchedule_' + userId, null);
-      registration.active.postMessage({
-        type: 'UPDATE_ALARM_SCHEDULE',
-        data: schedule ? JSON.parse(schedule) : { schedule: [] }
-      });
-    }
-  }).catch(function(){});
-}
+function sendAlarmScheduleToSW() { if(!('serviceWorker' in navigator)) return; navigator.serviceWorker.ready.then(function(registration) { swRegistration = registration; if(registration.active) { var schedule = safeGetLS('swAlarmSchedule_' + userId, null); registration.active.postMessage({ type: 'UPDATE_ALARM_SCHEDULE', data: schedule ? JSON.parse(schedule) : { schedule: [] } }); } }).catch(function(){}); }
 
 /* ============================================================
    DATA
    ============================================================ */
 var herbProperties={},tableColumns=['oil','breakfast','evening','dinner'],tableColumnNames={oil:'💧 ناشتا',breakfast:'☀️ صبح',evening:'🌅 عصر',dinner:'🌙 شب'},currentTimes={oil:"06:00",breakfast:"08:00",evening:"17:00",dinner:"21:00"};
-var totalDays=40,fortyDayData=[],viewMode="all",fontSize="medium",fontFamily="Vazirmatn";
+var totalDays=40,fortyDayData=[],viewMode="all",fontSize="medium",fontFamily="Vazirmatn",showDate=false,showWeekday=false,showPast=true;
 var persianMonths=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'],weekdays=['شنبه','یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه'];
 
 function gregorianToJalali(gDate){var g=new Date(gDate),gy=g.getFullYear(),gm=g.getMonth()+1,gd=g.getDate();var gdm=[0,31,59,90,120,151,181,212,243,273,304,334],gy2=gm>2?gy+1:gy;var days=355666+365*gy+Math.floor((gy2+3)/4)-Math.floor((gy2+99)/100)+Math.floor((gy2+399)/400)+gd+gdm[gm-1];var jy=-1595+33*Math.floor(days/12053);days%=12053;jy+=4*Math.floor(days/1461);days%=1461;if(days>365){jy+=Math.floor((days-1)/365);days=(days-1)%365;}var jm=days<186?1+Math.floor(days/31):7+Math.floor((days-186)/30);var jd=days<186?1+days%31:1+(days-186)%30;return{y:jy,m:jm,d:jd};}
 function formatJalali(j){return j.y+'/'+String(j.m).padStart(2,'0')+'/'+String(j.d).padStart(2,'0');}
 function formatJalaliFull(j){return toPersianNumber(j.d)+' '+persianMonths[j.m-1]+' '+toPersianNumber(j.y);}
 
-function getStartDateGregorian() {
-  var saved = safeGetLS('healthStartDateGregorian', null);
-  if(saved) {
-    var d = new Date(saved);
-    if(!isNaN(d.getTime())) { d.setHours(0,0,0,0); return d; }
-  }
-  var today = new Date();
-  today.setHours(0,0,0,0);
-  safeSetLS('healthStartDateGregorian', today.toISOString());
-  return today;
-}
+function getStartDateGregorian() { var saved = safeGetLS('healthStartDateGregorian', null); if(saved) { var d = new Date(saved); if(!isNaN(d.getTime())) { d.setHours(0,0,0,0); return d; } } var today = new Date(); today.setHours(0,0,0,0); safeSetLS('healthStartDateGregorian', today.toISOString()); return today; }
 function setStartDateGregorian(d){d.setHours(0,0,0,0);safeSetLS('healthStartDateGregorian', d.toISOString());}
-
-function getCurrentDayAuto() {
-  var start = getStartDateGregorian();
-  var now = new Date();
-  now.setHours(0,0,0,0);
-  start.setHours(0,0,0,0);
-  var diffDays = Math.floor((now.getTime() - start.getTime()) / 86400000);
-  if (diffDays < 0) return 0;
-  return Math.max(0, Math.min(totalDays - 1, diffDays));
-}
+function getCurrentDayAuto() { var start = getStartDateGregorian(); var now = new Date(); now.setHours(0,0,0,0); start.setHours(0,0,0,0); var diffDays = Math.floor((now.getTime() - start.getTime()) / 86400000); if (diffDays < 0) return 0; return Math.max(0, Math.min(totalDays - 1, diffDays)); }
 function toDateInputValue(d){return d.toISOString().split('T')[0];}
 
 function initData(){
   herbProperties=safeParseJSON(safeGetLS('herbProperties','null'),null)||{};
   var sc=safeGetLS('tableColumns',null); if(sc){try{var p=JSON.parse(sc);tableColumns=p.columns||tableColumns;tableColumnNames=p.names||tableColumnNames;totalDays=p.totalDays||40;}catch(e){}}
-  viewMode=safeGetLS('viewMode','all');fontSize=safeGetLS('fontSize','medium');currentTheme=safeGetLS('theme','nature');nightMode=safeGetLS('nightMode',null)==='true';alarmEnabled=safeParseJSON(safeGetLS('alarmEnabled','{}'),{});
+  viewMode=safeGetLS('viewMode','all');fontSize=safeGetLS('fontSize','medium');showDate=safeGetLS('showDate',null)==='true';showWeekday=safeGetLS('showWeekday',null)==='true';showPast=safeGetLS('showPastDays',null)!=='false';currentTheme=safeGetLS('theme','nature');nightMode=safeGetLS('nightMode',null)==='true';alarmEnabled=safeParseJSON(safeGetLS('alarmEnabled','{}'),{});
   applyTheme();applySettings();
-  var saved=safeGetLS('health40Data',null);
-  if(saved){try{fortyDayData=JSON.parse(saved);if(fortyDayData.length===totalDays){var st=safeGetLS('health40Times',null);if(st)currentTimes=JSON.parse(st);return;}}catch(e){}}
+  var saved=safeGetLS('health40Data',null); if(saved){try{fortyDayData=JSON.parse(saved);if(fortyDayData.length===totalDays){var st=safeGetLS('health40Times',null);if(st)currentTimes=JSON.parse(st);return;}}catch(e){}}
   generateDefaultData();
 }
 function generateDefaultData(){fortyDayData=[];for(var i=1;i<=totalDays;i++){var d={};tableColumns.forEach(function(c){if(c==='oil')d[c]='روغن بادام';else if(c==='breakfast')d[c]=i%2?'دمنوش کاسنی':'چای سیاه';else if(c==='evening')d[c]='چای آلبالو';else if(c==='dinner')d[c]=i%2?'دمنوش ۵ گیاه':'شنبلیه';else d[c]='';});fortyDayData.push(d);}saveAll();}
-function saveAll(){safeSetLS('health40Data',JSON.stringify(fortyDayData));safeSetLS('health40Times',JSON.stringify(currentTimes));safeSetLS('tableColumns',JSON.stringify({columns:tableColumns,names:tableColumnNames,totalDays:totalDays}));safeSetLS('viewMode',viewMode);safeSetLS('fontSize',fontSize);safeSetLS('theme',currentTheme);safeSetLS('nightMode',String(nightMode));safeSetLS('alarmEnabled',JSON.stringify(alarmEnabled));if(backgroundAlarmEnabled) updateAlarmScheduleForSW();}
+function saveAll(){safeSetLS('health40Data',JSON.stringify(fortyDayData));safeSetLS('health40Times',JSON.stringify(currentTimes));safeSetLS('tableColumns',JSON.stringify({columns:tableColumns,names:tableColumnNames,totalDays:totalDays}));safeSetLS('viewMode',viewMode);safeSetLS('fontSize',fontSize);safeSetLS('showDate',String(showDate));safeSetLS('showWeekday',String(showWeekday));safeSetLS('showPastDays',String(showPast));safeSetLS('theme',currentTheme);safeSetLS('nightMode',String(nightMode));safeSetLS('alarmEnabled',JSON.stringify(alarmEnabled));if(backgroundAlarmEnabled) updateAlarmScheduleForSW();}
 
 var themes={'nature':{'--bg-primary':'#0d1f12','--bg-secondary':'#1a3322','--bg-tertiary':'#21452c','--accent':'#f4d03f','--accent2':'#e8b923','--input-bg':'#142b1a','--text-primary':'#ffffff','--text-secondary':'#e8f0e3','--text-muted':'#a8bfa8'},'honey':{'--bg-primary':'#1a1200','--bg-secondary':'#3d2800','--bg-tertiary':'#5a3d00','--accent':'#f4d03f','--accent2':'#ffb700','--input-bg':'#3d2800','--text-primary':'#ffffff','--text-secondary':'#f0e5c8','--text-muted':'#bfa874'},'herbal':{'--bg-primary':'#1a0f00','--bg-secondary':'#2e1c08','--bg-tertiary':'#4a3010','--accent':'#d4a017','--accent2':'#b8860b','--input-bg':'#2e1c08','--text-primary':'#ffffff','--text-secondary':'#e8dcc8','--text-muted':'#a89468'},'mint':{'--bg-primary':'#0a2e2e','--bg-secondary':'#0f4444','--bg-tertiary':'#1a5c5c','--accent':'#7fffd4','--accent2':'#40e0d0','--input-bg':'#0f4444','--text-primary':'#ffffff','--text-secondary':'#d4f0f0','--text-muted':'#8fb5b5'},'dark':{'--bg-primary':'#0a0a0a','--bg-secondary':'#1a1a1a','--bg-tertiary':'#2a2a2a','--accent':'#ffd700','--accent2':'#ff8c00','--input-bg':'#1a1a1a','--text-primary':'#ffffff','--text-secondary':'#dddddd','--text-muted':'#888888'},'purple':{'--bg-primary':'#1a0a2e','--bg-secondary':'#251545','--bg-tertiary':'#301e50','--accent':'#f4d03f','--accent2':'#e056a0','--input-bg':'#251545','--text-primary':'#ffffff','--text-secondary':'#e8dcf0','--text-muted':'#a894bf'}};
 function applyTheme(){var t=themes[currentTheme];if(!t)return;for(var k in t)document.documentElement.style.setProperty(k,t[k]);document.body.style.filter=nightMode?'brightness(.7)':'none';}
@@ -3365,40 +2243,36 @@ function applySettings(){var s={small:'11px',medium:'14px',large:'18px'};documen
 
 function renderTable(){
   var thead=document.getElementById('tableHead'),hh='<tr><th>روز</th>';
+  if(showWeekday)hh+='<th>هفته</th>';if(showDate)hh+='<th>تاریخ</th>';
   tableColumns.forEach(function(c){hh+='<th>'+escapeHtml(tableColumnNames[c]||c)+'</th>';});hh+='</tr>';
   if(thead)thead.innerHTML=hh;
   var tbody=document.getElementById('scheduleBody');if(!tbody)return;
-  var today=getCurrentDayAuto(),days=[];
+  var today=getCurrentDayAuto(),sd=getStartDateGregorian(),days=[];
   if(viewMode==='today')days=[today];
   else if(viewMode==='week'){var ws=Math.max(0,Math.min(today-3,totalDays-7));for(var i=ws;i<Math.min(totalDays,ws+7);i++)days.push(i);}
-  else{for(var k=0;k<totalDays;k++)days.push(k);}
+  else{for(var k=0;k<totalDays;k++)if(showPast||k>=today)days.push(k);}
   var html='';
   days.forEach(function(i){
-    var d=fortyDayData[i]||{},isT=i===today;
-    var cls=isT?'today-row':'';
+    var d=fortyDayData[i]||{},isT=i===today,isP=i<today,cls=isT?'today-row':'';
+    if(isP&&!isT)cls+=' past-row';
+    var date=new Date(sd);date.setDate(date.getDate()+i);
     html+='<tr class="'+cls+'"><td>'+(isT?'🔵 ':'')+(i+1)+'</td>';
-    tableColumns.forEach(function(col){
-      var txt=d[col]||'-';
-      html+='<td>'+escapeHtml(txt)+'</td>';
-    });
+    if(showWeekday)html+='<td>'+weekdays[(date.getDay()+1)%7]+'</td>';
+    if(showDate)html+='<td>'+formatJalali(gregorianToJalali(date))+'</td>';
+    tableColumns.forEach(function(col){ var txt=d[col]||'-'; html+='<td>'+escapeHtml(txt)+'</td>'; });
     html+='</tr>';
   });
   tbody.innerHTML=html;
 }
 
-function onStartDateChanged(){
-  var gDate=new Date(document.getElementById('startDatePicker').value+'T00:00:00');
-  if(isNaN(gDate.getTime()))return;
-  gDate.setHours(0,0,0,0);
-  setStartDateGregorian(gDate);
-  updateDateConversionInfo();updateDayDisplay();renderTable();updateTodayShowcase();saveAll();
-  if(alarmActive)scheduleAlarms();
-  if(backgroundAlarmEnabled) updateAlarmScheduleForSW();
-}
+function onStartDateChanged(){ var gDate=new Date(document.getElementById('startDatePicker').value+'T00:00:00'); if(isNaN(gDate.getTime()))return; gDate.setHours(0,0,0,0); setStartDateGregorian(gDate); updateDateConversionInfo();updateDayDisplay();renderTable();updateTodayShowcase();saveAll(); if(alarmActive)scheduleAlarms(); if(backgroundAlarmEnabled) updateAlarmScheduleForSW(); }
 function updateDateConversionInfo(){var sd=getStartDateGregorian(),j=gregorianToJalali(sd);var el=document.getElementById('jalaliDate');if(el)el.textContent=formatJalaliFull(j);}
 function updateDayDisplay(){var el=document.getElementById('dayBadge');if(el) el.textContent='روز '+(getCurrentDayAuto()+1)+' از '+totalDays;}
 function changeViewMode(){viewMode=document.getElementById('viewMode').value;saveAll();renderTable();}
 function changeFontSize(){fontSize=document.getElementById('fontSize').value;applySettings();saveAll();}
+function toggleShowDate(){showDate=document.getElementById('showDate').checked;saveAll();renderTable();}
+function toggleShowWeekday(){showWeekday=document.getElementById('showWeekday').checked;saveAll();renderTable();}
+function toggleShowPastDays(){showPast=document.getElementById('showPastDays').checked;saveAll();renderTable();}
 function updateClock(){var el=document.getElementById('clockDisplay');if(el)el.textContent=new Date().toLocaleTimeString('fa-IR');}
 
 var deferredPrompt=null;
@@ -3407,138 +2281,106 @@ function installPWA(){if(!deferredPrompt){showInstallGuide();return;}deferredPro
 function showInstallGuide(){alert('نصب:\nاز منوی مرورگر "Add to Home Screen"');}
 
 function init(){
-  try { initAuth(); } catch(e) { 
-    document.getElementById('loginPage').classList.add('active');
-    document.getElementById('mainAppContainer').style.display = 'none';
-    renderSavedProfiles();
-  }
-  
+  try { initAuth(); } catch(e) { document.getElementById('loginPage').classList.add('active'); document.getElementById('mainAppContainer').style.display = 'none'; renderSavedProfiles(); }
   try { applyTheme(); applySettings(); } catch(e) {}
-  
+  try { var sdp=document.getElementById('startDatePicker'); if(sdp) sdp.value=toDateInputValue(getStartDateGregorian()); updateDateConversionInfo(); updateDayDisplay(); } catch(e) {}
+  try { var vm=document.getElementById('viewMode');if(vm)vm.value=viewMode; var fs=document.getElementById('fontSize');if(fs)fs.value=fontSize; var sd=document.getElementById('showDate');if(sd)sd.checked=showDate; var sw=document.getElementById('showWeekday');if(sw)sw.checked=showWeekday; var sp=document.getElementById('showPastDays');if(sp)sp.checked=showPast; var nm=document.getElementById('nightMode');if(nm)nm.checked=nightMode; } catch(e) {}
   try {
-    var sdp=document.getElementById('startDatePicker'); 
-    if(sdp) sdp.value=toDateInputValue(getStartDateGregorian());
-    updateDateConversionInfo();
-    updateDayDisplay();
-  } catch(e) {}
-  
-  try {
-    var vm=document.getElementById('viewMode');if(vm)vm.value=viewMode;
-    var fs=document.getElementById('fontSize');if(fs)fs.value=fontSize;
-    var nm=document.getElementById('nightMode');if(nm)nm.checked=nightMode;
-  } catch(e) {}
-  
-  try {
-    setInterval(updateClock,1000);
-    updateClock();
-    setTimeout(loadRemoteBanner,1500); 
-    setInterval(loadRemoteBanner,300000);
-    setTimeout(checkNewMessages,3000); 
-    setInterval(checkNewMessages,60000);
-    
-    setInterval(function() {
-      if(autoReactivateCheck && !alarmActive) {
-        try { activateAlarms(); } catch(e) {}
-      }
-    }, 60 * 1000);
-    
-    setInterval(function() {
-      try { checkPendingAlarm(); } catch(e) {}
-    }, 60 * 1000);
-    
-    setInterval(function() {
-      try { updateNotificationStatus(); } catch(e) {}
-    }, 5000);
-    
-    setInterval(function() {
-      if(backgroundAlarmEnabled && userId) {
-        try { updateAlarmScheduleForSW(); } catch(e) {}
-      }
-    }, 2 * 60 * 1000);
+    setInterval(updateClock,1000); updateClock();
+    setTimeout(loadRemoteBanner,1500); setInterval(loadRemoteBanner,300000);
+    setTimeout(checkNewMessages,3000); setInterval(checkNewMessages,60000);
+    setInterval(function() { if(autoReactivateCheck && !alarmActive) try { activateAlarms(); } catch(e) {} }, 60 * 1000);
+    setInterval(function() { try { checkPendingAlarm(); } catch(e) {} }, 60 * 1000);
+    setInterval(function() { try { updateNotificationStatus(); } catch(e) {} }, 5000);
+    setInterval(function() { if(backgroundAlarmEnabled && userId) try { updateAlarmScheduleForSW(); } catch(e) {} }, 2 * 60 * 1000);
   } catch(e) {}
 }
-
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
-else init();
-
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init); else init();
 window.addEventListener('online',function(){loadRemoteBanner();});
 window.addEventListener('offline',function(){var tb=document.getElementById('topBanner');if(tb)tb.classList.remove('active');});
-
-if('serviceWorker' in navigator){
-  window.addEventListener('load',function(){
-    navigator.serviceWorker.register('/Safir-salamat-/sw.js').then(function(r){
-      swRegistration = r;
-      if(customAlarmSoundData) sendSoundToSW(customAlarmSoundData);
-      if(backgroundAlarmEnabled) sendAlarmScheduleToSW();
-    }).catch(function(e){});
-    
-    navigator.serviceWorker.ready.then(function(reg){ swRegistration = reg; });
-  });
-}
+if('serviceWorker' in navigator){ window.addEventListener('load',function(){ navigator.serviceWorker.register('/Safir-salamat-/sw.js').then(function(r){ swRegistration = r; if(customAlarmSoundData) sendSoundToSW(customAlarmSoundData); if(backgroundAlarmEnabled) sendAlarmScheduleToSW(); }).catch(function(e){}); navigator.serviceWorker.ready.then(function(reg){ swRegistration = reg; }); }); }
 if(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone){var b=document.getElementById('pwaInstallBtn');if(b)b.style.display='none';}
 
-function saveStartDatePermanently() {
-  var val = document.getElementById('startDatePicker').value;
-  if(!val) { showToast('تاریخ', 'error'); return; }
-  var d = new Date(val + 'T00:00:00');
-  if(isNaN(d.getTime())) return;
-  d.setHours(0,0,0,0);
-  setStartDateGregorian(d);
-  saveAll();
-  updateDateConversionInfo();updateDayDisplay();renderTable();updateTodayShowcase();
-  if(alarmActive)scheduleAlarms();
-  if(backgroundAlarmEnabled) updateAlarmScheduleForSW();
-  showToast('✅');
+function saveStartDatePermanently() { var val = document.getElementById('startDatePicker').value; if(!val) { showToast('تاریخ', 'error'); return; } var d = new Date(val + 'T00:00:00'); if(isNaN(d.getTime())) return; d.setHours(0,0,0,0); setStartDateGregorian(d); saveAll(); updateDateConversionInfo();updateDayDisplay();renderTable();updateTodayShowcase(); if(alarmActive)scheduleAlarms(); if(backgroundAlarmEnabled) updateAlarmScheduleForSW(); showToast('✅'); }
+function clearCacheAndReload(){ if(!confirm('کش پاک شود؟')) return; try{ if('caches' in window){caches.keys().then(function(names){names.forEach(function(n){caches.delete(n);});});} if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(regs){regs.forEach(function(r){r.unregister();});});} showToast('✅ بارگذاری...'); setTimeout(function(){location.reload(true);},1200); }catch(e){showToast('❌', 'error');} }
+
+// Backup
+function saveOfflineBackup() { if(!userId) { showToast('وارد شوید', 'error'); return; } var data = { userId, userProfile, fortyDayData, tableColumns, tableColumnNames, currentTimes, totalDays, lastPrescription: safeGetLS('lastPrescription', null), healthStartDateGregorian: safeGetLS('healthStartDateGregorian', null), timestamp: new Date().toISOString() }; try { localStorage.setItem('offlineBackup_' + userId, JSON.stringify(data)); showToast('✅'); } catch(e) { showToast('❌', 'error'); } }
+function restoreOfflineBackup() { if(!userId) return; var str = safeGetLS('offlineBackup_' + userId, null); if(!str) { showToast('⚠️ پیدا نشد', 'warning'); return; } if(!confirm('مطمئن؟')) return; try { var b = JSON.parse(str); if(b.fortyDayData) { fortyDayData = b.fortyDayData; saveAll(); } if(b.tableColumns) tableColumns = b.tableColumns; if(b.tableColumnNames) tableColumnNames = b.tableColumnNames; if(b.currentTimes) currentTimes = b.currentTimes; if(b.totalDays) totalDays = b.totalDays; if(b.lastPrescription) safeSetLS('lastPrescription', b.lastPrescription); if(b.healthStartDateGregorian) safeSetLS('healthStartDateGregorian', b.healthStartDateGregorian); if(b.userProfile) { userProfile = b.userProfile; safeSetLS('userProfile', JSON.stringify(userProfile)); } showToast('✅'); setTimeout(function(){ window.location.reload(); }, 1500); } catch(e) { showToast('❌', 'error'); } }
+
+/* ============================================================
+   تقویم آفلاین (Device Calendar)
+   ============================================================ */
+function addAlarmsToDeviceCalendar() {
+  if (!confirm('آیا می‌خواهید برنامه‌ی ۴۰ روز آینده را در تقویم گوشی خود ذخیره کنید؟\n\nبا این کار، حتی اگر اینترنت قطع باشد و یا اپلیکیشن کاملاً بسته باشد، گوشی شما سر وقت زنگ می‌زند.')) return;
+
+  var icsContent = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Safir Salamat//Alarms//FA',
+    'CALSCALE:GREGORIAN'
+  ];
+
+  var startDate = getStartDateGregorian();
+  var todayIndex = getCurrentDayAuto();
+
+  // ساخت رویدادها برای روزهای باقی‌مانده (حداکثر 40 روز)
+  for (var dayIdx = todayIndex; dayIdx < totalDays; dayIdx++) {
+    var dayData = fortyDayData[dayIdx] || {};
+    var currentDayDate = new Date(startDate);
+    currentDayDate.setDate(currentDayDate.getDate() + dayIdx);
+
+    tableColumns.forEach(function(col) {
+      if (alarmEnabled[col] === false) return;
+      var timeStr = currentTimes[col];
+      var mealName = dayData[col];
+      
+      if (!timeStr || !mealName || mealName === '❌') return;
+
+      var parts = timeStr.split(':');
+      var h = parts[0];
+      var m = parts[1];
+
+      // فرمت تاریخ YYYYMMDD
+      var yyyy = currentDayDate.getFullYear();
+      var mm = String(currentDayDate.getMonth() + 1).padStart(2, '0');
+      var dd = String(currentDayDate.getDate()).padStart(2, '0');
+      var dateFormatted = yyyy + mm + dd;
+
+      var uid = 'safir-' + dayIdx + '-' + col + '-' + Date.now() + '@safirsalamat';
+
+      icsContent.push('BEGIN:VEVENT');
+      icsContent.push('UID:' + uid);
+      icsContent.push('DTSTAMP:' + dateFormatted + 'T' + h + m + '00');
+      icsContent.push('DTSTART:' + dateFormatted + 'T' + h + m + '00');
+      icsContent.push('DTEND:' + dateFormatted + 'T' + h + m + '30');
+      icsContent.push('SUMMARY:⏰ سفیر سلامت - ' + (tableColumnNames[col] || col));
+      icsContent.push('DESCRIPTION:وعده: ' + mealName);
+      icsContent.push('BEGIN:VALARM');
+      icsContent.push('TRIGGER:-PT1M'); // ۱ دقیقه قبل
+      icsContent.push('ACTION:DISPLAY');
+      icsContent.push('DESCRIPTION:یادآوری سفیر سلامت');
+      icsContent.push('END:VALARM');
+      icsContent.push('END:VEVENT');
+    });
+  }
+
+  icsContent.push('END:VCALENDAR');
+
+  var blob = new Blob([icsContent.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'Safir-Salamat-Alarms.ics';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  showToast('✅ فایل تقویم ساخته شد. لطفاً آن را در اپ تقویم گوشی باز کنید.', 'success', 6000);
 }
 
-function clearCacheAndReload(){
-  if(!confirm('کش پاک شود؟')) return;
-  try{
-    if('caches' in window){caches.keys().then(function(names){names.forEach(function(n){caches.delete(n);});});}
-    if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(regs){regs.forEach(function(r){r.unregister();});});}
-    showToast('✅ بارگذاری...');
-    setTimeout(function(){location.reload(true);},1200);
-  }catch(e){showToast('❌', 'error');}
-}
-
-// Offline backup
-function saveOfflineBackup() {
-  if(!userId) { showToast('وارد شوید', 'error'); return; }
-  var data = {
-    userId: userId, userProfile: userProfile,
-    fortyDayData: fortyDayData, tableColumns: tableColumns,
-    tableColumnNames: tableColumnNames, currentTimes: currentTimes,
-    totalDays: totalDays, lastPrescription: safeGetLS('lastPrescription', null),
-    healthStartDateGregorian: safeGetLS('healthStartDateGregorian', null),
-    timestamp: new Date().toISOString()
-  };
-  try {
-    localStorage.setItem('offlineBackup_' + userId, JSON.stringify(data));
-    showToast('✅ پشتیبان ذخیره شد');
-  } catch(e) { showToast('❌ خطا', 'error'); }
-}
-function restoreOfflineBackup() {
-  if(!userId) return;
-  var str = safeGetLS('offlineBackup_' + userId, null);
-  if(!str) { showToast('⚠️ پیدا نشد', 'warning'); return; }
-  if(!confirm('مطمئن؟')) return;
-  try {
-    var b = JSON.parse(str);
-    if(b.fortyDayData) { fortyDayData = b.fortyDayData; saveAll(); }
-    if(b.tableColumns) tableColumns = b.tableColumns;
-    if(b.tableColumnNames) tableColumnNames = b.tableColumnNames;
-    if(b.currentTimes) currentTimes = b.currentTimes;
-    if(b.totalDays) totalDays = b.totalDays;
-    if(b.lastPrescription) safeSetLS('lastPrescription', b.lastPrescription);
-    if(b.healthStartDateGregorian) safeSetLS('healthStartDateGregorian', b.healthStartDateGregorian);
-    if(b.userProfile) { userProfile = b.userProfile; safeSetLS('userProfile', JSON.stringify(userProfile)); }
-    showToast('✅ بازیابی شد');
-    setTimeout(function(){ window.location.reload(); }, 1500);
-  } catch(e) { showToast('❌ خطا', 'error'); }
-}
-  // ============================================================
 // PUSH NOTIFICATION - آلارم در پس‌زمینه
-// ============================================================
 const VAPID_PUBLIC_KEY = 'BBLGpTJYvbWvLgI1Vd7_u5BBVIWPokUZumwV2BilBMw8ILHkES4-5Oab9lQNyuYADuaqdAGZ8HeoQRTq1V2wlBc';
 
 function urlBase64ToUint8Array(base64String) {
