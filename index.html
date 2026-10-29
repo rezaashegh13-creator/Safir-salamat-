@@ -309,6 +309,13 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 .sound-btn-row { display: flex; gap: 8px; margin-top: 8px; }
 .sound-btn-row .btn { font-size: 0.75em; padding: 8px; }
 
+/* آرشیو آهنگ‌ها */
+.sound-history-item { display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.25); padding: 8px; border-radius: 8px; margin-bottom: 6px; border: 1px solid rgba(244,208,63,0.2); }
+.sound-history-name { flex: 1; font-size: 0.78em; color: var(--text-secondary); text-align: right; word-break: break-word; }
+.sound-history-item button { padding: 5px 10px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.7em; font-family: var(--font-family); font-weight: 700; }
+.sound-history-item .btn-play { background: var(--btn-success); color: #fff; }
+.sound-history-item .btn-del { background: var(--btn-danger); color: #fff; }
+
 .mini-alarm-toast {
   position: fixed; bottom: 15px; right: 15px; left: 15px;
   background: linear-gradient(135deg, #c0392b, #e74c3c);
@@ -326,7 +333,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 }
 .mini-alarm-toast button { background: #fff; color: #c0392b; border: none; border-radius: 8px; padding: 8px 15px; font-weight: 700; cursor: pointer; font-family: var(--font-family); }
 
-/* آرشیو قفسه کتاب */
 .archive-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-top: 12px; }
 .archive-book {
   background: linear-gradient(135deg, #5a3d1a, #3a2510);
@@ -336,35 +342,18 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   cursor: pointer;
   position: relative;
   min-height: 110px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: flex; flex-direction: column; justify-content: space-between;
   box-shadow: 4px 4px 0 rgba(0,0,0,0.5), inset -3px 0 0 rgba(0,0,0,0.3);
   transition: all 0.25s;
   overflow: hidden;
 }
-.archive-book::before {
-  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 8px;
-  background: linear-gradient(90deg, rgba(0,0,0,0.5), rgba(255,255,255,0.08));
-}
+.archive-book::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: linear-gradient(90deg, rgba(0,0,0,0.5), rgba(255,255,255,0.08)); }
 .archive-book:hover { transform: translateY(-3px); box-shadow: 6px 8px 0 rgba(0,0,0,0.5), inset -3px 0 0 rgba(0,0,0,0.3); border-color: var(--accent); }
 .archive-book:active { transform: translateY(0); }
-.archive-book-title {
-  color: var(--accent); font-family: 'Lalezar', cursive; font-size: 1.05em;
-  text-align: center; line-height: 1.5; margin-bottom: 6px; word-break: break-word;
-}
+.archive-book-title { color: var(--accent); font-family: 'Lalezar', cursive; font-size: 1.05em; text-align: center; line-height: 1.5; margin-bottom: 6px; word-break: break-word; }
 .archive-book-meta { color: var(--text-muted); font-size: 0.68em; text-align: center; line-height: 1.5; }
 .archive-book-actions { display: flex; gap: 4px; margin-top: 8px; justify-content: center; flex-wrap: wrap; }
-.archive-book-actions button {
-  padding: 4px 7px; font-size: 0.65em; border: none; border-radius: 5px;
-  cursor: pointer; font-family: var(--font-family); font-weight: 700;
-}
-.archive-book-badge {
-  position: absolute; top: 6px; left: 6px; background: var(--btn-success);
-  color: #fff; border-radius: 50%; width: 18px; height: 18px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.7em; font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-}
+.archive-book-actions button { padding: 4px 7px; font-size: 0.65em; border: none; border-radius: 5px; cursor: pointer; font-family: var(--font-family); font-weight: 700; }
 .archive-empty { text-align: center; color: var(--text-muted); padding: 30px 15px; font-size: 0.9em; line-height: 1.8; }
 .archive-search-box { width: 100%; padding: 10px 12px; background: var(--input-bg); color: #fff; border: 1px solid var(--accent); border-radius: 10px; font-family: var(--font-family); font-size: 0.9em; margin-bottom: 10px; }
 .archive-shelf-title { color: var(--accent); font-family: 'Lalezar', cursive; font-size: 1.2em; text-align: center; margin: 12px 0 6px; border-bottom: 2px dashed var(--accent2); padding-bottom: 6px; }
@@ -385,7 +374,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   <button class="alarm-snooze-btn" onclick="snoozeAlarm()">💤 چرت ۱۰ دقیقه</button>
 </div>
 
-<!-- صفحه لاگین و ثبت‌نام -->
 <div class="modal-overlay active" id="loginPage" style="z-index: 100000; background: var(--bg-primary);">
   <div class="login-box">
     <h2>🌿 خوش آمدید</h2>
@@ -415,7 +403,7 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   <div class="modal-content">
     <h2>🔑 فراموشی رمز عبور</h2>
     <p style="font-size:0.95em; line-height:2;">از مدیر اپلیکیشن درخواست کنید اطلاعات ورود شما را برایتان ارسال کند.</p>
-    <p style="font-size:0.8em; color:var(--accent); background:rgba(244,208,63,0.1); padding:10px; border-radius:8px; margin-top:10px;">💡 برای این کار، کد اختصاصی خود را (که در صفحه ثبت‌نام نمایش داده می‌شود) به مدیر بدهید.</p>
+    <p style="font-size:0.8em; color:var(--accent); background:rgba(244,208,63,0.1); padding:10px; border-radius:8px; margin-top:10px;">💡 برای این کار، کد اختصاصی خود را به مدیر بدهید.</p>
     <button class="btn btn-gray" onclick="document.getElementById('forgotPassModal').classList.remove('active')" style="margin-top:15px;">متوجه شدم</button>
   </div>
 </div>
@@ -423,7 +411,7 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 <div class="modal-overlay" id="registerModal" style="z-index: 100001;">
   <div class="modal-content" style="max-width:450px; border-color:var(--accent);">
     <h2>🌿 ثبت نام</h2>
-    <p style="font-size:0.75em; color:var(--accent); background:rgba(244,208,63,0.1); padding:8px; border-radius:8px;">📌 کد اختصاصی شما (برای پشتیبانی به مدیر بدهید):</p>
+    <p style="font-size:0.75em; color:var(--accent); background:rgba(244,208,63,0.1); padding:8px; border-radius:8px;">📌 کد اختصاصی شما:</p>
     <div class="code-display" id="registerCode" style="font-size:1.5em; margin:5px 0;">...</div>
 
     <div style="text-align:center; margin: 15px 0;">
@@ -480,7 +468,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   </div>
 </div>
 
-<!-- مودال بایگانی: نام‌گذاری -->
 <div class="modal-overlay" id="archiveNameModal" style="z-index:100002;">
   <div class="modal-content">
     <h2 id="archiveNameTitle">📚 بایگانی</h2>
@@ -532,7 +519,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     <div class="info-motivation" id="infoMotivation">---</div>
   </div>
 
-  <!-- ویترین امروز -->
   <div class="today-showcase" id="todayShowcase">
     <div class="showcase-header">
       <div class="showcase-title">✨ ویترین امروز ✨</div>
@@ -650,16 +636,21 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     
     <div class="sound-upload-box" style="margin-top:12px;">
       <p style="color:var(--accent); font-weight:700; font-size:0.9em; margin-bottom:8px;">🎵 آهنگ اختصاصی آلارم</p>
-      <p style="font-size:0.75em; color:var(--text-muted); margin-bottom:8px;">می‌توانید یک فایل صوتی از گوشی خود انتخاب کنید (MP3/WAV، حداکثر ۳MB).</p>
+      <p style="font-size:0.75em; color:var(--text-muted); margin-bottom:8px;">می‌توانید یک فایل صوتی از گوشی خود انتخاب کنید (MP3/WAV/M4A/OGG).</p>
       <input type="file" id="customAlarmSound" accept="audio/*" style="display:none;" onchange="uploadCustomAlarmSound(event)">
       <div class="sound-btn-row">
         <button class="btn btn-blue" type="button" onclick="openSoundFilePicker()">📁 آپلود فایل صوتی</button>
-        <button class="btn btn-red" type="button" onclick="removeCustomAlarmSound()">🗑️ حذف آهنگ</button>
+        <button class="btn btn-red" type="button" onclick="removeCustomAlarmSound()">🗑️ حذف آهنگ فعال</button>
       </div>
       <div id="customSoundStatus" style="font-size:0.75em; color:var(--text-muted); margin-top:8px;">
         آهنگ پیش‌فرض (بیپ بیپ) استفاده می‌شود
       </div>
       <audio id="customSoundPreview" class="sound-preview" controls style="display:none;"></audio>
+      
+      <div style="margin-top:14px; padding-top:10px; border-top:1px dashed rgba(244,208,63,0.3);">
+        <p style="color:var(--accent); font-weight:700; font-size:0.85em; margin-bottom:8px;">📚 سابقه آهنگ‌های اخیر (۳ آهنگ آخر)</p>
+        <div id="soundHistoryList"></div>
+      </div>
     </div>
     
     <div class="save-password-box" style="margin-top:12px; border-color:var(--accent2);">
@@ -667,7 +658,7 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
       <label for="autoReactivateCheck">🔄 فعال‌سازی خودکار آلارم‌ها هر ۳۰ دقیقه</label>
     </div>
     <p style="font-size:0.7em; color:var(--text-muted); margin-top:5px; line-height:1.7;">
-      💡 با فعال بودن این گزینه، اپلیکیشن هر ۳۰ دقیقه به صورت خودکار آلارم‌ها را فعال می‌کند تا هیچ وعده‌ای فراموش نشود. هم‌چنین هنگام رسیدن زمان هر وعده، نوتیفیکیشن گوشی ارسال می‌شود.
+      💡 با فعال بودن این گزینه، اپلیکیشن هر ۳۰ دقیقه به صورت خودکار آلارم‌ها را فعال می‌کند. هنگام رسیدن زمان هر وعده، نوتیفیکیشن گوشی ارسال می‌شود که می‌توانید مستقیماً از روی آن آلارم را قطع یا به چرت ببرید.
     </p>
   </div>
   
@@ -735,10 +726,9 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
   <div class="admin-panel" id="adminTabUsers" style="display:none;">
     <button class="btn btn-gray" onclick="switchAdminTab('dashboard', document.querySelectorAll('.admin-tab')[0])" style="margin-bottom:10px;">◀ بازگشت به داشبورد</button>
     <h3>👥 مدیریت کاربران</h3>
-    
     <div style="background:var(--bg-secondary); padding:15px; border-radius:10px; margin-bottom:15px; border:1px solid var(--accent);">
       <h4 style="color:var(--accent); margin-bottom:10px; text-align:center;">➕ ایجاد کاربر جدید</h4>
-      <p style="font-size:0.75em; color:var(--text-muted); margin-bottom:10px; text-align:center;">کاربر کد خود را از تنظیمات برای شما می‌فرستد. کد را وارد کرده و پروفایل او را بسازید.</p>
+      <p style="font-size:0.75em; color:var(--text-muted); margin-bottom:10px; text-align:center;">کاربر کد خود را از تنظیمات برای شما می‌فرستد.</p>
       <div class="settings-row"><label>کد کاربر:</label><input type="text" id="newUserCode" placeholder="مثلاً: A3B5C7" maxlength="10" style="text-align:center; direction:ltr;"></div>
       <div class="settings-row"><label>نام و نام خانوادگی:</label><input type="text" id="newUserName" placeholder="مثلاً: علی محمدی"></div>
       <div class="settings-row"><label>رمز ۴ رقمی:</label><input type="text" id="newUserPassword" placeholder="مثلاً: ۱۲۳۴" maxlength="4"></div>
@@ -751,7 +741,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
       </div>
       <button class="btn btn-success" onclick="createUserByAdmin()" style="margin-top:10px;">ایجاد / ویرایش کاربر</button>
     </div>
-
     <input type="text" id="adminUserSearch" placeholder="جستجوی نام یا کد کاربر..." onkeyup="filterAdminUsers()" style="width:100%; padding:12px; background:var(--input-bg); color:#fff; border:1px solid var(--accent); border-radius:8px; margin-bottom:15px;">
     <div id="adminUsersListContainer" style="max-height: 50vh; overflow-y: auto;"></div>
   </div>
@@ -824,16 +813,12 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     </div>
   </div>
 
-  <!-- تب جدید: آرشیو قفسه کتاب -->
   <div class="admin-panel" id="adminTabArchive" style="display:none">
     <h3>📚 قفسه کتاب آرشیو</h3>
     <p style="text-align:center; font-size:0.8em; color:var(--text-muted); margin-bottom:12px;">نسخه‌ها و جدول‌های بایگانی شده — با کلیک روی هر کتاب، آن نسخه/جدول فعال می‌شود.</p>
-    
     <input type="text" id="archiveSearchInput" class="archive-search-box" placeholder="🔍 جستجوی نام در آرشیو..." onkeyup="renderArchiveShelves()">
-    
     <div class="archive-shelf-title">💊 قفسه نسخه‌ها</div>
     <div class="archive-grid" id="archivePrescriptionsGrid"></div>
-    
     <div class="archive-shelf-title">📋 قفسه جدول‌ها</div>
     <div class="archive-grid" id="archiveTablesGrid"></div>
   </div>
@@ -900,7 +885,14 @@ var customAlarmSoundData = null;
 var autoReactivateCheck = false;
 var autoReactivateInterval = null;
 
-var archivePendingAction = null; // {type:'prescription'|'table', data:{...}}
+var archivePendingAction = null;
+
+/* ============================================================
+   آلارم و نوتیفیکیشن (نسخه اصلاح شده)
+   ============================================================ */
+var currentAlarmData = null;
+var activeNotification = null;
+var alarmKeepAliveInterval = null;
 
 function showToast(msg,type,duration){
   type=type||"success";duration=duration||4000;
@@ -977,6 +969,7 @@ function initAuth() {
     checkRegimeReceive();
     loadCustomAlarmSound();
     loadAutoReactivateSetting();
+    checkPendingAlarm();
     receiveAll(true).then(function(){
        renderTable(); updateTodayShowcase(); checkRegimeReceive();
     }).catch(function(e){ });
@@ -1052,6 +1045,7 @@ async function doLogin() {
   checkRegimeReceive();
   loadCustomAlarmSound();
   loadAutoReactivateSetting();
+  checkPendingAlarm();
   receiveAll(true).then(function(){
      renderTable(); updateTodayShowcase(); checkRegimeReceive();
   }).catch(function(e){});
@@ -1540,7 +1534,7 @@ function toPersianNumber(num) {
 function getMotivationalMessage(dayNum) {
   var messages = [
     "باریکلا، سفر سلامتت رو شروع کردی! 🌱",
-    "آفرین یک روز پیش رفتی 💪",
+    "واوووو روز دومته و حس می‌کنم سلول‌هات دارن متحول می‌شن! ✨💫",
     "آفرین سه روز پیش رفتی 🏆",
     "بارکلا، تو می‌تونی سالم بشی، چهار روز شد 😍",
     "دمت گرم، با قوت ادامه بده، روز پنجمته 🔥",
@@ -1814,7 +1808,6 @@ async function sendPrescription() {
   } else showToast('❌ خطا در ارسال', 'error');
 }
 
-/* بایگانی نسخه */
 async function askArchivePrescription() {
   var title = document.getElementById('prescriptionTitle').value.trim();
   var content = document.getElementById('prescriptionContent').value.trim();
@@ -1835,7 +1828,6 @@ async function askArchivePrescription() {
   setTimeout(function(){ if(inp){inp.focus();inp.select();} }, 200);
 }
 
-/* بایگانی جدول */
 async function askArchiveTable() {
   if(!confirm('آیا می‌خواهید این جدول را بایگانی کنید؟')) return;
   archivePendingAction = {
@@ -1874,25 +1866,21 @@ async function confirmArchiveName() {
   if(!globalData.archives) globalData.archives = { prescriptions: [], tables: [] };
   if(!globalData.archives.prescriptions) globalData.archives.prescriptions = [];
   if(!globalData.archives.tables) globalData.archives.tables = [];
-  
   var id = 'arc_' + Date.now() + '_' + Math.random().toString(36).substr(2,5);
   if(archivePendingAction.type === 'prescription') {
     globalData.archives.prescriptions.unshift({
-      id: id,
-      name: name,
+      id: id, name: name,
       title: archivePendingAction.data.title,
       content: archivePendingAction.data.content,
       archivedAt: Date.now()
     });
   } else if(archivePendingAction.type === 'table') {
     globalData.archives.tables.unshift({
-      id: id,
-      name: name,
+      id: id, name: name,
       data: archivePendingAction.data,
       archivedAt: Date.now()
     });
   }
-  
   var ok = await saveGlobalData(globalData);
   if(ok) {
     showToast('✅ در قفسه بایگانی ذخیره شد: ' + name);
@@ -1901,26 +1889,20 @@ async function confirmArchiveName() {
   } else showToast('❌ خطا در ذخیره بایگانی', 'error');
 }
 
-/* نمایش قفسه کتاب */
 async function renderArchiveShelves() {
   var pGrid = document.getElementById('archivePrescriptionsGrid');
   var tGrid = document.getElementById('archiveTablesGrid');
   if(!pGrid || !tGrid) return;
-  
-  var search = (document.getElementById('archiveSearchInput')?.value || '').toLowerCase().trim();
-  
+  var searchEl = document.getElementById('archiveSearchInput');
+  var search = (searchEl ? searchEl.value : '').toLowerCase().trim();
   var globalData = await getGlobalData();
   var archives = globalData.archives || { prescriptions: [], tables: [] };
   var pres = archives.prescriptions || [];
   var tabs = archives.tables || [];
-  
-  // فیلتر جستجو
   if(search) {
     pres = pres.filter(function(p){ return (p.name||'').toLowerCase().includes(search) || (p.title||'').toLowerCase().includes(search); });
     tabs = tabs.filter(function(t){ return (t.name||'').toLowerCase().includes(search); });
   }
-  
-  // قفسه نسخه‌ها
   if(pres.length === 0) {
     pGrid.innerHTML = '<div class="archive-empty" style="grid-column:1/-1;">📭 هنوز نسخه‌ای بایگانی نشده.<br>از تب «نسخه» دکمه «📚 بایگانی کن» استفاده کنید.</div>';
   } else {
@@ -1937,8 +1919,6 @@ async function renderArchiveShelves() {
     });
     pGrid.innerHTML = html;
   }
-  
-  // قفسه جدول‌ها
   if(tabs.length === 0) {
     tGrid.innerHTML = '<div class="archive-empty" style="grid-column:1/-1;">📭 هنوز جدولی بایگانی نشده.<br>از تب «جدول» دکمه «📚 بایگانی کن» استفاده کنید.</div>';
   } else {
@@ -1964,11 +1944,9 @@ async function activateArchivedPrescription(id) {
   var archives = globalData.archives || { prescriptions: [] };
   var p = (archives.prescriptions || []).find(function(x){ return x.id === id; });
   if(!p) { showToast('نسخه یافت نشد', 'error'); return; }
-  
-  // پر کردن فیلدهای ارسال نسخه
   document.getElementById('prescriptionTitle').value = p.title || '';
   document.getElementById('prescriptionContent').value = p.content || '';
-  showToast('✅ نسخه "' + p.name + '" در فیلد ارسال بارگذاری شد. کاربر را انتخاب و ارسال کنید.');
+  showToast('✅ نسخه "' + p.name + '" در فیلد ارسال بارگذاری شد.');
   switchAdminTab('prescription', document.querySelectorAll('.admin-tab')[1]);
 }
 
@@ -1978,18 +1956,15 @@ async function activateArchivedTable(id) {
   var archives = globalData.archives || { tables: [] };
   var t = (archives.tables || []).find(function(x){ return x.id === id; });
   if(!t) { showToast('جدول یافت نشد', 'error'); return; }
-  
   adminTableColumns = [].concat(t.data.tableColumns);
   adminTableColumnNames = Object.assign({}, t.data.tableColumnNames);
   adminCurrentTimes = Object.assign({}, t.data.currentTimes);
   adminTotalDays = t.data.totalDays || 40;
   adminFortyDayData = JSON.parse(JSON.stringify(t.data.fortyDayData));
   adminCurrentEditorDay = 0;
-  
   renderAdminTableEditor();
   renderAdminDayEditor();
-  
-  showToast('✅ جدول "' + t.name + '" در ویرایشگر بارگذاری شد. کاربر را انتخاب و ارسال کنید.');
+  showToast('✅ جدول "' + t.name + '" در ویرایشگر بارگذاری شد.');
   switchAdminTab('table', document.querySelectorAll('.admin-tab')[2]);
 }
 
@@ -2312,7 +2287,9 @@ function deleteHistoryTable(index){if(!confirm('حذف شود؟'))return;var arc
 
 function editMyRegime(){var el=document.getElementById('regimeDisplay');if(el.contentEditable==='true'){el.contentEditable='false';el.style.border='1px solid rgba(244,208,63,.2)';showToast('✅ ذخیره شد');}else{el.contentEditable='true';el.style.border='2px solid var(--accent)';el.focus();showToast('✏️ ویرایش کنید','warning');}}
 
-/* ALARM */
+/* ============================================================
+   ALARM SYSTEM - بازنویسی شده با نوتیفیکیشن تعاملی
+   ============================================================ */
 function renderAlarmSettings(){
   var container=document.getElementById('alarmSettingsContainer');if(!container)return;var html='';
   tableColumns.forEach(function(col){var name=tableColumnNames[col]||col, time=currentTimes[col]||'08:00', enabled=alarmEnabled[col]!==false;
@@ -2353,74 +2330,226 @@ function scheduleAlarms() {
   });
 }
 
+/* === آلارم با نوتیفیکیشن تعاملی === */
 function triggerAlarm(a){
+  currentAlarmData = a;
+  // ذخیره آلارم در localStorage برای بازیابی بعد از بستن مرورگر
+  safeSetLS('activeAlarm', JSON.stringify({name: a.name, type: a.type, triggeredAt: Date.now(), read: false}));
+  
   var el=document.getElementById('alarmMessage');
   if(el)el.textContent='⏰ '+a.type+': '+a.name;
   var ov=document.getElementById('alarmOverlay');
   if(ov)ov.classList.add('active');
+  
   playAlarmSound();
-  sendPushNotification('⏰ ' + a.type, a.name);
-  if(navigator.vibrate)navigator.vibrate([500,200,500,200,500]);
+  vibrateAlarm();
+  showInteractiveNotification(a.name, a.type);
 }
 
-function playAlarmSound(){
-  if(customAlarmAudio) {
-    try { customAlarmAudio.currentTime = 0; customAlarmAudio.loop = true; customAlarmAudio.play(); return; } catch(e) {}
+function vibrateAlarm(){
+  if(navigator.vibrate) {
+    try { navigator.vibrate([500,200,500,200,500,200,500]); } catch(e) {}
   }
-  stopAlarmSound();
-  if(!audioUnlocked)unlockAudio();
-  try{
-    if(!audioContext||audioContext.state==='suspended'){audioContext=new(window.AudioContext||window.webkitAudioContext)();if(audioContext.state==='suspended')audioContext.resume();}
-    function beep(){if(!audioContext||audioContext.state!=='running')return;var o=audioContext.createOscillator(),g=audioContext.createGain();o.connect(g);g.connect(audioContext.destination);o.type='sine';o.frequency.setValueAtTime(880,audioContext.currentTime);g.gain.setValueAtTime(0,audioContext.currentTime);g.gain.linearRampToValueAtTime(.5,audioContext.currentTime+.05);g.gain.linearRampToValueAtTime(0,audioContext.currentTime+.5);o.start(audioContext.currentTime);o.stop(audioContext.currentTime+.5);}
-    beep();alarmSoundInterval=setInterval(beep,700);
-  }catch(e){}
 }
 
-function stopAlarmSound(){
-  if(alarmSoundInterval){clearInterval(alarmSoundInterval);alarmSoundInterval=null;}
-  if(customAlarmAudio) { try{customAlarmAudio.pause();customAlarmAudio.currentTime=0;}catch(e){} }
-  if(audioContext){try{if(audioContext.state!=='closed')audioContext.close();}catch(e){}audioContext=null;audioUnlocked=false;}
-}
-function stopAlarm(){document.getElementById('alarmOverlay').classList.remove('active');stopAlarmSound();if(navigator.vibrate)navigator.vibrate(0);}
-function snoozeAlarm(){stopAlarm();setTimeout(function(){if(alarmActive)triggerAlarm({name:'یادآوری',type:'🔔'});},600000);}
-
-function activateAlarms(){
-  unlockAudio();
-  if('Notification'in window&&Notification.permission==='default'){try{Notification.requestPermission();}catch(e){}}
-  if(alarmActive){ alarmActive=false;clearTimers(); document.getElementById('statusText').textContent='⏸ غیرفعال'; return; }
-  alarmActive=true;
-  scheduleAlarms();
-  document.getElementById('statusText').textContent='✅ فعال';
-  setTimeout(function(){playAlarmSound();setTimeout(stopAlarmSound,2000);},100);
-}
-
-function sendPushNotification(title, body) {
+function showInteractiveNotification(name, type){
   if(!('Notification' in window)) return;
-  if(Notification.permission === 'granted') {
+  
+  function doNotify() {
     try {
-      new Notification(title, {
-        body: body,
+      // بستن نوتیفیکیشن قبلی اگر هست
+      if(activeNotification) {
+        try { activeNotification.close(); } catch(e) {}
+        activeNotification = null;
+      }
+      
+      var options = {
+        body: name + ' — برای قطع یا چرت روی نوتیفیکیشن کلیک کنید',
         icon: '/Safir-salamat-/icon-192.png',
         badge: '/Safir-salamat-/icon-192.png',
-        vibrate: [200,100,200,100,200],
+        vibrate: [500,200,500,200,500],
         tag: 'safir-alarm',
-        requireInteraction: true
-      });
-    } catch(e) { console.log('Notification error:', e); }
+        requireInteraction: true,
+        renotify: true,
+        silent: false,
+        data: { 
+          alarmName: name, 
+          alarmType: type,
+          action: 'open',
+          url: location.href
+        },
+        actions: [
+          { action: 'stop', title: '🔇 قطع آلارم', icon: '/Safir-salamat-/icon-192.png' },
+          { action: 'snooze', title: '💤 چرت ۱۰ دقیقه', icon: '/Safir-salamat-/icon-192.png' }
+        ]
+      };
+      
+      activeNotification = new Notification('⏰ ' + type, options);
+      
+      // کلیک روی نوتیفیکیشن → باز کردن اپ
+      activeNotification.onclick = function(e) {
+        e.preventDefault();
+        window.focus();
+        try { activeNotification.close(); } catch(err) {}
+        activeNotification = null;
+        // اگر کلیک روی نوتیفیکیشن بود، اپ باز شده و کاربر می‌تواند از روی اورلی تصمیم بگیرد
+      };
+      
+      activeNotification.onshow = function() {
+        console.log('Notification shown');
+      };
+      
+      activeNotification.onerror = function(err) {
+        console.log('Notification error:', err);
+      };
+      
+      // در بعضی مرورگرها onclose موجود است
+      if('onclose' in activeNotification) {
+        activeNotification.onclose = function() {
+          activeNotification = null;
+        };
+      }
+      
+    } catch(e) {
+      console.error('Notification creation failed:', e);
+    }
+  }
+  
+  if(Notification.permission === 'granted') {
+    doNotify();
   } else if(Notification.permission !== 'denied') {
     Notification.requestPermission().then(function(perm){
-      if(perm === 'granted') {
-        try { new Notification(title, { body: body, icon: '/Safir-salamat-/icon-192.png' }); } catch(e) {}
-      }
+      if(perm === 'granted') doNotify();
     });
   }
 }
 
-/* === آپلود آهنگ — اصلاح شده === */
+/* لیسنر پیام‌های Service Worker (اگر ثبت شده باشد) */
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('message', function(event) {
+    var data = event.data || {};
+    if(data.type === 'ALARM_ACTION') {
+      if(data.action === 'stop') {
+        stopAlarm();
+      } else if(data.action === 'snooze') {
+        snoozeAlarm();
+      }
+    }
+  });
+}
+
+function playAlarmSound(){
+  if(customAlarmAudio) {
+    try { 
+      customAlarmAudio.currentTime = 0; 
+      customAlarmAudio.loop = true; 
+      var playPromise = customAlarmAudio.play(); 
+      if(playPromise && playPromise.catch) {
+        playPromise.catch(function(err){
+          console.log('Audio play error:', err);
+          // در صورت خطا، بیپ پیش‌فرض
+          playBeepFallback();
+        });
+      }
+      return; 
+    } catch(e) { console.log('Custom audio play error:', e); }
+  }
+  playBeepFallback();
+}
+
+function playBeepFallback() {
+  stopAlarmSound(false);
+  if(!audioUnlocked)unlockAudio();
+  try{
+    if(!audioContext||audioContext.state==='suspended'){
+      audioContext=new(window.AudioContext||window.webkitAudioContext)();
+      if(audioContext.state==='suspended')audioContext.resume();
+    }
+    function beep(){
+      if(!audioContext||audioContext.state!=='running')return;
+      var o=audioContext.createOscillator(),g=audioContext.createGain();
+      o.connect(g);g.connect(audioContext.destination);
+      o.type='sine';o.frequency.setValueAtTime(880,audioContext.currentTime);
+      g.gain.setValueAtTime(0,audioContext.currentTime);
+      g.gain.linearRampToValueAtTime(.5,audioContext.currentTime+.05);
+      g.gain.linearRampToValueAtTime(0,audioContext.currentTime+.5);
+      o.start(audioContext.currentTime);o.stop(audioContext.currentTime+.5);
+    }
+    beep();alarmSoundInterval=setInterval(beep,700);
+  }catch(e){}
+}
+
+function stopAlarmSound(fullCleanup){
+  if(fullCleanup === undefined) fullCleanup = true;
+  if(alarmSoundInterval){clearInterval(alarmSoundInterval);alarmSoundInterval=null;}
+  if(customAlarmAudio) { try{customAlarmAudio.pause();customAlarmAudio.currentTime=0;}catch(e){} }
+  if(fullCleanup && audioContext){
+    try{if(audioContext.state!=='closed')audioContext.close();}catch(e){}
+    audioContext=null;audioUnlocked=false;
+  }
+}
+
+function stopAlarm(){
+  document.getElementById('alarmOverlay').classList.remove('active');
+  stopAlarmSound();
+  if(navigator.vibrate)navigator.vibrate(0);
+  // بستن نوتیفیکیشن
+  if(activeNotification) {
+    try { activeNotification.close(); } catch(e) {}
+    activeNotification = null;
+  }
+  // پاک کردن آلارم فعال
+  localStorage.removeItem('activeAlarm');
+  currentAlarmData = null;
+}
+
+function snoozeAlarm(){
+  stopAlarm();
+  setTimeout(function(){
+    if(alarmActive) triggerAlarm({name:'یادآوری',type:'🔔'});
+  }, 10 * 60 * 1000);
+}
+
+/* بازیابی آلارم در صورت وجود (مثلاً بعد از بستن مرورگر) */
+function checkPendingAlarm() {
+  var stored = safeGetLS('activeAlarm', null);
+  if(stored) {
+    try {
+      var a = JSON.parse(stored);
+      var elapsed = Date.now() - (a.triggeredAt || 0);
+      // اگر کمتر از ۱۰ دقیقه گذشته، آلارم رو نشان بده
+      if(elapsed < 10 * 60 * 1000 && !a.read) {
+        currentAlarmData = { name: a.name, type: a.type };
+        var el = document.getElementById('alarmMessage');
+        if(el) el.textContent = '⏰ ' + a.type + ': ' + a.name;
+        var ov = document.getElementById('alarmOverlay');
+        if(ov) ov.classList.add('active');
+        playAlarmSound();
+      } else {
+        localStorage.removeItem('activeAlarm');
+      }
+    } catch(e) {}
+  }
+}
+
+function activateAlarms(){
+  unlockAudio();
+  if('Notification'in window && Notification.permission==='default'){
+    try{Notification.requestPermission();}catch(e){}
+  }
+  if(alarmActive){ alarmActive=false;clearTimers(); document.getElementById('statusText').textContent='⏸ غیرفعال'; return; }
+  alarmActive=true;
+  scheduleAlarms();
+  document.getElementById('statusText').textContent='✅ فعال';
+  setTimeout(function(){playAlarmSound();setTimeout(function(){ stopAlarmSound(false); },2000);},100);
+}
+
+/* ============================================================
+   آپلود آهنگ (اصلاح شده + آرشیو ۳ آهنگ اخیر)
+   ============================================================ */
 function openSoundFilePicker() {
   var inp = document.getElementById('customAlarmSound');
   if(!inp) {
-    // اگر input وجود ندارد، داینامیک بساز
     inp = document.createElement('input');
     inp.type = 'file';
     inp.id = 'customAlarmSound';
@@ -2429,18 +2558,42 @@ function openSoundFilePicker() {
     inp.addEventListener('change', uploadCustomAlarmSound);
     document.body.appendChild(inp);
   }
-  // ریست کردن مقدار برای اجازه انتخاب مجدد همان فایل
   inp.value = '';
+  
+  // تلاش چندگانه برای باز کردن فایل‌پیکر
+  var opened = false;
+  
+  // روش ۱: showPicker (مدرن)
   try {
-    // استفاده از showPicker اگر موجود باشد (کروم جدید)
     if(typeof inp.showPicker === 'function') {
       inp.showPicker();
-    } else {
-      inp.click();
+      opened = true;
     }
-  } catch(err) {
-    // اگر showPicker با خطا مواجه شد، click استفاده کن
-    try { inp.click(); } catch(e2) { showToast('❌ مرورگر از انتخاب فایل پشتیبانی نمی‌کند', 'error'); }
+  } catch(e) { opened = false; }
+  
+  // روش ۲: click مستقیم
+  if(!opened) {
+    try {
+      inp.click();
+      opened = true;
+    } catch(e) { opened = false; }
+  }
+  
+  // روش ۳: label مخفی
+  if(!opened) {
+    try {
+      var lbl = document.createElement('label');
+      lbl.htmlFor = 'customAlarmSound';
+      lbl.style.display = 'none';
+      document.body.appendChild(lbl);
+      lbl.click();
+      setTimeout(function(){ lbl.remove(); }, 1000);
+      opened = true;
+    } catch(e) { opened = false; }
+  }
+  
+  if(!opened) {
+    showToast('⚠️ مرورگر شما از باز کردن فایل پشتیبانی نمی‌کند. لطفاً از Chrome یا Firefox استفاده کنید.', 'warning', 6000);
   }
 }
 
@@ -2448,16 +2601,12 @@ function uploadCustomAlarmSound(event) {
   var file = event.target.files && event.target.files[0];
   if(!file) return;
   
-  // بررسی نوع فایل
-  if(!file.type.startsWith('audio/')) {
-    showToast('⚠️ لطفاً یک فایل صوتی انتخاب کنید (MP3/WAV/M4A).', 'warning', 5000);
+  if(!file.type.startsWith('audio/') && !file.name.match(/\.(mp3|wav|m4a|ogg|aac|flac|opus|weba)$/i)) {
+    showToast('⚠️ لطفاً یک فایل صوتی انتخاب کنید (MP3/WAV/M4A/OGG).', 'warning', 5000);
     return;
   }
   
-  if(file.size > 3 * 1024 * 1024) {
-    showToast('⚠️ حجم فایل باید کمتر از ۳ مگابایت باشد (حجم فعلی: ' + (file.size / 1024 / 1024).toFixed(1) + 'MB)', 'warning', 6000);
-    return;
-  }
+  showToast('⏳ در حال پردازش فایل صوتی...', 'warning', 3000);
   
   var reader = new FileReader();
   reader.onload = function(e) {
@@ -2467,13 +2616,17 @@ function uploadCustomAlarmSound(event) {
         showToast('❌ فایل نامعتبر است.', 'error');
         return;
       }
+      
+      // ذخیره آهنگ فعلی در آرشیو (۳ آهنگ آخر)
+      saveSoundToHistory(base64, file.name);
+      
       safeSetLS('customAlarmSound_' + userId, base64);
       customAlarmSoundData = base64;
       setupCustomAudio(base64);
       showToast('✅ آهنگ اختصاصی ذخیره شد.');
     } catch(err) {
-      if(err.name === 'QuotaExceededError' || (err.message && err.message.includes('quota'))) {
-        showToast('❌ فضای ذخیره‌سازی پر است. فایل کوچک‌تری انتخاب کنید.', 'error', 6000);
+      if(err.name === 'QuotaExceededError' || (err.message && err.message.toLowerCase().includes('quota'))) {
+        showToast('❌ فضای ذخیره‌سازی پر است. ابتدا آهنگ‌های قدیمی را حذف کنید.', 'error', 6000);
       } else {
         showToast('❌ خطا در ذخیره آهنگ: ' + err.message, 'error', 5000);
       }
@@ -2485,6 +2638,91 @@ function uploadCustomAlarmSound(event) {
   reader.readAsDataURL(file);
 }
 
+function saveSoundToHistory(base64, fileName) {
+  try {
+    var history = safeParseJSON(safeGetLS('soundHistory_' + userId, '[]'), []);
+    // بررسی تکراری نبودن
+    if(history.some(function(h){ return h.data === base64; })) return;
+    history.unshift({
+      name: fileName || ('آهنگ ' + new Date().toLocaleDateString('fa-IR')),
+      data: base64,
+      addedAt: Date.now()
+    });
+    // فقط ۳ آهنگ آخر
+    if(history.length > 3) history = history.slice(0, 3);
+    safeSetLS('soundHistory_' + userId, JSON.stringify(history));
+  } catch(e) { console.log('History save error:', e); }
+}
+
+function renderSoundHistory() {
+  var list = document.getElementById('soundHistoryList');
+  if(!list) return;
+  var history = safeParseJSON(safeGetLS('soundHistory_' + userId, '[]'), []);
+  if(history.length === 0) {
+    list.innerHTML = '<p style="font-size:0.75em; color:var(--text-muted); text-align:center; padding:8px;">هنوز آهنگی آپلود نکرده‌اید.</p>';
+    return;
+  }
+  var html = '';
+  history.forEach(function(h, idx) {
+    var date = new Date(h.addedAt).toLocaleDateString('fa-IR');
+    html += '<div class="sound-history-item">';
+    html += '<div class="sound-history-name">🎵 ' + escapeHtml(h.name) + '<br><span style="font-size:0.85em; color:var(--text-muted);">' + date + '</span></div>';
+    html += '<button class="btn-play" onclick="playHistorySound(' + idx + ')">▶️</button>';
+    html += '<button class="btn-play" style="background:var(--btn-blue);" onclick="applyHistorySound(' + idx + ')">✅</button>';
+    html += '<button class="btn-del" onclick="deleteHistorySound(' + idx + ')">🗑️</button>';
+    html += '</div>';
+  });
+  list.innerHTML = html;
+}
+
+function playHistorySound(idx) {
+  var history = safeParseJSON(safeGetLS('soundHistory_' + userId, '[]'), []);
+  var h = history[idx];
+  if(!h) return;
+  try {
+    var audio = new Audio(h.data);
+    audio.play();
+    setTimeout(function(){ try{audio.pause();}catch(e){} }, 5000);
+    showToast('🔊 در حال پخش...');
+  } catch(e) { showToast('❌ خطا در پخش', 'error'); }
+}
+
+function applyHistorySound(idx) {
+  var history = safeParseJSON(safeGetLS('soundHistory_' + userId, '[]'), []);
+  var h = history[idx];
+  if(!h) return;
+  if(!confirm('این آهنگ به عنوان آهنگ فعال تنظیم شود؟')) return;
+  safeSetLS('customAlarmSound_' + userId, h.data);
+  customAlarmSoundData = h.data;
+  setupCustomAudio(h.data);
+  showToast('✅ آهنگ "' + h.name + '" فعال شد.');
+}
+
+function deleteHistorySound(idx) {
+  var history = safeParseJSON(safeGetLS('soundHistory_' + userId, '[]'), []);
+  if(!history[idx]) return;
+  if(!confirm('این آهنگ از سابقه حذف شود؟')) return;
+  var removed = history.splice(idx, 1)[0];
+  safeSetLS('soundHistory_' + userId, JSON.stringify(history));
+  // اگر آهنگ فعال هم همین بود، حذفش کن
+  var currentSound = safeGetLS('customAlarmSound_' + userId, null);
+  if(currentSound === removed.data) {
+    removeCustomAlarmSoundSilent();
+  }
+  renderSoundHistory();
+  showToast('✅ از سابقه حذف شد');
+}
+
+function removeCustomAlarmSoundSilent() {
+  try { localStorage.removeItem('customAlarmSound_' + userId); } catch(e) {}
+  if(customAlarmAudio) { customAlarmAudio.pause(); customAlarmAudio = null; }
+  customAlarmSoundData = null;
+  var statusEl = document.getElementById('customSoundStatus');
+  if(statusEl) statusEl.textContent = 'آهنگ پیش‌فرض (بیپ بیپ) استفاده می‌شود';
+  var preview = document.getElementById('customSoundPreview');
+  if(preview) { preview.src = ''; preview.style.display = 'none'; }
+}
+
 function setupCustomAudio(base64) {
   try {
     if(customAlarmAudio) {
@@ -2493,6 +2731,7 @@ function setupCustomAudio(base64) {
     }
     customAlarmAudio = new Audio(base64);
     customAlarmAudio.preload = 'auto';
+    customAlarmAudio.loop = true;
     var statusEl = document.getElementById('customSoundStatus');
     if(statusEl) statusEl.innerHTML = '<span style="color:var(--btn-success);">✅ آهنگ اختصاصی فعال است</span>';
     var preview = document.getElementById('customSoundPreview');
@@ -2514,23 +2753,19 @@ function loadCustomAlarmSound() {
     var statusEl = document.getElementById('customSoundStatus');
     if(statusEl) statusEl.textContent = 'آهنگ پیش‌فرض (بیپ بیپ) استفاده می‌شود';
   }
+  renderSoundHistory();
 }
 
 function removeCustomAlarmSound() {
   if(!confirm('آهنگ اختصاصی حذف شود؟')) return;
-  try { localStorage.removeItem('customAlarmSound_' + userId); } catch(e) {}
-  if(customAlarmAudio) { customAlarmAudio.pause(); customAlarmAudio = null; }
-  customAlarmSoundData = null;
-  var statusEl = document.getElementById('customSoundStatus');
-  if(statusEl) statusEl.textContent = 'آهنگ پیش‌فرض (بیپ بیپ) استفاده می‌شود';
-  var preview = document.getElementById('customSoundPreview');
-  if(preview) { preview.src = ''; preview.style.display = 'none'; }
+  removeCustomAlarmSoundSilent();
   var fileInput = document.getElementById('customAlarmSound');
   if(fileInput) fileInput.value = '';
+  renderSoundHistory();
   showToast('✅ آهنگ اختصاصی حذف شد.');
 }
 
-/* === فعال‌سازی خودکار هر ۳۰ دقیقه — بدون دخالت کاربر === */
+/* === فعال‌سازی خودکار هر ۳۰ دقیقه === */
 function toggleAutoReactivate() {
   var cb = document.getElementById('autoReactivateCheck');
   autoReactivateCheck = cb ? cb.checked : false;
@@ -2541,10 +2776,7 @@ function toggleAutoReactivate() {
       try { Notification.requestPermission(); } catch(e){}
     }
     showToast('✅ فعال‌سازی خودکار هر ۳۰ دقیقه فعال شد');
-    // اولین چک: بلافاصله اگر خاموش بود
-    if(!alarmActive) {
-      activateAlarms();
-    }
+    if(!alarmActive) activateAlarms();
   } else {
     stopAutoReactivateInterval();
     closeMiniAlarmToast();
@@ -2559,22 +2791,18 @@ function loadAutoReactivateSetting() {
   if(cb) cb.checked = autoReactivateCheck;
   if(autoReactivateCheck) {
     startAutoReactivateInterval();
-    // اگر آلارم خاموش است، فوراً فعال کن
-    if(!alarmActive) {
-      setTimeout(function(){ if(!alarmActive) activateAlarms(); }, 2000);
-    }
+    if(!alarmActive) setTimeout(function(){ if(!alarmActive) activateAlarms(); }, 2000);
   }
 }
 
 function startAutoReactivateInterval() {
   stopAutoReactivateInterval();
-  // هر ۳۰ دقیقه به صورت اتوماتیک آلارم را فعال می‌کند
   autoReactivateInterval = setInterval(function() {
     if(autoReactivateCheck && !alarmActive) {
       activateAlarms();
       showToast('🔄 آلارم‌ها به صورت خودکار فعال شدند', 'success', 2500);
     }
-  }, 30 * 60 * 1000); // 30 دقیقه
+  }, 30 * 60 * 1000);
 }
 
 function stopAutoReactivateInterval() {
@@ -2704,12 +2932,12 @@ function init(){
   setTimeout(loadRemoteBanner,1500); setInterval(loadRemoteBanner,300000);
   setTimeout(checkNewMessages,3000); setInterval(checkNewMessages,60000);
   
-  // چک سریع هر ۱ دقیقه — اگر autoReactivate روشن است و آلارم خاموش → فعال کن
   setInterval(function() {
-    if(autoReactivateCheck && !alarmActive) {
-      activateAlarms();
-    }
+    if(autoReactivateCheck && !alarmActive) activateAlarms();
   }, 60 * 1000);
+  
+  // چک دوره‌ای آلارم‌های معلق
+  setInterval(checkPendingAlarm, 60 * 1000);
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
 else init();
