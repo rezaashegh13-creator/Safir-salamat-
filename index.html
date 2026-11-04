@@ -1087,28 +1087,19 @@ function stopVibration(){
 function forceStopAllSounds() {
   console.log('Force stopping all sounds...');
   
-  // 1. قطع تایمرهای آلارم
   clearTimers();
   alarmActive = false;
-  
-  // 2. قطع صداها و AudioContext
   stopAlarmSound();
-  
-  // 3. قطع ویبره
   stopVibration();
   
-  // 4. بستن کادر آلارم
   var ov = document.getElementById('alarmOverlay');
   if(ov) ov.classList.remove('active');
   
-  // 5. بستن نوتیفیکیشن
   if(activeNotification) { try { activeNotification.close(); } catch(e) {} activeNotification = null; }
   
-  // 6. پاک کردن currentAlarmData
   currentAlarmData = null;
   if(userId) localStorage.removeItem('activeAlarm_' + userId);
   
-  // 7. ارسال پیام قطع به سرویس‌ورکر
   try {
     if(swRegistration && swRegistration.active) {
       swRegistration.active.postMessage({type: 'STOP_ALARM'});
@@ -2574,7 +2565,6 @@ function addAlarmsToDeviceCalendar() {
   var startDate = getStartDateGregorian();
   var todayIndex = getCurrentDayAuto();
 
-  // ساخت رویدادها برای روزهای باقی‌مانده (حداکثر 40 روز)
   for (var dayIdx = todayIndex; dayIdx < totalDays; dayIdx++) {
     var dayData = fortyDayData[dayIdx] || {};
     var currentDayDate = new Date(startDate);
