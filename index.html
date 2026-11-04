@@ -347,7 +347,6 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 
 <div class="toast" id="toast"></div>
 
-<!-- مینی آلارم برای یادآوری فعال‌سازی خودکار -->
 <div class="mini-alarm-toast" id="miniAlarmToast">
   <div style="flex: 1;">⏰ در حال فعال‌سازی خودکار آلارم‌ها...</div>
   <button onclick="closeMiniAlarmToast()" style="background: transparent; color: #fff; font-size: 1.2em;">✕</button>
@@ -606,9 +605,9 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
 <div class="page" id="pageContact">
   <div class="main-header"><h1>📞 تماس و پشتیبانی</h1></div>
   <button class="back-btn" onclick="showPage('pageMenu')">◀ بازگشت</button>
-  <div class="menu-card" onclick="window.open('https://rubika.ir/Mhamidian313','_blank')" style="border-right-color:#2ecc71"><div class="menu-card-icon">🩺</div><div class="menu-card-title">🩺 ویزیت از راه دور</div></div>
-  <div class="menu-card" onclick="window.open('https://eitaa.com/Nabzezendegi133','_blank')" style="border-right-color:#e8b923"><div class="menu-card-icon">📢</div><div class="menu-card-title">📢 کانال ایتا</div><div class="menu-card-desc">@Nabzezendegi133</div></div>
-  <div class="menu-card" onclick="window.open('https://rubika.ir/joing/GEABAACJ0KMFSXWCVGPUPQJRBLKATZUF','_blank')" style="border-right-color:#8e44ad"><div class="menu-card-icon">💬</div><div class="menu-card-title">💬 گروه روبیکا</div></div>
+  <div class="menu-card" onclick="window.open(currentSupportLinks.visit,'_blank')" style="border-right-color:#2ecc71"><div class="menu-card-icon">🩺</div><div class="menu-card-title">🩺 ویزیت از راه دور</div></div>
+  <div class="menu-card" onclick="window.open(currentSupportLinks.eitaa,'_blank')" style="border-right-color:#e8b923"><div class="menu-card-icon">📢</div><div class="menu-card-title">📢 کانال ایتا</div><div class="menu-card-desc" id="contactEitaaLabel">@Nabzezendegi133</div></div>
+  <div class="menu-card" onclick="window.open(currentSupportLinks.rubika,'_blank')" style="border-right-color:#8e44ad"><div class="menu-card-icon">💬</div><div class="menu-card-title">💬 گروه روبیکا</div></div>
 </div>
 
 <div class="page" id="pageSettings">
@@ -645,6 +644,9 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     <h3>🔔 تنظیمات آلارم</h3>
     <button class="btn btn-green" onclick="toggleAlarmSettingsPanel()" id="alarmSettingsToggleBtn" style="margin-bottom:10px;">⚙️ باز کردن تنظیمات پیشرفته آلارم</button>
     
+    <!-- دکمه جدید: قطع همه صداها -->
+    <button class="btn" style="background:var(--btn-danger); color:#fff; margin-bottom:10px; font-weight:bold;" onclick="forceStopAllSounds()">🔇 قطع همه صداها و تست‌ها</button>
+
     <div id="alarmSettingsPanel" style="display:none;">
       <div id="alarmSettingsContainer"></div>
       <button class="btn btn-green" onclick="saveAlarmSettings()" style="margin-top:8px">💾 ذخیره</button>
@@ -900,8 +902,9 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
     <div class="btn-row" style="margin-top:10px"><button class="btn btn-green" onclick="sendMessage()">📢 ارسال</button><button class="btn btn-gray" onclick="clearMessageForm()">🗑️ پاک</button></div>
   </div>
 
+  <!-- 🚨 تب مدیریت بنر، بروشور و لینک‌ها 🚨 -->
   <div class="admin-panel" id="adminTabBanner" style="display:none">
-    <h3>🖼️ مدیریت بنر و بروشور</h3>
+    <h3>🖼️ مدیریت بنر، بروشور و لینک‌ها</h3>
     
     <div style="background:var(--input-bg); padding:10px; border-radius:8px; margin-bottom:15px;">
       <h4 style="color:var(--accent); font-size:0.9em; margin-bottom:8px;">بنر بالای صفحه</h4>
@@ -910,11 +913,19 @@ td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(244,208,63,.1)
       <div style="margin-top:10px; text-align:center;"><div id="bannerPreview"><p style="font-size:.8em;color:var(--text-muted)">هنوز تنظیم نشده</p></div></div>
     </div>
 
-    <div style="background:var(--input-bg); padding:10px; border-radius:8px;">
+    <div style="background:var(--input-bg); padding:10px; border-radius:8px; margin-bottom:15px;">
       <h4 style="color:var(--accent); font-size:0.9em; margin-bottom:8px;">بروشور راهنما (عکس طولانی)</h4>
       <div class="settings-row"><label>لینک:</label><input type="text" id="brochureUrlInput" placeholder="https://..." style="direction:ltr;text-align:left;font-size:.8em"></div>
       <div class="btn-row"><button class="btn btn-green" onclick="saveBrochureUrl()">💾 ذخیره</button><button class="btn btn-red" onclick="disableBrochure()">🚫 غیرفعال</button></div>
       <div style="margin-top:10px; text-align:center;"><div id="brochurePreview"><p style="font-size:.8em;color:var(--text-muted)">هنوز تنظیم نشده</p></div></div>
+    </div>
+
+    <div style="background:var(--input-bg); padding:10px; border-radius:8px;">
+      <h4 style="color:var(--accent); font-size:0.9em; margin-bottom:8px;">📞 لینک‌های پشتیبانی</h4>
+      <div class="settings-row"><label>ویزیت:</label><input type="text" id="linkVisitInput" placeholder="https://rubika.ir/..." style="direction:ltr;text-align:left;font-size:.8em"></div>
+      <div class="settings-row"><label>ایتا:</label><input type="text" id="linkEitaaInput" placeholder="https://eitaa.com/..." style="direction:ltr;text-align:left;font-size:.8em"></div>
+      <div class="settings-row"><label>روبیکا:</label><input type="text" id="linkRubikaInput" placeholder="https://rubika.ir/..." style="direction:ltr;text-align:left;font-size:.8em"></div>
+      <button class="btn btn-green" onclick="saveSupportLinks()" style="margin-top:10px;">💾 ذخیره لینک‌ها</button>
     </div>
   </div>
 
@@ -975,6 +986,13 @@ var alarmKeepAliveTimer = null;
 var swRegistration = null;
 
 var appDB = null;
+
+// لینک‌های پشتیبانی (پیش‌فرض)
+var currentSupportLinks = {
+  visit: 'https://rubika.ir/Mhamidian313',
+  eitaa: 'https://eitaa.com/Nabzezendegi133',
+  rubika: 'https://rubika.ir/joing/GEABAACJ0KMFSXWCVGPUPQJRBLKATZUF'
+};
 
 function openAppDB() {
   return new Promise(function(resolve, reject) {
@@ -1039,7 +1057,7 @@ function safeGetLS(key,def){try{var v=localStorage.getItem(key);return v==null?d
 function safeParseJSON(str,def){if(!str)return def;try{return JSON.parse(str);}catch(e){return def;}}
 
 /* ============================================================
-   VIBRATION
+   VIBRATION & FORCE STOP
    ============================================================ */
 function vibrateAlarm(){
   if(!(vibrateEnabled || vibrateOnlyMode)) return;
@@ -1065,8 +1083,43 @@ function stopVibration(){
   } catch(e) {}
 }
 
+// 🚨 تابع جدید: قطع همه صداها، تایمرها و ویبره‌ها به زور
+function forceStopAllSounds() {
+  console.log('Force stopping all sounds...');
+  
+  // 1. قطع تایمرهای آلارم
+  clearTimers();
+  alarmActive = false;
+  
+  // 2. قطع صداها و AudioContext
+  stopAlarmSound();
+  
+  // 3. قطع ویبره
+  stopVibration();
+  
+  // 4. بستن کادر آلارم
+  var ov = document.getElementById('alarmOverlay');
+  if(ov) ov.classList.remove('active');
+  
+  // 5. بستن نوتیفیکیشن
+  if(activeNotification) { try { activeNotification.close(); } catch(e) {} activeNotification = null; }
+  
+  // 6. پاک کردن currentAlarmData
+  currentAlarmData = null;
+  if(userId) localStorage.removeItem('activeAlarm_' + userId);
+  
+  // 7. ارسال پیام قطع به سرویس‌ورکر
+  try {
+    if(swRegistration && swRegistration.active) {
+      swRegistration.active.postMessage({type: 'STOP_ALARM'});
+    }
+  } catch(e) {}
+  
+  showToast('✅ همه صداها و تست‌ها قطع شدند', 'success', 3000);
+}
+
 /* ============================================================
-   AUDIO - FIXED: فقط زمانی صدا پخش می‌شود که کادر قرمز باز باشد
+   AUDIO
    ============================================================ */
 async function unlockAudio(){
   if(audioUnlocked && audioContext && audioContext.state === 'running') return true;
@@ -1084,12 +1137,8 @@ async function unlockAudio(){
 }
 
 async function playAlarmSound(){
-  // 🚨 باگ‌گیری: اگر کادر قرمز باز نیست، صدا پخش نشود 🚨
   var ov = document.getElementById('alarmOverlay');
-  if(!ov || !ov.classList.contains('active')) {
-    console.log('Alarm overlay is not visible - not playing sound');
-    return;
-  }
+  if(!ov || !ov.classList.contains('active')) return;
 
   stopAlarmSound(false);
   gradualVolumeStep = 0;
@@ -1174,7 +1223,6 @@ function playBeepFallback() {
     if(alarmSoundInterval) clearInterval(alarmSoundInterval);
     alarmSoundInterval = setInterval(function() {
       if(!alarmActive) { clearInterval(alarmSoundInterval); alarmSoundInterval = null; return; }
-      // 🚨 باگ‌گیری: قطع صدا اگر کادر بسته شد 🚨
       var ov = document.getElementById('alarmOverlay');
       if(!ov || !ov.classList.contains('active')) {
         clearInterval(alarmSoundInterval); alarmSoundInterval = null; return;
@@ -1261,8 +1309,22 @@ function updateNotificationStatus() {
 }
 
 /* ============================================================
-   SETTINGS
+   SETTINGS & SUPPORT LINKS
    ============================================================ */
+async function loadSupportLinks() {
+  try {
+    var g = await getGlobalData();
+    if(g && g.supportLinks) {
+      currentSupportLinks = g.supportLinks;
+      var eitaaLabel = document.getElementById('contactEitaaLabel');
+      if(eitaaLabel) {
+        var eitaaUrl = g.supportLinks.eitaa || '';
+        eitaaLabel.textContent = eitaaUrl.replace('https://eitaa.com/', '@');
+      }
+    }
+  } catch(e) {}
+}
+
 async function saveUserAlarmSettings() {
   if(!userId) return;
   var settings = { alarmVolume, gradualVolume, vibrateEnabled, vibrateOnlyMode, autoReactivate: autoReactivateCheck, backgroundAlarm: backgroundAlarmEnabled, alarmEnabled, currentTimes };
@@ -1300,7 +1362,7 @@ async function applyUserCustomTimes() {
 }
 
 /* ============================================================
-   AUTH - با عکس پروفایل کامل
+   AUTH - با پشتیبانی از ورود آفلاین
    ============================================================ */
 var profilesList = safeParseJSON(safeGetLS('profilesList', '[]'), []);
 var activeUserCode = safeGetLS('activeUserCode', null);
@@ -1333,6 +1395,7 @@ async function initAuth() {
     try { await loadCustomAlarmSound(); } catch(e) {}
     try { loadAlarmSoundSettings(); } catch(e) {}
     try { updateNotificationStatus(); } catch(e) {}
+    try { loadSupportLinks(); } catch(e) {}
     if(autoReactivateCheck) { try { startAutoReactivateInterval(); } catch(e) {} }
     if(backgroundAlarmEnabled) { try { setTimeout(setupBackgroundAlarm, 2000); } catch(e) {} }
     receiveAll(true).then(async function(){
@@ -1362,14 +1425,20 @@ function renderSavedProfiles() {
 function quickLogin(username, password) { document.getElementById('loginUsername').value = username; document.getElementById('loginPassword').value = password; }
 function showForgotPassModal() { document.getElementById('forgotPassModal').classList.add('active'); }
 
+// 🚨 لاگین با پشتیبانی کامل از حالت آفلاین
 async function doLogin() {
   var username = document.getElementById('loginUsername').value.trim();
   var pass = document.getElementById('loginPassword').value.trim();
   var remember = document.getElementById('rememberMe').checked;
+  
   if(!username || !pass) { showToast('نام و رمز را وارد کنید', 'error'); return; }
   showToast('⏳ بررسی...', 'warning');
+  
+  // 1. جستجو در لیست پروفایل‌های لوکال
   var profile = profilesList.find(function(p) { return p.username === username && p.password === pass; });
-  if(!profile) {
+  
+  // 2. اگر در لوکال نبود، فقط در صورت آنلاین بودن در سرور جستجو کن
+  if(!profile && navigator.onLine) {
     try {
       const { data, error } = await supabaseClient.from('users_list').select('code, data');
       if(data && !error) {
@@ -1377,16 +1446,26 @@ async function doLogin() {
           var u = data[i];
           if(u.data && u.data.auth && u.data.auth.username === username && u.data.auth.password === pass) {
             profile = { username: username, password: pass, code: u.code, data: u.data.profile || {} };
-            profilesList.push(profile); safeSetLS('profilesList', JSON.stringify(profilesList)); break;
+            profilesList.push(profile); 
+            safeSetLS('profilesList', JSON.stringify(profilesList)); 
+            break;
           }
         }
       }
     } catch(e) { console.error('DB Login Error:', e); }
   }
-  if(!profile) { showToast('نام یا رمز اشتباه', 'error'); return; }
+  
+  if(!profile) { 
+    if(!navigator.onLine) showToast('❌ اینترنت قطع است و این کاربر روی گوشی ذخیره نشده', 'error', 5000);
+    else showToast('نام یا رمز اشتباه', 'error'); 
+    return; 
+  }
+  
+  // 3. ورود موفق
   userId = profile.code; userProfile = profile.data; activeUserCode = userId;
   safeSetLS('activeUserCode', userId); safeSetLS('userId', userId);
   if(remember) safeSetLS('userProfile', JSON.stringify(userProfile));
+  
   document.getElementById('loginPage').classList.remove('active');
   document.getElementById('mainAppContainer').style.display = 'block';
   updateProfileUI();
@@ -1396,18 +1475,22 @@ async function doLogin() {
   try { await loadCustomAlarmSound(); } catch(e) {}
   try { loadAlarmSoundSettings(); } catch(e) {}
   try { updateNotificationStatus(); } catch(e) {}
+  try { loadSupportLinks(); } catch(e) {}
   if(autoReactivateCheck) { try { startAutoReactivateInterval(); } catch(e) {} }
   if(backgroundAlarmEnabled) { try { setTimeout(setupBackgroundAlarm, 2000); } catch(e) {} }
+  
   receiveAll(true).then(async function(){
      try { await applyUserCustomTimes(); renderTable(); updateTodayShowcase(); checkRegimeReceive(); } catch(e) {}
   }).catch(function(e){});
+  
   startAlarmHeartbeat();
   showToast('✅ خوش آمدید');
 }
 
 function doLogout() {
   if(!confirm('خارج می‌شوید؟')) return;
-  stopAlarm(); stopAlarmHeartbeat();
+  forceStopAllSounds();
+  stopAlarmHeartbeat();
   localStorage.removeItem('activeUserCode'); localStorage.removeItem('currentSessionUser'); localStorage.removeItem('userProfile');
   if(isImpersonating) { isImpersonating = false; userId = originalAdminCode; originalAdminCode = ""; originalAdminProfile = null; document.getElementById('adminReturnBar').style.display = 'none'; }
   activeUserCode = null;
@@ -1455,10 +1538,14 @@ async function doRegister() {
   var password = document.getElementById('regPassword').value.trim();
   var avatar = document.getElementById('regAvatarPreview').src;
   var btn = document.getElementById('submitProfileBtn');
+  
   if(!fullName || !age || !problem || !password) { showToast('همه را پر کنید', 'error'); return; }
   if(avatar.indexOf('data:image/svg+xml') > -1) { showToast('⚠️ عکس', 'error', 4000); return; }
   if(password.length !== 4) { showToast('رمز ۴ رقم', 'error'); return; }
   if(profilesList.some(function(p) { return p.username === fullName; })) { showToast('نام تکراری', 'error'); return; }
+  
+  if(!navigator.onLine) { showToast('❌ ثبت‌نام نیاز به اینترنت دارد', 'error', 5000); return; }
+  
   showToast('⏳ ثبت...', 'warning');
   if(btn) { btn.disabled = true; btn.textContent = 'در حال ارسال...'; }
   var profileData = { name: fullName, age: age, problem: problem, avatar: avatar };
@@ -1577,7 +1664,7 @@ async function deleteUserRecord(code) {
   try { const { error } = await supabaseClient.from('users_list').delete().eq('code', code.toUpperCase()); if (error) throw error; return true; } catch(e) { return false; }
 }
 async function getGlobalData() {
-  try { const { data, error } = await supabaseClient.from('app_data').select('data').eq('id', 1).maybeSingle(); if (error) throw error; return data ? data.data : { messages: [], banner: { url: '', active: false }, archives: { prescriptions: [], tables: [] } }; } catch(e) { return { messages: [], banner: { url: '', active: false }, archives: { prescriptions: [], tables: [] } }; }
+  try { const { data, error } = await supabaseClient.from('app_data').select('data').eq('id', 1).maybeSingle(); if (error) throw error; return data ? data.data : { messages: [], banner: { url: '', active: false }, archives: { prescriptions: [], tables: [] }, supportLinks: { visit: 'https://rubika.ir/Mhamidian313', eitaa: 'https://eitaa.com/Nabzezendegi133', rubika: 'https://rubika.ir/joing/GEABAACJ0KMFSXWCVGPUPQJRBLKATZUF' } }; } catch(e) { return { messages: [], banner: { url: '', active: false }, archives: { prescriptions: [], tables: [] }, supportLinks: { visit: 'https://rubika.ir/Mhamidian313', eitaa: 'https://eitaa.com/Nabzezendegi133', rubika: 'https://rubika.ir/joing/GEABAACJ0KMFSXWCVGPUPQJRBLKATZUF' } }; }
 }
 async function saveGlobalData(record) {
   try { const { error } = await supabaseClient.from('app_data').upsert({ id: 1, user_code: 'GLOBAL', data: record, updated_at: new Date().toISOString() }); return !error; } catch(e) { return false; }
@@ -1612,12 +1699,12 @@ async function impersonateUser(targetCode) {
   if(userProfile) safeSetLS('userProfile', JSON.stringify(userProfile));
   
   localStorage.removeItem('health40Data'); localStorage.removeItem('health40Times'); localStorage.removeItem('lastPrescription'); localStorage.removeItem('tableColumns'); localStorage.removeItem('tableReceived'); localStorage.removeItem('healthStartDateGregorian'); localStorage.removeItem('prescriptionHistory'); localStorage.removeItem('tableHistory'); localStorage.removeItem('activeAlarm');
-  stopAlarm();
+  forceStopAllSounds();
   updateProfileUI();
   document.getElementById('adminReturnBar').style.display = 'block'; 
   try { await loadUserAlarmSettings(); } catch(e){}
   initData(); renderTable(); renderAlarmSettings(); updateTodayShowcase(); checkRegimeReceive();
-  await loadCustomAlarmSound(); updateNotificationStatus();
+  await loadCustomAlarmSound(); updateNotificationStatus(); loadSupportLinks();
   receiveAll(true).then(async function(){ await applyUserCustomTimes(); renderTable(); updateTodayShowcase(); checkRegimeReceive(); }).catch(function(){});
   loadMyMessages();
   showToast('👤 وارد پنل ' + targetCode);
@@ -1628,7 +1715,7 @@ async function exitImpersonation() {
   var savedAdminCode = safeGetLS('adminOriginalCode', originalAdminCode);
   var savedAdminProfile = safeParseJSON(safeGetLS('adminOriginalProfile', null), originalAdminProfile);
   if(!savedAdminCode) { showToast('❌ خطا', 'error'); return; }
-  stopAlarm();
+  forceStopAllSounds();
   localStorage.removeItem('tableReceived'); localStorage.removeItem('lastPrescription'); localStorage.removeItem('health40Data'); localStorage.removeItem('health40Times'); localStorage.removeItem('tableColumns'); localStorage.removeItem('healthStartDateGregorian'); localStorage.removeItem('prescriptionHistory'); localStorage.removeItem('tableHistory'); localStorage.removeItem('activeAlarm'); localStorage.removeItem('readMsgIds'); localStorage.removeItem('hiddenMsgIds'); localStorage.removeItem('shownPopupIds');
   isImpersonating = false; userId = savedAdminCode;
   userProfile = savedAdminProfile || safeParseJSON(safeGetLS('adminProfile','null'), null);
@@ -1648,7 +1735,7 @@ async function exitImpersonation() {
   document.getElementById('adminReturnBar').style.display = 'none';
   updateProfileUI();
   initData(); try { await loadUserAlarmSettings(); } catch(e){}
-  renderTable(); renderAlarmSettings(); updateTodayShowcase(); checkRegimeReceive(); await loadCustomAlarmSound(); updateNotificationStatus(); updateDateConversionInfo(); updateDayDisplay();
+  renderTable(); renderAlarmSettings(); updateTodayShowcase(); checkRegimeReceive(); await loadCustomAlarmSound(); updateNotificationStatus(); loadSupportLinks(); updateDateConversionInfo(); updateDayDisplay();
   var sdp = document.getElementById('startDatePicker'); if(sdp) sdp.value = toDateInputValue(getStartDateGregorian());
   showPage('pageAdmin'); showToast('🔙 بازگشت');
 }
@@ -1721,7 +1808,7 @@ function renderAdminUsersList(users) {
     var name = (p && p.name) ? p.name : 'بدون نام'; var age = (p && p.age) ? p.age : '---'; var problem = (p && p.problem) ? p.problem : '---'; var password = (auth && auth.password) ? auth.password : '---';
     var avatarSrc = (p && p.avatar) ? p.avatar : 'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'50\' fill=\'%23333\'/><text x=\'50\' y=\'65\' font-size=\'50\' text-anchor=\'middle\' fill=\'%23fff\'>👤</text></svg>';
     html += '<div class="admin-user-row">';
-    html += '<img src="'+avatarSrc+'" class="admin-user-avatar">'; // 🚨 عکس پروفایل در پنل ادمین 🚨
+    html += '<img src="'+avatarSrc+'" class="admin-user-avatar">';
     html += '<div class="admin-user-info">';
     html += '<div class="admin-user-name">' + escapeHtml(name) + '</div><div class="admin-user-code">کد: ' + escapeHtml(u.code) + '</div>';
     html += '<div class="admin-user-details">🔑 ' + escapeHtml(password) + '<br>🎂 ' + escapeHtml(age) + '<br>🩺 ' + escapeHtml(problem) + '</div></div>';
@@ -1841,6 +1928,7 @@ async function receiveAll(silent){
   return new Promise(async function(resolve,reject){
     var code=String(userId||'').toUpperCase().trim();
     if(!code){reject(new Error('کد نیست'));return;}
+    if(!navigator.onLine) { reject(new Error('اینترنت قطع است')); return; }
     if(!silent)showToast('⏳ دریافت...','warning');
     getUserRecord(code).then(async function(data){
       var gotSomething=false;
@@ -1891,6 +1979,11 @@ function loadBannerInAdmin(){
     var br = data.brochure; var bp = document.getElementById('brochurePreview'), bInp = document.getElementById('brochureUrlInput');
     if(br && br.url){ bInp.value=br.url; if(br.active===false) bp.innerHTML='<p style="color:#e74c3c;">🚫 غیرفعال</p>'; else bp.innerHTML='<img src="'+escapeHtml(br.url)+'" style="width:100%;max-width:200px;border-radius:10px;">'; }
     else { bp.innerHTML='<p style="font-size:.8em;color:var(--text-muted)">تنظیم نشده</p>'; bInp.value=''; }
+
+    var links = data.supportLinks || currentSupportLinks;
+    var vi = document.getElementById('linkVisitInput'); if(vi) vi.value = links.visit || '';
+    var ei = document.getElementById('linkEitaaInput'); if(ei) ei.value = links.eitaa || '';
+    var ri = document.getElementById('linkRubikaInput'); if(ri) ri.value = links.rubika || '';
   }).catch(function(){});
 }
 function saveBannerUrl(){var url=document.getElementById('bannerUrlInput').value.trim();if(!url){showToast('لینک','error');return;}getGlobalData().then(function(record){record.banner={url:url,active:true,updatedAt:Date.now()};return saveGlobalData(record);}).then(function(ok){if(ok){showToast('✅');loadBannerInAdmin();loadRemoteBanner();}});}
@@ -1909,6 +2002,19 @@ async function openBrochure() {
 }
 function saveBrochureUrl(){var url=document.getElementById('brochureUrlInput').value.trim();if(!url){showToast('لینک','error');return;}getGlobalData().then(function(record){record.brochure={url:url,active:true,updatedAt:Date.now()};return saveGlobalData(record);}).then(function(ok){if(ok){showToast('✅');loadBannerInAdmin();}});}
 function disableBrochure(){if(!confirm('غیرفعال شود؟'))return;getGlobalData().then(function(record){if(!record.brochure)record.brochure={url:'',active:false};record.brochure.active=false;record.brochure.updatedAt=Date.now();return saveGlobalData(record);}).then(function(ok){if(ok){showToast('✅');loadBannerInAdmin();}});}
+
+function saveSupportLinks() {
+  var v = document.getElementById('linkVisitInput').value.trim();
+  var e = document.getElementById('linkEitaaInput').value.trim();
+  var r = document.getElementById('linkRubikaInput').value.trim();
+  getGlobalData().then(function(record) {
+    record.supportLinks = { visit: v, eitaa: e, rubika: r };
+    return saveGlobalData(record);
+  }).then(function(ok) {
+    if(ok) { showToast('✅ لینک‌ها ذخیره شد'); loadSupportLinks(); }
+    else showToast('❌ خطا', 'error');
+  });
+}
 
 function openAdminLogin(){var inp=document.getElementById('adminPasswordInput'),cb=document.getElementById('savePasswordCheck'),m=document.getElementById('adminLoginModal');if(inp){var saved=safeGetLS(SAVE_PASSWORD_KEY,null);if(saved){inp.value=saved;if(cb)cb.checked=true;}else{inp.value='';if(cb)cb.checked=false;}}if(m)m.classList.add('active');}
 function closeAdminLogin(){document.getElementById('adminLoginModal').classList.remove('active');}
@@ -2210,25 +2316,13 @@ function startAlarmHeartbeat() { stopAlarmHeartbeat(); window._alarmHeartbeatInt
 function stopAlarmHeartbeat() { if(window._alarmHeartbeatInterval) { clearInterval(window._alarmHeartbeatInterval); window._alarmHeartbeatInterval = null; } }
 
 function triggerAlarm(a){
-  // 🚨 اصلاح باگ: قبل از هر کاری، صداهای قبلی را قطع کن
   if (alarmSoundInterval) { clearInterval(alarmSoundInterval); alarmSoundInterval = null; }
   if (audioBufferCache.currentSource) { try { audioBufferCache.currentSource.stop(); } catch(e) {} }
-  
   currentAlarmData = a; 
   safeSetLS('activeAlarm_' + userId, JSON.stringify({name: a.name, type: a.type, triggeredAt: Date.now(), read: false, userId: userId}));
-  
-  var el=document.getElementById('alarmMessage'); 
-  if(el)el.textContent='⏰ '+a.type+': '+a.name;
-  
-  // 🚨 نمایش اجباری کادر قرمز روی همه چیز
-  var ov=document.getElementById('alarmOverlay'); 
-  if(ov)ov.classList.add('active');
-  
-  vibrateAlarm(); 
-  playAlarmSound(); 
-  showInteractiveNotification(a.name, a.type); 
-  startAlarmKeepAlive(); 
-  updateAlarmScheduleForSW();
+  var el=document.getElementById('alarmMessage'); if(el)el.textContent='⏰ '+a.type+': '+a.name;
+  var ov=document.getElementById('alarmOverlay'); if(ov)ov.classList.add('active');
+  vibrateAlarm(); playAlarmSound(); showInteractiveNotification(a.name, a.type); startAlarmKeepAlive(); updateAlarmScheduleForSW();
 }
 
 function startAlarmKeepAlive() {
@@ -2497,7 +2591,6 @@ function addAlarmsToDeviceCalendar() {
       var h = parts[0];
       var m = parts[1];
 
-      // فرمت تاریخ YYYYMMDD
       var yyyy = currentDayDate.getFullYear();
       var mm = String(currentDayDate.getMonth() + 1).padStart(2, '0');
       var dd = String(currentDayDate.getDate()).padStart(2, '0');
@@ -2513,7 +2606,7 @@ function addAlarmsToDeviceCalendar() {
       icsContent.push('SUMMARY:⏰ سفیر سلامت - ' + (tableColumnNames[col] || col));
       icsContent.push('DESCRIPTION:وعده: ' + mealName);
       icsContent.push('BEGIN:VALARM');
-      icsContent.push('TRIGGER:PT0S'); // دقیقا در زمان رویداد
+      icsContent.push('TRIGGER:PT0S');
       icsContent.push('ACTION:DISPLAY');
       icsContent.push('DESCRIPTION:یادآوری سفیر سلامت');
       icsContent.push('END:VALARM');
