@@ -6,15 +6,15 @@ on:
       build:
       runs-on: ubuntu-latest
 steps:
-       - name: Checkout code
-         uses: actions/checkout@v4
-       - name: Setup Node.js
-         uses: actions/setup-node@v4
-         with:
-          node-version: 20
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+         node-version: 20
 
-       - name: Prepare web files
-         run: |
+      - name: Prepare web files
+        run: |
           mkdir -p www
           cp index.html www/
           cp manifest.json www/ || true
@@ -22,13 +22,13 @@ steps:
           cp icon-192.png www/ || true
           cp icon-512.png www/ || true
         
-       - name: Install Capacitor
-         run: |
+      - name: Install Capacitor
+        run: |
           npm init -y
           npm install @capacitor/core @capacitor/cli @capacitor/android
 
-       - name: Initialize Capacitor
-         run: |
+      - name: Initialize Capacitor
+        run: |
           npx cap init "Safir Salamat Hami" "com.safirsalamat.hami" --web-dir www
 
       - name: Add Android platform
@@ -39,12 +39,12 @@ steps:
 
       - name: Build APK
         run: |
-          cd android
-          chmod +x gradlew
-          ./gradlew assembleDebug
+            cd android
+            chmod +x gradlew
+            ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: safir-salamat-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+        name: safir-salamat-apk
+        path: android/app/build/outputs/apk/debug/app-debug.apk
