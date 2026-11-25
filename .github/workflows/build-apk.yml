@@ -22,7 +22,11 @@ steps:
 - name: آمادهسازی فایلهای وب
         run: |
           mkdir -p www
-          cp -r ./* www/ || true
+          cp index.html www/
+          cp manifest.json www/ 2>/dev/null || true
+          cp sw.js www/ 2>/dev/null || true
+          cp icon-192.png www/ 2>/dev/null || true
+          cp icon-512.png www/ 2>/dev/null || true
 
 - name: نصب Capacitor
         run: |
@@ -31,19 +35,18 @@ steps:
 
 - name: ساخت پروژه Capacitor
         run: |
-          npx cap init "Safir Salamat Hami" "com.safir.salamat" --web-dir=www
+          npx cap init "سفیر سلامت حامی" "com.safir.salamat.hami" --web-dir www
           npx cap add android
-          npx cap sync android
+          npx cap copy
 
 - name: ساخت APK
         run: |
+          chmod +x android/gradlew
           cd android
-          chmod +x gradlew
           ./gradlew assembleDebug
 
-- name: آمادهسازی APK برای دانلود
+- name: دریافت APK
         uses: actions/upload-artifact@v4
         with:
           name: safir-salamat-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
-          
