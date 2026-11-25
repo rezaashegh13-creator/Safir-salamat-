@@ -1,47 +1,52 @@
 name: Build Android APK
 
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:
+steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+- name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Prepare web files
+- name: Prepare web files
         run: |
           mkdir -p www
           cp index.html www/
-          cp manifest.json www/ 2>/dev/null || true
-          cp sw.js www/ 2>/dev/null || true
-          cp icon-192.png www/ 2>/dev/null || true
-          cp icon-512.png www/ 2>/dev/null || true
+          cp manifest.json www/ || true
+          cp sw.js www/ || true
+          cp icon-192.png www/ || true
+          cp icon-512.png www/ || true
 
-      - name: Install Capacitor
+- name: Install Capacitor
         run: |
           npm init -y
           npm install @capacitor/core @capacitor/cli @capacitor/android
 
-      - name: Create Android project
+- name: Initialize Capacitor
         run: |
-          npx cap init SafirSalamat com.safir.salamat --web-dir www
-          npx cap add android
-          npx cap sync android
+          npx cap init "Safir Salamat Hami" "com.safirsalamat.hami" --web-dir www
 
-      - name: Build APK
+- name: Add Android platform
+        run: npx cap add android
+
+- name: Copy web files
+        run: npx cap copy android
+
+- name: Build APK
         run: |
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug
 
-      - name: Upload APK
+- name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: safir-salamat-apk
