@@ -3,24 +3,68 @@ name: Build Android APK
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: npm
 
-      - name: Prepare web files
-        run: |
-          mkdir -p www
-          cp index.html www/index.html
-          cp manifest.json www/manifest.json || true
-          cp sw.js www/sw.js || true
-          cp icon-192.png www/icon-192.png || true
-          cp icon-512.png www/icon-512.png || true
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+          distribution: temurin
+          java-version: 17
+
+    - name: Prepare web files
+      run: |
+        mkdir -p www
+        cp index.html www/index.html
+        cp manifest.json www/manifest.json 2>/dev/null || true
+        cp sw.js www/sw.js 2>/dev/null || true
+        cp icon-192.png www/icon-192.png 2>/dev/null || true
+        cp icon-512.png www/icon-512.png 2>/dev/null || true
+
+    - name: Create Node project
+      run: |
+        npm init -y
+
+    - name: Install Capacitor
+      run: |
+        npm install @capacitor/core@6 @capacitor/android@6
+        npm install --save-dev @capacitor/cli@6
+
+    - name: Initialize Capacitor
+      run: |
+        npx cap init "Safir Salamat Hami" "com.safirsalamat.hami" --web-dir www
+
+    - name: Add Android platform
+      run: |
+        npx cap add android
+
+    - name: Sync web files
+      run: |
+        npx cap sync android
+
+    - name: Build APK
+      run: |
+        cd android
+        chmod +x gradlew
+        ./gradlew assembleDebug
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+      name: safir-salamat-apk
+        path: android/app/build/outputs/apk/debug/app-debug.apk
+        if-no-files-found: error
